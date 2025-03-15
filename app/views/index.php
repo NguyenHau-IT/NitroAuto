@@ -72,7 +72,7 @@
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card car-card">
                                 <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="height: 200px;">
-                                    <img src="<?= htmlspecialchars($car["image"]) ?>"
+                                    <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
                                         class="card-img-top car-image"
                                         alt="<?= htmlspecialchars($car['name']) ?>">
                                 </a>
