@@ -95,9 +95,9 @@
             </div>
 
             <div class="car-3d col-md-6">
-                <?php if ($images[0]['image_type'] == '3D'): ?>
+                <?php if (!empty($images) && $images[0]['image_type'] == '3D'): ?>
                     <div class="sketchfab-embed-wrapper">
-                        <iframe src="<?= htmlspecialchars($images[0]['image_url']) ?>" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>
+                        <iframe src="<?= htmlspecialchars($images[0]['image_url']) ?>" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen onload="this.style.visibility = 'visible';" style="visibility: hidden;"></iframe>
                     </div>
                 <?php else: ?>
                     <p class="text-muted text-center">Không có mô hình 3D</p>
@@ -107,6 +107,7 @@
 
         <div class="text-center mt-4">
             <a href="../home" class="btn btn-primary">Quay lại danh sách</a>
+            <a class="btn btn-primary" href="showOrderForm"><i class="fas fa-shopping-cart"></i> Đặt hàng</a>
         </div>
     </div>
     <?php include '../includes/footer.php'; ?>

@@ -63,10 +63,10 @@
     <form id="orderForm">
     <input type="hidden" name="Nội dung" value="Đặt mua xe">
     
-    <input type="hidden" name="Tên người mua" value="<?= htmlspecialchars($user['full_name']) ?>">
-    <input type="hidden" name="Email" value="<?= htmlspecialchars($user['email']) ?>">
-    <input type="hidden" name="Số điện thoại" value="<?= htmlspecialchars($user['phone']) ?>">
-    <input type="hidden" name="Địa chỉ" value="<?= htmlspecialchars($user['address']) ?>">
+    <input type="hidden" name="buyer_name" value="<?= htmlspecialchars($user['full_name']) ?>">
+    <input type="hidden" name="email" value="<?= htmlspecialchars($user['email']) ?>">
+    <input type="hidden" name="phone" value="<?= htmlspecialchars($user['phone']) ?>">
+    <input type="hidden" name="address" value="<?= htmlspecialchars($user['address']) ?>">
     <input type="hidden" name="Tên xe" id="car_name">
 
     <div class="form-group">

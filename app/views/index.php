@@ -77,7 +77,7 @@
                                         alt="<?= htmlspecialchars($car['name']) ?>">
                                 </a>
                                 <div class="card-body text-white">
-                                    <h5 class="card-title"><?= htmlspecialchars($car['name']) ?> - </h5>
+                                    <h5 class="card-title"><a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="color: #fff;"><?= htmlspecialchars($car['name']) ?></a></h5>
                                     <p class="card-text"><i class="fas fa-money-bill-wave"></i> Giá: <strong><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</strong></p>
                                     <p class="card-text"><i class="fas fa-gas-pump"></i> Nhiên liệu: <?= htmlspecialchars($car['fuel_type']) ?></p>
                                     <p class="card-text"><i class="fas fa-info-circle"></i> Mô tả: <?= htmlspecialchars($car['description']) ?></p>
