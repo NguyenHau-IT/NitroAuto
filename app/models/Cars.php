@@ -1,0 +1,153 @@
+<?php
+require_once '../config/database.php';
+
+class Cars
+{
+    public $id;
+    public $name;
+    public $brand_id;
+    public $category_id;
+    public $price;
+    public $year;
+    public $mileage;
+    public $fuel_type;
+    public $transmission;
+    public $color;
+    public $stock;
+    public $description;
+    public $created_at;
+
+    public function __construct($data = [])
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
+
+    public static function all()
+    {
+        global $conn;
+        $stmt = $conn->query("SELECT * FROM cars");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function find($id)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT cars.*, brands.name as brand_name, categories.name as category_name, 
+                           normal_images.image_url as normal_image_url, 
+                           three_d_images.image_url as three_d_image_url 
+                    FROM cars 
+                    JOIN brands ON cars.brand_id = brands.id 
+                    JOIN categories ON cars.category_id = categories.id
+                    LEFT JOIN car_images AS normal_images ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
+                    LEFT JOIN car_images AS three_d_images ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
+                    WHERE cars.id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function update(
+        $id,
+        $name,
+        $brand_id,
+        $category_id,
+        $price,
+        $year,
+        $mileage,
+        $fuel_type,
+        $transmission,
+        $color,
+        $stock,
+        $description,
+        $created_at,
+        $image_url,
+        $image_url3D
+    ) {
+
+        global $conn;
+        try {
+            $conn->beginTransaction();
+
+            // Cập nhật thông tin xe trong bảng cars
+            $stmt = $conn->prepare("UPDATE cars 
+            SET name = :name, 
+                brand_id = :brand_id, 
+                category_id = :category_id, 
+                price = :price, 
+                year = :year, 
+                mileage = :mileage, 
+                fuel_type = :fuel_type, 
+                transmission = :transmission, 
+                color = :color, 
+                stock = :stock, 
+                description = :description, 
+                created_at = :created_at 
+            WHERE id = :id");
+
+            $stmt->execute([
+                "id" => $id,
+                "name" => $name,
+                "brand_id" => $brand_id,
+                "category_id" => $category_id,
+                "price" => $price,
+                "year" => $year,
+                "mileage" => $mileage,
+                "fuel_type" => $fuel_type,
+                "transmission" => $transmission,
+                "color" => $color,
+                "stock" => $stock,
+                "description" => $description,
+                "created_at" => $created_at
+            ]);
+
+            // Cập nhật hoặc thêm ảnh thông thường
+            $stmt = $conn->prepare("SELECT id FROM car_images WHERE car_id = :car_id AND image_type = 'normal'");
+            $stmt->execute(["car_id" => $id]);
+            $existingImage = $stmt->fetch();
+
+            if ($existingImage) {
+                $stmt = $conn->prepare("UPDATE car_images SET image_url = :image_url WHERE car_id = :car_id AND image_type = 'normal'");
+            } else {
+                $stmt = $conn->prepare("INSERT INTO car_images (car_id, image_url, image_type) VALUES (:car_id, :image_url, 'normal')");
+            }
+            $stmt->execute([
+                "car_id" => $id,
+                "image_url" => $image_url
+            ]);
+
+            // Cập nhật hoặc thêm ảnh 3D
+            $stmt = $conn->prepare("SELECT id FROM car_images WHERE car_id = :car_id AND image_type = '3D'");
+            $stmt->execute(["car_id" => $id]);
+            $existingImage3D = $stmt->fetch();
+
+            if ($existingImage3D) {
+                $stmt = $conn->prepare("UPDATE car_images SET image_url = :image_url WHERE car_id = :car_id AND image_type = '3D'");
+            } else {
+                $stmt = $conn->prepare("INSERT INTO car_images (car_id, image_url, image_type) VALUES (:car_id, :image_url, '3D')");
+            }
+            $stmt->execute([
+                "car_id" => $id,
+                "image_url" => $image_url3D
+            ]);
+
+            $conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $conn->rollBack();
+            return false;
+        }
+    }
+
+    public function addCar($data)
+    {
+        global $conn;
+        $sql = "INSERT INTO cars (name, brand_id, category_id, price, year, mileage, fuel_type, transmission, color, stock, description, created_at)
+                VALUES (:name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :stock, :description, GETDATE())";
+
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute($data);
+    }
+}
