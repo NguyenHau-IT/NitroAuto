@@ -184,7 +184,7 @@ try {
                             <td><?= nl2br(htmlspecialchars($car['description'] ?? '')) ?></td>
                             <td>
                                 <a href="/edit/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-primary">Edit</a>
-                                <a href="/admin/delete_car.php?id=<?= htmlspecialchars($car['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this car?');" class="btn btn-danger">Delete</a>
+                                <a href="/delete_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this car?');" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -16,7 +16,7 @@ switch (true) {
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
-        (new HomeController())->showCarDetail($matches[1]);
+        (new CarController())->showCarDetail($matches[1]);
         break;
 
     case ($uri === 'user'):
@@ -77,6 +77,10 @@ switch (true) {
 
     case ($uri === 'add'):
         (new CarController())->storeCar();
+        break;
+
+    case preg_match('/^delete_car\/(\d+)$/', $uri, $matches):
+        (new CarController())->delete($matches[1]);
         break;
 
     case ($uri === 'accessories'):

@@ -18,19 +18,5 @@ class HomeController {
     $brands = Brands::all();
         require_once '../app/views/index.php';
     }
-
-    public function showCarDetail($id) {
-        global $conn;
-
-        $stmt = $conn->prepare("SELECT * FROM cars WHERE id = ?");
-        $stmt->execute([$id]);
-        $car = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $stmt2 = $conn->prepare("SELECT image_url, image_type FROM car_images WHERE car_id = ? AND image_type = '3D'");
-        $stmt2->execute([$id]);
-        $images = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
-        require_once '../app/views/cars/car_detail.php';
-    }
 }
 ?>

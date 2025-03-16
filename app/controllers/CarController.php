@@ -79,6 +79,15 @@ class CarController {
         }
     }  
 
+    public function delete($id) {
+        if (Cars::delete($id)) {
+            header("Location: /admin");
+            exit;
+        } else {
+            echo "Failed to delete car.";
+        }
+    }
+
     public function search($id) {
         if (!is_numeric($id)) {
             die("⚠️ ID hãng xe không hợp lệ!");
@@ -86,6 +95,20 @@ class CarController {
 
         $cars = Cars::findByBrand($id);
         require_once '/NitroAuto/app/views/cars/car_find.php';
+    }
+
+    public function showCarDetail($id) {
+        global $conn;
+
+        $stmt = $conn->prepare("SELECT * FROM cars WHERE id = ?");
+        $stmt->execute([$id]);
+        $car = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt2 = $conn->prepare("SELECT image_url, image_type FROM car_images WHERE car_id = ? AND image_type = '3D'");
+        $stmt2->execute([$id]);
+        $images = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+        require_once '../app/views/cars/car_detail.php';
     }
 }
 ?>
