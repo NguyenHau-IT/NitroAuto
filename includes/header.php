@@ -19,6 +19,9 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
         .navbar-nav .nav-item .nav-link {
             transition: all 0.3s ease-in-out;
             border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .navbar-nav .nav-item .nav-link:hover {
@@ -63,7 +66,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item <?= ($current_page == 'home') ? 'active' : '' ?>">
-                            <a class="nav-link" href="home"><i class="fas fa-home"></i> Home</a>
+                            <a class="nav-link" href="/home"><i class="fas fa-home"></i> Home</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="contactDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,6 +76,16 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                                 <a class="dropdown-item" href="email_support">Email Support</a>
                                 <a class="dropdown-item" href="faq">FAQ</a>
                                 <a class="dropdown-item" href="live_chat">Live Chat</a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown <?= ($current_page == 'product_list' || $current_page == 'accessories') ? 'active' : '' ?>">
+                            <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-list"></i> Danh mục các sản phẩm
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="productDropdown">
+                                <a class="dropdown-item" href="home">Xe Ô Tô</a>
+                                <a class="dropdown-item" href="accessories">Phụ Kiện cho xe</a>
                             </div>
                         </li>
 

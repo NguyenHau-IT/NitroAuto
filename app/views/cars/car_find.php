@@ -1,21 +1,7 @@
-<?php require_once __DIR__ . '/../../includes/header.php'; ?>
+<?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 <div class="overlay">
     <div class="container text-center">
         <h1 class="mb-5" style="color: #ffcc00;">Nitro Auto</h1>
-
-        <form action="" method="GET" class="mb-4" onsubmit="redirectToBrand(event)">
-            <div class="input-group">
-                <select class="form-control" id="brand-select">
-                    <option value="">Chọn hãng xe...</option>
-                    <?php foreach ($brands as $brand): ?>
-                        <option value="<?= htmlspecialchars($brand['id']) ?>"><?= htmlspecialchars($brand['name']) ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <div class="input-group-append">
-                    <button class="btn btn-warning" type="submit">Tìm kiếm</button>
-                </div>
-            </div>
-        </form>
 
         <div class="row" id="car-list">
             <?php if (!empty($cars)): ?>
@@ -23,7 +9,7 @@
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card car-card">
                             <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="height: 200px;">
-                                <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
+                                <img src="<?= htmlspecialchars(!empty($car["normal_image_url"]) ? $car["normal_image_url"] : '/uploads/cars/default.jpg') ?>"
                                     class="card-img-top car-image"
                                     alt="<?= htmlspecialchars($car['name']) ?>">
                             </a>
@@ -44,20 +30,17 @@
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                <p style="color: yellow;">⚠️ Hiện tại không có xe nào để bán.</p>
+                <p style="color: yellow;">⚠️ Hiện tại không có xe của hãng này.</p>
             <?php endif; ?>
         </div>
     </div>
 </div>
-<?php require_once __DIR__ . '/../../includes/footer.php'; ?>
-
-<script src="//code.tidio.co/rs1mnjec1su7ntcvrtbrooktiw1r7n3r.js" async></script>
-
+<?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <style>
     body {
-        background-image: url('uploads/bg.webp');
+        background-image: url('/uploads/bg.webp');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -108,12 +91,3 @@
         color: #222;
     }
 </style>
-<script>
-    function redirectToBrand(event) {
-        event.preventDefault();
-        var brandId = document.getElementById('brand-select').value;
-        if (brandId) {
-            window.location.href = '/car_find/' + brandId;
-        }
-    }
-</script>

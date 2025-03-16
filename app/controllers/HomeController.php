@@ -15,6 +15,7 @@ class HomeController {
     ");
     $stmt->execute();
     $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $brands = Brands::all();
         require_once '../app/views/index.php';
     }
 

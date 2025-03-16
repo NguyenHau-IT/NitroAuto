@@ -1,5 +1,6 @@
 RewriteEngine On
-RewriteRule ^car_detail/([0-9]+)$ app/views/car_detail.php?id=$1 [L]
 RewriteBase /
+RewriteRule ^car_detail/([0-9]+)$ app/views/car_detail.php?id=$1 [L]
 RewriteRule ^admin/?$ admin/index.php [L]
 RewriteRule ^$ index.php [L]
+RewriteRule ^car_find/([0-9]+)$ index.php?brand=$1 [L,QSA]s

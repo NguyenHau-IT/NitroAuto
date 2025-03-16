@@ -6,6 +6,7 @@ require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/FavoriteController.php';
 require_once '../app/controllers/OrderController.php';
 require_once '../app/controllers/CarController.php';
+require_once '../app/controllers/AccessoriesController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
@@ -69,13 +70,22 @@ switch (true) {
     case preg_match('/^update\/(\d+)$/', $uri, $matches):
         (new CarController())->update();
         break;
-    
+
     case ($uri === 'add_car'):
         (new CarController())->showAddForm();
         break;
 
     case ($uri === 'add'):
         (new CarController())->storeCar();
+        break;
+
+    case ($uri === 'accessories'):
+        (new AccessoriesController())->index();
+        break;
+
+    case (preg_match('/^car_find\/([0-9]+)$/', $uri, $matches)):
+        $brandId = $matches[1];
+        (new CarController())->search($brandId);
         break;
 
     default:
