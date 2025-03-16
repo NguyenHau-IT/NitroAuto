@@ -169,6 +169,36 @@ class Cars
                 VALUES (:name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :stock, :description, GETDATE())";
 
         $stmt = $conn->prepare($sql);
-        return $stmt->execute($data);
+        $stmt->execute([
+            'name' => $data['name'],
+            'brand_id' => $data['brand_id'],
+            'category_id' => $data['category_id'],
+            'price' => $data['price'],
+            'year' => $data['year'],
+            'mileage' => $data['mileage'],
+            'fuel_type' => $data['fuel_type'],
+            'transmission' => $data['transmission'],
+            'color' => $data['color'],
+            'stock' => $data['stock'],
+            'description' => $data['description']
+        ]);
+        $car_id = $conn->lastInsertId();
+
+        if (isset($data['image_url'])) {
+            $stmt = $conn->prepare("INSERT INTO car_images (car_id, image_url, image_type) VALUES (:car_id, :image_url, 'normal')");
+            $stmt->execute([
+                'car_id' => $car_id,
+                'image_url' => $data['image_url']
+            ]);
+        }
+
+        if (isset($data['image_url3D'])) {
+            $stmt = $conn->prepare("INSERT INTO car_images (car_id, image_url, image_type) VALUES (:car_id, :image_url, '3D')");
+            $stmt->execute([
+                'car_id' => $car_id,
+                'image_url' => $data['image_url3D']
+            ]);
+        }
+        return true;
     }
 }

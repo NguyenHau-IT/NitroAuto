@@ -18,6 +18,16 @@ class CarController {
     public function storeCar() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $car = new Cars();
+                        if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == 0) {
+                $uploadDir = 'D:NitroAuto/public/uploads/';
+                $uploadFile = $uploadDir . basename($_FILES['image_url']['name']);
+                if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
+                    $data['image_url'] = '/uploads/' . basename($_FILES['image_url']['name']);
+                } else {
+                    echo "Failed to upload image.";
+                    exit;
+                }
+            }
             $data = [
                 'name' => $_POST['name'],
                 'brand_id' => $_POST['brand_id'],
@@ -29,7 +39,9 @@ class CarController {
                 'transmission' => $_POST['transmission'],
                 'color' => $_POST['color'],
                 'stock' => $_POST['stock'],
-                'description' => $_POST['description']
+                'description' => $_POST['description'],
+                'image_url' => isset($data['image_url']) ? $data['image_url'] : null,
+                'image_url3D' => $_POST['image_3d_url']
             ];
 
             if ($car->addCar($data)) {
@@ -66,8 +78,8 @@ class CarController {
             $stock = $_POST['stock'];
             $description = $_POST['description'];
             $created_at = $_POST['created_at'];
-            $image_url = $_POST['image_url']; // Lấy ảnh từ form
-            $image_url3D = $_POST['image_url3D']; // Lấy ảnh 3D từ form
+            $image_url = $_POST['image_url'];
+            $image_url3D = $_POST['image_url3D'];
     
             if (Cars::update($id, $name, $brand_id, $category_id, $price, $year, $mileage, $fuel_type,
             $transmission, $color, $stock, $description, $created_at, $image_url , $image_url3D)) {
