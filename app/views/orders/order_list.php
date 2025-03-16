@@ -12,22 +12,33 @@
         }
 
         .overlay {
-            border-radius: 50px;
+            border-radius: 10px;
             background: rgba(0, 0, 0, 0.7);
-            padding: 50px 20px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .table {
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
         }
     </style>
 
     <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
-    <div class="container overlayss mt-5">
+    <div class="container overlay mt-5">
         <h2 class="my-4 text-center text-white">Danh sách đơn hàng</h2>
-        <table class="table table-bordered table-primary">
-            <thead class="thead-dark">
+        <table class="table table-bordered table-hover table-striped table-dark">
+            <thead class="thead-light">
                 <tr>
-                    <th>ID</th>
                     <th>Tên Xe</th>
                     <th>Số lượng</th>
                     <th>Tổng giá</th>
+                    <th>Thanh toán</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,8 +48,8 @@
                     if ($current_order_id !== $order["order_id"]):
                         $current_order_id = $order["order_id"];
                 ?>
-                        <tr style="background-color: #ffc107;">
-                            <td colspan="6">
+                        <tr class="bg-warning">
+                            <td colspan="4">
                                 <strong>Đơn hàng #<?= $order["order_id"] ?> - Ngày đặt: <?= $order["order_date"] ?> - Trạng thái:
                                     <?php
                                     switch ($order["status"]) {
@@ -67,14 +78,16 @@
                     <?php endif; ?>
 
                     <tr>
-                        <td><?= $order["car_id"] ?></td>
                         <td><?= $order["car_name"] ?></td>
                         <td><?= $order["quantity"] ?></td>
                         <td><?= number_format($order["total_price"]) ?> VNĐ</td>
+                        <td>
+                            <a href="/payment/<?= $order["order_id"] ?>" class="btn btn-primary btn-sm">Bấm để thanh toán</a>
+                            <a href="/order_detail/<?= $order["order_id"] ?>" class="btn btn-success btn-sm">Xem chi tiết</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
-
         </table>
     </div>
     <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

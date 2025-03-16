@@ -2,6 +2,7 @@
 require_once '../app/models/Users.php';
 
 class UserController {
+    
     public function index() {
         $users = Users::all();
         require_once '../app/views/user.php';

@@ -60,6 +60,17 @@ class Orders {
             'quantity' => $quantity,
             'price' => $total_price // Hoặc giá 1 xe nếu `total_price` là tổng giá
         ]);
+
+        // Thêm thông tin thanh toán vào bảng payments
+        $stmt = $conn->prepare("INSERT INTO payments (order_id, amount,method, payment_date, status) 
+                    VALUES (:order_id, :amount,:method, GETDATE(), :status)");
+                    
+        $stmt->execute([
+            'order_id' => $order_id,
+            'amount' => $total_price,
+            'method' => 'Orther',
+            'status' => 'Pending' // Trạng thái mặc định
+        ]);
     
         return $order_id;
     }
