@@ -3,6 +3,20 @@
     <div class="container text-center">
         <h1 class="mb-5" style="color: #ffcc00;">Nitro Auto</h1>
 
+        <form action="" method="GET" class="mb-4" onsubmit="redirectToBrand(event)">
+            <div class="input-group">
+                <select class="form-control" id="brand-select">
+                    <option value="">Chọn hãng xe...</option>
+                    <?php foreach ($brands as $brand): ?>
+                        <option value="<?= htmlspecialchars($brand['id']) ?>"><?= htmlspecialchars($brand['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-warning" type="submit">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+
         <div class="row" id="car-list">
             <?php if (!empty($cars)): ?>
                 <?php foreach ($cars as $car): ?>
@@ -91,3 +105,12 @@
         color: #222;
     }
 </style>
+<script>
+    function redirectToBrand(event) {
+        event.preventDefault();
+        var brandId = document.getElementById('brand-select').value;
+        if (brandId) {
+            window.location.href = '/car_find/' + brandId;
+        }
+    }
+</script>

@@ -101,6 +101,7 @@ class CarController {
     }
 
     public function search($id) {
+        $brands = Brands::all();
         if (!is_numeric($id)) {
             die("⚠️ ID hãng xe không hợp lệ!");
         }
