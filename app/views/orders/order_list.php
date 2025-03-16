@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách đơn hàng</title>
     <style>
         body {
@@ -23,10 +17,8 @@
             padding: 50px 20px;
         }
     </style>
-</head>
 
-<body>
-    <?php include '../includes/header.php'; ?>
+    <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
     <div class="container overlayss mt-5">
         <h2 class="my-4 text-center text-white">Danh sách đơn hàng</h2>
         <table class="table table-bordered table-primary">
@@ -85,10 +77,7 @@
 
         </table>
     </div>
-    <?php include '/ProjectCarSale/includes/footer.php'; ?>
+    <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-
-</html>

@@ -1,4 +1,4 @@
-<?php include '/ProjectCarSale/includes/header.php'; ?>
+<?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 <style>
     body {
         background-image: url('/uploads/bg.webp');
@@ -43,4 +43,4 @@
     </div>
 </div>
 
-<?php include '/ProjectCarSale/includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

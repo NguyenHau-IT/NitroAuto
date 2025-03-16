@@ -1,9 +1,43 @@
-<!DOCTYPE html>
-<html lang="vi">
+<?php require_once __DIR__ . '/../../includes/header.php'; ?>
+    <div class="overlay">
+        <div class="container text-center">
+            <h1 class="mb-5" style="color: #ffcc00;">Nitro Auto</h1>
+            <div class="row">
+                <?php if (!empty($cars)): ?>
+                    <?php foreach ($cars as $car): ?>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card car-card">
+                                <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="height: 200px;">
+                                    <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
+                                        class="card-img-top car-image"
+                                        alt="<?= htmlspecialchars($car['name']) ?>">
+                                </a>
+                                <div class="card-body text-white">
+                                    <h5 class="card-title"><a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="color: #fff;"><?= htmlspecialchars($car['name']) ?></a></h5>
+                                    <p class="card-text"><i class="fas fa-money-bill-wave"></i> Giá: <strong><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</strong></p>
+                                    <p class="card-text"><i class="fas fa-gas-pump"></i> Nhiên liệu: <?= htmlspecialchars($car['fuel_type']) ?></p>
+                                    <p class="card-text"><i class="fas fa-info-circle"></i> Mô tả: <?= htmlspecialchars($car['description']) ?></p>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Trang Chủ - Bán Xe Hơi</title>
+                                    <div class="favorite-btn">
+                                        <form action="/add_favorite" method="POST">
+                                            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                                            <button type="submit" class="btn btn-danger"><i class="fas fa-heart"></i> Yêu thích</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="color: yellow;">⚠️ Hiện tại không có xe nào để bán.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
+    
+    <script src="//code.tidio.co/rs1mnjec1su7ntcvrtbrooktiw1r7n3r.js" async></script>
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
@@ -59,46 +93,6 @@
             color: #222;
         }
     </style>
-</head>
-
-<body>
-    <?php include '/ProjectCarSale/includes/header.php'; ?>
-    <div class="overlay">
-        <div class="container text-center">
-            <h1 class="mb-5" style="color: #ffcc00;">Nitro Auto</h1>
-            <div class="row">
-                <?php if (!empty($cars)): ?>
-                    <?php foreach ($cars as $car): ?>
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card car-card">
-                                <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="height: 200px;">
-                                    <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
-                                        class="card-img-top car-image"
-                                        alt="<?= htmlspecialchars($car['name']) ?>">
-                                </a>
-                                <div class="card-body text-white">
-                                    <h5 class="card-title"><a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="color: #fff;"><?= htmlspecialchars($car['name']) ?></a></h5>
-                                    <p class="card-text"><i class="fas fa-money-bill-wave"></i> Giá: <strong><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</strong></p>
-                                    <p class="card-text"><i class="fas fa-gas-pump"></i> Nhiên liệu: <?= htmlspecialchars($car['fuel_type']) ?></p>
-                                    <p class="card-text"><i class="fas fa-info-circle"></i> Mô tả: <?= htmlspecialchars($car['description']) ?></p>
-
-                                    <div class="favorite-btn">
-                                        <form action="/add_favorite" method="POST">
-                                            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-heart"></i> Yêu thích</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p style="color: yellow;">⚠️ Hiện tại không có xe nào để bán.</p>
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-    <?php include '/ProjectCarSale/includes/footer.php'; ?>
     <script>
         $(document).ready(function() {
             $("#search-form").submit(function(event) {
@@ -115,6 +109,3 @@
             });
         });
     </script>
-</body>
-
-</html>

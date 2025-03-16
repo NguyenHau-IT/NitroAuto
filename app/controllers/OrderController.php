@@ -12,9 +12,9 @@ class OrderController {
     }
 
     public function showOrderForm() {
-        $user = $_SESSION["user"] ?? null;
-        if (!$user) {
-            die("Bạn chưa đăng nhập.");
+        if (!isset($_SESSION["user"]["id"])) {
+            header("Location: /login");
+            exit;
         }
 
         $cars = Cars::all();
@@ -52,7 +52,7 @@ class OrderController {
         global $conn;
     
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /login.php");
+            header("Location: /login");
             exit;
         }
     

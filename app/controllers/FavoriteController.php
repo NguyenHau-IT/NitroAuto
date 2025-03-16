@@ -32,8 +32,9 @@ class FavoriteController
     public function favoriteById() {
         $user_id = $_SESSION["user_id"]?? null;
 
-        if (!$user_id) {
-            die("Lỗi: Không xác định được ID người dùng. id: $user_id");
+        if (!isset($_SESSION["user"]["id"])) {
+            header("Location: /login");
+            exit;
         }
 
         $favorites = Favorites::where($user_id);
