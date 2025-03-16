@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <h2>Edit Car</h2>
-    <form action="/update/<?= htmlspecialchars($car['id']) ?>" method="POST">
+    <form action="/update_car/<?= htmlspecialchars($car['id']) ?>" method="POST">
         <input type="hidden" name="id" value="<?= htmlspecialchars($car['id']) ?>">
 
         <div class="form-group">

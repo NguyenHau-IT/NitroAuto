@@ -63,11 +63,11 @@ switch (true) {
         (new FavoriteController())->favoriteById();
         break;
 
-    case preg_match('/^edit\/(\d+)$/', $uri, $matches):
+    case preg_match('/^edit_car\/(\d+)$/', $uri, $matches):
         (new CarController())->edit($matches[1]);
         break;
 
-    case preg_match('/^update\/(\d+)$/', $uri, $matches):
+    case preg_match('/^update_car\/(\d+)$/', $uri, $matches):
         (new CarController())->update();
         break;
 
