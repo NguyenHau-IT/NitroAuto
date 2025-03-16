@@ -19,10 +19,10 @@ class CarController {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $car = new Cars();
                         if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == 0) {
-                $uploadDir = 'D:NitroAuto/public/uploads/';
+                $uploadDir = 'D:NitroAuto/public/uploads/cars/';
                 $uploadFile = $uploadDir . basename($_FILES['image_url']['name']);
                 if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
-                    $data['image_url'] = '/uploads/' . basename($_FILES['image_url']['name']);
+                    $data['image_url'] = '/uploads/cars/' . basename($_FILES['image_url']['name']);
                 } else {
                     echo "Failed to upload image.";
                     exit;

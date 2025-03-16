@@ -8,4 +8,21 @@ class UserController
         $brands = Brands::all();
         require_once '../app/views/index.php';
     }
+
+    public function formadd()
+    {
+        require_once '../app/views/brands/add_brand.php';
+    }
+
+    public function addbrand()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = $_POST['name'];
+            $country = $_POST['country'];
+            $logo = $_POST['logo'];
+
+            $brands = Brands::create($name, $country, $logo);
+            require_once '../app/views/brands/add.php';
+        }
+    }
 }

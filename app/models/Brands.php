@@ -5,6 +5,7 @@ class Brands {
     public $id;
     public $name;
     public $country;
+    public $logo;
 
     public function __construct($data = []) {
         foreach ($data as $key => $value) {
@@ -25,6 +26,18 @@ class Brands {
         $stmt = $conn->prepare("SELECT * FROM brands WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function create($name, $country, $logo) {
+        global $conn;
+    
+        $stmt = $conn->prepare("INSERT INTO brands (name, country, logo) 
+                                VALUES (:name, :country, :logo)");
+        return $stmt->execute([
+            'name' => $name,
+            'country' => $country,
+            'logo' => $logo
+        ]);
     }
 }
 ?>
