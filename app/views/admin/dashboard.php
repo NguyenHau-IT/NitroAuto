@@ -43,9 +43,6 @@ try {
 
     $stmt_categories = $conn->query("SELECT * FROM categories");
     $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_payments = $conn->query("SELECT * FROM payments");
-    $payments = $stmt_payments->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Lỗi truy vấn: " . $e->getMessage());
 }
@@ -96,9 +93,9 @@ try {
         <section id="cars" class="mt-5">
             <h2>Manage Cars</h2>
             <a href="/add_car" class="btn btn-primary mb-3">Add New Car</a>
-            <div style="max-height: 600px; overflow-y: auto;">
-                <table class="table table-bordered table-striped">
-                    <thead class="thead-dark" style="position: sticky; top: 0; z-index: 1;">
+            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                <table class="table table-striped table-bordered align-middle">
+                    <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                         <tr>
                             <th>ID</th>
                             <th>Tên</th>
@@ -113,41 +110,45 @@ try {
                             <th>Tồn kho</th>
                             <th>Hình ảnh</th>
                             <th>Hình ảnh 3D</th>
-                            <th>Mô tả</th>
+                            <th style="width: 600px;">Mô tả</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($cars as $car): ?>
                             <tr>
-                                <td><?= htmlspecialchars($car['id'] ?? 0) ?></td>
-                                <td><?= htmlspecialchars($car['name'] ?? '') ?></td>
-                                <td><?= htmlspecialchars($car['brand_name'] ?? 'N/A') ?></td>
-                                <td><?= htmlspecialchars($car['category_name'] ?? 'N/A') ?></td>
-                                <td><?= htmlspecialchars($car['year'] ?? 'N/A') ?></td>
-                                <td><?= htmlspecialchars($car['color'] ?? 'N/A') ?></td>
-                                <td><?= number_format($car['price'] ?? 0) ?> VND</td>
-                                <td><?= htmlspecialchars($car['transmission'] ?? 'N/A') ?></td>
-                                <td><?= number_format($car['mileage'] ?? 0) ?> km</td>
-                                <td><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
-                                <td><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
-                                <td>
+                                <td class="text-center"><?= htmlspecialchars($car['id'] ?? 0) ?></td>
+                                <td class="text-truncate" style="max-width: 300px;">
+                                    <?= htmlspecialchars($car['name'] ?? '') ?>
+                                </td>
+                                <td class="text-center"><?= htmlspecialchars($car['brand_name'] ?? 'N/A') ?></td>
+                                <td class="text-center"><?= htmlspecialchars($car['category_name'] ?? 'N/A') ?></td>
+                                <td class="text-center"><?= htmlspecialchars($car['year'] ?? 'N/A') ?></td>
+                                <td class="text-center"><?= htmlspecialchars($car['color'] ?? 'N/A') ?></td>
+                                <td class="text-end"><?= number_format($car['price'] ?? 0) ?> VND</td>
+                                <td class="text-center"><?= htmlspecialchars($car['transmission'] ?? 'N/A') ?></td>
+                                <td class="text-end"><?= number_format($car['mileage'] ?? 0) ?> km</td>
+                                <td class="text-center"><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
+                                <td class="text-center"><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
+                                <td class="text-center">
                                     <?php if (!empty($car['image_url'])): ?>
-                                        <img src="<?= htmlspecialchars($car['image_url']) ?>" alt="<?= htmlspecialchars($car['name'] ?? 'Car Image') ?>" class="img-fluid" width="100">
+                                        <img src="<?= htmlspecialchars($car['image_url']) ?>" class="img-fluid" width="80">
                                     <?php else: ?>
                                         <span>No image</span>
                                     <?php endif; ?>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <?php if (!empty($car['image_3d_url'])): ?>
-                                        <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" alt="<?= htmlspecialchars($car['name'] ?? 'Car 3D Image') ?>" class="img-fluid" width="100"></iframe>
+                                        <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" width="80"></iframe>
                                     <?php else: ?>
                                         <span>No 3D image</span>
                                     <?php endif; ?>
                                 </td>
-                                <td><?= nl2br(htmlspecialchars($car['description'] ?? '')) ?></td>
-                                <td>
-                                    <a href="/edit_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-primary btn-sm mb-5">Edit</a>
+                                <td class="text-start" style="width: 600px;">
+                                    <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
+                                </td>
+                                <td class="text-center">
+                                    <a href="/edit_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
                                     <a href="/delete_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this car?');" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
@@ -269,6 +270,7 @@ try {
                         <th>Xe</th>
                         <th>Số lượng</th>
                         <th>Giá</th>
+                        <th>Trạng thái</th>
                         <th>Thời gian</th>
                     </tr>
                 </thead>
@@ -280,35 +282,28 @@ try {
                             <td><?php echo $order['car_name']; ?></td>
                             <td><?php echo $order['quantity']; ?></td>
                             <td><?php echo number_format($order['price']); ?> VND</td>
+                            <td><?php
+                                switch ($order['status']) {
+                                    case 'pending':
+                                        echo 'Đang chờ xử lý';
+                                        break;
+                                    case 'Confirmed':
+                                        echo 'Hoàn thành';
+                                        break;
+                                    case 'shipped':
+                                        echo 'Đang giao';
+                                        break;
+                                    case 'canceled':
+                                        echo 'Đã hủy';
+                                        break;
+                                    case 'completed':
+                                        echo 'Đã hoàn thành';
+                                        break;
+                                    default:
+                                        echo 'Không xác định';
+                                }
+                                ?></td>
                             <td><?php echo $order['order_date']; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </section>
-        
-        <section id="payments" class="mt-5">
-            <h2>Manage Payments</h2>
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Đơn hàng</th>
-                        <th>Số tiền</th>
-                        <th>Phương thức</th>
-                        <th>Trạng thái</th>
-                        <th>Thời gian</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($payments as $payment): ?>
-                        <tr>
-                            <td><?php echo $payment['id']; ?></td>
-                            <td><?php echo $payment['order_id']; ?></td>
-                            <td><?php echo number_format($payment['amount']); ?> VND</td>
-                            <td><?php echo $payment['method']; ?></td>
-                            <td><?php echo $payment['status']; ?></td>
-                            <td><?php echo $payment['payment_date']; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

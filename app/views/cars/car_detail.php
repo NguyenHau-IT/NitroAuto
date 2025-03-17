@@ -108,7 +108,7 @@
         <div class="text-center mt-4 d-flex justify-content-center gap-3">
             <a href="../home" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
             <form action="/showOrderForm" method="POST" style="display:inline;">
-                <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($favorite['car_id']); ?>">
+                <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($car['id']); ?>">
                 <button type="submit" class="btn btn-success">Đặt mua</button>
             </form>
             <form action="/add_favorite" method="POST" class="d-inline">
