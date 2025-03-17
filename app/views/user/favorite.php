@@ -40,6 +40,7 @@
                         <tr>
                             <th>STT</th>
                             <th>Tên Xe</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,14 @@
                             <tr>
                                 <td><?php echo htmlspecialchars($favorite['id']); ?></td>
                                 <td><?php echo htmlspecialchars($favorite['car_name']); ?></td>
+                                <td>
+                                    <a href="/remove_favorite?id=<?php echo $favorite['id']; ?>" class="btn btn-danger">Xóa</a>
+                                    <a href="/cars/detail?id=<?php echo $favorite['id']; ?>" class="btn btn-primary">Xem chi tiết</a>
+                                    <form action="/showOrderForm" method="POST" style="display:inline;">
+                                        <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($favorite['car_id']); ?>">
+                                        <button type="submit" class="btn btn-success">Đặt mua</button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

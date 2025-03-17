@@ -30,7 +30,7 @@ class Favorites {
 
     public static function where($user_id) {
         global $conn;
-        $stmt = $conn->prepare("SELECT favorites.*, cars.name as car_name FROM favorites 
+        $stmt = $conn->prepare("SELECT favorites.*,cars.id as car_id, cars.name as car_name FROM favorites 
                                 JOIN cars ON favorites.car_id = cars.id 
                                 WHERE favorites.user_id = :user_id");
         $stmt->execute(['user_id' => $user_id]);

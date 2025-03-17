@@ -82,7 +82,6 @@
                         <td><?= $order["quantity"] ?></td>
                         <td><?= number_format($order["total_price"]) ?> VNĐ</td>
                         <td>
-                            <a href="/payment/<?= $order["order_id"] ?>" class="btn btn-primary btn-sm">Bấm để thanh toán</a>
                             <a href="/order_detail/<?= $order["order_id"] ?>" class="btn btn-success btn-sm">Xem chi tiết</a>
                         </td>
                     </tr>

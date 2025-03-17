@@ -25,7 +25,14 @@ class Order_details {
 
     public static function find($id) {
         global $conn;
-        $stmt = $conn->prepare("SELECT * FROM order_details WHERE id = :id");
+        $stmt = $conn->prepare("
+            SELECT users.*, orders.*, cars.name AS car_name, cars.*, order_details.* 
+            FROM order_details 
+            JOIN orders ON order_details.order_id = orders.id 
+            JOIN users ON orders.user_id = users.id
+            JOIN cars ON order_details.car_id = cars.id 
+            WHERE order_details.order_id = :id
+        ");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

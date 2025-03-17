@@ -14,7 +14,8 @@
         margin: 0;
         padding: 0;
         color: #fff;
-        font-size: 18px; /* Tăng kích thước chữ */
+        font-size: 18px;
+        /* Tăng kích thước chữ */
     }
 
     .overlay {
@@ -31,7 +32,8 @@
 
     .form-group label {
         font-weight: bold;
-        font-size: 20px; /* Tăng kích thước chữ */
+        font-size: 20px;
+        /* Tăng kích thước chữ */
     }
 
     .btn-primary {
@@ -39,7 +41,8 @@
         border-color: #007bff;
         border-radius: 25px;
         padding: 10px 20px;
-        font-size: 18px; /* Tăng kích thước chữ */
+        font-size: 18px;
+        /* Tăng kích thước chữ */
     }
 
     .btn-primary:hover {
@@ -61,89 +64,96 @@
     </div>
 
     <form id="orderForm">
-    <input type="hidden" name="Nội dung" value="Đặt mua xe">
-    
-    <input type="hidden" name="buyer_name" value="<?= htmlspecialchars($user['full_name']) ?>">
-    <input type="hidden" name="email" value="<?= htmlspecialchars($user['email']) ?>">
-    <input type="hidden" name="phone" value="<?= htmlspecialchars($user['phone']) ?>">
-    <input type="hidden" name="address" value="<?= htmlspecialchars($user['address']) ?>">
-    <input type="hidden" name="Tên xe" id="car_name">
+        <input type="hidden" name="Nội dung" value="Đặt mua xe">
 
-    <div class="form-group">
-        <label for="car_id">Chọn xe:</label>
-        <select class="form-control" id="car_id" name="car_id" onchange="updatePrice()">
-            <option value="">Chọn xe</option>
-            <?php foreach ($cars as $car): ?>
-                <option value="<?= htmlspecialchars($car['id']) ?>" data-price="<?= htmlspecialchars($car['price']) ?>" data-name="<?= htmlspecialchars($car['name']) ?>">
-                    <?= htmlspecialchars($car['name']) ?> - <?= number_format($car['price']) ?> VNĐ
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+        <input type="hidden" name="buyer_name" value="<?= htmlspecialchars($user['full_name']) ?>">
+        <input type="hidden" name="email" value="<?= htmlspecialchars($user['email']) ?>">
+        <input type="hidden" name="phone" value="<?= htmlspecialchars($user['phone']) ?>">
+        <input type="hidden" name="address" value="<?= htmlspecialchars($user['address']) ?>">
+        <input type="hidden" name="Tên xe" id="car_name">
 
-    <div class="form-group">
-        <label for="quantity">Số lượng:</label>
-        <input type="number" class="form-control" id="quantity" name="quantity" value="1" onchange="updatePrice()">
-    </div>
+        <div class="form-group">
+            <label for="car_id">Chọn xe:</label>
+            <select class="form-control" id="car_id" name="car_id" onchange="updatePrice()">
+                <option value="">Chọn xe</option>
+                <?php foreach ($cars as $car): ?>
+                    <option value="<?= htmlspecialchars($car['id']) ?>" data-price="<?= htmlspecialchars($car['price']) ?>" data-name="<?= htmlspecialchars($car['name']) ?>"
+                        <?= isset($_POST['car_id']) && $_POST['car_id'] == $car['id'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($car['name']) ?> - <?= number_format($car['price']) ?> VNĐ
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
 
-    <div class="form-group">
-        <label for="total_price">Tổng tiền:</label>
-        <input type="text" class="form-control" id="total_price" name="total_price" readonly>
-        <span id="total_price_display"></span>
-    </div>
+        <div class="form-group">
+            <label for="quantity">Số lượng:</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="1" onchange="updatePrice()">
+        </div>
 
-    <button type="submit" class="btn btn-primary">Đặt hàng</button>
-</form>
+        <div class="form-group">
+            <label for="total_price">Tổng tiền:</label>
+            <input type="text" class="form-control" id="total_price" name="total_price" readonly>
+            <span id="total_price_display"></span>
+        </div>
 
-<script>
-document.getElementById("orderForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    let formData = new FormData(this);
+        <button type="submit" class="btn btn-primary">Đặt hàng</button>
+    </form>
 
-    fetch("/placeOrder", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Server Response:", data);
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
+    <script>
+        document.getElementById("orderForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
 
-    fetch("https://formspree.io/f/movevqyb", {
-        method: "POST",
-        body: formData,
-        headers: { "Accept": "application/json" } 
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Formspree Response:", data);
-        alert("Đặt hàng thành công!");
-        window.location.href = "/home"; 
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-});
+            fetch("/placeOrder", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Server Response:", data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
 
-function updatePrice() {
-    var carSelect = document.getElementById("car_id");
-    var quantityInput = document.getElementById("quantity");
-    var totalPriceInput = document.getElementById("total_price");
-    var totalPriceDisplay = document.getElementById("total_price_display");
-    var carNameInput = document.getElementById("car_name");
+            fetch("https://formspree.io/f/movevqyb", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Formspree Response:", data);
+                    alert("Đặt hàng thành công!");
+                    window.location.href = "/home";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        });
 
-    var selectedCar = carSelect.options[carSelect.selectedIndex];
-    var price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
-    var quantity = parseInt(quantityInput.value) || 1;
+        function updatePrice() {
+            var carSelect = document.getElementById("car_id");
+            var quantityInput = document.getElementById("quantity");
+            var totalPriceInput = document.getElementById("total_price");
+            var totalPriceDisplay = document.getElementById("total_price_display");
+            var carNameInput = document.getElementById("car_name");
 
-    var total = price * quantity;
-    totalPriceInput.value = total;
-    totalPriceDisplay.innerText = total.toLocaleString('vi-VN') + " VNĐ";
-    carNameInput.value = selectedCar.getAttribute("data-name");
-}
-</script>
+            var selectedCar = carSelect.options[carSelect.selectedIndex];
+            var price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
+            var quantity = parseInt(quantityInput.value) || 1;
+
+            var total = price * quantity;
+            totalPriceInput.value = total;
+            totalPriceDisplay.innerText = total.toLocaleString('vi-VN') + " VNĐ";
+            carNameInput.value = selectedCar.getAttribute("data-name");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            updatePrice();
+        });
+    </script>
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

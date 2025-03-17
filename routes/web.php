@@ -92,6 +92,11 @@ switch (true) {
         (new CarController())->search($brandId);
         break;
 
+    case (preg_match('/^order_detail\/(\d+)$/', $uri, $matches)):
+        $orderId = $matches[1];
+        (new OrderController())->orderDetail($orderId);
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Không tìm thấy trang";
