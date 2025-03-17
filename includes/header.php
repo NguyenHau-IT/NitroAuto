@@ -100,7 +100,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         </li>
                         <?php if ($user && $user['role'] === 'admin'): ?>
                             <li class="nav-item <?= ($current_page == 'admin') ? 'active' : '' ?>">
-                                <a class="nav-link" href="admin"><i class="fas fa-user-shield"></i>Admin Dashboard</a>
+                                <a class="nav-link" href="/admin"><i class="fas fa-user-shield"></i>Admin Dashboard</a>
                             </li>
                         <?php endif; ?>
 
