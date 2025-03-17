@@ -85,7 +85,7 @@
                     </tr>
                     <tr>
                         <th>Quãng đường</th>
-                        <td><?= $car['mileage']?> km</td>
+                        <td><?= $car['mileage'] ?> km</td>
                     </tr>
                     <tr>
                         <th>Mô tả</th>
@@ -105,10 +105,18 @@
             </div>
         </div>
 
-        <div class="text-center mt-4">
-            <a href="../home" class="btn btn-primary">Quay lại danh sách</a>
-            <a class="btn btn-primary" href="showOrderForm"><i class="fas fa-shopping-cart"></i> Đặt hàng</a>
+        <div class="text-center mt-4 d-flex justify-content-center gap-3">
+            <a href="../home" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
+            <form action="/showOrderForm" method="POST" style="display:inline;">
+                <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($favorite['car_id']); ?>">
+                <button type="submit" class="btn btn-success">Đặt mua</button>
+            </form>
+            <form action="/add_favorite" method="POST" class="d-inline">
+                <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                <button type="submit" class="btn btn-danger"><i class="fas fa-heart"></i> Yêu thích</button>
+            </form>
         </div>
+
     </div>
     <?php include '../includes/footer.php'; ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
