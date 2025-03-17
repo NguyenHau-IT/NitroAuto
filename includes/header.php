@@ -84,19 +84,19 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                                 <i class="fas fa-list"></i>Danh mục các sản phẩm
                             </a>
                             <div class="dropdown-menu" aria-labelledby="productDropdown">
-                                <a class="dropdown-item" href="home">Xe Ô Tô</a>
-                                <a class="dropdown-item" href="accessories">Phụ Kiện cho xe</a>
+                                <a class="dropdown-item" href="/home">Xe Ô Tô</a>
+                                <a class="dropdown-item" href="/accessories">Phụ Kiện cho xe</a>
                             </div>
                         </li>
 
                         <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
-                            <a class="nav-link" href="showOrderForm"><i class="fas fa-shopping-cart"></i>Mua xe</a>
+                            <a class="nav-link" href="/showOrderForm"><i class="fas fa-shopping-cart"></i>Mua xe</a>
                         </li>
                         <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
-                            <a class="nav-link" href="user_orders"><i class="fas fa-history"></i>Lịch sử mua xe</a>
+                            <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i>Lịch sử mua xe</a>
                         </li>
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
-                            <a class="nav-link" href="favorites"><i class="fas fa-heart"></i>Danh sách yêu thích</a>
+                            <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i>Danh sách yêu thích</a>
                         </li>
                         <?php if ($user && $user['role'] === 'admin'): ?>
                             <li class="nav-item <?= ($current_page == 'admin') ? 'active' : '' ?>">
@@ -107,16 +107,16 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         <ul class="navbar-nav ms-auto d-flex">
                             <?php if ($user): ?>
                                 <li class="nav-item <?= ($current_page == 'profile') ? 'active' : '' ?>">
-                                    <a class="nav-link" href="profile">
+                                    <a class="nav-link" href="/profile">
                                         <i class="fas fa-user"></i> <?= htmlspecialchars($user['full_name']) ?>
                                     </a>
                                 </li>
                             <?php else: ?>
                                 <li class="nav-item <?= ($current_page == 'login') ? 'active' : '' ?>">
-                                    <a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i>Login</a>
+                                    <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
                                 </li>
                                 <li class="nav-item <?= ($current_page == 'register') ? 'active' : '' ?>">
-                                    <a class="nav-link" href="register"><i class="fas fa-user-plus"></i>Register</a>
+                                    <a class="nav-link" href="/register"><i class="fas fa-user-plus"></i>Register</a>
                                 </li>
                             <?php endif; ?>
                         </ul>

@@ -31,7 +31,7 @@
                                 <h5 class="card-title"><a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="color: #fff;"><?= htmlspecialchars($car['name']) ?></a></h5>
                                 <p class="card-text"><i class="fas fa-money-bill-wave"></i> Giá: <strong><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</strong></p>
                                 <p class="card-text"><i class="fas fa-gas-pump"></i> Nhiên liệu: <?= htmlspecialchars($car['fuel_type']) ?></p>
-                                <p class="card-text"><i class="fas fa-info-circle"></i> Mô tả: <?= htmlspecialchars($car['description']) ?></p>
+                                <p class="card-text" style="height: 70px; overflow: hidden; text-overflow: ellipsis;"><i class="fas fa-info-circle"></i> Mô tả: <?= htmlspecialchars($car['description']) ?></p>
 
                                 <div class="favorite-btn">
                                     <form action="/add_favorite" method="POST">

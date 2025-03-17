@@ -87,7 +87,7 @@ switch (true) {
         (new AccessoriesController())->index();
         break;
 
-    case (preg_match('/^car_find\/([0-9]+)$/', $uri, $matches)):
+    case (preg_match('/^car_find\/(\d+)$/', $uri, $matches)):
         $brandId = $matches[1];
         (new CarController())->search($brandId);
         break;

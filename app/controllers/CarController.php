@@ -107,7 +107,7 @@ class CarController {
         }
 
         $cars = Cars::findByBrand($id);
-        require_once '/NitroAuto/app/views/cars/car_find.php';
+        require_once '../app/views/cars/car_find.php';
     }
 
     public function showCarDetail($id) {
