@@ -31,12 +31,12 @@
                                 <h5 class="card-title"><a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" style="color: #fff;"><?= htmlspecialchars($car['name']) ?></a></h5>
                                 <p class="card-text"><i class="fas fa-money-bill-wave"></i> Giá: <strong><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</strong></p>
                                 <p class="card-text"><i class="fas fa-gas-pump"></i> Nhiên liệu: <?= htmlspecialchars($car['fuel_type']) ?></p>
-                                
-                                <div class="favorite-btn">
+                                <div class="favorite-btn mt-3">
                                     <form action="/add_favorite" method="POST">
                                         <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-heart"></i> Yêu thích</button>
+                                        <button type="submit" class="btn btn-danger btn-block"><i class="fas fa-heart"></i> Yêu thích</button>
                                     </form>
+                                    <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="btn btn-outline-light btn-block mt-2"><i class="fas fa-info-circle"></i> Xem chi tiết</a>
                                 </div>
                             </div>
                         </div>
@@ -53,6 +53,9 @@
     </div>
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
+
+<script src="//code.tidio.co/p1jneu187wheegsekzemu9ezforibtsx.js" async></script>
+
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <style>
