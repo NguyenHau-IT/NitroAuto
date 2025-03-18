@@ -50,8 +50,6 @@
 </div>
 <?php require_once __DIR__ . '/../../includes/footer.php'; ?>
 
-<script src="//code.tidio.co/p1jneu187wheegsekzemu9ezforibtsx.js" async></script>
-
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <style>

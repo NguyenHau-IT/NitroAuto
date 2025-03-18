@@ -2,7 +2,8 @@
 require_once '../config/database.php'; // Kết nối database
 require_once '../app/models/Brands.php'; // Sử dụng model Brands
 
-class HomeController {
+class HomeController 
+{
     public function index() {
         global $conn;
         $stmt = $conn->prepare("

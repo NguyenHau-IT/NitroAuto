@@ -39,13 +39,33 @@ class Favorites {
 
     public static function create($user_id, $car_id) {
         global $conn;
-    
-        $stmt = $conn->prepare("INSERT INTO favorites (user_id, car_id, created_at) 
-                                VALUES (:user_id, :car_id, GETDATE())");
-        return $stmt->execute([
+
+        $stmt = $conn->prepare("SELECT * FROM favorites WHERE user_id = :user_id AND car_id = :car_id");
+        $stmt->execute([
             'user_id' => $user_id,
             'car_id' => $car_id
         ]);
+        $favorite = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($favorite) {
+            return false;
+        }
+
+        // Insert new favorite
+        $stmt = $conn->prepare("INSERT INTO favorites (user_id, car_id, created_at) 
+                                VALUES (:user_id, :car_id, GETDATE())");
+        $stmt->execute([
+            'user_id' => $user_id,
+            'car_id' => $car_id
+        ]);
+
+        return true;
+    }
+
+    public static function delete($id) {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM favorites WHERE id = :id");
+        return $stmt->execute(['id' => $id]);
     }
 }
 ?>

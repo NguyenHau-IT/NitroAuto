@@ -6,31 +6,35 @@ class FavoriteController
     public function addFavorite()
     {
         if (!isset($_SESSION["user"])) {
-            die("Bạn cần đăng nhập để thêm vào yêu thích.");
+            header("Location: /error?status=error&message=" . urlencode("Bạn cần đăng nhập trước khi thêm vào danh sách!"));
+            exit();
         }
 
         if (!isset($_POST["car_id"])) {
-            die("Lỗi: Không có car_id.");
+            header("Location: /error?status=error&message=" . urlencode("Lỗi khi thêm vào danh sách!"));
+            exit();
         }
 
         $user_id = $_SESSION["user"]["id"] ?? null;
         $car_id = $_POST["car_id"] ?? null;
 
         if (!$user_id || !$car_id) {
-            die("Lỗi: user_id hoặc car_id không hợp lệ.");
+            header("Location: /error?status=error&message=" . urlencode("Lỗi khi thêm vào danh sách!"));
+            exit();
         }
 
         if ($favorites = Favorites::create($user_id, $car_id)) {
-            header("Location: home");
+            header("Location: /success?status=success&message=" . urlencode("Đã thêm vào danh sách yêu thích!"));
             exit();
         } else {
-            header("Location: home");
+            header("Location: /error?status=error&message=" . urlencode("Lỗi đã thêm xe vào danh sách!"));
             exit();
         }
     }
 
-    public function favoriteById() {
-        $user_id = $_SESSION["user_id"]?? null;
+    public function favoriteById()
+    {
+        $user_id = $_SESSION["user_id"] ?? null;
 
         if (!isset($_SESSION["user"]["id"])) {
             header("Location: /login");
@@ -39,5 +43,16 @@ class FavoriteController
 
         $favorites = Favorites::where($user_id);
         require_once '../app/views/user/favorite.php';
+    }
+
+    public function deleteFavorite($id)
+    {
+        if ($favorites = Favorites::delete($id)) {
+            header("Location: /home");
+            exit();
+        } else {
+            die("Lỗi: Không thể xóa yêu thích.");
+            exit();
+        }
     }
 }

@@ -35,7 +35,7 @@ class AuthController
                 $_SESSION["user"] = $user;
                 $_SESSION["user_id"] = $user["id"];
 
-                header("Location: home");
+                header("Location: /home");
                 exit();
             } else {
                 $error = "Sai thông tin đăng nhập!";

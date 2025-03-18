@@ -7,6 +7,7 @@ require_once '../app/controllers/FavoriteController.php';
 require_once '../app/controllers/OrderController.php';
 require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/AccessoriesController.php';
+require_once '../app/controllers/NotificationController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
@@ -108,6 +109,18 @@ switch (true) {
 
     case preg_match('/^order_delete\/(\d+)$/', $uri, $matches):
         (new OrderController())->deleteOrder($matches[1]);
+        break;
+
+    case preg_match('/^favarite_delete\/(\d+)$/', $uri, $matches):
+        (new FavoriteController())->deleteFavorite($matches[1]);
+        break;
+
+    case 'error':
+        (new NotificationController())->showMessage();
+        break;
+
+    case 'success':
+        (new NotificationController())->showMessage();
         break;
 
     default:
