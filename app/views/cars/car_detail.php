@@ -109,7 +109,7 @@
             <a href="../home" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
             <form action="/showOrderForm" method="POST" style="display:inline;">
                 <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($car['id']); ?>">
-                <button type="submit" class="btn btn-success">Đặt mua</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-shopping-cart"></i> Đặt mua</button>
             </form>
             <form action="/add_favorite" method="POST" class="d-inline">
                 <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">

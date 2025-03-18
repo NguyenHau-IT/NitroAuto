@@ -81,4 +81,35 @@ class OrderController
         }
         require_once '../app/views/orders/order_detail.php';
     }
+
+    public function order_edit($id) {
+        $order = Orders::getOrderById($id);
+        if (!$order) {
+            die("Car not found");
+        }
+        require_once __DIR__ . "/../views/orders/order_edit.php";
+    }
+
+    public function updateOrder() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['order_id'];
+            $status = $_POST['order_status'];
+            $result = Orders::updateStatus($id, $status);
+            if ($result) {
+                header("Location: /admin");
+                exit;
+            } else {
+                echo "Failed to update order.";
+            }
+        }
+    }
+
+    public function deleteOrder($id) {
+        if (Orders::delete($id)) {
+            header("Location: /admin");
+            exit;
+        } else {
+            echo "Failed to delete order.";
+        }
+    }
 }

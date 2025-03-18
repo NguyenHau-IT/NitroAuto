@@ -54,7 +54,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html {
@@ -110,7 +110,7 @@ try {
                             <th>Tồn kho</th>
                             <th>Hình ảnh</th>
                             <th>Hình ảnh 3D</th>
-                            <th style="width: 600px;">Mô tả</th>
+                            <th style="width: 400px;">Mô tả</th>
                             <th>Hành động</th>
                         </tr>
                     </thead>
@@ -130,23 +130,29 @@ try {
                                 <td class="text-end"><?= number_format($car['mileage'] ?? 0) ?> km</td>
                                 <td class="text-center"><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
                                 <td class="text-center"><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
+
                                 <td class="text-center">
                                     <?php if (!empty($car['image_url'])): ?>
-                                        <img src="<?= htmlspecialchars($car['image_url']) ?>" class="img-fluid" width="80">
+                                        <img src="<?= htmlspecialchars($car['image_url']) ?>" width="150" height="100">
                                     <?php else: ?>
                                         <span>No image</span>
                                     <?php endif; ?>
                                 </td>
+
                                 <td class="text-center">
                                     <?php if (!empty($car['image_3d_url'])): ?>
-                                        <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" width="80"></iframe>
+                                        <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" width="200" height="150" style="border: none;"></iframe>
                                     <?php else: ?>
                                         <span>No 3D image</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="text-start" style="width: 600px;">
-                                    <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
+
+                                <td class="text-start" style="max-width: 400px; overflow: hidden; word-wrap: break-word; white-space: normal;">
+                                    <div style="max-height: 150px; overflow-y: auto;">
+                                        <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
+                                    </div>
                                 </td>
+
                                 <td class="text-center">
                                     <a href="/edit_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
                                     <a href="/delete_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this car?');" class="btn btn-danger btn-sm">Delete</a>
@@ -263,50 +269,57 @@ try {
         <section id="orders" class="mt-5">
             <h2>Manage Orders</h2>
             <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Khách hàng</th>
-                        <th>Xe</th>
-                        <th>Số lượng</th>
-                        <th>Giá</th>
-                        <th>Trạng thái</th>
-                        <th>Thời gian</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($orders as $order): ?>
-                        <tr>
-                            <td><?php echo $order['id']; ?></td>
-                            <td><?php echo $order['user_name']; ?></td>
-                            <td><?php echo $order['car_name']; ?></td>
-                            <td><?php echo $order['quantity']; ?></td>
-                            <td><?php echo number_format($order['price']); ?> VND</td>
-                            <td><?php
-                                switch ($order['status']) {
-                                    case 'pending':
-                                        echo 'Đang chờ xử lý';
-                                        break;
-                                    case 'Confirmed':
-                                        echo 'Hoàn thành';
-                                        break;
-                                    case 'shipped':
-                                        echo 'Đang giao';
-                                        break;
-                                    case 'canceled':
-                                        echo 'Đã hủy';
-                                        break;
-                                    case 'completed':
-                                        echo 'Đã hoàn thành';
-                                        break;
-                                    default:
-                                        echo 'Không xác định';
-                                }
-                                ?></td>
-                            <td><?php echo $order['order_date']; ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
+            <thead class="thead-dark">
+                <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Xe</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Thời gian</th>
+                <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?php echo $order['id']; ?></td>
+                    <td><?php echo $order['user_name']; ?></td>
+                    <td><?php echo $order['car_name']; ?></td>
+                    <td><?php echo $order['quantity']; ?></td>
+                    <td><?php echo number_format($order['price']); ?> VND</td>
+                    <td><?php
+                    switch ($order['status']) {
+                        case 'Pending':
+                        case 'pending':
+                        echo 'Đang chờ xử lý';
+                        break;
+                        case 'Confirmed':
+                        case 'confirmed':
+                        echo 'Đã xác nhận';
+                        break;
+                        case 'Shipped':
+                        case 'shipped':
+                        echo 'Đang giao';
+                        break;
+                        case 'Canceled':
+                        case 'canceled':
+                        echo 'Đã hủy';
+                        break;
+                        case 'Completed':
+                        case 'completed':
+                        echo 'Đã hoàn thành';
+                        break;
+                    }
+                    ?></td>
+                    <td><?php echo $order['order_date']; ?></td>
+                    <td class="text-center">
+                    <a href="/order_edit/<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="/order_delete/<?= htmlspecialchars($order['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this order?');" class="btn btn-danger btn-sm">Delete</a>                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
             </table>
         </section>
     </main>

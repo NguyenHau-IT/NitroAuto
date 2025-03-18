@@ -31,13 +31,14 @@ class AuthController
             $user = Users::login($email, $password);
             if ($user) {
                 session_start();
+
                 $_SESSION["user"] = $user;
                 $_SESSION["user_id"] = $user["id"];
 
                 header("Location: home");
                 exit();
             } else {
-                echo "Sai thông tin đăng nhập!";
+                $error = "Sai thông tin đăng nhập!";
             }
         }
         require_once '../app/views/user/login.php';

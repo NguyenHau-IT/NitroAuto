@@ -105,7 +105,7 @@ class CarController {
         if (!is_numeric($id)) {
             die("⚠️ ID hãng xe không hợp lệ!");
         }
-
+        
         $cars = Cars::findByBrand($id);
         require_once '../app/views/cars/car_find.php';
     }

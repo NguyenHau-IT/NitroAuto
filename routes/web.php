@@ -97,6 +97,19 @@ switch (true) {
         (new OrderController())->orderDetail($orderId);
         break;
 
+    case (preg_match('/^order_edit\/(\d+)$/', $uri, $matches)):
+        $orderId = $matches[1];
+        (new OrderController())->order_edit($orderId);
+        break;
+
+    case preg_match('/^orderupdate\/(\d+)$/', $uri, $matches):
+        (new OrderController())->updateOrder();
+        break;
+
+    case preg_match('/^order_delete\/(\d+)$/', $uri, $matches):
+        (new OrderController())->deleteOrder($matches[1]);
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Không tìm thấy trang";
