@@ -93,6 +93,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Đặt hàng</button>
+        <a href="/home" class="btn btn-secondary">Quay lại</a>
     </form>
 
     <script>

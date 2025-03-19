@@ -91,6 +91,9 @@
                         <th>Mô tả</th>
                         <td><?= nl2br(htmlspecialchars($car['description'])) ?></td>
                     </tr>
+                    <tr>
+                        <th>Số xe còn lại</th>
+                        <td><?= $car['stock'] ?></td>
                 </table>
             </div>
 
@@ -114,6 +117,10 @@
             <form action="/add_favorite" method="POST" class="d-inline">
                 <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
                 <button type="submit" class="btn btn-danger"><i class="fas fa-heart"></i> Yêu thích</button>
+            </form>
+            <form action="/testdriveform" method="POST" style="display:inline;">
+                <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($car['id']); ?>">
+                <button type="submit" class="btn btn-success"><i class="fas fa-car"></i> Đăng ký lái thử</button>
             </form>
         </div>
 

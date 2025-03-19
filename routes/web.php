@@ -8,6 +8,7 @@ require_once '../app/controllers/OrderController.php';
 require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/NotificationController.php';
+require_once '../app/controllers/TestDriveController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
@@ -115,6 +116,15 @@ switch (true) {
         (new FavoriteController())->deleteFavorite($matches[1]);
         break;
 
+
+    case ($uri === 'testdriveform'):
+        (new TestDriveController())->Test_Drive();
+        break;
+
+    case ($uri === 'register_test_drive'):
+        (new TestDriveController())->create();
+        break;
+        
     case 'error':
         (new NotificationController())->showMessage();
         break;

@@ -10,8 +10,7 @@ class OrderController
     public function showOrderForm()
     {
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /login");
-            exit;
+            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") . "&href=/home");
         }
 
         $cars = Cars::all();

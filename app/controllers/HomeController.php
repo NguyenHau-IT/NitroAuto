@@ -1,6 +1,6 @@
 <?php
-require_once '../config/database.php'; // Kết nối database
-require_once '../app/models/Brands.php'; // Sử dụng model Brands
+require_once '../config/database.php';
+require_once '../app/models/Brands.php';
 
 class HomeController 
 {
@@ -11,7 +11,6 @@ class HomeController
                (SELECT image_url FROM Car_images WHERE Car_images.car_id = Cars.id and image_type = 'normal') AS image,
                 (SELECT name FROM Brands WHERE brands.id = Cars.brand_id) AS brand
         FROM cars
-        WHERE stock > 0
         ORDER BY cars.id ASC
     ");
     $stmt->execute();

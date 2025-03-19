@@ -58,7 +58,6 @@ class Favorites {
             'user_id' => $user_id,
             'car_id' => $car_id
         ]);
-
         return true;
     }
 

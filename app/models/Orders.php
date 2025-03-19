@@ -36,26 +36,27 @@ class Orders {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($user_id, $car_id, $quantity, $total_price) {
+    public static function create($user_id, $car_id, $quantity, $total_price)
+    {
         global $conn;
 
         $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date, status, total_amount) 
                                 VALUES (:user_id, GETDATE(), :status, :total_amount)");
         $stmt->execute([
             'user_id' => $user_id,
-            'status' => 'pending', 
+            'status' => 'pending',
             'total_amount' => $total_price
         ]);
-        
+
         $order_id = $conn->lastInsertId();
-    
+
         $stmt = $conn->prepare("INSERT INTO order_details (order_id, car_id, quantity, price) 
                                 VALUES (:order_id, :car_id, :quantity, :price)");
         $stmt->execute([
             'order_id' => $order_id,
             'car_id' => $car_id,
             'quantity' => $quantity,
-            'price' => $total_price 
+            'price' => $total_price
         ]);
 
         $stmt = $conn->prepare("UPDATE cars SET stock = stock - :quantity WHERE id = :car_id");
@@ -63,10 +64,10 @@ class Orders {
             'quantity' => $quantity,
             'car_id' => $car_id
         ]);
-    
+
         return true;
     }
-    
+
 
     public static function getUserOrders($user_id) {
         global $conn;
