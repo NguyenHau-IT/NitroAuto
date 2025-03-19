@@ -48,16 +48,34 @@
                     if ($current_order_id !== $order["order_id"]):
                         $current_order_id = $order["order_id"];
                 ?>
-                        <tr class="bg-warning">
+                        <tr class="<?php
+                            switch (strtolower($order['status'])) {
+                                case 'pending':
+                                    echo 'bg-warning';
+                                    break;
+                                case 'confirmed':
+                                    echo 'bg-info';
+                                    break;
+                                case 'shipped':
+                                    echo 'bg-primary';
+                                    break;
+                                case 'canceled':
+                                    echo 'bg-danger';
+                                    break;
+                                case 'completed':
+                                    echo 'bg-success';
+                                    break;
+                            }
+                        ?>">
                             <td colspan="4">
                                 <strong>Đơn hàng #<?= $order["order_id"] ?> - Ngày đặt: <?= $order["order_date"] ?> - Trạng thái:
                                     <?php
-                                    switch ($order["status"]) {
+                                    switch (strtolower($order['status'])) {
                                         case 'pending':
-                                            echo 'Đang chờ xử lý';
+                                            echo 'Đang chờ xử lý......';
                                             break;
                                         case 'confirmed':
-                                            echo 'Hoàn thành';
+                                            echo 'Đã xác nhận';
                                             break;
                                         case 'shipped':
                                             echo 'Đang giao';
@@ -68,14 +86,11 @@
                                         case 'completed':
                                             echo 'Đã hoàn thành';
                                             break;
-                                        default:
-                                            echo 'Không xác định';
                                     }
                                     ?>
                                 </strong>
                             </td>
-                        </tr>
-                    <?php endif; ?>
+                        </tr>    <?php endif; ?>
 
                     <tr>
                         <td><?= $order["car_name"] ?></td>

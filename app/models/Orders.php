@@ -38,13 +38,12 @@ class Orders {
 
     public static function create($user_id, $car_id, $quantity, $total_price) {
         global $conn;
-    
-        // Thêm đơn hàng vào bảng orders
+
         $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date, status, total_amount) 
                                 VALUES (:user_id, GETDATE(), :status, :total_amount)");
         $stmt->execute([
             'user_id' => $user_id,
-            'status' => 'pending', // Trạng thái mặc định
+            'status' => 'pending', 
             'total_amount' => $total_price
         ]);
         
@@ -65,7 +64,7 @@ class Orders {
             'car_id' => $car_id
         ]);
     
-        return $order_id;
+        return true;
     }
     
 

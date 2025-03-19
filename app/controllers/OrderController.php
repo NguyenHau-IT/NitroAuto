@@ -6,13 +6,6 @@ require_once '../app/models/Order_details.php';
 
 class OrderController
 {
-    private $orderModel;
-
-    public function __construct()
-    {
-        global $conn;
-        $this->orderModel = new Orders($conn);
-    }
 
     public function showOrderForm()
     {
@@ -29,7 +22,8 @@ class OrderController
     {
         $user_id = $_SESSION["user"]["id"] ?? null;
         if (!$user_id) {
-            die("Bạn chưa đăng nhập.");
+            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!"));
+            exit();
         }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -40,15 +34,17 @@ class OrderController
             $total_price = floatval(str_replace(',', '', $total_price));
 
             if ($car_id <= 0 || $quantity <= 0 || $total_price <= 0) {
-                die("Thông tin không hợp lệ!");
+                header("Location: /error?status=error&message=" . urlencode("Thông tin mua xe không hợp lệ!"));
+                exit();
             }
 
-            $result = $this->orderModel->create($user_id, $car_id, $quantity, $total_price);
+            $result = Orders::create($user_id, $car_id, $quantity, $total_price);
             if ($result) {
-                require_once '../app/views/orders/order_success.php';
+                header("Location: /success?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!"));
                 exit();
             } else {
-                die("Lỗi khi đặt hàng.");
+                header("Location: /error?status=error&message=" . urlencode("Lỗi khi đặt mua xe!"));
+                exit();
             }
         }
     }
@@ -66,7 +62,8 @@ class OrderController
         $orders = Orders::getUserOrders($user_id);
 
         if (empty($orders)) {
-            $message = "Không có đơn hàng nào.";
+            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
+            exit();
         }
 
         require_once '../app/views/orders/order_list.php';
@@ -77,7 +74,8 @@ class OrderController
         global $conn;
         $order = Order_details::find($orderId);
         if (!$order) {
-            die("Đơn hàng không tồn tại.");
+            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
+            exit();
         }
         require_once '../app/views/orders/order_detail.php';
     }
@@ -85,7 +83,8 @@ class OrderController
     public function order_edit($id) {
         $order = Orders::getOrderById($id);
         if (!$order) {
-            die("Car not found");
+            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
+            exit();
         }
         require_once __DIR__ . "/../views/orders/order_edit.php";
     }
@@ -99,7 +98,8 @@ class OrderController
                 header("Location: /admin");
                 exit;
             } else {
-                echo "Failed to update order.";
+                header("Location: /error?status=error&message=" . urlencode("Cập nhật đơn hàng thất bại!"));
+                exit();
             }
         }
     }
@@ -109,7 +109,8 @@ class OrderController
             header("Location: /admin");
             exit;
         } else {
-            echo "Failed to delete order.";
+            header("Location: /error?status=error&message=" . urlencode("Xoá đơn hàng thất bại!"));
+            exit();
         }
     }
 }

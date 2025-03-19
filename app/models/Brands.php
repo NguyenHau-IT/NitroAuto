@@ -33,11 +33,7 @@ class Brands {
     
         $stmt = $conn->prepare("INSERT INTO brands (name, country, logo) 
                                 VALUES (:name, :country, :logo)");
-        return $stmt->execute([
-            'name' => $name,
-            'country' => $country,
-            'logo' => $logo
-        ]);
+        return true;
     }
 }
 ?>

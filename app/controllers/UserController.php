@@ -16,7 +16,8 @@ class UserController {
     public function userById() {
         $id = $_SESSION["user"]["id"] ?? null;
         if (!$id) {
-            die("Lỗi: Không xác định được ID người dùng.");
+            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
+            exit();
         }
         $user = Users::find($id);
         require_once '../app/views/user/profile.php';

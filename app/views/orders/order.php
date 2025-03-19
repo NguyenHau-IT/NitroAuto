@@ -15,7 +15,6 @@
         padding: 0;
         color: #fff;
         font-size: 18px;
-        /* Tăng kích thước chữ */
     }
 
     .overlay {
@@ -33,7 +32,6 @@
     .form-group label {
         font-weight: bold;
         font-size: 20px;
-        /* Tăng kích thước chữ */
     }
 
     .btn-primary {
@@ -42,7 +40,6 @@
         border-radius: 25px;
         padding: 10px 20px;
         font-size: 18px;
-        /* Tăng kích thước chữ */
     }
 
     .btn-primary:hover {
@@ -54,7 +51,6 @@
 <div class="container mt-5 overlay text-white fs-5 mb-4">
     <h2 class="mb-4 text-center">Đặt hàng xe</h2>
 
-    <!-- Hiển thị thông tin người mua -->
     <div class="mb-3 fs-3">
         <h4>Thông tin người mua</h4>
         <p><strong>Tên:</strong> <?= htmlspecialchars($user['full_name']) ?></p>
@@ -111,9 +107,12 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log("Server Response:", data);
+                    header("Location: /success?status=success&message=".urlencode("Đã thêm vào danh sách yêu thích!"));
+                    exit();
                 })
                 .catch(error => {
-                    console.error("Error:", error);
+                    header("Location: /error?status=error&message=".urlencode("Bạn đã thêm xe vào danh sách!"));
+                    exit();
                 });
 
             fetch("https://formspree.io/f/movevqyb", {
@@ -126,7 +125,6 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log("Formspree Response:", data);
-                    alert("Đặt hàng thành công!");
                     window.location.href = "/home";
                 })
                 .catch(error => {

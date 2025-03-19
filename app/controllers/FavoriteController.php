@@ -27,7 +27,7 @@ class FavoriteController
             header("Location: /success?status=success&message=" . urlencode("Đã thêm vào danh sách yêu thích!"));
             exit();
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Lỗi đã thêm xe vào danh sách!"));
+            header("Location: /error?status=error&message=" . urlencode("Bạn đã thêm xe vào danh sách!"));
             exit();
         }
     }
@@ -48,10 +48,10 @@ class FavoriteController
     public function deleteFavorite($id)
     {
         if ($favorites = Favorites::delete($id)) {
-            header("Location: /home");
+            header("Location: /success?status=success&message=" . urlencode("Đã xoá xe khỏi danh sách yêu thích!"));
             exit();
         } else {
-            die("Lỗi: Không thể xóa yêu thích.");
+            header("Location: /error?status=error&message=" . urlencode("Lỗi khi xoá xe khỏi danh sách yêu thích!"));
             exit();
         }
     }

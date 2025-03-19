@@ -1,6 +1,7 @@
 <?php
 $status = isset($_GET['status']) ? $_GET['status'] : "error";
 $message = isset($_GET['message']) ? $_GET['message'] : ($status === "success" ? "Thành công!" : "Đã xảy ra lỗi không xác định.");
+$href = isset($_GET['href']) ? $_GET['href'] : "/home";
 
 if ($status !== "success") {
     $status = "error";
@@ -34,7 +35,7 @@ if ($status !== "success") {
             text: "<?= addslashes($message); ?>",
             confirmButtonText: "OK"
         }).then(() => {
-            window.location.href = "/home";
+            window.location.href = "<?= $href ?>";
         });
     </script>
 

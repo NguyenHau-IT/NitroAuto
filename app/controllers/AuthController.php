@@ -16,7 +16,8 @@ class AuthController
                 header("Location: /login");
                 exit();
             } else {
-                echo "Đăng ký thất bại!";
+                header("Location: /error?status=error&message=" . urlencode("Đăng kí thất bại vui lòng đăng kí lại!"));
+                exit();
             }
         }
         require_once '../app/views/user/register.php';
@@ -38,7 +39,8 @@ class AuthController
                 header("Location: /home");
                 exit();
             } else {
-                $error = "Sai thông tin đăng nhập!";
+                header("Location: /error?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));
+                exit();
             }
         }
         require_once '../app/views/user/login.php';
