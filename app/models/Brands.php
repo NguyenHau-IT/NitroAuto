@@ -17,9 +17,9 @@ class Brands {
 
     public static function all() {
         global $conn;
-        $stmt = $conn->query("SELECT * FROM brands");
+        $stmt = $conn->query("SELECT * FROM brands ORDER BY name ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    }    
 
     public static function find($id) {
         global $conn;
