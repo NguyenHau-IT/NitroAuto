@@ -89,7 +89,11 @@
                     </tr>
                     <tr>
                         <th>Mô tả</th>
-                        <td><?= nl2br(htmlspecialchars($car['description'])) ?></td>
+                        <td class="text-start" style="max-width: 400px; overflow: hidden; word-wrap: break-word; white-space: normal;">
+                            <div style="max-height: 100px; overflow-y: auto;">
+                                <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
+                            </div>
+                        </td>
                     </tr>
                     <tr>
                         <th>Số xe còn lại</th>
