@@ -68,23 +68,37 @@ try {
         html {
             scroll-behavior: smooth;
         }
+
+        body {
+        background-image: url('uploads/logo.webp');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: Arial, sans-serif;
+        color: #fff;
+    }
+    .overlay {
+        background: rgba(0, 0, 0, 0.7);
+        min-height: 100vh;
+
+    }
     </style>
 </head>
 
 <body>
     <header class="bg-dark text-white py-3">
-        <div class="container">
-            <h1 class="text-center">Admin Dashboard</h1>
-        </div>
-        <div class="mt-3">
-            <span><?php echo "Xin chào, " . $_SESSION['user']['full_name']; ?></span>
+        <div class="container d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0">Admin Dashboard</h1>
+            <div>
+            <a class="nav-link d-inline text-white ml-3" href="/home"><i class="fas fa-home"></i> Home</a>
+                <span>Xin chào, <?php echo htmlspecialchars($_SESSION['user']['full_name']); ?></span>
+            </div>
         </div>
     </header>
-    <div class="d-flex">
+    <div class="d-flex overlay text-light">
         <nav class="bg-dark text-white p-3" style="min-width:100px; position: sticky; top: 0; height: 100vh;">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link text-white" href="/home"><i class="fas fa-home"></i> Home</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/admin"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#cars"><i class="fas fa-car"></i> Manage Cars</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#brands"><i class="fas fa-building"></i> Manage Brands</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#categories"><i class="fas fa-list"></i> Manage Categories</a></li>
@@ -98,15 +112,15 @@ try {
         </nav>
         <main class="container mt-4 flex-grow-1">
             <main class="container mt-4">
-                <section id="dashboard">
+                <section id="dashboard" class="text-white">
                     <h2>Welcome to the Admin Dashboard</h2>
                     <p>Here you can manage cars, users, and settings.</p>
                 </section>
 
-                <section id="cars" class="mt-5">
+                <section id="cars" class="mt-5" style="display: none;">
                     <h2>Manage Cars</h2>
                     <a href="/add_car" class="btn btn-primary mb-3">Add New Car</a>
-                    <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                    <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
                         <table class="table table-striped table-bordered align-middle">
                             <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                                 <tr>
@@ -127,7 +141,7 @@ try {
                                     <th>Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-light">
                                 <?php foreach ($cars as $car): ?>
                                     <tr>
                                         <td class="text-center"><?= htmlspecialchars($car['id'] ?? 0) ?></td>
@@ -177,7 +191,7 @@ try {
                     </div>
                 </section>
 
-                <section id="brands" class="mt-5">
+                <section id="brands" class="mt-5" style="display: none;">
                     <h2>Manage Brands</h2>
                     <a href="/add_brand" class="btn btn-primary mb-3">Add New Brand</a>
                     <div style="max-height: 400px; overflow-y: auto;">
@@ -191,7 +205,7 @@ try {
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-light">
                                 <?php foreach ($brands as $brand): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($brand['id'] ?? 0) ?></td>
@@ -215,7 +229,7 @@ try {
                     </div>
                 </section>
 
-                <section id="categories" class="mt-5">
+                <section id="categories" class="mt-5" style="display: none;">
                     <h2>Manage Categories</h2>
                     <a href="/add_category" class="btn btn-primary mb-3">Add New Category</a>
                     <div style="max-height: 400px; overflow-y: auto;">
@@ -227,7 +241,7 @@ try {
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="text-light">
                                 <?php foreach ($categories as $category): ?>
                                     <tr>
                                         <td><?= htmlspecialchars($category['id'] ?? 0) ?></td>
@@ -243,7 +257,7 @@ try {
                     </div>
                 </section>
 
-                <section id="users" class="mt-5">
+                <section id="users" class="mt-5" style="display: none;">
                     <h2>Manage Users</h2>
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
@@ -257,7 +271,7 @@ try {
                                 <th>Ngày tạo</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-light">
                             <?php foreach ($users as $user): ?>
                                 <tr>
                                     <td><?php echo $user['id']; ?></td>
@@ -283,7 +297,7 @@ try {
                     </table>
                 </section>
 
-                <section id="favorites" class="mt-5">
+                <section id="favorites" class="mt-5" style="display: none;">
                     <h2>Manage Favorites</h2>
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
@@ -294,7 +308,7 @@ try {
                                 <th>Thời gian</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-light">
                             <?php foreach ($favorites as $favorite): ?>
                                 <tr>
                                     <td><?php echo $favorite['id']; ?></td>
@@ -307,10 +321,11 @@ try {
                     </table>
                 </section>
 
-                <section id="orders" class="mt-5">
+                <section id="orders" class="mt-5" style="display: none;">
                     <h2>Manage Orders</h2>
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
+                    <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
+                        <table class="table table-striped table-bordered align-middle">
+                            <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
                                 <th>Khách hàng</th>
@@ -322,7 +337,7 @@ try {
                                 <th>Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-light">
                             <?php foreach ($orders as $order): ?>
                                 <tr>
                                     <td><?php echo $order['id']; ?></td>
@@ -363,8 +378,9 @@ try {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    </div>
                 </section>
-                <section id="test_drives" class="mt-5">
+                <section id="test_drives" class="mt-5" style="display: none;">
                     <h2>Manage Test Drives</h2>
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
@@ -381,7 +397,7 @@ try {
                                 <th>Hành động</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-light">
                             <?php foreach ($test_drives as $test_drive): ?>
                                 <tr>
                                     <td><?php echo $test_drive['id']; ?></td>
@@ -427,6 +443,20 @@ try {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.querySelectorAll('nav a.nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelectorAll('section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.style.display = 'block';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
