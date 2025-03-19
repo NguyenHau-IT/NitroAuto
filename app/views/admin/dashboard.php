@@ -43,6 +43,14 @@ try {
 
     $stmt_categories = $conn->query("SELECT * FROM categories");
     $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmt_test_drives = $conn->query("
+        SELECT TestDriveRegistration.*, users.full_name AS user_name, cars.name AS car_name
+        FROM TestDriveRegistration
+        JOIN users ON TestDriveRegistration.user_id = users.id
+        JOIN cars ON TestDriveRegistration.car_id = cars.id
+    ");
+    $test_drives = $stmt_test_drives->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     die("Lỗi truy vấn: " . $e->getMessage());
 }
@@ -72,9 +80,12 @@ try {
                     <li class="nav-item"><a class="nav-link" href="/home"><i class="fas fa-home d-block"></i> Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin"><i class="fas fa-tachometer-alt d-block"></i> Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="#cars"><i class="fas fa-car d-block"></i> Manage Cars</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#brands"><i class="fas fa-building d-block"></i> Manage Brands</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories"><i class="fas fa-list d-block"></i> Manage Categories</a></li>
                     <li class="nav-item"><a class="nav-link" href="#users"><i class="fas fa-users d-block"></i> Manage Users</a></li>
                     <li class="nav-item"><a class="nav-link" href="#favorites"><i class="fas fa-heart d-block"></i> Manage Favorites</a></li>
                     <li class="nav-item"><a class="nav-link" href="#orders"><i class="fas fa-shopping-cart d-block"></i> Manage Orders</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#test_drives"><i class="fas fa-car d-block"></i> Manage Test Drives</a></li>
                     <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-cog d-block"></i> Settings</a></li>
                     <li class="nav-item"><a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt d-block"></i> Logout</a></li>
                 </ul>
@@ -202,6 +213,34 @@ try {
             </div>
         </section>
 
+        <section id="categories" class="mt-5">
+            <h2>Manage Categories</h2>
+            <a href="/add_category" class="btn btn-primary mb-3">Add New Category</a>
+            <div style="max-height: 400px; overflow-y: auto;">
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($categories as $category): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($category['id'] ?? 0) ?></td>
+                                <td><?= htmlspecialchars($category['name'] ?? '') ?></td>
+                                <td>
+                                    <a href="/edit_category/<?= htmlspecialchars($category['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
+                                    <a href="/delete_category/<?= htmlspecialchars($category['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this category?');" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <section id="users" class="mt-5">
             <h2>Manage Users</h2>
             <table class="table table-bordered table-striped">
@@ -269,57 +308,114 @@ try {
         <section id="orders" class="mt-5">
             <h2>Manage Orders</h2>
             <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
-                <tr>
-                <th>ID</th>
-                <th>Khách hàng</th>
-                <th>Xe</th>
-                <th>Số lượng</th>
-                <th>Giá</th>
-                <th>Trạng thái</th>
-                <th>Thời gian</th>
-                <th>Hành động</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($orders as $order): ?>
-                <tr>
-                    <td><?php echo $order['id']; ?></td>
-                    <td><?php echo $order['user_name']; ?></td>
-                    <td><?php echo $order['car_name']; ?></td>
-                    <td><?php echo $order['quantity']; ?></td>
-                    <td><?php echo number_format($order['price']); ?> VND</td>
-                    <td><?php
-                    switch ($order['status']) {
-                        case 'Pending':
-                        case 'pending':
-                        echo 'Đang chờ xử lý';
-                        break;
-                        case 'Confirmed':
-                        case 'confirmed':
-                        echo 'Đã xác nhận';
-                        break;
-                        case 'Shipped':
-                        case 'shipped':
-                        echo 'Đang giao';
-                        break;
-                        case 'Canceled':
-                        case 'canceled':
-                        echo 'Đã hủy';
-                        break;
-                        case 'Completed':
-                        case 'completed':
-                        echo 'Đã hoàn thành';
-                        break;
-                    }
-                    ?></td>
-                    <td><?php echo $order['order_date']; ?></td>
-                    <td class="text-center">
-                    <a href="/order_edit/<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="/order_delete/<?= htmlspecialchars($order['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this order?');" class="btn btn-danger btn-sm">Delete</a>                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Khách hàng</th>
+                        <th>Xe</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Trạng thái</th>
+                        <th>Thời gian</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($orders as $order): ?>
+                        <tr>
+                            <td><?php echo $order['id']; ?></td>
+                            <td><?php echo $order['user_name']; ?></td>
+                            <td><?php echo $order['car_name']; ?></td>
+                            <td><?php echo $order['quantity']; ?></td>
+                            <td><?php echo number_format($order['price']); ?> VND</td>
+                            <td><?php
+                                switch ($order['status']) {
+                                    case 'Pending':
+                                    case 'pending':
+                                        echo 'Đang chờ xử lý';
+                                        break;
+                                    case 'Confirmed':
+                                    case 'confirmed':
+                                        echo 'Đã xác nhận';
+                                        break;
+                                    case 'Shipped':
+                                    case 'shipped':
+                                        echo 'Đang giao';
+                                        break;
+                                    case 'Canceled':
+                                    case 'canceled':
+                                        echo 'Đã hủy';
+                                        break;
+                                    case 'Completed':
+                                    case 'completed':
+                                        echo 'Đã hoàn thành';
+                                        break;
+                                }
+                                ?></td>
+                            <td><?php echo $order['order_date']; ?></td>
+                            <td class="text-center">
+                                <a href="/order_edit/<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="/order_delete/<?= htmlspecialchars($order['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this order?');" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+        <section id="test_drives" class="mt-5">
+            <h2>Manage Test Drives</h2>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Khách hàng</th>
+                        <th>Xe</th>
+                        <th>Ngày</th>
+                        <th>Giờ</th>
+                        <th>Địa điểm</th>
+                        <th>Trạng thái</th>
+                        <th>Thời gian</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($test_drives as $test_drive): ?>
+                        <tr>
+                            <td><?php echo $test_drive['id']; ?></td>
+                            <td><?php echo $test_drive['user_name']; ?></td>
+                            <td><?php echo $test_drive['car_name']; ?></td>
+                            <td><?php echo $test_drive['preferred_date']; ?></td>
+                            <td><?php echo date('H:i:s', strtotime($test_drive['preferred_time'])); ?></td>
+                            <td><?php echo $test_drive['location']; ?></td>
+                            <td><?php
+                                switch ($test_drive['status']) {
+                                    case 'Pending':
+                                    case 'pending':
+                                        echo 'Đang chờ xử lý';
+                                        break;
+                                    case 'Confirmed':
+                                    case 'confirmed':
+                                        echo 'Đã xác nhận';
+                                        break;
+                                    case 'Canceled':
+                                    case 'canceled':
+                                        echo 'Đã hủy';
+                                        break;
+                                    case 'Completed':
+                                    case 'completed':
+                                        echo 'Đã hoàn thành';
+                                        break;
+                                }
+                                ?></td>
+                            <td><?php echo $test_drive['created_at']; ?></td>
+                            <td class="text-center">
+                                <a href="/test_drive_edit/<?php echo htmlspecialchars($test_drive['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="/test_drive_delete/<?= htmlspecialchars($test_drive['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this test drive?');" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
             </table>
         </section>
     </main>
