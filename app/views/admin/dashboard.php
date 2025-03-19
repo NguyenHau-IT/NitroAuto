@@ -70,18 +70,19 @@ try {
         }
 
         body {
-        background-image: url('uploads/logo.webp');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        font-family: Arial, sans-serif;
-        color: #fff;
-    }
-    .overlay {
-        background: rgba(0, 0, 0, 0.7);
-        min-height: 100vh;
+            background-image: url('uploads/logo.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
 
-    }
+        .overlay {
+            background: rgba(0, 0, 0, 0.7);
+            min-height: 100vh;
+
+        }
     </style>
 </head>
 
@@ -90,13 +91,13 @@ try {
         <div class="container d-flex justify-content-between align-items-center">
             <h1 class="h3 mb-0">Admin Dashboard</h1>
             <div>
-            <a class="nav-link d-inline text-white ml-3" href="/home"><i class="fas fa-home"></i> Home</a>
+                <a class="nav-link d-inline text-white ml-3" href="/home"><i class="fas fa-home"></i> Home</a>
                 <span>Xin chào, <?php echo htmlspecialchars($_SESSION['user']['full_name']); ?></span>
             </div>
         </div>
     </header>
     <div class="d-flex overlay text-light">
-        <nav class="bg-dark text-white p-3" style="min-width:100px; position: sticky; top: 0; height: 100vh;">
+        <nav class="bg-dark text-white p-3" style="min-width:100px; position: sticky; top: 0; height: 100%;">
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link text-white" href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#cars"><i class="fas fa-car"></i> Manage Cars</a></li>
@@ -111,156 +112,166 @@ try {
             </ul>
         </nav>
         <main class="container mt-4 flex-grow-1">
-            <main class="container mt-4">
-                <section id="dashboard" class="text-white">
-                    <h2>Welcome to the Admin Dashboard</h2>
-                    <p>Here you can manage cars, users, and settings.</p>
-                </section>
 
-                <section id="cars" class="mt-5" style="display: none;">
+            <section id="dashboard" class="text-white">
+                <h2>Welcome to the Admin Dashboard</h2>
+                <p>Here you can manage cars, users, and settings.</p>
+            </section>
+
+            <section id="cars" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Cars</h2>
-                    <a href="/add_car" class="btn btn-primary mb-3">Add New Car</a>
-                    <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                        <table class="table table-striped table-bordered align-middle">
-                            <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
+                    <a href="/add_car" class="btn btn-primary">Add New Car</a>
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Thương hiệu</th>
+                                <th>Danh mục</th>
+                                <th>Năm</th>
+                                <th>Màu sắc</th>
+                                <th>Giá</th>
+                                <th>Hộp số</th>
+                                <th>Số km</th>
+                                <th>Loại nhiên liệu</th>
+                                <th>Tồn kho</th>
+                                <th>Hình ảnh</th>
+                                <th>Hình ảnh 3D</th>
+                                <th style="width: 400px;">Mô tả</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-light">
+                            <?php foreach ($cars as $car): ?>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tên</th>
-                                    <th>Thương hiệu</th>
-                                    <th>Danh mục</th>
-                                    <th>Năm</th>
-                                    <th>Màu sắc</th>
-                                    <th>Giá</th>
-                                    <th>Hộp số</th>
-                                    <th>Số km</th>
-                                    <th>Loại nhiên liệu</th>
-                                    <th>Tồn kho</th>
-                                    <th>Hình ảnh</th>
-                                    <th>Hình ảnh 3D</th>
-                                    <th style="width: 400px;">Mô tả</th>
-                                    <th>Hành động</th>
+                                    <td class="text-center"><?= htmlspecialchars($car['id'] ?? 0) ?></td>
+                                    <td class="text-truncate" style="max-width: 300px;">
+                                        <?= htmlspecialchars($car['name'] ?? '') ?>
+                                    </td>
+                                    <td class="text-center"><?= htmlspecialchars($car['brand_name'] ?? 'N/A') ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($car['category_name'] ?? 'N/A') ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($car['year'] ?? 'N/A') ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($car['color'] ?? 'N/A') ?></td>
+                                    <td class="text-end"><?= number_format($car['price'] ?? 0) ?> VND</td>
+                                    <td class="text-center"><?= htmlspecialchars($car['transmission'] ?? 'N/A') ?></td>
+                                    <td class="text-end"><?= number_format($car['mileage'] ?? 0) ?> km</td>
+                                    <td class="text-center"><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
+                                    <td class="text-center"><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
+
+                                    <td class="text-center">
+                                        <?php if (!empty($car['image_url'])): ?>
+                                            <img src="<?= htmlspecialchars($car['image_url']) ?>" width="150" height="100">
+                                        <?php else: ?>
+                                            <span>No image</span>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <?php if (!empty($car['image_3d_url'])): ?>
+                                            <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" width="200" height="150" style="border: none;"></iframe>
+                                        <?php else: ?>
+                                            <span>No 3D image</span>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td class="text-start" style="max-width: 400px; overflow: hidden; word-wrap: break-word; white-space: normal;">
+                                        <div style="max-height: 150px; overflow-y: auto;">
+                                            <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <a href="/edit_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="/delete_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this car?');" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="text-light">
-                                <?php foreach ($cars as $car): ?>
-                                    <tr>
-                                        <td class="text-center"><?= htmlspecialchars($car['id'] ?? 0) ?></td>
-                                        <td class="text-truncate" style="max-width: 300px;">
-                                            <?= htmlspecialchars($car['name'] ?? '') ?>
-                                        </td>
-                                        <td class="text-center"><?= htmlspecialchars($car['brand_name'] ?? 'N/A') ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($car['category_name'] ?? 'N/A') ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($car['year'] ?? 'N/A') ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($car['color'] ?? 'N/A') ?></td>
-                                        <td class="text-end"><?= number_format($car['price'] ?? 0) ?> VND</td>
-                                        <td class="text-center"><?= htmlspecialchars($car['transmission'] ?? 'N/A') ?></td>
-                                        <td class="text-end"><?= number_format($car['mileage'] ?? 0) ?> km</td>
-                                        <td class="text-center"><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
-                                        <td class="text-center"><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-                                        <td class="text-center">
-                                            <?php if (!empty($car['image_url'])): ?>
-                                                <img src="<?= htmlspecialchars($car['image_url']) ?>" width="150" height="100">
-                                            <?php else: ?>
-                                                <span>No image</span>
-                                            <?php endif; ?>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <?php if (!empty($car['image_3d_url'])): ?>
-                                                <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" width="200" height="150" style="border: none;"></iframe>
-                                            <?php else: ?>
-                                                <span>No 3D image</span>
-                                            <?php endif; ?>
-                                        </td>
-
-                                        <td class="text-start" style="max-width: 400px; overflow: hidden; word-wrap: break-word; white-space: normal;">
-                                            <div style="max-height: 150px; overflow-y: auto;">
-                                                <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
-                                            </div>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <a href="/edit_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="/delete_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this car?');" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <section id="brands" class="mt-5" style="display: none;">
+            <section id="brands" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Brands</h2>
                     <a href="/add_brand" class="btn btn-primary mb-3">Add New Brand</a>
-                    <div style="max-height: 400px; overflow-y: auto;">
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
+                </div>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>Logo</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-light">
+                            <?php foreach ($brands as $brand): ?>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Country</th>
-                                    <th>Logo</th>
-                                    <th>Action</th>
+                                    <td><?= htmlspecialchars($brand['id'] ?? 0) ?></td>
+                                    <td><?= htmlspecialchars($brand['name'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($brand['country'] ?? '') ?></td>
+                                    <td>
+                                        <?php if (!empty($brand['logo'])): ?>
+                                            <img src="<?= htmlspecialchars($brand['logo']) ?>" alt="<?= htmlspecialchars($brand['name'] ?? 'Brand Logo') ?>" class="img-fluid" width="100">
+                                        <?php else: ?>
+                                            <span>No logo</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="/edit_brand/<?= htmlspecialchars($brand['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="/delete_brand/<?= htmlspecialchars($brand['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this brand?');" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody class="text-light">
-                                <?php foreach ($brands as $brand): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($brand['id'] ?? 0) ?></td>
-                                        <td><?= htmlspecialchars($brand['name'] ?? '') ?></td>
-                                        <td><?= htmlspecialchars($brand['country'] ?? '') ?></td>
-                                        <td>
-                                            <?php if (!empty($brand['logo'])): ?>
-                                                <img src="<?= htmlspecialchars($brand['logo']) ?>" alt="<?= htmlspecialchars($brand['name'] ?? 'Brand Logo') ?>" class="img-fluid" width="100">
-                                            <?php else: ?>
-                                                <span>No logo</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <a href="/edit_brand/<?= htmlspecialchars($brand['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="/delete_brand/<?= htmlspecialchars($brand['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this brand?');" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
 
-                <section id="categories" class="mt-5" style="display: none;">
+            <section id="categories" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Categories</h2>
                     <a href="/add_category" class="btn btn-primary mb-3">Add New Category</a>
-                    <div style="max-height: 400px; overflow-y: auto;">
-                        <table class="table table-bordered table-striped">
-                            <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-light">
-                                <?php foreach ($categories as $category): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($category['id'] ?? 0) ?></td>
-                                        <td><?= htmlspecialchars($category['name'] ?? '') ?></td>
-                                        <td>
-                                            <a href="/edit_category/<?= htmlspecialchars($category['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
-                                            <a href="/delete_category/<?= htmlspecialchars($category['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this category?');" class="btn btn-danger btn-sm">Delete</a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <section id="users" class="mt-5" style="display: none;">
-                    <h2>Manage Users</h2>
+                </div>
+                <div style="max-height: 400px; overflow-y: auto;">
                     <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
+                        <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-light">
+                            <?php foreach ($categories as $category): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($category['id'] ?? 0) ?></td>
+                                    <td><?= htmlspecialchars($category['name'] ?? '') ?></td>
+                                    <td>
+                                        <a href="/edit_category/<?= htmlspecialchars($category['id'] ?? 0) ?>" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="/delete_category/<?= htmlspecialchars($category['id'] ?? 0) ?>" onclick="return confirm('Are you sure you want to delete this category?');" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="users" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Manage Users</h2>
+                    <a href="/add_user" class="btn btn-primary mb-3">Add New User</a>
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
                                 <th>Tên</th>
@@ -295,12 +306,16 @@ try {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                </section>
+                </div>
+            </section>
 
-                <section id="favorites" class="mt-5" style="display: none;">
+            <section id="favorites" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Favorites</h2>
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
                                 <th>Khách hàng</th>
@@ -319,13 +334,16 @@ try {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                </section>
+                </div>
+            </section>
 
-                <section id="orders" class="mt-5" style="display: none;">
+            <section id="orders" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Orders</h2>
-                    <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                        <table class="table table-striped table-bordered align-middle">
-                            <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
                                 <th>Khách hàng</th>
@@ -378,12 +396,16 @@ try {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    </div>
-                </section>
-                <section id="test_drives" class="mt-5" style="display: none;">
+                </div>
+            </section>
+
+            <section id="test_drives" style="display: none;">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Test Drives</h2>
-                    <table class="table table-bordered table-striped">
-                        <thead class="thead-dark">
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
 
                                 <th>ID</th>
@@ -435,17 +457,16 @@ try {
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                </section>
-            </main>
+                </div>
+            </section>
         </main>
     </div>
-    <?php include '/ProjectCarSale/includes/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         document.querySelectorAll('nav a.nav-link').forEach(link => {
-            link.addEventListener('click', function (e) {
+            link.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelectorAll('section').forEach(section => {
                     section.style.display = 'none';
