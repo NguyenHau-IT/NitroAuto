@@ -1,7 +1,7 @@
 <?php
 $serverName = "GODZILLA\MSSQLSERVER01";
 $database = "CarBusiness";
-$username = ""; // Hoặc user khác có quyền truy cập
+$username = "";
 $password = "";
 
 try {

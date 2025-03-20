@@ -75,7 +75,6 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                             <div class="dropdown-menu" aria-labelledby="contactDropdown">
                                 <a class="dropdown-item" href="email_support">Email Support</a>
                                 <a class="dropdown-item" href="faq">FAQ</a>
-                                <a class="dropdown-item" href="live_chat">Live Chat</a>
                             </div>
                         </li>
 

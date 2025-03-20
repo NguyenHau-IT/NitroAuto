@@ -1,5 +1,5 @@
 <?php
-require '/ProjectCarSale/config/database.php';
+require '../config/database.php';
 if (!isset($_SESSION['user'])) {
     header("Location: login");
     exit();
@@ -64,6 +64,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         html {
             scroll-behavior: smooth;
