@@ -44,7 +44,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Ngày đặt</th>
-                            <td><?= $order['order_date'] ?></td>
+                            <td><?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Trạng thái</th>
@@ -76,6 +76,9 @@
                 </table>
             </div>
         </div>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/user_orders" class="btn btn-primary">Quay lại</a>
     </div>
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
