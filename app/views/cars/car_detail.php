@@ -107,7 +107,7 @@
                         <iframe src="<?= htmlspecialchars($images[0]['image_url']) ?>" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen onload="this.style.visibility = 'visible';" style="visibility: hidden;"></iframe>
                     </div>
                 <?php else: ?>
-                    <p class="text-muted text-center">Không có mô hình 3D</p>
+                    <img style="height: 80%;" src="/uploads/cars/default.jpg" alt="Ảnh mẫu" class="img-fluid">
                 <?php endif; ?>
                 <div class="text-center mt-4 d-flex justify-content-center gap-3">
                     <a href="../home" class="btn btn-primary d-flex flex-column align-items-center">

@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <h2>Edit Car</h2>
-    <form action="/update_car/<?= htmlspecialchars($car['id']) ?>" method="POST">
+    <form action="/update_car/<?= htmlspecialchars($car['id']) ?>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?= htmlspecialchars($car['id']) ?>">
 
         <div class="form-group">
@@ -84,11 +84,11 @@
 
         <div class="form-group">
             <label for="image_url">Image URL:</label>
-            <input type="text" class="form-control" id="image_url" name="image_url" value="<?= htmlspecialchars($car['normal_image_url'] ?? '') ?>">
+            <input type="file" class="form-control" id="image_url" name="image_url">
         </div>
 
         <div class="form-group">
-            <label for="image_url3D">Image URL:</label>
+            <label for="image_url3D">Image URL 3D:</label>
             <input type="text" class="form-control" id="image_url3D" name="image_url3D" value="<?= htmlspecialchars($car['three_d_image_url'] ?? '') ?>">
         </div>
 
