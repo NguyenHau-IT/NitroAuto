@@ -71,55 +71,67 @@ class CarController
     }
 
     public function update()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $car = new Cars();
-        $uploadDir = 'D:NitroAuto/public/uploads/cars/';
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $car = new Cars();
+            $uploadDir = 'D:NitroAuto/public/uploads/cars/';
 
-        // Kiểm tra nếu có file được upload
-        if (!empty($_FILES['image_url']['name']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-            $fileName = basename($_FILES['image_url']['name']); // Giữ nguyên tên file
-            $uploadFile = $uploadDir . $fileName;
+            // Kiểm tra nếu có file được upload
+            if (!empty($_FILES['image_url']['name']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
+                $fileName = basename($_FILES['image_url']['name']);
+                $uploadFile = $uploadDir . $fileName;
 
-            if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
-                $image_url = '/uploads/cars/' . $fileName; // Đường dẫn để lưu vào DB
+                if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
+                    $image_url = '/uploads/cars/' . $fileName;
+                } else {
+                    header("Location: /error?status=error&message=" . urlencode("Upload ảnh thất bại!"));
+                    exit();
+                }
+            }
+
+            // Lấy dữ liệu từ form
+            $id = $_POST['id'];
+            $name = $_POST['name'];
+            $brand_id = $_POST['brand_id'];
+            $category_id = $_POST['category_id'];
+            $price = $_POST['price'];
+            $year = $_POST['year'];
+            $mileage = $_POST['mileage'];
+            $fuel_type = $_POST['fuel_type'];
+            $transmission = $_POST['transmission'];
+            $color = $_POST['color'];
+            $stock = $_POST['stock'];
+            $description = $_POST['description'];
+            $created_at = $_POST['created_at'];
+            $image_url = $image_url;
+            $image_url3D = $_POST['image_url3D'];
+
+            // Cập nhật vào database
+            if (Cars::update(
+                $id,
+                $name,
+                $brand_id,
+                $category_id,
+                $price,
+                $year,
+                $mileage,
+                $fuel_type,
+                $transmission,
+                $color,
+                $stock,
+                $description,
+                $created_at,
+                $image_url,
+                $image_url3D
+            )) {
+                header("Location: /admin?status=success&message=" . urlencode("Cập nhật xe thành công!") . "&href=/admin");
+                exit;
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Upload ảnh thất bại!"));
+                header("Location: /error?status=error&message=" . urlencode("Cập nhật xe thất bại!") . "&href=/admin");
                 exit();
             }
         }
-
-        // Lấy dữ liệu từ form
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $brand_id = $_POST['brand_id'];
-        $category_id = $_POST['category_id'];
-        $price = $_POST['price'];
-        $year = $_POST['year'];
-        $mileage = $_POST['mileage'];
-        $fuel_type = $_POST['fuel_type'];
-        $transmission = $_POST['transmission'];
-        $color = $_POST['color'];
-        $stock = $_POST['stock'];
-        $description = $_POST['description'];
-        $created_at = $_POST['created_at'];
-        $image_url3D = $_POST['image_url3D'];
-        $image_url = $image_url;
-        
-        // Cập nhật vào database
-        if (Cars::update(
-            $id, $name, $brand_id, $category_id, $price, $year, $mileage, 
-            $fuel_type, $transmission, $color, $stock, $description, $created_at, 
-            $image_url, $image_url3D
-        )) {
-            header("Location: /admin?status=success&message=" . urlencode("Cập nhật xe thành công!") . "&href=/admin");
-            exit;
-        } else {
-            header("Location: /error?status=error&message=" . urlencode("Cập nhật xe thất bại!"));
-            exit();
-        }
     }
-}
 
 
     public function delete($id)

@@ -124,7 +124,6 @@ class Cars
                 "created_at" => $created_at
             ]);
 
-            // Cập nhật hoặc thêm ảnh thông thường
             $stmt = $conn->prepare("SELECT id FROM car_images WHERE car_id = :car_id AND image_type = 'normal'");
             $stmt->execute(["car_id" => $id]);
             $existingImage = $stmt->fetch();
@@ -139,7 +138,6 @@ class Cars
                 "image_url" => $image_url
             ]);
 
-            // Cập nhật hoặc thêm ảnh 3D
             $stmt = $conn->prepare("SELECT id FROM car_images WHERE car_id = :car_id AND image_type = '3D'");
             $stmt->execute(["car_id" => $id]);
             $existingImage3D = $stmt->fetch();
@@ -158,6 +156,7 @@ class Cars
             return true;
         } catch (Exception $e) {
             $conn->rollBack();
+            error_log($e->getMessage());
             return false;
         }
     }
