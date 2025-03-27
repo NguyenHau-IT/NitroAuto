@@ -85,7 +85,7 @@
                     </tr>
                     <tr>
                         <th>Quãng đường</th>
-                        <td><?= $car['mileage'] ?> km</td>
+                        <td><?= number_format($car['mileage'], 0, ',', '.') ?> km</td>
                     </tr>
                     <tr>
                         <th>Mô tả</th>
