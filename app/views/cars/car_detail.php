@@ -94,10 +94,7 @@
                                 <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
                             </div>
                         </td>
-                    </tr>
-                    <tr>
-                        <th>Số xe còn lại</th>
-                        <td><?= $car['stock'] ?></td>
+                    </tr>   
                 </table>
             </div>
 

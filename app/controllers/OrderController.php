@@ -94,10 +94,10 @@ class OrderController
             $status = $_POST['order_status'];
             $result = Orders::updateStatus($id, $status);
             if ($result) {
-                header("Location: /admin");
+                header("Location: /success?status=success&message=" . urlencode("Cập nhật đơn hàng thành công!") . "&href=/admin");
                 exit;
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Cập nhật đơn hàng thất bại!"));
+                header("Location: /error?status=error&message=" . urlencode("Cập nhật đơn hàng thất bại!" . "&href=/admin"));
                 exit();
             }
         }
@@ -105,10 +105,10 @@ class OrderController
 
     public function deleteOrder($id) {
         if (Orders::delete($id)) {
-            header("Location: /admin");
+            header("Location: /success?status=success&message=" . urlencode("Xoá đơn hàng thành công!") . "&href=/admin");
             exit;
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá đơn hàng thất bại!"));
+            header("Location: /error?status=error&message=" . urlencode("Xoá đơn hàng thất bại!") . "&href=/admin");
             exit();
         }
     }

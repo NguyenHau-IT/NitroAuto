@@ -112,20 +112,20 @@ try {
                 <li class="nav-item"><a class="nav-link text-white" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
-        <main class="container mt-4 flex-grow-1">
+        <main class="container mt-4 flex-grow-1" style="margin-left: 30px; width: 100%;">
 
             <section id="dashboard" class="text-white">
                 <h2>Welcome to the Admin Dashboard</h2>
                 <p>Here you can manage cars, users, and settings.</p>
             </section>
 
-            <section id="cars" style="display: none;">
+            <section id="cars" style="display: none; width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Cars</h2>
                     <a href="/add_car" class="btn btn-primary">Add New Car</a>
                 </div>
-                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                    <table class="table table-striped table-bordered align-middle">
+                <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
                         <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
@@ -195,13 +195,13 @@ try {
                 </div>
             </section>
 
-            <section id="brands" style="display: none;">
+            <section id="brands" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Brands</h2>
                     <a href="/add_brand" class="btn btn-primary mb-3">Add New Brand</a>
                 </div>
-                <div style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-bordered table-striped">
+                <div style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-bordered table-striped bg-dark">
                         <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
                             <tr>
                                 <th>ID</th>
@@ -235,13 +235,13 @@ try {
                 </div>
             </section>
 
-            <section id="categories" style="display: none;">
+            <section id="categories" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Categories</h2>
                     <a href="/add_category" class="btn btn-primary mb-3">Add New Category</a>
                 </div>
-                <div style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-bordered table-striped">
+                <div style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-bordered table-striped bg-dark">
                         <thead class="thead-dark text-center" style="position: sticky; top: 0; z-index: 1;">
                             <tr>
                                 <th>ID</th>
@@ -265,13 +265,13 @@ try {
                 </div>
             </section>
 
-            <section id="users" style="display: none;">
+            <section id="users" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Users</h2>
                     <a href="/add_user" class="btn btn-primary mb-3">Add New User</a>
                 </div>
-                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                    <table class="table table-striped table-bordered align-middle">
+                <div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
                         <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
@@ -310,12 +310,12 @@ try {
                 </div>
             </section>
 
-            <section id="favorites" style="display: none;">
+            <section id="favorites" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Favorites</h2>
                 </div>
-                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                    <table class="table table-striped table-bordered align-middle">
+                <div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
                         <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
@@ -338,12 +338,12 @@ try {
                 </div>
             </section>
 
-            <section id="orders" style="display: none;">
+            <section id="orders" style="display: none; width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Orders</h2>
                 </div>
-                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                    <table class="table table-striped table-bordered align-middle">
+                <div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
                         <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
                                 <th>ID</th>
@@ -364,34 +364,48 @@ try {
                                     <td><?php echo $order['car_name']; ?></td>
                                     <td><?php echo $order['quantity']; ?></td>
                                     <td><?php echo number_format($order['price']); ?> VND</td>
-                                    <td><?php
-                                        switch ($order['status']) {
+                                    <td class="text-center">
+                                        <?php
+                                        $statusClass = '';
+                                        switch (strtolower($order['status'])) {
                                             case 'Pending':
                                             case 'pending':
-                                                echo 'Đang chờ xử lý';
+                                                $statusClass = 'badge bg-warning text-dark';
+                                                $statusText = 'Đang chờ xử lý';
                                                 break;
                                             case 'Confirmed':
                                             case 'confirmed':
-                                                echo 'Đã xác nhận';
+                                                $statusClass = 'badge bg-primary';
+                                                $statusText = 'Đã xác nhận';
                                                 break;
                                             case 'Shipped':
                                             case 'shipped':
-                                                echo 'Đang giao';
+                                                $statusClass = 'badge bg-info text-dark';
+                                                $statusText = 'Đang giao';
                                                 break;
                                             case 'Canceled':
                                             case 'canceled':
-                                                echo 'Đã hủy';
+                                                $statusClass = 'badge bg-danger';
+                                                $statusText = 'Đã hủy';
                                                 break;
                                             case 'Completed':
                                             case 'completed':
-                                                echo 'Đã hoàn thành';
+                                                $statusClass = 'badge bg-success';
+                                                $statusText = 'Đã hoàn thành';
                                                 break;
+                                            default:
+                                                $statusClass = 'badge bg-secondary';
+                                                $statusText = 'Không xác định';
                                         }
-                                        ?></td>
+                                        ?>
+                                        <span class="<?php echo $statusClass; ?>"><?php echo $statusText; ?></span>
+                                    </td>
                                     <td><?php echo $order['order_date']; ?></td>
                                     <td class="text-center">
                                         <a href="/order_edit/<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
-                                        <a href="/order_delete/<?= htmlspecialchars($order['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this order?');" class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="/order_delete/<?php echo htmlspecialchars($order['id']); ?>"
+                                            onclick="return confirm('Are you sure you want to delete this order?');"
+                                            class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -400,12 +414,13 @@ try {
                 </div>
             </section>
 
-            <section id="test_drives" style="display: none;">
+
+            <section id="test_drives" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Test Drives</h2>
                 </div>
-                <div class="table-responsive mb-5" style="max-height: 600px; overflow-y: auto;">
-                    <table class="table table-striped table-bordered align-middle">
+                <div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
                         <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
                             <tr>
 
