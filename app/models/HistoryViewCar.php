@@ -51,7 +51,7 @@ class HistoryViewCar {
     public static function getHistoryByUser($user_id) {
         global $conn;
 
-        $stmt = $conn->prepare("SELECT hvc.id AS hvc_id, c.id AS car_id, ci.image_url AS image_url, c.name AS car_name, hvc.view_time, hvc.ip_address, hvc.user_agent 
+        $stmt = $conn->prepare("SELECT hvc.id AS hvc_id,c.stock AS stock, c.id AS car_id, ci.image_url AS image_url, c.name AS car_name, hvc.view_time, hvc.ip_address, hvc.user_agent 
                   FROM HistoryViewCar hvc
                   JOIN cars c ON hvc.car_id = c.id
                   JOIN car_images ci ON c.id = ci.car_id AND ci.image_type = 'normal'

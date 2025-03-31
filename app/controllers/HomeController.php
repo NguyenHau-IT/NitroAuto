@@ -14,6 +14,10 @@ class HomeController
         $sort = isset($_POST['sortCar']) && in_array($_POST['sortCar'], ['asc', 'desc']) ? $_POST['sortCar'] : '';
         $brand = isset($_POST['brand']) && is_numeric($_POST['brand']) ? $_POST['brand'] : null;
         $search = isset($_POST['search']) ? trim($_POST['search']) : '';
+        $fuel_type = isset($_POST['fuel_type']) ? $_POST['fuel_type'] : '';
+        $car_type = isset($_POST['car_type']) && is_numeric($_POST['car_type']) ? $_POST['car_type'] : null;
+        $year = isset($_POST['year_manufacture']) && is_numeric($_POST['year_manufacture']) ? $_POST['year_manufacture'] : null;
+        $price_range = isset($_POST['price-range']) ? $_POST['price-range'] : null;
 
         // Điều kiện WHERE
         $whereConditions = [];
@@ -23,6 +27,24 @@ class HomeController
         if (!empty($search)) {
             $whereConditions[] = "Cars.name LIKE :search";
         }
+        if (!empty($fuel_type)) {
+            $whereConditions[] = "Cars.fuel_type = :fuel_type";
+        }
+        if (!is_null($car_type)) {
+            $whereConditions[] = "Cars.category_id = :car_type";
+        }
+        if (!empty($year)) {
+            $whereConditions[] = "Cars.year = :year";
+        }
+        if (!empty($price_range)) {
+            $priceRange = explode('-', $price_range);
+            if (count($priceRange) == 2) {
+                $minPrice = (int)$priceRange[0];
+                $maxPrice = (int)$priceRange[1];
+                $whereConditions[] = "Cars.price BETWEEN :min_price AND :max_price";
+            }
+        }
+        
 
         // Kết hợp các điều kiện
         $whereClause = !empty($whereConditions) ? "WHERE " . implode(" AND ", $whereConditions) : "";
@@ -56,11 +78,29 @@ class HomeController
             $searchParam = "%$search%";
             $stmt->bindParam(':search', $searchParam, PDO::PARAM_STR);
         }
+        // Gán giá trị cho fuel_type nếu có
+        if (!empty($fuel_type)) {
+            $stmt->bindParam(':fuel_type', $fuel_type, PDO::PARAM_STR);
+        }
+        // Gán giá trị cho car_type nếu có
+        if (!empty($car_type)) {
+            $stmt->bindParam(':car_type', $car_type, PDO::PARAM_INT);
+        }
+        // Gán giá trị cho year nếu có
+        if (!empty($year)) {
+            $stmt->bindParam(':year', $year, PDO::PARAM_INT);
+        }
+        // Gán giá trị cho min_price và max_price nếu có
+        if (!empty($price_range)) {
+            $stmt->bindParam(':min_price', $minPrice, PDO::PARAM_INT);
+            $stmt->bindParam(':max_price', $maxPrice, PDO::PARAM_INT);
+        }
 
         // Thực thi truy vấn
         $stmt->execute();
         $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $brands = Brands::all();
+        $categories = Categories::all();
 
         // Lấy lịch sử xem xe của người dùng (nếu có)
         $user_id = $_SESSION['user_id'] ?? null;

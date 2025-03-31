@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setupAutoSubmit("sortCar", "sort-form", ["brand-select", "search-input"]);
     setupAutoSubmit("brand-select", "brand-form", ["sortCar", "search-input"]);
+    setupAutoSubmit("fuel-type", "fuel-type-form", ["sortCar", "brand-select", "search-input"]);
+    setupAutoSubmit("car-type", "car-type-form", ["sortCar", "brand-select", "search-input"]);
+    setupAutoSubmit("year-manufacture", "year-manufacture-form", ["sortCar", "brand-select", "search-input"]);
+    setupAutoSubmit("price-range", "price-range-form", ["sortCar", "brand-select", "search-input"]);
 });
 
 document.addEventListener("DOMContentLoaded", function () {

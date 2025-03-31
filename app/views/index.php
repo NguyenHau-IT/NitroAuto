@@ -52,6 +52,71 @@
                         </select>
                     </div>
                 </form>
+
+                <form action="" method="POST" id="price-range-form" style="flex: 1;">
+                    <input type="hidden" name="sortCar" value="<?= isset($_POST['sortCar']) ? htmlspecialchars($_POST['sortCar']) : '' ?>">
+                    <input type="hidden" name="brand" value="<?= isset($_POST['brand']) ? htmlspecialchars($_POST['brand']) : '' ?>">
+                    <input type="hidden" name="search" value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
+                    <div class="input-group" style="flex: 1;">
+                        <select class="form-control custom-select" id="price-range" name="price_range">
+                            <option value="">Chọn mức giá...</option>
+                            <option value="0-500000000" <?= isset($_POST['price_range']) && $_POST['price_range'] == '0-500000000' ? 'selected' : '' ?>>Dưới 500 triệu</option>
+                            <option value="500000000-1000000000" <?= isset($_POST['price_range']) && $_POST['price_range'] == '500000000-1000000000' ? 'selected' : '' ?>>Từ 500 triệu đến 1 tỷ</option>
+                            <option value="1000000000-2000000000" <?= isset($_POST['price_range']) && $_POST['price_range'] == '1000000000-2000000000' ? 'selected' : '' ?>>Từ 1 tỷ đến 2 tỷ</option>
+                            <option value="2000000000-3000000000" <?= isset($_POST['price_range']) && $_POST['price_range'] == '2000000000-3000000000' ? 'selected' : '' ?>>Từ 2 tỷ đến 3 tỷ</option>
+                            <option value="3000000000+" <?= isset($_POST['price_range']) && $_POST['price_range'] == '3000000000+' ? 'selected' : '' ?>>Trên 3 tỷ</option>
+                        </select>
+                    </div>
+                </form>
+
+                <form action="" method="POST" id="fuel-type-form" style="flex: 1;">
+                    <input type="hidden" name="sortCar" value="<?= isset($_POST['sortCar']) ? htmlspecialchars($_POST['sortCar']) : '' ?>">
+                    <input type="hidden" name="brand" value="<?= isset($_POST['brand']) ? htmlspecialchars($_POST['brand']) : '' ?>">
+                    <input type="hidden" name="search" value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
+                    <div class="input-group">
+                        <select class="form-control custom-select" id="fuel-type" name="fuel_type">
+                            <option value="">Chọn loại nhiên liệu...</option>
+                            <option value="Gasoline" <?= isset($_POST['fuel_type']) && $_POST['fuel_type'] == 'Gasoline' ? 'selected' : '' ?>>Xăng</option>
+                            <option value="Diesel" <?= isset($_POST['fuel_type']) && $_POST['fuel_type'] == 'Diesel' ? 'selected' : '' ?>>Dầu</option>
+                            <option value="Electric" <?= isset($_POST['fuel_type']) && $_POST['fuel_type'] == 'Electric' ? 'selected' : '' ?>>Điện</option>
+                            <option value="Hybrid" <?= isset($_POST['fuel_type']) && $_POST['fuel_type'] == 'Hybrid' ? 'selected' : '' ?>>Hybrid</option>
+                        </select>
+                    </div>
+                </form>
+
+                <form action="" method="POST" id="car-type-form" style="flex: 1;">
+                    <input type="hidden" name="sortCar" value="<?= isset($_POST['sortCar']) ? htmlspecialchars($_POST['sortCar']) : '' ?>">
+                    <input type="hidden" name="brand" value="<?= isset($_POST['brand']) ? htmlspecialchars($_POST['brand']) : '' ?>">
+                    <input type="hidden" name="search" value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
+                    <div class="input-group">
+                        <select class="form-control custom-select" id="car-type" name="car_type">
+                            <option value="">Chọn loại xe...</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= htmlspecialchars($category['id']) ?>"
+                                    <?= isset($_POST['car_type']) && $_POST['car_type'] == $category['id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($category['name']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </form>
+
+                <form action="" method="POST" id="year-manufacture-form" style="flex: 1">
+                    <input type="hidden" name="sortCar" value="<?= isset($_POST['sortCar']) ? htmlspecialchars($_POST['sortCar']) : '' ?>">
+                    <input type="hidden" name="brand" value="<?= isset($_POST['brand']) ? htmlspecialchars($_POST['brand']) : '' ?>">
+                    <input type="hidden" name="search" value="<?= isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '' ?>">
+                    <div class="input-group">
+                        <select class="form-control custom-select" id="year-manufacture" name="year_manufacture">
+                            <option value="">Chọn năm sản xuất...</option>
+                            <?php for ($i = date('Y'); $i >= 2000; $i--): ?>
+                                <option value="<?= htmlspecialchars($i) ?>"
+                                    <?= isset($_POST['year_manufacture']) && $_POST['year_manufacture'] == $i ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($i) ?>
+                                </option>
+                            <?php endfor; ?>
+                        </select>
+                    </div>
+                </form>
             </div>
         </div>
 

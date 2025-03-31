@@ -10,22 +10,35 @@
                 </div>
                 <div class="d-flex flex-row flex-nowrap overflow-auto py-1">
                     <?php foreach ($histories as $history): ?>
-                        <div class="p-1 rounded shadow-sm d-flex align-items-center position-relative mx-2"
-                            style="width: 250px; flex-shrink: 0; border: 0.5px solid rgba(0, 0, 0, 0.1);">
+                        <div class="p-2 rounded shadow-sm d-flex align-items-center position-relative mx-2 bg-white"
+                            style="width: 270px; flex-shrink: 0; border: 1px solid rgba(0, 0, 0, 0.1);">
+
                             <img src="<?= htmlspecialchars($history['image_url'] ?? '/uploads/cars/default.jpg') ?>"
                                 alt="<?= htmlspecialchars($history['car_name'] ?? 'Không xác định') ?>"
-                                style="width: 75px; height: 75px; object-fit: cover; border-radius: 5px; margin-right: 5px;">
-                            <h6 class="mb-0 flex-grow-1">
+                                class="rounded-2 me-3" style="width: 80px; height: 80px; object-fit: cover;">
+
+                            <div class="flex-grow-1 d-flex flex-column justify-content-between" style="padding-right: 30px; min-height: 80px;">
                                 <a href="car_detail/<?= htmlspecialchars($history['car_id'] ?? '') ?>"
-                                    class="text-left text-dark font-weight-bold">
+                                    class="text-dark fw-bold text-decoration-none d-block">
                                     <?= htmlspecialchars($history['car_name'] ?? 'Không xác định') ?>
                                 </a>
-                            </h6>
+                                <strong class="fw-semibold <?= ($history['stock'] ?? 0) > 0 ? 'text-success' : 'text-danger' ?>">
+                                    <?= ($history['stock'] ?? 0) > 0 ? 'Còn hàng' : 'Hết hàng' ?>
+                                </strong>
+                            </div>
+
                             <a href="/remove_history/<?= htmlspecialchars($history['hvc_id'] ?? '') ?>"
-                                class="close position-absolute" style="top: 3px; right: 3px; background: none;" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                                class="position-absolute d-flex align-items-center justify-content-center"
+                                style="top: 15px; right: 15px; width: 24px; height: 24px; border-radius: 50%; 
+                                    background: rgba(0,0,0,0.1); color: black; text-decoration: none;
+                                    transform: translate(50%, -50%);"
+                                onmouseover="this.style.background='rgba(0,0,0,0.2)'"
+                                onmouseout="this.style.background='rgba(0,0,0,0.1)'">
+                                &times;
                             </a>
+
                         </div>
+
                     <?php endforeach; ?>
                 </div>
             </div>

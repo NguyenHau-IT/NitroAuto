@@ -94,6 +94,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>
+        <a href="/admin" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 
