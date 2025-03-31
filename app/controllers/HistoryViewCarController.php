@@ -11,27 +11,27 @@ class HistoryViewCarController {
         }
 
         $user_id = $_SESSION["user"]["id"];
-        $historys = HistoryViewCar::getHistoryByUser($user_id);
+        $histories = HistoryViewCar::getHistoryByUser($user_id);
 
         require_once '../app/views/cars/historyviewcar.php';
     }
 
     public function deleteHistory($id) {
-        if (HistoryViewCar::delete($id)) {
-            header("Location: /admin?status=success&message=" . urlencode("Xoá lịch sử xem xe thành công!") . "&href=/admin");
+        if ($histories = HistoryViewCar::delete($id)) {
+            header("Location: /home");
             exit;
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá lịch sử xem xe thất bại!") . "&href=/admin");
+            header("Location: /home");
             exit;
         }
     }
 
     public function deleteAllHistory() {
-        if (HistoryViewCar::deleteAll()) {
-            header("Location: /admin?status=success&message=" . urlencode("Xoá tất cả lịch sử xem xe thành công!") . "&href=/admin");
+        if ($histories = HistoryViewCar::deleteAll()) {
+            header("Location: /home");
             exit;
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá tất cả lịch sử xem xe thất bại!") . "&href=/admin");
+            header("Location: /home");
             exit;
         }
     }
@@ -48,6 +48,18 @@ class HistoryViewCarController {
             return true;
         } else {
             return false;
+        }
+    }
+
+    // Xoá lịch sử xem xe theo user_id
+    public function deleteHistoryByUser($user_id) 
+    {
+        if ($histories = HistoryViewCar::deleteAllByUser($user_id)) {
+            header("Location: /home");
+            exit;
+        } else {
+            header("Location: /home");
+            exit;
         }
     }
 }

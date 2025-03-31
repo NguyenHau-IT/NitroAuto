@@ -77,7 +77,6 @@ class CarController
             $car = new Cars();
             $uploadDir = 'D:NitroAuto/public/uploads/cars/';
 
-            // Kiểm tra nếu có file được upload
             if (!empty($_FILES['image_url']['name']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
                 $fileName = basename($_FILES['image_url']['name']);
                 $uploadFile = $uploadDir . $fileName;
@@ -88,6 +87,11 @@ class CarController
                     header("Location: /error?status=error&message=" . urlencode("Upload ảnh thất bại!"));
                     exit();
                 }
+            }
+            else {
+                // Nếu không có ảnh mới, giữ nguyên ảnh cũ
+                $stmt = $car->find($_POST['id']);
+                $image_url = $stmt['normal_image_url'];
             }
 
             // Lấy dữ liệu từ form

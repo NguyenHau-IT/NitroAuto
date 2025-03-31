@@ -97,29 +97,27 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
                             <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i>Danh sách yêu thích</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto d-flex justify-content-end">
                         <?php if ($user && $user['role'] === 'admin'): ?>
                             <li class="nav-item <?= ($current_page == 'admin') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/admin"><i class="fas fa-user-shield"></i>Admin Dashboard</a>
                             </li>
                         <?php endif; ?>
-
-                        <ul class="navbar-nav ms-auto d-flex">
-                            <?php if ($user): ?>
-                                <li class="nav-item <?= ($current_page == 'profile') ? 'active' : '' ?>">
-                                    <a class="nav-link" href="/profile">
-                                        <i class="fas fa-user"></i> <?= htmlspecialchars($user['full_name']) ?>
-                                    </a>
-                                </li>
-                            <?php else: ?>
-                                <li class="nav-item <?= ($current_page == 'login') ? 'active' : '' ?>">
-                                    <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
-                                </li>
-                                <li class="nav-item <?= ($current_page == 'register') ? 'active' : '' ?>">
-                                    <a class="nav-link" href="/register"><i class="fas fa-user-plus"></i>Register</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-
+                        <?php if ($user): ?>
+                            <li class="nav-item <?= ($current_page == 'profile') ? 'active' : '' ?>">
+                                <a class="nav-link" href="/profile">
+                                    <i class="fas fa-user"></i> <?= htmlspecialchars($user['full_name']) ?>
+                                </a>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item <?= ($current_page == 'login') ? 'active' : '' ?>">
+                                <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i>Login</a>
+                            </li>
+                            <li class="nav-item <?= ($current_page == 'register') ? 'active' : '' ?>">
+                                <a class="nav-link" href="/register"><i class="fas fa-user-plus"></i>Register</a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>

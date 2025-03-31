@@ -9,16 +9,21 @@ require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/NotificationController.php';
 require_once '../app/controllers/TestDriveController.php';
+require_once '../app/controllers/HistoryViewCarController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
 switch (true) {
-    case ($uri === '' || $uri === 'home'):
-        (new HomeController())->index();
+    case ($uri === '' || $uri === 'home'): 
+        (new HomeController())->index(); 
+        break;    
+
+    case ($uri === 'add_car'):
+        (new CarController())->showAddForm();
         break;
 
-    case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
-        (new CarController())->showCarDetail($matches[1]);
+    case ($uri === 'add'):
+        (new CarController())->storeCar();
         break;
 
     case ($uri === 'user'):
@@ -65,6 +70,22 @@ switch (true) {
         (new FavoriteController())->favoriteById();
         break;
 
+    case ($uri === 'accessories'):
+        (new AccessoriesController())->index();
+        break;
+
+    case ($uri === 'testdriveform'):
+        (new TestDriveController())->Test_Drive();
+        break;
+
+    case ($uri === 'register_test_drive'):
+        (new TestDriveController())->create();
+        break;
+
+    case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
+        (new CarController())->showCarDetail($matches[1]);
+        break;
+
     case preg_match('/^edit_car\/(\d+)$/', $uri, $matches):
         (new CarController())->edit($matches[1]);
         break;
@@ -73,35 +94,20 @@ switch (true) {
         (new CarController())->update();
         break;
 
-    case ($uri === 'add_car'):
-        (new CarController())->showAddForm();
-        break;
-
-    case ($uri === 'add'):
-        (new CarController())->storeCar();
-        break;
-
     case preg_match('/^delete_car\/(\d+)$/', $uri, $matches):
         (new CarController())->delete($matches[1]);
         break;
 
-    case ($uri === 'accessories'):
-        (new AccessoriesController())->index();
-        break;
-
     case (preg_match('/^car_find\/(\d+)$/', $uri, $matches)):
-        $brandId = $matches[1];
-        (new CarController())->search($brandId);
+        (new CarController())->search($matches[1]);
         break;
 
     case (preg_match('/^order_detail\/(\d+)$/', $uri, $matches)):
-        $orderId = $matches[1];
-        (new OrderController())->orderDetail($orderId);
+        (new OrderController())->orderDetail($matches[1]);
         break;
 
     case (preg_match('/^order_edit\/(\d+)$/', $uri, $matches)):
-        $orderId = $matches[1];
-        (new OrderController())->order_edit($orderId);
+        (new OrderController())->order_edit($matches[1]);
         break;
 
     case preg_match('/^orderupdate\/(\d+)$/', $uri, $matches):
@@ -116,17 +122,14 @@ switch (true) {
         (new FavoriteController())->deleteFavorite($matches[1]);
         break;
 
-
-    case ($uri === 'testdriveform'):
-        (new TestDriveController())->Test_Drive();
+    case preg_match('/^clear_history\/(\d+)$/', $uri, $matches):
+        (new HistoryViewCarController())->deleteHistoryByUser($matches[1]);
         break;
 
-    case ($uri === 'register_test_drive'):
-        (new TestDriveController())->create();
+    case preg_match('/^remove_history\/(\d+)$/', $uri, $matches):
+        (new HistoryViewCarController())->deleteHistory($matches[1]);
         break;
 
-    
-        
     case 'error':
         (new NotificationController())->showMessage();
         break;

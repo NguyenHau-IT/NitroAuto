@@ -51,7 +51,7 @@ class HistoryViewCar {
     public static function getHistoryByUser($user_id) {
         global $conn;
 
-        $stmt = $conn->prepare("SELECT hvc.id, c.id AS car_id, ci.image_url AS image_url, c.name AS car_name, hvc.view_time, hvc.ip_address, hvc.user_agent 
+        $stmt = $conn->prepare("SELECT hvc.id AS hvc_id, c.id AS car_id, ci.image_url AS image_url, c.name AS car_name, hvc.view_time, hvc.ip_address, hvc.user_agent 
                   FROM HistoryViewCar hvc
                   JOIN cars c ON hvc.car_id = c.id
                   JOIN car_images ci ON c.id = ci.car_id AND ci.image_type = 'normal'
@@ -65,8 +65,8 @@ class HistoryViewCar {
     // Xoá lịch sử xem xe theo ID
     public static function delete($id) {
         global $conn;
-        $stmt = $conn->prepare("DELETE FROM HistoryViewCar WHERE id = ?");
-        return $stmt->execute([$id]);
+        $stmt = $conn->prepare("DELETE FROM HistoryViewCar WHERE id = :id");
+        return $stmt->execute([':id' => $id]);
     }
 
     // Xoá tất cả lịch sử xem xe
@@ -74,6 +74,13 @@ class HistoryViewCar {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM HistoryViewCar");
         return $stmt->execute();
+    }
+
+    //xoá tất cả lịch sử xem xe của user
+    public static function deleteAllByUser($user_id) {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM HistoryViewCar WHERE user_id = :user_id");
+        return $stmt->execute([':user_id' => $user_id]);
     }
 }
 ?>

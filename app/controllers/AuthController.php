@@ -1,5 +1,7 @@
 <?php
 require_once '../app/models/Users.php';
+require_once '../vendor/autoload.php'; // Đảm bảo bạn đã cài Twilio SDK qua Composer
+use Twilio\Rest\Client;
 
 class AuthController
 {
@@ -36,7 +38,7 @@ class AuthController
                 $_SESSION["user"] = $user;
                 $_SESSION["user_id"] = $user["id"];
 
-                header("Location: /home");
+                header("Location: /success?status=success&message=" . urlencode("Đăng nhập thành công!") . "&href=/home");
                 exit();
             } else {
                 header("Location: /error?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));

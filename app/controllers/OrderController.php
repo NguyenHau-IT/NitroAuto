@@ -21,7 +21,7 @@ class OrderController
     {
         $user_id = $_SESSION["user"]["id"] ?? null;
         if (!$user_id) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!"));
+            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") . "&href=/home");
             exit();
         }
 
@@ -33,16 +33,16 @@ class OrderController
             $total_price = floatval(str_replace(',', '', $total_price));
 
             if ($car_id <= 0 || $quantity <= 0 || $total_price <= 0) {
-                header("Location: /error?status=error&message=" . urlencode("Thông tin mua xe không hợp lệ!"));
+                header("Location: /error?status=error&message=" . urlencode("Thông tin mua xe không hợp lệ!") . "&href=/home");
                 exit();
             }
 
             $result = Orders::create($user_id, $car_id, $quantity, $total_price);
             if ($result) {
-                header("Location: /success?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!"));
+                header("Location: /success?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") . "&href=/home");
                 exit();
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Lỗi khi đặt mua xe!"));
+                header("Location: /error?status=error&message=" . urlencode("Lỗi khi đặt mua xe!") . "&href=/home");
                 exit();
             }
         }
