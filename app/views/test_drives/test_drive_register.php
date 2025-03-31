@@ -4,49 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<style>
-    body {
-        background-image: url('/uploads/bg.webp');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        color: #fff;
-        font-size: 18px;
-    }
-
-    .overlay {
-        border-radius: 50px;
-        background: rgba(0, 0, 0, 0.7);
-        padding: 50px 20px;
-        margin-top: 50px;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: auto;
-    }
-
-    .form-group label {
-        font-weight: bold;
-        font-size: 20px;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-        border-radius: 25px;
-        padding: 10px 20px;
-        font-size: 18px;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
-    }
-</style>
+<link rel="stylesheet" href="/style.css">
 
 <div class="container mt-5 overlay text-white fs-5 mb-4">
     <h2 class="mb-4 text-center">Đăng ký lái thử</h2>

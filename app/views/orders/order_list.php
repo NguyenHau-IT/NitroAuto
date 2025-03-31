@@ -1,33 +1,5 @@
     <title>Danh sách đơn hàng</title>
-    <style>
-        body {
-            background-image: url('/uploads/bg.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-        }
-
-        .overlay {
-            border-radius: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            max-width: 1200px;
-            margin: 20px auto;
-        }
-
-        .table {
-            margin-top: 20px;
-        }
-
-        .table th, .table td {
-            vertical-align: middle;
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 
     <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
     <div class="container overlay mt-5">

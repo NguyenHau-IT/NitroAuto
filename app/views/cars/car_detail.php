@@ -7,51 +7,7 @@
     <title>Chi tiết xe - <?= htmlspecialchars($car['name']) ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
-    <style>
-        body {
-            background-image: url('/uploads/bg.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-        }
-
-        .overlay {
-            border-radius: 50px;
-            background: rgba(0, 0, 0, 0.7);
-            padding-bottom: 20px;
-        }
-
-        .car-info,
-        .car-3d {
-            background: #fff;
-            padding: 5px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .sketchfab-embed-wrapper iframe {
-            width: 100%;
-            height: 500px;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            .car-container {
-                display: flex;
-                flex-direction: column;
-            }
-
-            .car-info,
-            .car-3d {
-                width: 100%;
-                margin-bottom: 15px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>

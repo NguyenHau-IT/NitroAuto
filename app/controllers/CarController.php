@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../models/Cars.php";
 require_once __DIR__ . "/../models/Brands.php";
 require_once __DIR__ . "/../models/Categories.php";
+require_once __DIR__ . "/../models/HistoryViewCar.php";
 
 class CarController
 {
@@ -160,15 +161,29 @@ class CarController
     public function showCarDetail($id)
     {
         global $conn;
-
+    
         $stmt = $conn->prepare("SELECT * FROM cars WHERE id = ?");
         $stmt->execute([$id]);
         $car = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
         $stmt2 = $conn->prepare("SELECT image_url, image_type FROM car_images WHERE car_id = ? AND image_type = '3D'");
         $stmt2->execute([$id]);
         $images = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Kiểm tra session user_id
+        if (!isset($_SESSION["user_id"])) {
+            header("Location: error?status=error&message=" . urlencode("⚠️ Bạn cần đăng nhập để xem chi tiết xe!"));
+            exit();
+        }
 
+        $data = [
+            "user_id" => $_SESSION["user_id"],
+            "car_id" => $id,
+            "ip_address" => $_SERVER['REMOTE_ADDR'],
+            "user_agent" => $_SERVER['HTTP_USER_AGENT']
+        ];
+        HistoryViewCar::create($data);
+    
         require_once '../app/views/cars/car_detail.php';
-    }
+    }    
 }

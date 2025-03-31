@@ -17,17 +17,10 @@ if ($status !== "success") {
     <title>Thông báo</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body class="bg-dark text-white d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <style>
-        body {
-            background-image: url('uploads/bg.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-    </style>
     <script>
         Swal.fire({
             icon: "<?= $status ?>",

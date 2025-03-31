@@ -1,35 +1,6 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
-    <style>
-        body {
-            background-image: url('/uploads/bg.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: #fff;
-            font-size: 18px;
-        }
-
-        .overlay {
-            border-radius: 50px;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 50px 20px;
-            margin-top: 50px;
-        }
-
-        .table-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            padding: 20px;
-        }
-
-        .table th, .table td {
-            vertical-align: middle;
-        }
-    </style>
+<link rel="stylesheet" href="/style.css">
 
     <div class="container mt-5">
         <div class="overlay">
@@ -43,7 +14,7 @@
                             <th>Hành động</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-white">
                         <?php foreach ($favorites as $favorite): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($favorite['id']); ?></td>

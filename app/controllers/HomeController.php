@@ -1,6 +1,8 @@
 <?php
 require_once '../config/database.php';
 require_once '../app/models/Brands.php';
+require_once '../app/models/Cars.php';
+require_once '../app/models/HistoryViewCar.php';
 
 class HomeController 
 {
@@ -16,6 +18,8 @@ class HomeController
     $stmt->execute();
     $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $brands = Brands::all();
+    $user_id = $_SESSION['user_id'] ?? null;
+    $histories = HistoryViewCar::getHistoryByUser($user_id);
         require_once '../app/views/index.php';
     }
 }

@@ -56,59 +56,7 @@
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-<style>
-    body {
-        background-image: url('/uploads/bg.webp');
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        font-family: Arial, sans-serif;
-        color: #fff;
-    }
-
-    .overlay {
-        background: rgba(0, 0, 0, 0.7);
-        min-height: 100vh;
-        padding: 50px 20px;
-    }
-
-    .car-card {
-        transition: 0.3s;
-        border-radius: 10px;
-        box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
-    }
-
-    .car-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0px 6px 12px rgba(255, 255, 255, 0.3);
-    }
-
-    .car-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-
-    .car-card .card-body {
-        background: #222;
-        padding: 15px;
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
-    }
-
-    .btn-warning {
-        width: 100%;
-        font-weight: bold;
-        transition: 0.3s;
-    }
-
-    .btn-warning:hover {
-        background: #ffcc00;
-        color: #222;
-    }
-</style>
+<link rel="stylesheet" href="/style.css">
 <script>
     function redirectToBrand(event) {
         event.preventDefault();
