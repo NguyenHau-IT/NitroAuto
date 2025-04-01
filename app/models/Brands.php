@@ -35,5 +35,16 @@ class Brands {
                                 VALUES (:name, :country, :logo)");
         return true;
     }
+
+    public static function getByStock()
+    {
+        global $conn;
+        $stmt = $conn->query("SELECT brands.id, brands.name, brands.country, brands.logo FROM brands
+                            JOIN cars ON brands.id = cars.brand_id
+                            WHERE cars.stock > 0 
+                            GROUP BY brands.id, brands.name, brands.country, brands.logo
+                            ORDER BY brands.name ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>

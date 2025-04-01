@@ -26,5 +26,16 @@ class Categories {
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function getByCar() {
+        global $conn;
+        $stmt = $conn->query("SELECT categories.id, categories.name, categories.description
+                            FROM categories
+                            JOIN cars ON cars.category_id = categories.id
+                            WHERE cars.stock > 0
+                            GROUP BY categories.id, categories.name, categories.description
+                            ORDER BY categories.name ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }   
 }
 ?>

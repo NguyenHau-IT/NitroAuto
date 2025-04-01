@@ -44,6 +44,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 50;
         }
 
         nav {

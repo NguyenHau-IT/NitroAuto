@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setupAutoSubmit("fuel-type", "fuel-type-form", ["sortCar", "brand-select", "search-input"]);
     setupAutoSubmit("car-type", "car-type-form", ["sortCar", "brand-select", "search-input"]);
     setupAutoSubmit("year-manufacture", "year-manufacture-form", ["sortCar", "brand-select", "search-input"]);
-    setupAutoSubmit("price-range", "price-range-form", ["sortCar", "brand-select", "search-input"]);
+    setupAutoSubmit("price-range", "price-form", ["sortCar", "brand-select", "search-input"]);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -71,7 +71,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-document.getElementById('filter-toggle-btn').addEventListener('click', function () {
-    const filterSection = document.getElementById('filter-section');
-    filterSection.classList.toggle('d-none');
+$(document).ready(function () {
+    $('#filter-toggle-btn').click(function () {
+        $('#filter-dropdown').toggle();
     });
+
+    $(document).click(function (e) {
+        if (!$(e.target).closest('#filter-toggle-btn').length) {
+            $('#filter-dropdown').hide();
+        }
+    });
+});

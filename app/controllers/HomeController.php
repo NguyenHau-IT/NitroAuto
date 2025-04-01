@@ -17,7 +17,7 @@ class HomeController
         $fuel_type = isset($_POST['fuel_type']) ? $_POST['fuel_type'] : '';
         $car_type = isset($_POST['car_type']) && is_numeric($_POST['car_type']) ? $_POST['car_type'] : null;
         $year = isset($_POST['year_manufacture']) && is_numeric($_POST['year_manufacture']) ? $_POST['year_manufacture'] : null;
-        $price_range = isset($_POST['price-range']) ? $_POST['price-range'] : null;
+        $price = isset($_POST['price_range']) ? $_POST['price_range'] : null;
 
         // Điều kiện WHERE
         $whereConditions = [];
@@ -36,15 +36,12 @@ class HomeController
         if (!empty($year)) {
             $whereConditions[] = "Cars.year = :year";
         }
-        if (!empty($price_range)) {
-            $priceRange = explode('-', $price_range);
-            if (count($priceRange) == 2) {
-                $minPrice = (int)$priceRange[0];
-                $maxPrice = (int)$priceRange[1];
-                $whereConditions[] = "Cars.price BETWEEN :min_price AND :max_price";
-            }
+        if (!empty($price)) {
+            $priceRange = explode('-', $price);
+            $minPrice = isset($priceRange[0]) ? (int)$priceRange[0] : 0;
+            $maxPrice = isset($priceRange[1]) ? (int)$priceRange[1] : PHP_INT_MAX;
+            $whereConditions[] = "Cars.price BETWEEN :min_price AND :max_price";
         }
-        
 
         // Kết hợp các điều kiện
         $whereClause = !empty($whereConditions) ? "WHERE " . implode(" AND ", $whereConditions) : "";
@@ -91,7 +88,7 @@ class HomeController
             $stmt->bindParam(':year', $year, PDO::PARAM_INT);
         }
         // Gán giá trị cho min_price và max_price nếu có
-        if (!empty($price_range)) {
+        if (!empty($price)) {
             $stmt->bindParam(':min_price', $minPrice, PDO::PARAM_INT);
             $stmt->bindParam(':max_price', $maxPrice, PDO::PARAM_INT);
         }
@@ -99,8 +96,8 @@ class HomeController
         // Thực thi truy vấn
         $stmt->execute();
         $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $brands = Brands::all();
-        $categories = Categories::all();
+        $brands = Brands::getByStock();
+        $categories = Categories::getByCar();
 
         // Lấy lịch sử xem xe của người dùng (nếu có)
         $user_id = $_SESSION['user_id'] ?? null;
