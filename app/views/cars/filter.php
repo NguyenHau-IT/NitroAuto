@@ -1,7 +1,7 @@
-<div class="d-flex justify-content-between align-items-center mb-2">
+<div class="d-flex justify-content-between align-items-center mb-2 bg-light rounded-4 shadow">
     <!-- Dropdown bộ lọc -->
     <div class="dropdown">
-        <button class="btn btn-outline-info dropdown-toggle" type="button" id="filter-toggle-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-outline-info dropdown-toggle ms-3" type="button" id="filter-toggle-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-filter"></i> Bộ lọc
         </button>
         <div class="dropdown-menu p-3" aria-labelledby="filter-toggle-btn" style="min-width: 600px;" id="filter-dropdown">
@@ -100,7 +100,7 @@
     </div>
 
     <!-- Ô tìm kiếm -->
-    <form action="" method="POST" class="ml-2 position-relative" id="search-form" style="flex: 1;">
+    <form action="" method="POST" class="ml-2 position-relative p-3" id="search-form" style="flex: 1;">
         <input type="hidden" name="brand" value="<?= isset($_POST['brand']) ? htmlspecialchars($_POST['brand']) : '' ?>">
         <input type="hidden" name="sortCar" value="<?= isset($_POST['sortCar']) ? htmlspecialchars($_POST['sortCar']) : '' ?>">
         <div class="input-group">
@@ -112,3 +112,6 @@
     </form>
 </div>
 <script src="/script.js"></script>
+<link rel="stylesheet" href="/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

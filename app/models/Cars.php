@@ -36,15 +36,13 @@ class Cars
     public static function find($id)
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT cars.*, brands.name as brand_name, categories.name as category_name, 
-                           normal_images.image_url as normal_image_url, 
-                           three_d_images.image_url as three_d_image_url 
-                    FROM cars 
-                    JOIN brands ON cars.brand_id = brands.id 
-                    JOIN categories ON cars.category_id = categories.id
-                    LEFT JOIN car_images AS normal_images ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
-                    LEFT JOIN car_images AS three_d_images ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
-                    WHERE cars.id = :id");
+        $stmt = $conn->prepare("SELECT cars.id, cars.name, cars.price, cars.year, cars.mileage, cars.fuel_type, cars.transmission, cars.color, 
+                                categories.name AS category_name, brands.name AS brand_name, cars.description, cars.stock, cars.created_at,
+                                cars.brand_id, cars.category_id
+                                FROM cars
+                                Join brands ON cars.brand_id = brands.id
+                                Join categories ON cars.category_id = categories.id
+                                WHERE cars.id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -60,6 +58,32 @@ class Cars
                     LEFT JOIN car_images AS normal_images ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
                     LEFT JOIN car_images AS three_d_images ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'WHERE brand_id = :brand_id");
         $stmt->execute(['brand_id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function findByCategory($id, $excludeCarId = null)
+    {
+        global $conn;
+        $query = "SELECT cars.*, brands.name as brand_name, categories.name as category_name, 
+                           normal_images.image_url as image, 
+                           three_d_images.image_url as three_d_image_url 
+                    FROM cars 
+                    JOIN brands ON cars.brand_id = brands.id 
+                    JOIN categories ON cars.category_id = categories.id
+                    LEFT JOIN car_images AS normal_images ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
+                    LEFT JOIN car_images AS three_d_images ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
+                    WHERE category_id = :category_id";
+
+        if ($excludeCarId !== null) {
+            $query .= " AND cars.id != :excludeCarId";
+        }
+
+        $stmt = $conn->prepare($query);
+        $params = ['category_id' => $id];
+        if ($excludeCarId !== null) {
+            $params['excludeCarId'] = $excludeCarId;
+        }
+        $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

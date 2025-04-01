@@ -30,19 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
     setupAutoSubmit("price-range", "price-form", ["sortCar", "brand-select", "search-input"]);
 });
 
-let filterToggleBtn = document.getElementById("filter-toggle-btn");
-let filterDropdown = document.getElementById("filter-dropdown");
-
-filterToggleBtn.addEventListener("click", function () {
-    filterDropdown.style.display = filterDropdown.style.display === "none" || filterDropdown.style.display === "" ? "block" : "none";
-});
-
-document.addEventListener("click", function (e) {
-    if (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
-        filterDropdown.style.display = "none";
-    }
-});
-
 document.getElementById("reset-filters").addEventListener("click", function () {
     let form = document.getElementById("filter-form");
 
@@ -58,7 +45,6 @@ function updatePrice() {
     var quantityInput = document.getElementById("quantity");
     var totalPriceInput = document.getElementById("total_price");
     var totalPriceDisplay = document.getElementById("total_price_display");
-    var carNameInput = document.getElementById("car_name");
 
     var selectedCar = carSelect.options[carSelect.selectedIndex];
     var price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
@@ -73,3 +59,4 @@ function updatePrice() {
 document.addEventListener("DOMContentLoaded", function() {
     updatePrice();
 });
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

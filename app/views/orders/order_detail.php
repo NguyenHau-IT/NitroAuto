@@ -1,10 +1,10 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 <div class="overlay">
-    <div class="container mt-5">
-        <h2 class="text-center text-white">Chi tiết đơn hàng #<?= $order['order_id'] ?></h2>
+    <div class="container text-dark fs-5 mb-4 bg-light shadow rounded-4 p-4">
+        <h2 class="text-center text-dark">Chi tiết đơn hàng #<?= $order['order_id'] ?></h2>
         <div class="row mt-5">
             <div class="col-md-6">
-                <h4 class="text-white">Thông tin khách hàng</h4>
+                <h4>Thông tin khách hàng</h4>
                 <table class="table table-bordered table-hover table-striped table-dark">
                     <tbody>
                         <tr>
@@ -24,10 +24,10 @@
                             <td><?= htmlspecialchars($order['address']) ?></td>
                         </tr>
                     </tbody>
-                </table>    
+                </table>
             </div>
             <div class="col-md-6">
-                <h4 class="text-white">Thông tin đơn hàng</h4>   
+                <h4>Thông tin đơn hàng</h4>
                 <table class="table table-bordered table-hover table-striped table-dark">
                     <tbody>
                         <tr>
@@ -83,3 +83,4 @@
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
 <link rel="stylesheet" href="/style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">

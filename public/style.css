@@ -1,21 +1,20 @@
 body {
-    background-image: url('/uploads/bg.webp');
+    background-color: #F5F5F5;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     font-family: Arial, sans-serif;
-    color: #fff;
+    color: black;
 }
 
 .overlay {
-    background: rgba(0, 0, 0, 0.7);
     min-height: 80vh;
     padding: 50px 20px;
 }
 
 .car-card {
     transition: 0.3s;
-    border-radius: 10px;
+    border-radius: 15px;
     box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
 }
 
@@ -34,7 +33,6 @@ body {
 
 .car-card .card-body {
     background: #222;
-    padding: 15px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -47,15 +45,6 @@ body {
     max-height: 200px;
     overflow-y: auto;
     z-index: 1000;
-}
-
-.suggestion-item {
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-.suggestion-item:hover {
-    background: #f0f0f0;
 }
 
 .btn-warning:hover {
@@ -114,3 +103,4 @@ body {
     flex: 1;
     min-width: 200px;
 }
+

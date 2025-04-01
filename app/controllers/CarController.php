@@ -87,8 +87,7 @@ class CarController
                     header("Location: /error?status=error&message=" . urlencode("Upload ảnh thất bại!"));
                     exit();
                 }
-            }
-            else {
+            } else {
                 // Nếu không có ảnh mới, giữ nguyên ảnh cũ
                 $stmt = $car->find($_POST['id']);
                 $image_url = $stmt['normal_image_url'];
@@ -165,29 +164,27 @@ class CarController
     public function showCarDetail($id)
     {
         global $conn;
-    
-        $stmt = $conn->prepare("SELECT * FROM cars WHERE id = ?");
-        $stmt->execute([$id]);
-        $car = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        $stmt2 = $conn->prepare("SELECT image_url, image_type FROM car_images WHERE car_id = ? AND image_type = '3D'");
-        $stmt2->execute([$id]);
-        $images = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-    
-        // Kiểm tra session user_id
-        if (!isset($_SESSION["user_id"])) {
-            header("Location: error?status=error&message=" . urlencode("⚠️ Bạn cần đăng nhập để xem chi tiết xe!"));
-            exit();
-        }
 
-        $data = [
-            "user_id" => $_SESSION["user_id"],
-            "car_id" => $id,
-            "ip_address" => $_SERVER['REMOTE_ADDR'],
-            "user_agent" => $_SERVER['HTTP_USER_AGENT']
-        ];
-        HistoryViewCar::create($data);
-    
+        $car = Cars::find($id);
+
+        $stmt2 = $conn->prepare("SELECT image_url, image_type FROM car_images WHERE car_id = :id AND image_type = '3D'");
+        $stmt2->execute([':id' => $id]);
+        $images = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
+        $carByBrand = Cars::findByBrand($car['brand_id']);
+        $cars = Cars::findByCategory($car['category_id'], $id);
+
+        if (!isset($_SESSION["user_id"])) {
+            exit();
+        } else {
+            $data = [
+                "user_id" => $_SESSION["user_id"],
+                "car_id" => $id,
+                "ip_address" => $_SERVER['REMOTE_ADDR'],
+                "user_agent" => $_SERVER['HTTP_USER_AGENT']
+            ];
+            HistoryViewCar::create($data);
+        }
         require_once '../app/views/cars/car_detail.php';
-    }    
+    }
 }

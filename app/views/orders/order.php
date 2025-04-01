@@ -1,14 +1,13 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/script.js"></script>
-
 <link rel="stylesheet" href="/style.css">
 
-<div class="container mt-5 overlay text-white fs-5 mb-4">
-    <h2 class="mb-4 text-center">Đặt hàng xe</h2>
+<div class="container mt-5 overlay text-dark fs-5 mb-4 bg-light shadow rounded-4 p-4">
+    <h2 class="mb-4 text-center">Đặt Mua Xe</h2>
 
     <div class="mb-3 fs-3">
         <h4>Thông tin người mua</h4>
@@ -28,7 +27,7 @@
             <label for="phone">Số điện thoại ng nhận:</label>
             <input type="text" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" required>
         </div>
-        
+
         <div class="form-group">
             <label for="car_id">Chọn xe:</label>
             <select class="form-control" id="car_id" name="car_id" onchange="updatePrice()">
