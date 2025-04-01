@@ -57,15 +57,15 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
     <header class="text-center">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
             <div class="container">
-                <a class="navbar-brand" href="home">
-                    <img src="../uploads/logo.webp" alt="logo" width="50" height="50" style="border-radius: 10px;">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav ml-auto d-flex justify-content-center">
+                        <a class="navbar-brand" href="home">
+                            <img src="../uploads/logo.webp" alt="logo" width="50" height="50" style="border-radius: 10px;">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
                         <li class="nav-item <?= ($current_page == 'home') ? 'active' : '' ?>">
                             <a class="nav-link" href="/home"><i class="fas fa-home"></i>Home</a>
                         </li>
@@ -88,7 +88,6 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                                 <a class="dropdown-item" href="/accessories">Phụ Kiện cho xe</a>
                             </div>
                         </li>
-
                         <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
                             <a class="nav-link" href="/showOrderForm"><i class="fas fa-shopping-cart"></i>Mua xe</a>
                         </li>

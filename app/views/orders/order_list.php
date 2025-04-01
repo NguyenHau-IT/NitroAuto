@@ -1,10 +1,9 @@
-    <title>Danh sách đơn hàng</title>
     <link rel="stylesheet" href="/style.css">
 
     <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
-    <div class="container overlay text-dark fs-5 mb-4">
-        <div class="overlay mt-2 bg-light rounded-4 shadow p-4">
-            <h2 class="my-4 text-center text-dark fs-1">Danh sách đơn hàng</h2>
+    <div class="overlay">
+        <div class="container text-dark fs-5 mb-4 mt-2 bg-light rounded-4 shadow p-4">
+            <h2 class="text-center text-dark fs-1">Danh sách đơn hàng</h2>
             <table class="table table-bordered table-hover table-striped ">
                 <thead class="thead-light">
                     <tr>
