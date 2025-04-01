@@ -7,6 +7,8 @@ class Orders {
     public $order_date;
     public $status;
     public $total_amount;
+    public $address;
+    public $phone;
 
     public function __construct($data = []) {
         foreach ($data as $key => $value) {
@@ -36,16 +38,18 @@ class Orders {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($user_id, $car_id, $quantity, $total_price)
+    public static function create($user_id, $car_id, $quantity, $total_price, $address, $phone)
     {
         global $conn;
 
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date, status, total_amount) 
-                                VALUES (:user_id, GETDATE(), :status, :total_amount)");
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, order_date, status, total_amount, address, phone) 
+                                VALUES (:user_id, GETDATE(), :status, :total_amount, :address, :phone)");
         $stmt->execute([
             'user_id' => $user_id,
             'status' => 'pending',
-            'total_amount' => $total_price
+            'total_amount' => $total_price,
+            'address' => $address,
+            'phone' => $phone
         ]);
 
         $order_id = $conn->lastInsertId();

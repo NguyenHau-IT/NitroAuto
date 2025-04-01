@@ -1,8 +1,8 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-2">
     <!-- Dropdown bộ lọc -->
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" id="filter-toggle-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Bộ lọc
+        <button class="btn btn-outline-info dropdown-toggle" type="button" id="filter-toggle-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-filter"></i> Bộ lọc
         </button>
         <div class="dropdown-menu p-3" aria-labelledby="filter-toggle-btn" style="min-width: 600px;" id="filter-dropdown">
             <form action="" method="POST" id="filter-form">
@@ -73,9 +73,9 @@
                     <!-- Năm sản xuất -->
                     <div class="form-group flex-fill">
                         <label>Năm sản xuất</label>
-                        <select class="form-control" name="year_manufacture">
+                        <select class="form-control" name="year_manufacture" id="year-manufacture-select">
                             <option value="">Chọn năm sản xuất...</option>
-                            <?php for ($i = date('Y'); $i >= 2000; $i--): ?>
+                            <?php for ($i = date('Y'); $i >= 1800; $i--): ?>
                                 <option value="<?= htmlspecialchars($i) ?>"
                                     <?= isset($_POST['year_manufacture']) && $_POST['year_manufacture'] == $i ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($i) ?>
@@ -85,8 +85,16 @@
                     </div>
                 </div>
 
-                <!-- Nút áp dụng -->
-                <button type="submit" class="btn btn-primary mt-3">Áp dụng</button>
+                <!-- Nút áp dụng và reset -->
+                <div class="d-flex mt-3 justify-content-center">
+                    <button type="submit" class="btn btn-primary mr-2">
+                        <i class="fas fa-check-circle"></i> Áp dụng
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="reset-filters">
+                        <i class="fas fa-redo"></i> Đặt lại
+                    </button>
+                </div>
+
             </form>
         </div>
     </div>
@@ -103,3 +111,4 @@
         </div>
     </form>
 </div>
+<script src="/script.js"></script>

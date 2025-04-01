@@ -30,55 +30,46 @@ document.addEventListener("DOMContentLoaded", function () {
     setupAutoSubmit("price-range", "price-form", ["sortCar", "brand-select", "search-input"]);
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    let searchInput = document.getElementById("search-input");
-    let suggestionBox = document.createElement("div");
-    suggestionBox.classList.add("suggestion-box");
-    searchInput.parentNode.appendChild(suggestionBox);
+let filterToggleBtn = document.getElementById("filter-toggle-btn");
+let filterDropdown = document.getElementById("filter-dropdown");
 
-    searchInput.addEventListener("input", function () {
-        let query = searchInput.value.trim();
-        if (query.length > 0) {
-            fetch("/views/brands/suggest_brands.php?q=" + encodeURIComponent(query))
-                .then(response => response.json())
-                .then(data => {
-                    suggestionBox.innerHTML = "";
-                    if (data.length > 0) {
-                        data.forEach(item => {
-                            let div = document.createElement("div");
-                            div.classList.add("suggestion-item");
-                            div.textContent = item;
-                            div.addEventListener("click", function () {
-                                searchInput.value = item;
-                                suggestionBox.innerHTML = "";
-                            });
-                            suggestionBox.appendChild(div);
-                        });
-                    } else {
-                        suggestionBox.innerHTML = "<div class='suggestion-item'>Không tìm thấy</div>";
-                    }
-                })
-                .catch(error => console.error("Lỗi tải gợi ý:", error));
-        } else {
-            suggestionBox.innerHTML = "";
-        }
-    });
-
-    document.addEventListener("click", function (e) {
-        if (!searchInput.contains(e.target) && !suggestionBox.contains(e.target)) {
-            suggestionBox.innerHTML = "";
-        }
-    });
+filterToggleBtn.addEventListener("click", function () {
+    filterDropdown.style.display = filterDropdown.style.display === "none" || filterDropdown.style.display === "" ? "block" : "none";
 });
 
-$(document).ready(function () {
-    $('#filter-toggle-btn').click(function () {
-        $('#filter-dropdown').toggle();
-    });
+document.addEventListener("click", function (e) {
+    if (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+        filterDropdown.style.display = "none";
+    }
+});
 
-    $(document).click(function (e) {
-        if (!$(e.target).closest('#filter-toggle-btn').length) {
-            $('#filter-dropdown').hide();
-        }
-    });
+document.getElementById("reset-filters").addEventListener("click", function () {
+    let form = document.getElementById("filter-form");
+
+    form.reset();
+    
+    form.querySelectorAll("select").forEach(select => select.value = "");
+
+    form.submit();
+});
+
+function updatePrice() {
+    var carSelect = document.getElementById("car_id");
+    var quantityInput = document.getElementById("quantity");
+    var totalPriceInput = document.getElementById("total_price");
+    var totalPriceDisplay = document.getElementById("total_price_display");
+    var carNameInput = document.getElementById("car_name");
+
+    var selectedCar = carSelect.options[carSelect.selectedIndex];
+    var price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
+    var quantity = parseInt(quantityInput.value) || 1;
+
+    var total = price * quantity;
+    totalPriceInput.value = total;
+    totalPriceDisplay.innerText = total.toLocaleString('vi-VN') + " VNĐ";
+    carNameInput.value = selectedCar.getAttribute("data-name");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    updatePrice();
 });

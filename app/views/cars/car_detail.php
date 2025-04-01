@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chi tiết xe - <?= htmlspecialchars($car['name']) ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
-</head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/script.js"></script>
 
-<body>
-    <?php include '../includes/header.php'; ?>
+    <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
     <div class="container overlay" style="max-width: 1200px;">
         <h1 class="text-center" style="color: white; font-size: 2.5rem;"><?= htmlspecialchars($car['name']) ?></h1>
 
@@ -50,7 +43,7 @@
                                 <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
                             </div>
                         </td>
-                    </tr>   
+                    </tr>
                 </table>
             </div>
 
@@ -63,7 +56,7 @@
                     <img style="height: 80%;" src="/uploads/cars/default.jpg" alt="Ảnh mẫu" class="img-fluid">
                 <?php endif; ?>
                 <div class="text-center mt-4 d-flex justify-content-center gap-3">
-                    <a href="../home" class="btn btn-primary d-flex flex-column align-items-center">
+                    <a href="../home" class="btn btn-primary d-flex flex-column align-items-center" style="height: 55px;">
                         <i class="fas fa-arrow-left"></i>
                         <span>Quay lại danh sách</span>
                     </a>
@@ -92,8 +85,4 @@
             </div>
         </div>
     </div>
-    <?php include '../includes/footer.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-
-</html>
+    <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

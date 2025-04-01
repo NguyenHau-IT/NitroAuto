@@ -55,11 +55,12 @@ class HomeController
         }
 
         // Câu SQL hoàn chỉnh
-        $sql = "SELECT Cars.id, Cars.name, Cars.brand_id, Cars.year, Cars.stock, Cars.price, Cars.fuel_type, Cars.description,
+        $sql = "SELECT Cars.id, Cars.name, Cars.brand_id, Cars.year, Cars.stock, Cars.price, Cars.fuel_type, Cars.description, Categories.name AS category_name,
         (SELECT image_url FROM Car_images WHERE Car_images.car_id = Cars.id AND image_type = 'normal') AS image,
         Brands.name AS brand
     FROM Cars
     JOIN Brands ON Brands.id = Cars.brand_id
+    JOIN Categories ON Categories.id = Cars.category_id
     $whereClause
     $sortCondition";
 

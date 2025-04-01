@@ -16,11 +16,11 @@
                             <td><?= htmlspecialchars($order['email']) ?></td>
                         </tr>
                         <tr>
-                            <th scope="row">Điện thoại</th>
+                            <th scope="row">Điện thoại ng nhận</th>
                             <td><?= htmlspecialchars($order['phone']) ?></td>
                         </tr>
                         <tr>
-                            <th scope="row">Địa chỉ</th>
+                            <th scope="row">Địa chỉ nhận xe</th>
                             <td><?= htmlspecialchars($order['address']) ?></td>
                         </tr>
                     </tbody>

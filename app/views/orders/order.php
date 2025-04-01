@@ -3,6 +3,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/script.js"></script>
 
 <link rel="stylesheet" href="/style.css">
 
@@ -17,15 +18,17 @@
         <p><strong>Địa chỉ:</strong> <?php echo htmlspecialchars($user['address'] ?? '-'); ?></p>
     </div>
 
-    <form id="orderForm">
-        <input type="hidden" name="Nội dung" value="Đặt mua xe">
+    <form action="/place_order" method="POST" id="orderForm">
+        <div class="form-group">
+            <label for="address">Địa chỉ nhận xe:</label>
+            <input type="text" class="form-control" id="address" name="address" value="<?= htmlspecialchars($user['address']) ?>" required>
+        </div>
 
-        <input type="hidden" name="buyer_name" value="<?= htmlspecialchars($user['full_name']) ?>">
-        <input type="hidden" name="email" value="<?= htmlspecialchars($user['email']) ?>">
-        <input type="hidden" name="phone" value="<?= htmlspecialchars($user['phone']) ?>">
-        <input type="hidden" name="address" value="<?= htmlspecialchars($user['address']) ?>">
-        <input type="hidden" name="Tên xe" id="car_name">
-
+        <div class="form-group">
+            <label for="phone">Số điện thoại ng nhận:</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="<?= htmlspecialchars($user['phone']) ?>" required>
+        </div>
+        
         <div class="form-group">
             <label for="car_id">Chọn xe:</label>
             <select class="form-control" id="car_id" name="car_id" onchange="updatePrice()">
@@ -46,71 +49,18 @@
 
         <div class="form-group">
             <label for="total_price">Tổng tiền:</label>
-            <input type="text" class="form-control" id="total_price" name="total_price" readonly>
-            <span id="total_price_display"></span>
+            <input type="text" class="form-control" id="total_price" name="total_price" hidden>
+            <strong><span id="total_price_display" style="font-size: 20px;"></span></strong>
         </div>
 
-        <button type="submit" class="btn btn-primary">Đặt hàng</button>
-        <a href="/home" class="btn btn-secondary">Quay lại</a>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-shopping-cart"></i> Đặt hàng
+            </button>
+            <a href="/home" class="btn btn-secondary" style="align-content: center; margin-left: 10px;">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
     </form>
-
-    <script>
-        document.getElementById("orderForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            let formData = new FormData(this);
-
-            fetch("/placeOrder", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Server Response:", data);
-                    header("Location: /success?status=success&message=".urlencode("Đã thêm vào danh sách yêu thích!"));
-                    exit();
-                })
-                .catch(error => {
-                    header("Location: /error?status=error&message=".urlencode("Bạn đã thêm xe vào danh sách!"));
-                    exit();
-                });
-
-            fetch("https://formspree.io/f/movevqyb", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Formspree Response:", data);
-                    window.location.href = "/home";
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-        });
-
-        function updatePrice() {
-            var carSelect = document.getElementById("car_id");
-            var quantityInput = document.getElementById("quantity");
-            var totalPriceInput = document.getElementById("total_price");
-            var totalPriceDisplay = document.getElementById("total_price_display");
-            var carNameInput = document.getElementById("car_name");
-
-            var selectedCar = carSelect.options[carSelect.selectedIndex];
-            var price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
-            var quantity = parseInt(quantityInput.value) || 1;
-
-            var total = price * quantity;
-            totalPriceInput.value = total;
-            totalPriceDisplay.innerText = total.toLocaleString('vi-VN') + " VNĐ";
-            carNameInput.value = selectedCar.getAttribute("data-name");
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            updatePrice();
-        });
-    </script>
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

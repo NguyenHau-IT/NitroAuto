@@ -1,11 +1,12 @@
 <?php
-require_once '../config/database.php'; // Kiểm tra xem đường dẫn đến file config có đúng không
+require_once '../../config/database.php'; // Đảm bảo đường dẫn đúng
 
 header('Content-Type: application/json');
 
 if (isset($_GET['q'])) {
     $query = trim($_GET['q']);
-    // Chỉnh sửa câu truy vấn cho SQL Server
+
+    // Dùng LIKE để tìm kiếm tên thương hiệu xe
     $stmt = $conn->prepare("SELECT TOP 10 name FROM Brands WHERE name LIKE :query");
     $stmt->execute(['query' => "%$query%"]);
     $brands = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -15,4 +16,3 @@ if (isset($_GET['q'])) {
     echo json_encode(["error" => "Thiếu tham số 'q'"]);
 }
 ?>
-

@@ -40,7 +40,7 @@
                             }
                         ?>">
                             <td colspan="4">
-                                <strong>Đơn hàng #<?= $order["order_id"] ?> - Ngày đặt: <?= $order["order_date"] ?> - Trạng thái:
+                                <strong>Đơn hàng #<?= $order["order_id"] ?> - Ngày đặt: <?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?> - Trạng thái:
                                     <?php
                                     switch (strtolower($order['status'])) {
                                         case 'pending':
@@ -58,6 +58,7 @@
                                         case 'completed':
                                             echo 'Đã hoàn thành';
                                             break;
+
                                     }
                                     ?>
                                 </strong>

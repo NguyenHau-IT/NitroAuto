@@ -29,6 +29,8 @@ class OrderController
             $car_id = $_POST['car_id'] ?? 0;
             $quantity = $_POST['quantity'] ?? 0;
             $total_price = $_POST['total_price'] ?? 0;
+            $address = $_POST['address'] ?? null;
+            $phone = $_POST['phone'] ?? null;
 
             $total_price = floatval(str_replace(',', '', $total_price));
 
@@ -37,7 +39,18 @@ class OrderController
                 exit();
             }
 
-            $result = Orders::create($user_id, $car_id, $quantity, $total_price);
+            if (empty($address) || empty($phone)) {
+                $user = Users::find($user_id);
+                if ($user) {
+                    $address = $user['address'];
+                    $phone = $user['phone'];
+                } else {
+                    header("Location: /error?status=error&message=" . urlencode("Không tìm thấy thông tin người dùng!") . "&href=/home");
+                    exit();
+                }
+            }
+
+            $result = Orders::create($user_id, $car_id, $quantity, $total_price, $address, $phone);
             if ($result) {
                 header("Location: /success?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") . "&href=/home");
                 exit();

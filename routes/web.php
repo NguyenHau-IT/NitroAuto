@@ -50,7 +50,7 @@ switch (true) {
         (new FavoriteController())->addFavorite();
         break;
 
-    case ($uri === 'placeOrder'):
+    case ($uri === 'place_order'):
         (new OrderController())->placeOrder();
         break;
 
