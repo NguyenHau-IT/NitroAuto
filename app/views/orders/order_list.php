@@ -2,9 +2,9 @@
 
 <link rel="stylesheet" href="/style.css">
 <div class="overlay ">
-    <div class=" bg-light rounded-4 shadow p-3 container my-4" style="max-width: 1000px;">
+    <div class="bg-light rounded-4 shadow p-3 container my-4" style="max-width: 1000px;">
         <h2 class="text-center">Danh sách đơn hàng</h2>
-        <div class="btn-group mb-3" role="group">
+        <div class="btn-group mb-3 sticky-top bg-light py-2" role="group" style="z-index: 1020;">
             <button class="btn btn-secondary" onclick="filterOrders('all')">Tất cả</button>
             <button class="btn btn-warning" onclick="filterOrders('pending')">Đang chờ xử lý</button>
             <button class="btn btn-info" onclick="filterOrders('confirmed')">Đã xác nhận</button>
@@ -12,7 +12,7 @@
             <button class="btn btn-success" onclick="filterOrders('completed')">Đã hoàn thành</button>
             <button class="btn btn-danger" onclick="filterOrders('canceled')">Đã hủy</button>
         </div>
-        <div id="order-list">
+        <div id="order-list" style="max-height: 500px; overflow-y: auto;">
             <?php foreach ($orders as $order): ?>
                 <div class="card mb-3 order-card <?= strtolower($order['status']) ?>">
                     <div class="card-body d-flex justify-content-between align-items-center">
