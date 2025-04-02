@@ -1,7 +1,7 @@
-<div class="d-flex justify-content-between align-items-center mb-2 bg-light rounded-4 shadow">
+<div class="d-flex justify-content-between align-items-center my-4 bg-light rounded-4 shadow">
     <!-- Dropdown bộ lọc -->
     <div class="dropdown">
-        <button class="btn btn-outline-info dropdown-toggle ms-3" type="button" id="filter-toggle-btn" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-outline-info ms-3" type="button" id="filter-toggle-btn">
             <i class="fas fa-filter"></i> Bộ lọc
         </button>
         <div class="dropdown-menu p-3" aria-labelledby="filter-toggle-btn" style="min-width: 600px;" id="filter-dropdown">
@@ -12,12 +12,13 @@
                         <label>Thương hiệu</label>
                         <select class="form-control" name="brand">
                             <option value="">Tất cả</option>
-                            <?php foreach ($brands as $brandItem): ?>
-                                <option value="<?= htmlspecialchars($brandItem['id']) ?>"
-                                    <?= isset($_POST['brand']) && $_POST['brand'] == $brandItem['id'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($brandItem['name']) ?>
-                                </option>
-                            <?php endforeach; ?>
+                            <?php if (isset($brands) && is_array($brands)): foreach ($brands as $brandItem): ?>
+                                    <option value="<?= htmlspecialchars($brandItem['id']) ?>"
+                                        <?= isset($_POST['brand']) && $_POST['brand'] == $brandItem['id'] ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($brandItem['name']) ?>
+                                    </option>
+                            <?php endforeach;
+                            endif; ?>
                         </select>
                     </div>
 
@@ -61,12 +62,14 @@
                         <label>Loại xe</label>
                         <select class="form-control" name="car_type">
                             <option value="">Chọn loại xe...</option>
-                            <?php foreach ($categories as $category): ?>
-                                <option value="<?= htmlspecialchars($category['id']) ?>"
-                                    <?= isset($_POST['car_type']) && $_POST['car_type'] == $category['id'] ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($category['name']) ?>
-                                </option>
-                            <?php endforeach; ?>
+                            <?php if (isset($categories) && is_array($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?= htmlspecialchars($category['id']) ?>"
+                                        <?= isset($_POST['car_type']) && $_POST['car_type'] == $category['id'] ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($category['name']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                     </div>
 
@@ -117,4 +120,3 @@
 <script src="/script.js"></script>
 <link rel="stylesheet" href="/style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-

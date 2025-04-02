@@ -71,32 +71,6 @@ class Orders {
 
         return true;
     }
-
-
-    public static function getUserOrders($user_id) {
-        global $conn;
-        
-        $stmt = $conn->prepare("
-            SELECT 
-                o.id AS order_id,
-                o.order_date,
-                o.status,
-                o.total_amount,
-                od.car_id,
-                c.name AS car_name,
-                od.quantity,
-                od.price,
-                (od.quantity * od.price) AS total_price
-            FROM orders o
-            JOIN order_details od ON o.id = od.order_id
-            JOIN cars c ON od.car_id = c.id
-            WHERE o.user_id = :user_id
-            ORDER BY o.id DESC
-        ");
-        
-        $stmt->execute(['user_id' => $user_id]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } 
     
     public static function getOrderById($order_id) {
 

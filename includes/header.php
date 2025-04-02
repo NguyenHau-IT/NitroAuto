@@ -55,9 +55,6 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
                             <a class="nav-link" href="/showOrderForm"><i class="fas fa-shopping-cart"></i> Mua xe</a>
                         </li>
-                        <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
-                            <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử mua xe</a>
-                        </li>
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
                             <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i> Danh sách yêu thích</a>
                         </li>
@@ -66,6 +63,9 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         <?php if ($user && $user['role'] === 'admin'): ?>
                             <li class="nav-item <?= ($current_page == 'admin') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/admin"><i class="fas fa-user-shield"></i> Admin Dashboard</a>
+                            </li>
+                            <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
+                                <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử mua xe</a>
                             </li>
                         <?php endif; ?>
                         <?php if ($user): ?>

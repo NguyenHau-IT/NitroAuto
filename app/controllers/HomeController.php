@@ -3,6 +3,7 @@ require_once '../config/database.php';
 require_once '../app/models/Brands.php';
 require_once '../app/models/Cars.php';
 require_once '../app/models/HistoryViewCar.php';
+require_once '../app/models/Banner.php';
 
 class HomeController
 {
@@ -99,6 +100,7 @@ class HomeController
         $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $brands = Brands::getByStock();
         $categories = Categories::getByCar();
+        $banners = Banner::getAllBanners();
 
         // Lấy lịch sử xem xe của người dùng (nếu có)
         $user_id = $_SESSION['user_id'] ?? null;

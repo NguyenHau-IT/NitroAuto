@@ -13,7 +13,7 @@ body {
 
 .overlay {
     min-height: 80vh;
-    padding: 50px 20px;
+    padding:20px;
 }
 
 .car-card {
@@ -156,3 +156,19 @@ nav {
 .shipped { border-color: #007bff; }
 .canceled { border-color: #dc3545; }
 .completed { border-color: #28a745; }
+
+.carousel-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item {
+    width: 100%;
+    height: 100%; /* Đảm bảo các slide chiếm hết chiều cao */
+}
+
+.carousel-item img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}

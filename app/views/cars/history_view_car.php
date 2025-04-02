@@ -1,9 +1,9 @@
 <?php if (!empty($histories)): ?>
-    <div class="mb-4 mt-4">
-        <div class="card shadow rounded-4 p-3" style="max-height: 250px; overflow-y: auto;">
+    <div class="mb-4">
+        <div class="card shadow rounded-4 p-0" style="max-height: 200px; overflow-y: auto;">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center w-100 mt-1">
-                    <h5 class="text-warning mb-0">Xe đã xem</h5>
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <h5 class="text-warning mb-0"><?= htmlspecialchars($_SESSION["user"]["full_name"] ?? 'Không xác định')?> đã xem</h5>
                     <form action="/clear_history/<?php echo $_SESSION["user"]["id"]; ?>" method="POST">
                         <button type="submit" class="btn btn-sm btn-danger">Xoá tất cả</button>
                     </form>
@@ -11,12 +11,12 @@
                 <div class="d-flex flex-row flex-nowrap overflow-auto py-1">
                     <?php foreach ($histories as $history): ?>
                         <div class="p-2 rounded-3 shadow-sm d-flex align-items-center position-relative mx-2 bg-white"
-                            style="width: 270px; flex-shrink: 0; border: 1px solid rgba(0, 0, 0, 0.1);">
+                            style="width: 280px; flex-shrink: 0; border: 1px solid rgba(0, 0, 0, 0.1);">
 
                             <a href="/car_detail/<?= htmlspecialchars($history['car_id']) ?>">
                                 <img src="<?= htmlspecialchars($history['image_url'] ?? '/uploads/cars/default.jpg') ?>"
                                     alt="<?= htmlspecialchars($history['car_name'] ?? 'Không xác định') ?>"
-                                    class="rounded-2 me-3" style="width: 80px; height: 80px; object-fit: cover;">
+                                    class="rounded-2 me-2" style="width: 90px; height: 80px; object-fit: cover;">
                             </a>
 
                             <div class="flex-grow-1 d-flex flex-column justify-content-between" style="padding-right: 30px; min-height: 80px;">

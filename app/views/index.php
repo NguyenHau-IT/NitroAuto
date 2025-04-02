@@ -4,6 +4,9 @@
         <!-- Lịch sử xem xe -->
         <?php require_once __DIR__ . '/../views/cars/history_view_car.php'; ?>
 
+        <!--Slice Bar-->
+        <?php require_once __DIR__ . '/../views/slice-bar/slider.php'; ?>
+
         <!-- Bộ lọc và ô tìm kiếm -->
         <?php require_once __DIR__ . '/../views/cars/filter.php'; ?>
 

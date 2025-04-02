@@ -1,3 +1,27 @@
+let filterToggleBtn = document.getElementById("filter-toggle-btn");
+let filterDropdown = document.getElementById("filter-dropdown");
+
+if (filterToggleBtn && filterDropdown) {
+    // Mở và đóng dropdown khi nhấn vào nút
+    filterToggleBtn.addEventListener("click", function(e) {
+        e.stopPropagation(); // Ngăn không cho sự kiện truyền ra ngoài
+        filterDropdown.classList.toggle("show");
+    });
+
+    // Đóng dropdown khi nhấn ra ngoài
+    document.addEventListener("click", function(e) {
+        if (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+            filterDropdown.classList.remove("show");
+        }
+    });
+
+    // Đặt lại bộ lọc khi nhấn nút "Đặt lại"
+    document.getElementById("reset-filters").addEventListener("click", function() {
+        document.getElementById("filter-form").reset(); // Đặt lại các bộ lọc về mặc định
+        filterDropdown.classList.remove("show"); // Đóng dropdown sau khi reset
+    });
+}
+
 function updatePrice() {
     let carSelect = document.getElementById("car_id");
     let quantityInput = document.getElementById("quantity");
@@ -27,6 +51,7 @@ if (document.getElementById("car_id")) {
 
 document.addEventListener("DOMContentLoaded", function () {
     const filterForm = document.getElementById("filter-form");
+    const searchForm = document.getElementById("search-form");
     const filterDropdown = document.getElementById("filter-dropdown");
 
     if (filterForm) {
@@ -56,6 +81,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 0);
         });
     }
+
+    if (searchForm) {
+        // Submit form via AJAX (fetch)
+        searchForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent page reload
+
+            const formData = new FormData(searchForm);
+
+            fetch("/filter-cars", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("car-list-container").innerHTML = data;
+                })
+                .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
+        });
+    }
 });
 
 function filterOrders(status) {
@@ -64,21 +108,6 @@ function filterOrders(status) {
             card.style.display = '';
         } else {
             card.style.display = 'none';
-        }
-    });
-}
-
-let filterToggleBtn = document.getElementById("filter-toggle-btn");
-let filterDropdown = document.getElementById("filter-dropdown");
-
-if (filterToggleBtn && filterDropdown) {
-    filterToggleBtn.addEventListener("click", function () {
-        filterDropdown.classList.toggle("show");
-    });
-
-    document.addEventListener("click", function (e) {
-        if (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
-            filterDropdown.classList.remove("show");
         }
     });
 }

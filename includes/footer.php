@@ -1,4 +1,4 @@
-<footer class="bg-dark text-white text-center py-3">
+<footer class="bg-dark text-white text-center py-2">
     <div class="container">
         <p>&copy; <?php echo date("Y"); ?> Nitro Auto. All rights reserved.</p>
         <p>Follow us on:

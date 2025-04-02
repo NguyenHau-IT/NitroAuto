@@ -71,7 +71,50 @@ class OrderController
         }
 
         $user_id = $_SESSION["user"]["id"];
-        $orders = Orders::getUserOrders($user_id);
+        $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
+        $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
+
+        $query = "
+            SELECT 
+                o.id AS order_id,
+                o.order_date,
+                o.status,
+                o.total_amount,
+                od.car_id,
+                c.name AS car_name,
+                od.quantity,
+                od.price,
+                (od.quantity * od.price) AS total_price
+            FROM orders o
+            JOIN order_details od ON o.id = od.order_id
+            JOIN cars c ON od.car_id = c.id
+            WHERE o.user_id = :user_id
+            ORDER BY o.id DESC
+        ";
+
+        if ($startDate) {
+            $query .= " AND order_date >= :startDate";
+        }
+
+        if ($endDate) {
+            $query .= " AND order_date <= :endDate";
+        }
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(':user_id', $user_id); // Bind the user_id to the query
+
+        if ($startDate) {
+            $stmt->bindParam(':startDate', $startDate);
+        }
+
+        if ($endDate) {
+            $stmt->bindParam(':endDate', $endDate);
+        }
+
+        $stmt->execute();
+
+        $orders = $stmt->fetchAll(); // Fetch all results from the query
 
         if (empty($orders)) {
             header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
@@ -92,7 +135,8 @@ class OrderController
         require_once '../app/views/orders/order_detail.php';
     }
 
-    public function order_edit($id) {
+    public function order_edit($id)
+    {
         $order = Orders::getOrderById($id);
         if (!$order) {
             header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
@@ -101,7 +145,8 @@ class OrderController
         require_once __DIR__ . "/../views/orders/order_edit.php";
     }
 
-    public function updateOrder() {
+    public function updateOrder()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['order_id'];
             $status = $_POST['order_status'];
@@ -116,7 +161,8 @@ class OrderController
         }
     }
 
-    public function deleteOrder($id) {
+    public function deleteOrder($id)
+    {
         if (Orders::delete($id)) {
             header("Location: /success?status=success&message=" . urlencode("Xoá đơn hàng thành công!") . "&href=/admin");
             exit;

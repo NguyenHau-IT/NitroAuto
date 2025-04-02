@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <link rel="stylesheet" href="/style.css">
-<div class="overlay ">
+<div class="overlay">
     <div class="bg-light rounded-4 shadow p-3 container my-4" style="max-width: 1000px;">
         <h2 class="text-center">Danh sách đơn hàng</h2>
         <div class="btn-group mb-3 sticky-top bg-light py-2" role="group" style="z-index: 1020;">
@@ -12,6 +12,37 @@
             <button class="btn btn-success" onclick="filterOrders('completed')">Đã hoàn thành</button>
             <button class="btn btn-danger" onclick="filterOrders('canceled')">Đã hủy</button>
         </div>
+        
+        <div class="mb-3">
+            <label for="date-range" class="form-label">Chọn khoảng thời gian:</label>
+            <select id="date-range" class="form-control">
+                <option value="today">Hôm nay</option>
+                <option value="last_week">Tuần này</option>
+                <option value="this_month">Tháng này</option>
+                <option value="last_5_days">5 ngày qua</option>
+                <option value="custom">Tùy chỉnh</option>
+            </select>
+        </div>
+
+        <!-- Nếu chọn "Tùy chỉnh", hiển thị trường ngày bắt đầu và kết thúc -->
+        <div id="custom-date-range" style="display: none;">
+            <div class="mb-3 row">
+                <div class="col">
+                    <label for="start-date" class="form-label">Ngày bắt đầu:</label>
+                    <input type="date" id="start-date" class="form-control">
+                </div>
+                <div class="col">
+                    <label for="end-date" class="form-label">Ngày kết thúc:</label>
+                    <input type="date" id="end-date" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <!-- Nút lọc -->
+        <div class="mb-3">
+            <button class="btn btn-primary" onclick="applyFilter()">Lọc</button>
+        </div>
+
         <div id="order-list" style="max-height: 500px; overflow-y: auto;">
             <?php foreach ($orders as $order): ?>
                 <div class="card mb-3 order-card <?= strtolower($order['status']) ?>">
