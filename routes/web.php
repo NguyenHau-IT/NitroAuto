@@ -10,6 +10,7 @@ require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/NotificationController.php';
 require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/HistoryViewCarController.php';
+require_once '../app/controllers/AjaxController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
@@ -80,6 +81,14 @@ switch (true) {
 
     case ($uri === 'register_test_drive'):
         (new TestDriveController())->create();
+        break;
+
+    case ($uri === 'filter-cars'):
+        (new AjaxController())->filterCar();
+        break;
+
+    case ($uri === 'reset-filters'):
+        (new AjaxController())->resetFilters();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):

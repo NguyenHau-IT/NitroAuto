@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center mb-2 bg-light rounded-4 shadow">
     <!-- Dropdown bộ lọc -->
     <div class="dropdown">
-        <button class="btn btn-outline-info dropdown-toggle ms-3" type="button" id="filter-toggle-btn" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-outline-info dropdown-toggle ms-3" type="button" id="filter-toggle-btn" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-filter"></i> Bộ lọc
         </button>
         <div class="dropdown-menu p-3" aria-labelledby="filter-toggle-btn" style="min-width: 600px;" id="filter-dropdown">
@@ -90,7 +90,7 @@
                     <button type="submit" class="btn btn-primary mr-2">
                         <i class="fas fa-check-circle"></i> Áp dụng
                     </button>
-                    <button type="button" class="btn btn-secondary" id="reset-filters">
+                    <button type="reset" class="btn btn-secondary" id="reset-filters">
                         <i class="fas fa-redo"></i> Đặt lại
                     </button>
                 </div>
@@ -111,7 +111,10 @@
         </div>
     </form>
 </div>
+
+<!-- Bootstrap JS và các thư viện -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/script.js"></script>
 <link rel="stylesheet" href="/style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+

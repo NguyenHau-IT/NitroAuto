@@ -1,6 +1,17 @@
 RewriteEngine On
 RewriteBase /
+
+# Định tuyến trang chi tiết xe
 RewriteRule ^car_detail/([0-9]+)$ app/views/car_detail.php?id=$1 [L]
+
+# Định tuyến trang admin
 RewriteRule ^admin/?$ admin/index.php [L]
+
+# Trang chính
 RewriteRule ^$ index.php [L]
-RewriteRule ^car_find/([0-9]+)$ index.php?brand=$1 [L,QSA]s
+
+# Tìm xe theo thương hiệu
+RewriteRule ^car_find/([0-9]+)$ index.php?brand=$1 [L,QSA]
+
+# Thêm quy tắc này để gọi AjaxController.php
+RewriteRule ^ajax/(.*)$ app/controllers/AjaxController.php [L,QSA]
