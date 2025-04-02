@@ -1,58 +1,8 @@
 <?php
 require '../config/database.php';
 if (!isset($_SESSION['user'])) {
-    header("Location: login");
+    header("Location: /home");
     exit();
-}
-
-try {
-    $stmt = $conn->query("
-        SELECT cars.*, 
-               brands.name AS brand_name, 
-               categories.name AS category_name,
-               (SELECT image_url FROM car_images WHERE car_images.car_id = cars.id AND image_type = 'normal') AS image_url,
-               (SELECT image_url FROM car_images WHERE car_images.car_id = cars.id AND image_type = '3d') AS image_3d_url
-        FROM cars
-        LEFT JOIN brands ON cars.brand_id = brands.id
-        LEFT JOIN categories ON cars.category_id = categories.id
-    ");
-    $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_users = $conn->query("SELECT * FROM users");
-    $users = $stmt_users->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_favorites = $conn->query("
-        SELECT favorites.id, users.full_name AS user_name, cars.name AS car_name, favorites.created_at
-        FROM favorites
-        JOIN users ON favorites.user_id = users.id
-        JOIN cars ON favorites.car_id = cars.id
-    ");
-    $favorites = $stmt_favorites->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_orders = $conn->query("
-        SELECT orders.*, users.full_name AS user_name, cars.name AS car_name, order_details.quantity, order_details.price
-        FROM orders
-        JOIN users ON orders.user_id = users.id
-        JOIN order_details ON orders.id = order_details.order_id
-        JOIN cars ON order_details.car_id = cars.id
-    ");
-    $orders = $stmt_orders->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_brands = $conn->query("SELECT * FROM brands");
-    $brands = $stmt_brands->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_categories = $conn->query("SELECT * FROM categories");
-    $categories = $stmt_categories->fetchAll(PDO::FETCH_ASSOC);
-
-    $stmt_test_drives = $conn->query("
-        SELECT TestDriveRegistration.*, users.full_name AS user_name, cars.name AS car_name
-        FROM TestDriveRegistration
-        JOIN users ON TestDriveRegistration.user_id = users.id
-        JOIN cars ON TestDriveRegistration.car_id = cars.id
-    ");
-    $test_drives = $stmt_test_drives->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Lỗi truy vấn: " . $e->getMessage());
 }
 ?>
 
@@ -65,26 +15,8 @@ try {
     <title>Admin Dashboard</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-image: url('uploads/logo.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            font-family: Arial, sans-serif;
-            color: #fff;
-        }
-
-        .overlay {
-            background: rgba(0, 0, 0, 0.7);
-            min-height: 100vh;
-
-        }
-    </style>
+    <link rel="stylesheet" href="/public/style.css">
+    <script src="/script.js"></script>
 </head>
 
 <body>
@@ -97,7 +29,7 @@ try {
             </div>
         </div>
     </header>
-    <div class="d-flex overlay text-light">
+    <div class="d-flex overlay">
         <nav class="bg-dark text-white p-3" style="min-width:100px; position: sticky; top: 0; height: 100%;">
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link text-white" href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
@@ -109,12 +41,12 @@ try {
                 <li class="nav-item"><a class="nav-link text-white" href="#orders"><i class="fas fa-shopping-cart"></i> Manage Orders</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#test_drives"><i class="fas fa-car"></i> Manage Test Drives</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
         <main class="container mt-4 flex-grow-1" style="margin-left: 30px; width: 100%;">
 
-            <section id="dashboard" class="text-white">
+            <section id="dashboard">
                 <h2>Welcome to the Admin Dashboard</h2>
                 <p>Here you can manage cars, users, and settings.</p>
             </section>

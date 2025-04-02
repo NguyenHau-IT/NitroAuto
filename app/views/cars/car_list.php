@@ -13,12 +13,12 @@
                         </a>
 
                         <div class="card-body text-center bg-dark text-light">
-                            <h5 class="card-title fw-bold text-truncate mb-3">
+                            <h5 class="card-title fw-bold mb-3 h-25">
                                 <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="text-decoration-none text-light">
                                     <?= htmlspecialchars($car['name']) ?>
                                 </a>
                             </h5>
-                            <p class="card-text fw-bold text-warning">
+                            <p class="card-text fw-bold">
                                 <i class="fas fa-money-bill-wave me-1"></i>
                                 <?= number_format($car['price'], 0, ',', '.') ?> VNĐ
                             </p>

@@ -32,7 +32,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav d-flex justify-content-center">
                         <li class="nav-item <?= ($current_page == 'home') ? 'active' : '' ?>">
-                            <a class="nav-link" href="/home"><i class="fas fa-home"></i> Home</a>
+                            <a class="nav-link" href="/home"><i class="fas fa-home"></i> NitroAuto</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="contactDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

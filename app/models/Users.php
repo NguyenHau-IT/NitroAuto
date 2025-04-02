@@ -47,16 +47,28 @@ class Users
     public static function update($data)
     {
         global $conn;
+        if (!isset($data['id']) || !isset($data['full_name']) || !isset($data['email']) || !isset($data['phone']) || !isset($data['address'])) {
+            return false;
+        }
+    
         $stmt = $conn->prepare("UPDATE users SET full_name = :full_name, email = :email, phone = :phone, address = :address WHERE id = :id");
-        $stmt->execute([
-            'id' => $data['id'],
-            'full_name' => $data['full_name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'address' => $data['address']
-        ]);
-        return $stmt->rowCount();
-    }
+    
+        try {
+            $stmt->execute([
+                'id' => $data['id'],
+                'full_name' => $data['full_name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'address' => $data['address']
+            ]);
+            
+            // Trả về số dòng bị ảnh hưởng
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            error_log("Error updating user: " . $e->getMessage());
+            return false;
+        }
+    }    
 
     public static function delete($id)
     {

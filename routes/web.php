@@ -91,6 +91,14 @@ switch (true) {
         (new AjaxController())->resetFilters();
         break;
 
+    case ($uri === 'edit_profile'):
+        (new UserController())->editProfile();
+        break;
+    
+    case ($uri === 'update_profile'):
+        (new UserController())->updateProfile();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;
