@@ -1,7 +1,7 @@
 # 🚗 Welcome to NitroAuto
 
 <p align="center">
-  <img src="https://via.placeholder.com/800x400?text=NitroAuto" alt="NitroAuto Logo" width="600">
+  <img src="/public/uploads/logo.webp" alt="NitroAuto Logo" width="600">
 </p>
 
 > 🌟 Trang Web chuyên kinh doanh ô tô mới & bán lại xe cũ với mức giá tốt nhất!
@@ -36,12 +36,6 @@ npm install
 cd public
 C:\php\php.exe -S localhost:8000
 ```
-
-## 📸 Ảnh màn hình
-<p align="center">
-  <img src="https://via.placeholder.com/800x400?text=Homepage" alt="Homepage">
-  <img src="https://via.placeholder.com/800x400?text=Car+Listing" alt="Car Listing">
-</p>
 
 ## 🤝 Đóng góp
 Mọi đóng góp đều được hoan nghênh! Nếu bạn muốn giúp cải thiện NitroAuto, hãy:
