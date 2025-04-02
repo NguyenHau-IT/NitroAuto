@@ -1,7 +1,7 @@
 # 🚗 Welcome to NitroAuto
 
 <p align="center">
-  <img src="/public/uploads/logo.webp" alt="NitroAuto Logo" width="600">
+  <img src="/public/uploads/logo.webp" alt="NitroAuto Logo" width="300" height="300">
 </p>
 
 > 🌟 Trang Web chuyên kinh doanh ô tô mới & bán lại xe cũ với mức giá tốt nhất!
