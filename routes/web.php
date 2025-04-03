@@ -168,6 +168,10 @@ switch (true) {
         (new CartController())->deleteCart($matches[1]);
         break;
 
+    case preg_match('/^delete_accessory\/(\d+)$/', $uri, $matches):
+        (new AccessoriesController())->deleteAccessory($matches[1]);
+        break;
+
     case 'error':
         (new NotificationController())->showMessage();
         break;

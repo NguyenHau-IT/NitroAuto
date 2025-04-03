@@ -40,5 +40,11 @@ class Accessories {
         $stmt->execute(['car_id' => $carId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public static function delete($id) {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM accessories WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+    }
 }
 ?>

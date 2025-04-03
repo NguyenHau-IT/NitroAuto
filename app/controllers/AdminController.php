@@ -1,5 +1,15 @@
 <?php
 require_once '../config/database.php';
+require_once '../app/models/Brands.php';
+require_once '../app/models/Cars.php';
+require_once '../app/models/HistoryViewCar.php';
+require_once '../app/models/Users.php';
+require_once '../app/models/Favorites.php';
+require_once '../app/models/Orders.php';
+require_once '../app/models/Order_details.php';
+require_once '../app/models/Car_images.php';
+require_once '../app/models/Accessories.php';
+require_once '../app/models/TestDriveRegistration.php';
 
 
 class AdminController
@@ -53,6 +63,8 @@ class AdminController
         JOIN cars ON TestDriveRegistration.car_id = cars.id
     ");
         $test_drives = $stmt_test_drives->fetchAll(PDO::FETCH_ASSOC);
+
+        $accessoires = Accessories::all();
         require_once '../app/views/admin/dashboard.php';
     }
 }

@@ -25,6 +25,7 @@ if (!isset($_SESSION['user'])) {
             <h1 class="h3 mb-0">Admin Dashboard</h1>
             <div>
                 <a class="nav-link d-inline text-white ml-3" href="/home"><i class="fas fa-home"></i> Home</a>
+                <a class="nav-link d-inline text-white ml-3" href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 <span>Xin chào, <?php echo htmlspecialchars($_SESSION['user']['full_name']); ?></span>
             </div>
         </div>
@@ -36,12 +37,12 @@ if (!isset($_SESSION['user'])) {
                 <li class="nav-item"><a class="nav-link text-white" href="#cars"><i class="fas fa-car"></i> Manage Cars</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#brands"><i class="fas fa-building"></i> Manage Brands</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#categories"><i class="fas fa-list"></i> Manage Categories</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#accessories"><i class="fas fa-cogs"></i> Manage Accessories</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#users"><i class="fas fa-users"></i> Manage Users</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#favorites"><i class="fas fa-heart"></i> Manage Favorites</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#orders"><i class="fas fa-shopping-cart"></i> Manage Orders</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#test_drives"><i class="fas fa-car"></i> Manage Test Drives</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fas fa-cog"></i> Settings</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
         <main class="container mt-4 flex-grow-1" style="margin-left: 30px; width: 100%;">
@@ -197,6 +198,45 @@ if (!isset($_SESSION['user'])) {
                 </div>
             </section>
 
+            <section id="accessories" style="display: none;width: 1550px;">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Manage Accessories</h2>
+                    <a href="/add_accessory" class="btn btn-primary mb-3">Add New Accessory</a>
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Giá</th>
+                                <th>Mô tả</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-light">
+                            <?php foreach ($accessoires as $accessory): ?>
+                                <tr>
+                                    <td><?php echo $accessory['id']; ?></td>
+                                    <td><?php echo $accessory['name']; ?></td>
+                                    <td><?php echo number_format($accessory['price']); ?> VND</td>
+                                    <td class="text-start" style="max-width: 400px; overflow: hidden; word-wrap: break-word; white-space: normal;">
+                                        <div style="max-height: 150px; overflow-y: auto;">
+                                            <?php echo nl2br(htmlspecialchars($accessory['description'])); ?>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/edit_accessory/<?php echo htmlspecialchars($accessory['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="/delete_accessory/<?php echo htmlspecialchars($accessory['id']); ?>"
+                                            onclick="return confirm('Are you sure you want to delete this accessory?');"
+                                            class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
             <section id="users" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Users</h2>
