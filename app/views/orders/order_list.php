@@ -19,6 +19,7 @@
         <div class="mb-3">
             <label for="date-range" class="form-label">Chọn khoảng thời gian:</label>
             <select id="date-range" class="form-control">
+                <option value="none" selected>-- Lọc theo ngày --</option>
                 <option value="today">Hôm nay</option>
                 <option value="last_week">Tuần này</option>
                 <option value="this_month">Tháng này</option>
@@ -44,15 +45,13 @@
         <!-- Danh sách đơn hàng -->
         <div id="order-list" style="max-height: 500px; overflow-y: auto;">
             <?php foreach ($orders as $order): ?>
-                <div class="card mb-3 order-card <?= strtolower($order['status']) ?>">
+                <div class="card mb-3 order-card <?= strtolower($order['status']) ?>" 
+                     data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
                     <div class="card-body">
-                        <!-- Hàng 1: Đơn hàng + Nút -->
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h5 class="card-title mb-0">Đơn hàng #<?= $order['order_id'] ?></h5>
                             <a href="/order_detail/<?= $order['order_id'] ?>" class="btn btn-success btn-sm">Xem chi tiết</a>
                         </div>
-
-                        <!-- Hàng 2: Xe + Tổng giá -->
                         <div class="row mb-1">
                             <div class="col-sm-6">
                                 <strong>Xe:</strong> <?= htmlspecialchars($order['car_name']) ?>
@@ -61,8 +60,6 @@
                                 <strong>Tổng giá:</strong> <?= number_format($order['total_price']) ?> VNĐ
                             </div>
                         </div>
-
-                        <!-- Hàng 3: Số lượng + Ngày đặt -->
                         <div class="row">
                             <div class="col-sm-6">
                                 <strong>Số lượng:</strong> <?= htmlspecialchars($order['quantity']) ?>

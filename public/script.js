@@ -38,15 +38,22 @@ function updatePrice() {
     let price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
     let quantity = parseInt(quantityInput.value) || 1;
 
-    let total = price * quantity;
-    totalPriceInput.value = total;
-    totalPriceDisplay.innerText = total.toLocaleString('vi-VN') + " VNĐ";
+    let subtotal = price * quantity;
+    let tax = subtotal * 0.08; // 8% VAT
+    let total = subtotal + tax;
+
+    totalPriceInput.value = total.toFixed(0);
+    totalPriceDisplay.innerHTML = `
+    <div>Tạm tính: ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
+    <div>Thuế (8%): ${tax.toLocaleString('vi-VN')} VNĐ</div>
+    <div><strong>Tổng cộng: ${total.toLocaleString('vi-VN')} VNĐ</strong></div>
+`;
     carNameInput.value = selectedCar.getAttribute("data-name");
 }
 
-if (document.getElementById("car_id")) {
+document.addEventListener("DOMContentLoaded", function () {
     updatePrice();
-}
+});
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -129,13 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentStatus = 'all';
 
-    // Lọc theo trạng thái
     window.filterOrders = function (status) {
         currentStatus = status;
         applyFilter();
     };
 
-    // Lọc theo thời gian khi thay đổi dropdown
     dateRange.addEventListener('change', function () {
         if (this.value === 'custom') {
             customRange.style.display = 'block';
@@ -145,16 +150,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Lọc khi người dùng chọn ngày tùy chỉnh
     startDate.addEventListener('change', applyFilter);
     endDate.addEventListener('change', applyFilter);
 
     function applyFilter() {
         const selectedRange = dateRange.value;
         const now = new Date();
-
         let start = null;
-        let end = new Date(); // hôm nay
+        let end = new Date();
 
         if (selectedRange === 'today') {
             start = new Date();
@@ -168,31 +171,31 @@ document.addEventListener('DOMContentLoaded', function () {
             start = new Date();
             start.setDate(now.getDate() - 5);
         } else if (selectedRange === 'custom') {
-            const sDate = startDate.value;
-            const eDate = endDate.value;
-            if (sDate && eDate) {
-                start = new Date(sDate);
-                end = new Date(eDate);
+            if (startDate.value && endDate.value) {
+                start = new Date(startDate.value);
+                end = new Date(endDate.value);
                 end.setHours(23, 59, 59, 999);
+            } else {
+                start = null;
             }
+        } else if (selectedRange === 'none') {
+            start = null;
         }
 
         orderCards.forEach(card => {
-            const statusMatch = (currentStatus === 'all') || card.classList.contains(currentStatus);
-            const orderDateStr = card.querySelector('p:last-child').textContent.match(/\d{2}\/\d{2}\/\d{4}/)?.[0];
+            const cardStatus = card.classList;
+            const cardDateStr = card.getAttribute('data-date');
+            const statusMatch = (currentStatus === 'all') || cardStatus.contains(currentStatus);
             let dateMatch = true;
 
-            if (start && orderDateStr) {
-                const [day, month, year] = orderDateStr.split('/');
-                const orderDate = new Date(`${year}-${month}-${day}`);
-                dateMatch = orderDate >= start && orderDate <= end;
+            if (start && cardDateStr) {
+                const cardDate = new Date(cardDateStr + 'T00:00:00');
+                dateMatch = (cardDate >= start && cardDate <= end);
             }
 
-            if (statusMatch && dateMatch) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
+            card.style.display = (statusMatch && dateMatch) ? 'block' : 'none';
         });
     }
+
+    applyFilter();
 });
