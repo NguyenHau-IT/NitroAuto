@@ -18,6 +18,7 @@
             <div class="d-flex justify-content-between mt-3">
                 <a href="/edit_profile" class="btn btn-outline-primary btn-lg d-flex align-items-center">
                     <i class="fas fa-user-edit me-2"></i> Chỉnh sửa thông tin
+                </a>
                 <a href="/user_orders" class="btn btn-outline-secondary btn-lg d-flex align-items-center">
                     <i class="fas fa-history me-2"></i> Lịch sử mua xe
                 </a>

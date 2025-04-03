@@ -31,10 +31,10 @@ class Users
     public static function find($id)
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt = $conn->prepare("SELECT id, full_name, email, phone, address, created_at, role FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    }    
 
     public static function where($role)
     {
@@ -44,31 +44,32 @@ class Users
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function update($data)
+    public static function update($id, $full_name, $email, $phone, $address)
     {
         global $conn;
-        if (!isset($data['id']) || !isset($data['full_name']) || !isset($data['email']) || !isset($data['phone']) || !isset($data['address'])) {
+
+        // Kiểm tra dữ liệu đầu vào
+        if (!$id || !$full_name || !$email || !$phone || !$address) {
             return false;
         }
-    
+
         $stmt = $conn->prepare("UPDATE users SET full_name = :full_name, email = :email, phone = :phone, address = :address WHERE id = :id");
-    
+
         try {
             $stmt->execute([
-                'id' => $data['id'],
-                'full_name' => $data['full_name'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'address' => $data['address']
+                'id' => $id,
+                'full_name' => $full_name,
+                'email' => $email,
+                'phone' => $phone,
+                'address' => $address
             ]);
-            
-            // Trả về số dòng bị ảnh hưởng
-            return $stmt->rowCount();
+
+            return true;
         } catch (PDOException $e) {
             error_log("Error updating user: " . $e->getMessage());
             return false;
         }
-    }    
+    }
 
     public static function delete($id)
     {
@@ -109,4 +110,3 @@ class Users
         return $conn->lastInsertId();
     }
 }
-?>

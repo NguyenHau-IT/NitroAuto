@@ -55,29 +55,29 @@ class UserController
             header("Location: /error?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
             exit();
         }
-    
-        // Kiểm tra dữ liệu được gửi
-        $data = [
-            'id' => $id,
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'phone' => $_POST['phone'],
-            'address' => $_POST['address']
-        ];
-    
+
+        $full_name = $_POST['full_name'] ?? '';
+        $email     = $_POST['email'] ?? '';
+        $phone     = $_POST['phone'] ?? '';
+        $address   = $_POST['address'] ?? '';
+
         // Kiểm tra xem tất cả các trường có bị bỏ trống không
-        if (empty($data['full_name']) || empty($data['email']) || empty($data['phone']) || empty($data['address'])) {
+        if (empty($full_name) || empty($email) || empty($phone) || empty($address)) {
             header("Location: /error?status=error&message=" . urlencode("Vui lòng điền đầy đủ thông tin!") . "&href=edit_profile");
             exit();
         }
         
-        // Gọi phương thức update và kiểm tra kết quả
-        if (Users::update($data)) {
+        // Gọi phương thức update
+        if (Users::update($id, $full_name, $email, $phone, $address)) {
+            $updatedUser = Users::find($id);
+        
+            $_SESSION['user'] = $updatedUser;
+        
             header("Location: /success?status=success&message=" . urlencode("Cập nhật thông tin thành công!") . "&href=profile");
-            exit();
+            exit();        
         } else {
             header("Location: /error?status=error&message=" . urlencode("Cập nhật thông tin thất bại!") . "&href=profile");
             exit();
         }
-    }    
+    }
 }
