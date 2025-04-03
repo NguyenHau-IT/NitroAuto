@@ -91,10 +91,6 @@ switch (true) {
         (new AjaxController())->resetFilters();
         break;
 
-    case ($uri === 'newcar'):
-        (new AjaxController())->newcar();
-        break;
-
     case ($uri === 'edit_profile'):
         (new UserController())->editProfile();
         break;

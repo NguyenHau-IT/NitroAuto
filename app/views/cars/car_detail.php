@@ -16,10 +16,16 @@
                 <h3 class="text-success fs-4 mb-3">Thông tin xe</h3>
                 <div class="d-flex flex-column gap-3">
                     <div class='d-flex justify-content-between border-bottom pb-2'>
-                        <div class='w-100'><span class='fw-bold'>Hãng xe:</span> <span class='fs-5'><?= htmlspecialchars($car['brand_name']) ?></span></div>
+                        <div class='w-100'>
+                            <span class='fw-bold'>Hãng xe:</span>
+                            <span class='fs-5'><?= htmlspecialchars($car['brand_name']) ?></span>
+                        </div>
                     </div>
                     <div class='d-flex justify-content-between border-bottom pb-2'>
-                        <div class='w-100'><span class='fw-bold'>Giá:</span> <span class='fs-5 text-danger fw-bold'><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</span></div>
+                        <div class='w-100'>
+                            <span class='fw-bold'>Giá:</span>
+                            <span class='fs-5 text-danger fw-bold'><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</span>
+                        </div>
                     </div>
                     <?php
                     $carInfoPairs = [
