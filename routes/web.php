@@ -85,11 +85,11 @@ switch (true) {
         break;
 
     case ($uri === 'filter-cars'):
-        (new AjaxController())->filterCar();
+        (new CarController())->filterCar();
         break;
 
     case ($uri === 'reset-filters'):
-        (new AjaxController())->resetFilters();
+        (new CarController())->resetFilters();
         break;
 
     case ($uri === 'edit_profile'):
