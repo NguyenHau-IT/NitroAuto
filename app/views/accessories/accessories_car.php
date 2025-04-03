@@ -1,5 +1,7 @@
 <div class="container my-5">
-    <h2 class="text-center mb-4">📦 Phụ kiện dành cho xe</h2>
+    <h2 class="text-center mb-4">
+        <i class="bi bi-tools"></i> Phụ kiện dành cho xe
+    </h2>
 
     <div class="d-flex overflow-auto gap-3 py-2 px-1">
         <?php foreach ($accessories as $item): ?>

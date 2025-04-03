@@ -32,6 +32,9 @@ class HomeController
         $user_id = $_SESSION['user_id'] ?? null;
         $histories = HistoryViewCar::getHistoryByUser($user_id);
 
+        $banner_left = Banner::banner_left();
+        $banner_right = Banner::banner_right();
+
         // Gửi dữ liệu đến view
         require_once '../app/views/index.php';
     }

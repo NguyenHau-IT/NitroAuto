@@ -48,6 +48,25 @@
             <input type="number" class="form-control fs-4" id="quantity" name="quantity" value="1" min="1" onchange="updatePrice()">
         </div>
 
+        <div class="form-group">
+            <label for="accessory_id">Chọn phụ kiện:</label>
+            <select class="form-control fs-4" id="accessory_id" name="accessory_id" onchange="updatePrice()">
+                <option value="">Chọn phụ kiện</option>
+                <?php foreach ($accessories as $accessory): ?>
+                    <option value="<?= htmlspecialchars($accessory['id']) ?>"
+                        data-accessosy-price="<?= htmlspecialchars($accessory['price']) ?>"
+                        data-accessosy-name="<?= htmlspecialchars($accessory['name']) ?>">
+                        <?= htmlspecialchars($accessory['name']) ?> - <?= number_format($accessory['price']) ?> VNĐ
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="accessory_quantity">Số lượng phụ kiện:</label>
+            <input type="number" class="form-control fs-4" id="accessory_quantity" name="accessory_quantity" value="1" min="1" onchange="updatePrice()">
+        </div>
+
         <div class="form-group fs-4">
             <label for="total_price">Thành tiền:</label>
             <input type="hidden" id="total_price" name="total_price">

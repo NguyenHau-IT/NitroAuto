@@ -42,6 +42,7 @@ if (!isset($_SESSION['user'])) {
                 <li class="nav-item"><a class="nav-link text-white" href="#favorites"><i class="fas fa-heart"></i> Manage Favorites</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#orders"><i class="fas fa-shopping-cart"></i> Manage Orders</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#test_drives"><i class="fas fa-car"></i> Manage Test Drives</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="#banners"><i class="fas fa-image"></i> Manage Banners</a></li>
                 <li class="nav-item"><a class="nav-link text-white" href="#"><i class="fas fa-cog"></i> Settings</a></li>
             </ul>
         </nav>
@@ -237,6 +238,7 @@ if (!isset($_SESSION['user'])) {
                     </table>
                 </div>
             </section>
+
             <section id="users" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
                     <h2>Manage Users</h2>
@@ -323,6 +325,11 @@ if (!isset($_SESSION['user'])) {
                                 <th>Xe</th>
                                 <th>Số lượng</th>
                                 <th>Giá</th>
+                                <th>Phụ kiện</th>
+                                <th>Số lượng</th>
+                                <th>Giá phụ kiện</th>
+                                <th>Tổng giá</th>
+                                <th>Địa chỉ</th>
                                 <th>Trạng thái</th>
                                 <th>Thời gian</th>
                                 <th>Hành động</th>
@@ -331,36 +338,40 @@ if (!isset($_SESSION['user'])) {
                         <tbody class="text-light">
                             <?php foreach ($orders as $order): ?>
                                 <tr>
-                                    <td><?php echo $order['id']; ?></td>
-                                    <td><?php echo $order['user_name']; ?></td>
-                                    <td><?php echo $order['car_name']; ?></td>
-                                    <td><?php echo $order['quantity']; ?></td>
-                                    <td><?php echo number_format($order['price']); ?> VND</td>
+                                    <td><?php echo htmlspecialchars($order['id']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['user_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['car_name'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($order['quantity'] ?? '-'); ?></td>
+                                    <td>
+                                        <?php echo isset($order['price']) ? number_format($order['price']) . ' VND' : '-'; ?>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($order['accessory_name'] ?? '-'); ?></td>
+                                    <td><?php echo htmlspecialchars($order['accessory_quantity'] ?? '-'); ?></td>
+                                    <td>
+                                        <?php echo isset($order['accessory_price']) ? number_format($order['accessory_price']) . ' VND' : '-'; ?>
+                                    </td>
+                                    <td><?php echo number_format($order['total_price']); ?> VND</td>
+                                    <td><?php echo ($order['address']); ?></td>
                                     <td class="text-center">
                                         <?php
                                         $statusClass = '';
                                         switch (strtolower($order['status'])) {
-                                            case 'Pending':
                                             case 'pending':
                                                 $statusClass = 'badge bg-warning text-dark';
                                                 $statusText = 'Đang chờ xử lý';
                                                 break;
-                                            case 'Confirmed':
                                             case 'confirmed':
                                                 $statusClass = 'badge bg-primary';
                                                 $statusText = 'Đã xác nhận';
                                                 break;
-                                            case 'Shipped':
                                             case 'shipped':
                                                 $statusClass = 'badge bg-info text-dark';
                                                 $statusText = 'Đang giao';
                                                 break;
-                                            case 'Canceled':
                                             case 'canceled':
                                                 $statusClass = 'badge bg-danger';
                                                 $statusText = 'Đã hủy';
                                                 break;
-                                            case 'Completed':
                                             case 'completed':
                                                 $statusClass = 'badge bg-success';
                                                 $statusText = 'Đã hoàn thành';
@@ -372,7 +383,7 @@ if (!isset($_SESSION['user'])) {
                                         ?>
                                         <span class="<?php echo $statusClass; ?>"><?php echo $statusText; ?></span>
                                     </td>
-                                    <td><?php echo $order['order_date']; ?></td>
+                                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
                                     <td class="text-center">
                                         <a href="/order_edit/<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
                                         <a href="/order_delete/<?php echo htmlspecialchars($order['id']); ?>"
@@ -382,10 +393,10 @@ if (!isset($_SESSION['user'])) {
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
+
                     </table>
                 </div>
             </section>
-
 
             <section id="test_drives" style="display: none;width: 1550px;">
                 <div class="d-flex justify-content-between mb-3">
@@ -440,6 +451,47 @@ if (!isset($_SESSION['user'])) {
                                     <td class="text-center">
                                         <a href="/test_drive_edit/<?php echo htmlspecialchars($test_drive['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
                                         <a href="/test_drive_delete/<?= htmlspecialchars($test_drive['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this test drive?');" class="btn btn-danger btn-sm">Delete</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="banners" style="display: none;width: 1550px;">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Manage Banners</h2>
+                    <a href="/add_banner" class="btn btn-primary mb-3">Thêm banner</a>
+                </div>
+                <div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
+                    <table class="table table-striped table-bordered align-middle bg-dark">
+                        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Url</th>
+                                <th>Hình ảnh</th>
+                                <th>Loại</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-light">
+                            <?php foreach ($banners as $banner): ?>
+                                <tr>
+                                    <td><?php echo $banner['id']; ?></td>
+                                    <td><?php echo $banner['image_url']; ?></td>
+                                    <td>
+                                        <?php if (!empty($banner['image_url'])): ?>
+                                            <img src="<?= htmlspecialchars($banner['image_url']) ?>" alt="<?= htmlspecialchars($banner['name'] ?? 'Banner Image') ?>" class="img-fluid" width="300">
+                                        <?php else: ?>
+                                            <span>No image</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?php echo $banner['type']; ?></td>
+                                    <td class="text-center">
+                                        <a href="/banner_edit/<?php echo htmlspecialchars($banner['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                        <a href="/banner_delete/<?= htmlspecialchars($banner['id']) ?? 0 ?>" onclick="return confirm('Are you sure you want to delete this test drive?');" class="btn btn-danger btn-sm">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

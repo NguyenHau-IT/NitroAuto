@@ -13,7 +13,7 @@
                         </a>
 
                         <div class="card-body text-center bg-dark text-light">
-                            <h5 class="card-title fw-bold mb-3" style="height: 40px;">
+                            <h5 class="card-title fw-bold mb-3" style="height: 60px;">
                                 <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="text-decoration-none text-light">
                                     <?= htmlspecialchars($car['name']) ?>
                                 </a>

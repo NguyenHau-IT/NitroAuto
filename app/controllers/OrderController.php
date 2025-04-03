@@ -14,6 +14,7 @@ class OrderController
         }
 
         $cars = Cars::all();
+        $accessories = Accessories::all();
         require_once '../app/views/orders/order.php';
     }
 
@@ -26,13 +27,13 @@ class OrderController
         }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $car_id = $_POST['car_id'] ?? 0;
-            $quantity = $_POST['quantity'] ?? 0;
-            $total_price = $_POST['total_price'] ?? 0;
-            $address = $_POST['address'] ?? null;
-            $phone = $_POST['phone'] ?? null;
-
-            $total_price = floatval(str_replace(',', '', $total_price));
+            $car_id = (int)($_POST['car_id'] ?? 0);
+            $quantity = (int)($_POST['quantity'] ?? 0);
+            $accessory_id = (int)($_POST['accessory_id'] ?? 0);
+            $accessory_quantity = (int)($_POST['accessory_quantity'] ?? 0);
+            $total_price = floatval(str_replace(',', '', $_POST['total_price'] ?? 0));
+            $address = $_POST['address'] ?? '';
+            $phone = $_POST['phone'] ?? '';
 
             if ($car_id <= 0 || $quantity <= 0 || $total_price <= 0) {
                 header("Location: /error?status=error&message=" . urlencode("Thông tin mua xe không hợp lệ!") . "&href=/home");
@@ -49,8 +50,9 @@ class OrderController
                     exit();
                 }
             }
+            // Gọi hàm Orders::create đã hỗ trợ cả phụ kiện
+            $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $total_price, $address, $phone);
 
-            $result = Orders::create($user_id, $car_id, $quantity, $total_price, $address, $phone);
             if ($result) {
                 header("Location: /success?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") . "&href=/home");
                 exit();

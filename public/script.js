@@ -25,29 +25,43 @@ if (filterToggleBtn && filterDropdown) {
 function updatePrice() {
     let carSelect = document.getElementById("car_id");
     let quantityInput = document.getElementById("quantity");
+    let accessorySelect = document.getElementById("accessory_id");
+    let accessoryQuantityInput = document.getElementById("accessory_quantity"); 
     let totalPriceInput = document.getElementById("total_price");
     let totalPriceDisplay = document.getElementById("total_price_display");
     let carNameInput = document.getElementById("car_name");
 
-    if (!carSelect || !quantityInput || !totalPriceInput || !totalPriceDisplay || !carNameInput) {
+    if (!carSelect || !quantityInput || !accessorySelect || !accessoryQuantityInput || !totalPriceInput || !totalPriceDisplay || !carNameInput) {
         console.error("Một hoặc nhiều phần tử bị thiếu.");
         return;
     }
 
+    // Giá xe
     let selectedCar = carSelect.options[carSelect.selectedIndex];
-    let price = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
-    let quantity = parseInt(quantityInput.value) || 1;
+    let carPrice = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
+    let carQuantity = parseInt(quantityInput.value) || 1;
+    let carSubtotal = carPrice * carQuantity;
 
-    let subtotal = price * quantity;
-    let tax = subtotal * 0.08; // 8% VAT
+    // Giá phụ kiện
+    let selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex];
+    let accessoryPrice = selectedAccessory ? parseFloat(selectedAccessory.getAttribute("data-accessosy-price")) || 0 : 0;
+    let accessoryQuantity = parseInt(accessoryQuantityInput.value) || 1;
+    let accessorySubtotal = accessoryPrice * accessoryQuantity;
+
+    // Tổng phụ kiện + xe
+    let subtotal = carSubtotal + accessorySubtotal;
+    let tax = subtotal * 0.08; // VAT 8%
     let total = subtotal + tax;
 
+    // Gán vào hidden + hiển thị
     totalPriceInput.value = total.toFixed(0);
     totalPriceDisplay.innerHTML = `
-    <div>Tạm tính: ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
-    <div>Thuế (8%): ${tax.toLocaleString('vi-VN')} VNĐ</div>
-    <div><strong>Tổng cộng: ${total.toLocaleString('vi-VN')} VNĐ</strong></div>
-`;
+        <div>Tiền xe: ${carSubtotal.toLocaleString('vi-VN')} VNĐ</div>
+        <div>Phụ kiện: ${accessorySubtotal.toLocaleString('vi-VN')} VNĐ</div>
+        <div>Thuế (8%): ${tax.toLocaleString('vi-VN')} VNĐ</div>
+        <div class="fw-bold mt-2">Tổng cộng: ${total.toLocaleString('vi-VN')} VNĐ</div>
+    `;
+
     carNameInput.value = selectedCar.getAttribute("data-name");
 }
 
