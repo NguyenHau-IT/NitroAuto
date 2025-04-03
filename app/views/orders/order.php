@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
-<div class="container mt-5 overlay text-dark fs-5 mb-4 bg-light shadow rounded-4 p-4">
+<div class="container mt-5 overlay text-dark fs-5 mb-4 bg-light shadow-lg rounded-4 p-4">
     <h2 class="mb-4 text-center">Đặt Mua Xe</h2>
 
     <div class="mb-3 fs-3">
@@ -50,7 +50,7 @@
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-shopping-cart"></i> Đặt hàng
             </button>
-            <a href="/home" class="btn btn-secondary" style="align-content: center; margin-left: 10px;">
+            <a href="/home" class="btn btn-danger" style="align-content: center; margin-left: 10px;">
                 <i class="fas fa-arrow-left"></i> Quay lại
             </a>
         </div>

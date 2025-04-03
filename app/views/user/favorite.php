@@ -31,6 +31,11 @@
                 </tbody>
             </table>
         </div>
+        <div class="text-end">
+            <a href="/home" class="btn btn-danger   " style="align-content: center; margin-left: 10px;">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
     </div>
 </div>
 

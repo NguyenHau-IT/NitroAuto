@@ -75,7 +75,7 @@
     </div>
 
     <!-- Danh sách xe khác -->
-    <div class="bg-info rounded-4 mt-5 p-4">
+    <div class="bg-info rounded-4 mt-4">
         <h2 class="text-center text-white">Các mẫu xe khác</h2>
         <?php require_once __DIR__ . '/car_list.php'; ?>
     </div>

@@ -3,20 +3,20 @@ let filterDropdown = document.getElementById("filter-dropdown");
 
 if (filterToggleBtn && filterDropdown) {
     // Mở và đóng dropdown khi nhấn vào nút
-    filterToggleBtn.addEventListener("click", function(e) {
+    filterToggleBtn.addEventListener("click", function (e) {
         e.stopPropagation(); // Ngăn không cho sự kiện truyền ra ngoài
         filterDropdown.classList.toggle("show");
     });
 
     // Đóng dropdown khi nhấn ra ngoài
-    document.addEventListener("click", function(e) {
+    document.addEventListener("click", function (e) {
         if (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
             filterDropdown.classList.remove("show");
         }
     });
 
     // Đặt lại bộ lọc khi nhấn nút "Đặt lại"
-    document.getElementById("reset-filters").addEventListener("click", function() {
+    document.getElementById("reset-filters").addEventListener("click", function () {
         document.getElementById("filter-form").reset(); // Đặt lại các bộ lọc về mặc định
         filterDropdown.classList.remove("show"); // Đóng dropdown sau khi reset
     });
@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const filterForm = document.getElementById("filter-form");
     const searchForm = document.getElementById("search-form");
     const filterDropdown = document.getElementById("filter-dropdown");
+    const filterFromCurrentYearBtn = document.getElementById("filter-from-current-year");
 
     if (filterForm) {
         // Submit form via AJAX (fetch)
@@ -100,14 +101,98 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
         });
     }
+
+    if (filterFromCurrentYearBtn) {
+        filterFromCurrentYearBtn.addEventListener("click", function () {
+            const currentYear = new Date().getFullYear();
+
+            // Set năm sản xuất trong filter-form
+            const yearSelect = document.getElementById("year-manufacture-select");
+            if (yearSelect) {
+                yearSelect.value = currentYear;
+            }
+
+            // Gửi form để lọc
+            if (filterForm) {
+                filterForm.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+            }
+        });
+    }
 });
 
-function filterOrders(status) {
-    document.querySelectorAll('.order-card').forEach(card => {
-        if (status === 'all' || card.classList.contains(status)) {
-            card.style.display = '';
+document.addEventListener('DOMContentLoaded', function () {
+    const dateRange = document.getElementById('date-range');
+    const customRange = document.getElementById('custom-date-range');
+    const startDate = document.getElementById('start-date');
+    const endDate = document.getElementById('end-date');
+    const orderCards = document.querySelectorAll('.order-card');
+
+    let currentStatus = 'all';
+
+    // Lọc theo trạng thái
+    window.filterOrders = function (status) {
+        currentStatus = status;
+        applyFilter();
+    };
+
+    // Lọc theo thời gian khi thay đổi dropdown
+    dateRange.addEventListener('change', function () {
+        if (this.value === 'custom') {
+            customRange.style.display = 'block';
         } else {
-            card.style.display = 'none';
+            customRange.style.display = 'none';
+            applyFilter();
         }
     });
-}
+
+    // Lọc khi người dùng chọn ngày tùy chỉnh
+    startDate.addEventListener('change', applyFilter);
+    endDate.addEventListener('change', applyFilter);
+
+    function applyFilter() {
+        const selectedRange = dateRange.value;
+        const now = new Date();
+
+        let start = null;
+        let end = new Date(); // hôm nay
+
+        if (selectedRange === 'today') {
+            start = new Date();
+            start.setHours(0, 0, 0, 0);
+        } else if (selectedRange === 'last_week') {
+            start = new Date();
+            start.setDate(now.getDate() - 7);
+        } else if (selectedRange === 'this_month') {
+            start = new Date(now.getFullYear(), now.getMonth(), 1);
+        } else if (selectedRange === 'last_5_days') {
+            start = new Date();
+            start.setDate(now.getDate() - 5);
+        } else if (selectedRange === 'custom') {
+            const sDate = startDate.value;
+            const eDate = endDate.value;
+            if (sDate && eDate) {
+                start = new Date(sDate);
+                end = new Date(eDate);
+                end.setHours(23, 59, 59, 999);
+            }
+        }
+
+        orderCards.forEach(card => {
+            const statusMatch = (currentStatus === 'all') || card.classList.contains(currentStatus);
+            const orderDateStr = card.querySelector('p:last-child').textContent.match(/\d{2}\/\d{2}\/\d{4}/)?.[0];
+            let dateMatch = true;
+
+            if (start && orderDateStr) {
+                const [day, month, year] = orderDateStr.split('/');
+                const orderDate = new Date(`${year}-${month}-${day}`);
+                dateMatch = orderDate >= start && orderDate <= end;
+            }
+
+            if (statusMatch && dateMatch) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+});
