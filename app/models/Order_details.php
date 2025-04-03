@@ -8,6 +8,9 @@ class Order_details {
     public $quantity;
     public $price;
     public $subtotal;
+    public $accessory_id;
+    public $accessory_quantity;
+    public $accessory_total;
 
     public function __construct($data = []) {
         foreach ($data as $key => $value) {

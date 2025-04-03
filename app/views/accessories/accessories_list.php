@@ -8,14 +8,18 @@
                 <th>Tên phụ kiện</th>
                 <th>Giá</th>
                 <th>Mô tả</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody class="text-white">
             <?php foreach ($accessories as $accessory): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($accessory['name']); ?></td>
-                    <td><?php echo htmlspecialchars($accessory['price']); ?></td>
+                    <td><?php echo number_format($accessory['price'], 0, ',', '.') . ' VNĐ'; ?></td>
                     <td><?php echo htmlspecialchars($accessory['description']); ?></td>
+                    <td>
+                        <a href="/add_to_cart/<?php echo $accessory['id']; ?>" class="btn btn-success">Thêm vào giỏ hàng</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

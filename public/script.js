@@ -199,3 +199,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
     applyFilter();
 });
+
+$(document).ready(function () {
+    $('.quantity-input').on('input', function () {
+        const quantity = parseInt($(this).val());
+        const price = parseFloat($(this).data('price'));
+        const id = $(this).data('id');
+
+        if (quantity >= 1) {
+            const total = quantity * price;
+
+            // Format tiền tệ VNĐ
+            const formattedTotal = total.toLocaleString('vi-VN') + 'VNĐ';
+
+            // Cập nhật vào cột "Thành tiền"
+            $('#total-' + id).text(formattedTotal);
+        }
+    });
+});
+
+$(document).ready(function () {
+    $('.quantity-input').on('input', function () {
+        const quantity = parseInt($(this).val());
+        const price = parseFloat($(this).data('price'));
+        const id = $(this).data('id');
+
+        if (quantity >= 1) {
+            // Gửi AJAX cập nhật số lượng
+            $.ajax({
+                url: '/update_cart',
+                method: 'POST',
+                data: {
+                    id: id,
+                    quantity: quantity
+                },
+                success: function (response) {
+                    // Tính lại thành tiền và cập nhật
+                    const total = quantity * price;
+                    const formattedTotal = total.toLocaleString('vi-VN') + ' VNĐ';
+                    $('#total-' + id).text(formattedTotal);
+                },
+                error: function () {
+                    alert('Lỗi khi cập nhật số lượng!');
+                }
+            });
+        }
+    });
+});

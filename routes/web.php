@@ -11,13 +11,14 @@ require_once '../app/controllers/NotificationController.php';
 require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/HistoryViewCarController.php';
 require_once '../app/controllers/AjaxController.php';
+require_once '../app/controllers/CartController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
 switch (true) {
-    case ($uri === '' || $uri === 'home'): 
-        (new HomeController())->index(); 
-        break;    
+    case ($uri === '' || $uri === 'home'):
+        (new HomeController())->index();
+        break;
 
     case ($uri === 'add_car'):
         (new CarController())->showAddForm();
@@ -94,9 +95,21 @@ switch (true) {
     case ($uri === 'edit_profile'):
         (new UserController())->editProfile();
         break;
-    
+
     case ($uri === 'update_profile'):
         (new UserController())->updateProfile();
+        break;
+
+    case ($uri === 'cart'):
+        (new CartController())->getByUserId();
+        break;
+
+    case ($uri === 'delete_all'):
+        (new CartController())->deleteAll();
+        break;
+
+    case $uri === 'update_cart':
+        (new CartController())->updateCart();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
@@ -145,6 +158,14 @@ switch (true) {
 
     case preg_match('/^remove_history\/(\d+)$/', $uri, $matches):
         (new HistoryViewCarController())->deleteHistory($matches[1]);
+        break;
+
+    case preg_match('/^add_to_cart\/(\d+)$/', $uri, $matches):
+        (new CartController())->addToCart($matches[1]);
+        break;
+
+    case preg_match('/^delete_cart\/(\d+)$/', $uri, $matches):
+        (new CartController())->deleteCart($matches[1]);
         break;
 
     case 'error':

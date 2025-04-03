@@ -45,18 +45,20 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         </li>
                         <li class="nav-item dropdown <?= ($current_page == 'product_list' || $current_page == 'accessories') ? 'active' : '' ?>">
                             <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-list"></i>Danh mục các sản phẩm
+                                <i class="fas fa-list"></i>Phụ kiện
                             </a>
                             <div class="dropdown-menu" aria-labelledby="productDropdown">
-                                <a class="dropdown-item" href="/home">Xe Ô Tô</a>
                                 <a class="dropdown-item" href="/accessories">Phụ Kiện cho xe</a>
                             </div>
                         </li>
                         <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
-                            <a class="nav-link" href="/showOrderForm"><i class="fas fa-shopping-cart"></i> Mua xe</a>
+                            <a class="nav-link" href="/showOrderForm"><i class="fas fa-car"></i> Mua xe</a>
                         </li>
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
                             <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i> Danh sách yêu thích</a>
+                        </li>
+                        <li class="nav-item <?= ($current_page == 'cart') ? 'active' : '' ?>">
+                            <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto d-flex justify-content-end">

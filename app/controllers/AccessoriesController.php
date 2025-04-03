@@ -10,4 +10,9 @@ class AccessoriesController
         $accessories = Accessories::all();
         require_once '../app/views/accessories/accessories_list.php';
     }
+
+    public function getByCarId($carId) {
+        $accessories = Accessories::getByCarId($carId);
+        require_once '../app/views/accessories/accessories_car.php';
+    }
 }

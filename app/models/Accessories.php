@@ -28,5 +28,17 @@ class Accessories {
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function getByCarId($carId) {
+        global $conn;
+        $stmt = $conn->prepare("
+            SELECT accessories.id, accessories.name, accessories.description, accessories.price 
+            FROM car_accessories 
+            JOIN accessories ON car_accessories.accessory_id = accessories.id 
+            WHERE car_accessories.car_id = :car_id
+        ");
+        $stmt->execute(['car_id' => $carId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
