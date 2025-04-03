@@ -10,7 +10,6 @@ require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/NotificationController.php';
 require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/HistoryViewCarController.php';
-require_once '../app/controllers/AjaxController.php';
 require_once '../app/controllers/CartController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
