@@ -3,6 +3,7 @@ require_once __DIR__ . "/../models/Cars.php";
 require_once __DIR__ . "/../models/Brands.php";
 require_once __DIR__ . "/../models/Categories.php";
 require_once __DIR__ . "/../models/HistoryViewCar.php";
+require_once __DIR__ . "/../models/Accessories.php";
 
 class CarController
 {
@@ -173,6 +174,7 @@ class CarController
 
         $carByBrand = Cars::findByBrand($car['brand_id']);
         $cars = Cars::findByCategory($car['category_id'], $id);
+        $accessories = Accessories::getByCarId($id);
 
         if (!isset($_SESSION["user_id"])) {
             exit();

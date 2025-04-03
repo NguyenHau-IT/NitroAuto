@@ -85,6 +85,9 @@
         <h2 class="text-center text-white">Các mẫu xe khác</h2>
         <?php require_once __DIR__ . '/car_list.php'; ?>
     </div>
+    <div class="bg-info rounded-4 mt-4">
+        <?php require_once __DIR__ . '/../accessories/accessories_car.php'; ?>
+    </div>
 </div>
 
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
