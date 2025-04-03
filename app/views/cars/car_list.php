@@ -44,14 +44,6 @@
                                         So sánh
                                     </button>
                                 </form>
-
-                                <!-- Yêu thích button -->
-                                <form action="/add_favorite" method="POST">
-                                    <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-                                    <button type="submit" class="btn btn-lg btn-danger d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale">
-                                        <i class="fas fa-heart me-1"></i>
-                                    </button>
-                                </form>
                             </div>
 
                         </div>
