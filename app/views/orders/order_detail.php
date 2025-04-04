@@ -39,6 +39,22 @@
                             <td><?= htmlspecialchars($order['quantity']) ?></td>
                         </tr>
                         <tr>
+                            <th scope="row">Giá xe</th>
+                            <td><?= number_format($order['car_price'], 0, ',', '.') ?> VNĐ</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phụ kiện</th>
+                            <td><?= htmlspecialchars($order['accessory_name']) ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Số lượng phụ kiện</th>
+                            <td><?= htmlspecialchars($order['accessory_quantity']) ?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Giá phụ kiện</th>
+                            <td><?= number_format($order['accessory_price'], 0, ',', '.') ?> VNĐ</td>
+                        </tr>
+                        <tr>
                             <th scope="row">Tổng giá</th>
                             <td><?= number_format($order['subtotal'], 0, ',', '.') ?> VNĐ</td>
                         </tr>

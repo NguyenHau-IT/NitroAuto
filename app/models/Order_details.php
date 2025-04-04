@@ -29,11 +29,13 @@ class Order_details {
     public static function find($id) {
         global $conn;
         $stmt = $conn->prepare("
-            SELECT users.*, orders.*, cars.name AS car_name, cars.*, order_details.* 
+            SELECT users.*, orders.*, cars.name AS car_name, cars.*, order_details.*, cars.price AS car_price,
+            accessories.name AS accessory_name, accessories.*
             FROM order_details 
             JOIN orders ON order_details.order_id = orders.id 
             JOIN users ON orders.user_id = users.id
-            JOIN cars ON order_details.car_id = cars.id 
+            JOIN cars ON order_details.car_id = cars.id
+            JOIN accessories ON order_details.accessory_id = accessories.id 
             WHERE order_details.order_id = :id
         ");
         $stmt->execute(['id' => $id]);

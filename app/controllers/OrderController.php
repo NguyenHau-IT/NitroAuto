@@ -86,10 +86,15 @@ class OrderController
                 c.name AS car_name,
                 od.quantity,
                 od.price,
-                (od.quantity * od.price) AS total_price
+                od.accessory_id,
+                ac.name AS accessory_name,
+                od.accessory_quantity,
+                od.accessory_price,
+                ((od.quantity * od.price)+(od.accessory_quantity * od.accessory_price)) AS total_price
             FROM orders o
             JOIN order_details od ON o.id = od.order_id
             JOIN cars c ON od.car_id = c.id
+            JOIN accessories ac ON od.accessory_id = ac.id
             WHERE o.user_id = :user_id
             ORDER BY o.id DESC
         ";

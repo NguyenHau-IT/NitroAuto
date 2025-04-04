@@ -45,8 +45,8 @@
         <!-- Danh sách đơn hàng -->
         <div id="order-list" style="max-height: 500px; overflow-y: auto;">
             <?php foreach ($orders as $order): ?>
-                <div class="card mb-3 order-card <?= strtolower($order['status']) ?>" 
-                     data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
+                <div class="card mb-3 order-card <?= strtolower($order['status']) ?>"
+                    data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h5 class="card-title mb-0">Đơn hàng #<?= $order['order_id'] ?></h5>
@@ -57,12 +57,20 @@
                                 <strong>Xe:</strong> <?= htmlspecialchars($order['car_name']) ?>
                             </div>
                             <div class="col-sm-6">
-                                <strong>Tổng giá:</strong> <?= number_format($order['total_price']) ?> VNĐ
+                                <strong>Số lượng:</strong> <?= htmlspecialchars($order['quantity']) ?>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-sm-6">
-                                <strong>Số lượng:</strong> <?= htmlspecialchars($order['quantity']) ?>
+                                <strong>Phụ kiện:</strong> <?= htmlspecialchars($order['accessory_name']) ?>
+                            </div>
+                            <div class="col-sm-6">
+                                <strong>Số lượng:</strong> <?= htmlspecialchars($order['accessory_quantity']) ?>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-sm-6">
+                                <strong>Tổng giá:</strong> <?= number_format($order['total_price']) ?> VNĐ
                             </div>
                             <div class="col-sm-6">
                                 <strong>Ngày đặt:</strong> <?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?>

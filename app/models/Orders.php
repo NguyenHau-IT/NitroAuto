@@ -92,9 +92,9 @@ class Orders
         // Lưu thông tin xe và phụ kiện vào order_details
         $stmt = $conn->prepare("
             INSERT INTO order_details 
-            (order_id, car_id, quantity, price, accessory_id, accessory_quantity, accessory_total)
+            (order_id, car_id, quantity, price, accessory_id, accessory_quantity, accessory_price)
             VALUES 
-            (:order_id, :car_id, :quantity, :price, :accessory_id, :accessory_quantity, :accessory_total)
+            (:order_id, :car_id, :quantity, :price, :accessory_id, :accessory_quantity, :accessory_price)
         ");
         $stmt->execute([
             'order_id' => $order_id,
@@ -103,11 +103,9 @@ class Orders
             'price' => $car_price,
             'accessory_id' => $accessory_id ?: null,
             'accessory_quantity' => $accessory_quantity ?: null,
-            'accessory_total' => $accessory_total ?: null
+            'accessory_price' => $accessory_price ?: null
         ]);
 
-        // Cập nhật tồn kho xe
-        // Kiểm tra tồn kho xe trước khi cập nhật
         $stmt = $conn->prepare("
             SELECT stock FROM cars WHERE id = :car_id
         ");
@@ -123,15 +121,12 @@ class Orders
             'car_id' => $car_id
         ]);
 
-        // Cập nhật tồn kho phụ kiện nếu có
-        // Kiểm tra tồn kho phụ kiện trước khi cập nhật
         $stmt = $conn->prepare("
             SELECT stock FROM accessories WHERE id = :accessory_id
         ");
         $stmt->execute(['accessory_id' => $accessory_id]);
         $accessory = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$accessory || $accessory['stock'] < $accessory_quantity) return false;
-        // Cập nhật tồn kho phụ kiện
         if ($accessory_id && $accessory_quantity > 0) {
             $stmt = $conn->prepare("
             UPDATE accessories SET stock = stock - :accessory_quantity
