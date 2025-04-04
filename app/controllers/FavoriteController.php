@@ -27,7 +27,7 @@ class FavoriteController
             header("Location: /success?status=success&message=" . urlencode("Đã thêm vào danh sách yêu thích!"));
             exit();
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Bạn đã thêm xe vào danh sách!"));
+            header("Location: /error?status=error&message=" . urlencode("Xe đã có trong danh sách yêu thích!"));
             exit();
         }
     }

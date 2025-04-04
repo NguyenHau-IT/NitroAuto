@@ -262,3 +262,22 @@ $(document).ready(function () {
         }
     });
 });
+
+document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    e.preventDefault(); // Không chuyển hướng ngay
+
+    Swal.fire({
+        title: 'Đăng xuất?',
+        text: 'Bạn có chắc chắn muốn đăng xuất không?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Đăng xuất',
+        cancelButtonText: 'Hủy',
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '/logout';
+        }
+    });
+});

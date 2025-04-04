@@ -12,12 +12,15 @@ class AuthController
 
     public function __construct()
     {
+        $config = require dirname(__DIR__, 2) . '/config/config.php';
+
         $this->client = new Google_Client();
-        $this->client->setClientId('121408504037-qi0iunnkb6oij7g0p10q5f0k4c5e05av.apps.googleusercontent.com');
-        $this->client->setClientSecret(getenv('GOOGLE_CLIENT_SECRET'));
-        $this->client->setRedirectUri('http://localhost:8000/auth/google/callback');
+        $this->client->setClientId($config['GOOGLE_CLIENT_ID']);
+        $this->client->setClientSecret($config['GOOGLE_CLIENT_SECRET']);
+        $this->client->setRedirectUri($config['GOOGLE_REDIRECT_URI']);
         $this->client->addScope("email");
         $this->client->addScope("profile");
+        
     }
 
     public function register()
@@ -52,7 +55,7 @@ class AuthController
                 $_SESSION["user"] = $user;
                 $_SESSION["user_id"] = $user["id"];
 
-                header("Location: /success?status=success&message=" . urlencode("Đăng nhập thành công!") . "&href=/home");
+                header("Location: /success?status=success&message=" . urlencode("Đăng nhập thành công!"));
                 exit();
             } else {
                 header("Location: /error?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));
@@ -64,141 +67,94 @@ class AuthController
 
     public function logout()
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        session_unset();
         session_destroy();
+
         header("Location: /home");
         exit();
     }
 
+
     public function redirectToGoogle()
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         $state = bin2hex(random_bytes(16));
         $_SESSION['oauth2_state'] = $state;
 
         $this->client->setState($state);
         $authUrl = $this->client->createAuthUrl();
+
+        error_log("Chuyển hướng đến Google: " . $authUrl);
         header('Location: ' . filter_var($authUrl, FILTER_SANITIZE_URL));
+        exit(); // Rất quan trọng để dừng sau redirect
     }
-
-    // public function handleGoogleCallback()
-    // {
-    //     // Bước 1: Kiểm tra mã code từ Google
-    //     if (!isset($_GET['code'])) {
-    //         header("Location: /error?status=error&message=" . urlencode("Không có mã code từ Google."));
-    //         exit();
-    //     }
-
-    //     // Bước 2: Kiểm tra bảo mật state
-    //     if (!isset($_GET['state']) || $_GET['state'] !== $_SESSION['oauth2_state']) {
-    //         header("Location: /error?status=error&message=" . urlencode("Lỗi bảo mật: state không hợp lệ."));
-    //         exit();
-    //     }
-
-    //     unset($_SESSION['oauth2_state']); // Xóa state sau khi dùng
-
-    //     // Bước 3: Lấy access token
-    //     $token = $this->client->fetchAccessTokenWithAuthCode($_GET['code']);
-
-    //     if (isset($token['error'])) {
-    //         header("Location: /error?status=error&message=" . urlencode("Lỗi khi lấy access token từ Google: " . $token['error']));
-    //         exit();
-    //     }
-
-    //     $this->client->setAccessToken($token);
-
-    //     try {
-    //         // Bước 4: Lấy thông tin user từ Google
-    //         $oauth = new \Google\Service\Oauth2($this->client);
-    //         $userInfo = $oauth->userinfo->get();
-
-    //         // Bước 5: Tìm hoặc đăng ký user
-    //         $user = Users::findByEmail($userInfo->email);
-
-    //         if (!$user) {
-    //             $fakePassword = password_hash(bin2hex(random_bytes(8)), PASSWORD_BCRYPT);
-
-    //             Users::register(
-    //                 $userInfo->name,
-    //                 $userInfo->email,
-    //                 $fakePassword,
-    //                 '0123456789',             // phone
-    //                 null,             // address
-    //                 'customer',     // role mặc định
-    //                 null            // created_at
-    //             );
-
-    //             $user = Users::findByEmail($userInfo->email);
-    //         }
-
-    //         // Bước 6: Lưu session
-    //         $_SESSION['user'] = $user;
-    //         $_SESSION['user_id'] = $user['id'];
-
-    //         // Bước 7: Redirect
-    //         header("Location: /success?status=success&message=" . urlencode("Đăng nhập Google thành công!") . "&href=/home");
-    //         exit();
-    //     } catch (Exception $e) {
-    //         header("Location: /error?status=error&message=" . urlencode("Lỗi khi lấy thông tin người dùng từ Google: " . $e->getMessage()));
-    //         exit();
-    //     }
-    // }
 
     public function handleGoogleCallback()
     {
-        // Khởi tạo session nếu chưa có
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // Bước 1: Kiểm tra mã code từ Google
+        header('Content-Type: text/plain'); // Để hiện rõ lỗi nếu có
+
+        // Bước 1: Check code
         if (!isset($_GET['code'])) {
             error_log("Không có mã code từ Google.");
-            exit("Không có mã code");
+            echo "DEBUG: Không có mã code";
+            exit();
         }
+        echo "DEBUG: Có mã code ✔️\n";
 
-        // Bước 2: Kiểm tra state
+        // Bước 2: Check state
         if (!isset($_GET['state']) || !isset($_SESSION['oauth2_state']) || $_GET['state'] !== $_SESSION['oauth2_state']) {
             error_log("Lỗi bảo mật: state không hợp lệ.");
-            exit("State không hợp lệ");
+            echo "DEBUG: State không hợp lệ ❌";
+            exit();
         }
 
+        echo "DEBUG: State hợp lệ ✔️\n";
         unset($_SESSION['oauth2_state']);
-        error_log("State hợp lệ.");
 
-        // Bước 3: Lấy access token
+        // Bước 3: Lấy token
         try {
             $token = $this->client->fetchAccessTokenWithAuthCode($_GET['code']);
             if (isset($token['error']) || !isset($token['access_token'])) {
                 error_log("Lỗi token: " . json_encode($token));
-                exit("Lỗi khi lấy access token");
+                echo "DEBUG: Lỗi khi lấy token ❌\n";
+                exit();
             }
             $this->client->setAccessToken($token);
-            error_log("Token nhận được: " . json_encode($token));
+            echo "DEBUG: Lấy token thành công ✔️\n";
         } catch (Exception $e) {
             error_log("Lỗi khi lấy access token: " . $e->getMessage());
-            exit("Lỗi khi lấy access token");
+            echo "DEBUG: Exception khi lấy token ❌\n";
+            echo "Chi tiết lỗi: " . $e->getMessage(); // 👈 Thêm dòng này để thấy lỗi
+            exit();
         }
 
-        // Bước 4: Lấy thông tin user từ Google
+        // Bước 4: Lấy user info
         try {
             $oauth = new \Google\Service\Oauth2($this->client);
             $userInfo = $oauth->userinfo->get();
-            error_log("Thông tin user: " . json_encode([
-                'id' => $userInfo->id,
-                'name' => $userInfo->name,
-                'email' => $userInfo->email,
-                'picture' => $userInfo->picture
-            ]));
+            echo "DEBUG: Lấy user info thành công ✔️\n";
         } catch (Exception $e) {
             error_log("Lỗi khi lấy thông tin user: " . $e->getMessage());
-            exit("Lỗi khi lấy thông tin user");
+            echo "DEBUG: Exception khi lấy user info ❌\n";
+            exit();
         }
 
-        // Bước 5: Kiểm tra và tạo tài khoản
+        // Bước 5: Kiểm tra & tạo user
         try {
             $user = Users::findByEmail($userInfo->email);
             if (!$user) {
-                error_log("User chưa có, đang tạo mới...");
+                echo "DEBUG: User chưa tồn tại. Tạo mới...\n";
                 $fakePassword = password_hash(bin2hex(random_bytes(8)), PASSWORD_BCRYPT);
                 Users::register(
                     $userInfo->name,
@@ -210,21 +166,22 @@ class AuthController
                     null
                 );
                 $user = Users::findByEmail($userInfo->email);
-                error_log("Tạo user thành công");
+                echo "DEBUG: Tạo user thành công ✔️\n";
             } else {
-                error_log("User đã tồn tại");
+                echo "DEBUG: User đã tồn tại ✔️\n";
             }
 
             $_SESSION['user'] = $user;
             $_SESSION['user_id'] = $user['id'];
-            error_log("Đã lưu session: " . json_encode($_SESSION));
+            echo "DEBUG: Đã lưu session ✔️\n";
         } catch (Exception $e) {
             error_log("Lỗi khi xử lý user: " . $e->getMessage());
-            exit("Lỗi khi xử lý thông tin user trong cơ sở dữ liệu");
+            echo "DEBUG: Exception khi xử lý user ❌\n";
+            exit();
         }
 
         // Bước 6: Chuyển hướng
-        error_log("Hoàn tất đăng nhập. Chuyển hướng...");
+        echo "DEBUG: Hoàn tất, chuyển hướng...\n";
         header("Location: /success?status=success&message=" . urlencode("Đăng nhập Google thành công!") . "&href=/home");
         exit();
     }

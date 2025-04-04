@@ -13,7 +13,7 @@ require_once '../app/controllers/HistoryViewCarController.php';
 require_once '../app/controllers/CartController.php';
 require_once '../app/controllers/BannerController.php';
 
-$uri = trim($_SERVER['REQUEST_URI'], '/');
+$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
 switch (true) {
     case ($uri === '' || $uri === 'home'):
@@ -183,11 +183,11 @@ switch (true) {
         (new AccessoriesController())->deleteAccessory($matches[1]);
         break;
 
-    case 'error':
+    case ($uri === 'error'):
         (new NotificationController())->showMessage();
         break;
 
-    case 'success':
+    case ($uri === 'success'):
         (new NotificationController())->showMessage();
         break;
 

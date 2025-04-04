@@ -3,8 +3,8 @@ class NotificationController
 {
     public function showMessage()
     {
-        $status = isset($_GET['status']) ? $_GET['status'] : "error";
+        // Không cần xử lý gì phức tạp nữa, chỉ render view
         require_once '../app/views/notifications/message.php';
-    }
+    }    
 }
 ?>
