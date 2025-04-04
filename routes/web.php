@@ -12,6 +12,9 @@ require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/HistoryViewCarController.php';
 require_once '../app/controllers/CartController.php';
 require_once '../app/controllers/BannerController.php';
+require_once '../app/controllers/CarServicesController.php';
+require_once '../app/controllers/ServiceOrderController.php';
+
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
@@ -119,8 +122,25 @@ switch (true) {
     case $uri === 'auth/google':
         (new AuthController())->redirectToGoogle();
         break;
+
     case $uri === 'auth/google/callback':
         (new AuthController())->handleGoogleCallback();
+        break;
+
+    case $uri === 'services':
+        (new CarServicesController())->index();
+        break;
+
+    case $uri === 'order_service_form':
+        (new ServiceOrderController())->addForm();
+        break;
+
+    case $uri === 'service_order_add':
+        (new ServiceOrderController())->addServiceOrder();
+        break;
+
+    case $uri === 'appointments':
+        (new ServiceOrderController())->getByUserId();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
