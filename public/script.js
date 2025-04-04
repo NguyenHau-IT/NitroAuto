@@ -239,7 +239,6 @@ $(document).ready(function () {
         const id = $(this).data('id');
 
         if (quantity >= 1) {
-            // Gửi AJAX cập nhật số lượng
             $.ajax({
                 url: '/update_cart',
                 method: 'POST',
@@ -248,7 +247,6 @@ $(document).ready(function () {
                     quantity: quantity
                 },
                 success: function (response) {
-                    // Tính lại thành tiền và cập nhật
                     const total = quantity * price;
                     const formattedTotal = total.toLocaleString('vi-VN') + ' VNĐ';
                     $('#total-' + id).text(formattedTotal);
