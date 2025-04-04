@@ -52,7 +52,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                             </div>
                         </li>
                         <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
-                            <a class="nav-link" href="/showOrderForm"><i class="fas fa-car"></i> Mua xe</a>
+                            <a class="nav-link" href="/showOrderForm"><i class="fas fa-car"></i> Mua hàng</a>
                         </li>
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
                             <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i> Danh sách yêu thích</a>
