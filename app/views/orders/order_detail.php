@@ -92,9 +92,9 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div class="text-center mt-4">
-        <a href="/user_orders" class="btn btn-primary">Quay lại</a>
+        <div class="text-center mt-4">
+            <a href="/user_orders" class="btn btn-primary">Quay lại</a>
+        </div>
     </div>
 </div>
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
