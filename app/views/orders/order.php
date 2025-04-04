@@ -44,8 +44,8 @@
         </div>
 
         <div class="form-group">
-            <label for="quantity">Số lượng:</label>
-            <input type="number" class="form-control fs-4" id="quantity" name="quantity" value="1" min="1" onchange="updatePrice()">
+            <label for="quantity">Số lượng xe:</label>
+            <input type="number" class="form-control fs-4" id="quantity" name="quantity" min="1" onchange="updatePrice()">
         </div>
 
         <div class="form-group">
@@ -64,7 +64,7 @@
 
         <div class="form-group">
             <label for="accessory_quantity">Số lượng phụ kiện:</label>
-            <input type="number" class="form-control fs-4" id="accessory_quantity" name="accessory_quantity" value="1" min="1" onchange="updatePrice()">
+            <input type="number" class="form-control fs-4" id="accessory_quantity" name="accessory_quantity" min="0" onchange="updatePrice()">
         </div>
 
         <div class="form-group fs-4">

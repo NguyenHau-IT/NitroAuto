@@ -62,10 +62,10 @@
                         </div>
                         <div class="row mb-1">
                             <div class="col-sm-6">
-                                <strong>Phụ kiện:</strong> <?= htmlspecialchars($order['accessory_name']) ?>
+                                <strong>Phụ kiện:</strong> <?= ($order['accessory_name']) ? htmlspecialchars($order['accessory_name']) : '-' ?>
                             </div>
                             <div class="col-sm-6">
-                                <strong>Số lượng:</strong> <?= htmlspecialchars($order['accessory_quantity']) ?>
+                                <strong>Số lượng:</strong> <?= ($order['accessory_quantity']) ? htmlspecialchars($order['accessory_quantity']) : '-' ?>
                             </div>
                         </div>
                         <div class="row mb-1">

@@ -71,7 +71,7 @@
                                         echo 'Đang chờ xử lý';
                                         break;
                                     case 'confirmed':
-                                        echo 'Hoàn thành';
+                                        echo 'Đã xác nhận';
                                         break;
                                     case 'shipped':
                                         echo 'Đang giao';

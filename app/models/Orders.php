@@ -48,13 +48,15 @@ class Orders
         global $conn;
 
         // Kiểm tra tồn kho xe
-        $stmt = $conn->prepare("SELECT price, stock FROM cars WHERE id = :car_id");
-        $stmt->execute(['car_id' => $car_id]);
-        $car = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$car || $car['stock'] < $quantity) return false;
+        if ($car_id && $quantity > 0) {
+            $stmt = $conn->prepare("SELECT price, stock FROM cars WHERE id = :car_id");
+            $stmt->execute(['car_id' => $car_id]);
+            $car = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$car || $car['stock'] < $quantity) return false;
 
-        $car_price = (float)$car['price'];
-        $car_subtotal = $car_price * $quantity;
+            $car_price = (float)$car['price'];
+            $car_subtotal = $car_price * $quantity;
+        }
 
         // Kiểm tra tồn kho phụ kiện nếu có
         $accessory_price = 0;
@@ -98,20 +100,14 @@ class Orders
         ");
         $stmt->execute([
             'order_id' => $order_id,
-            'car_id' => $car_id,
-            'quantity' => $quantity,
-            'price' => $car_price,
+            'car_id' => $car_id ?: null,
+            'quantity' => $quantity ?: null,
+            'price' => $car_price ?: null,
             'accessory_id' => $accessory_id ?: null,
             'accessory_quantity' => $accessory_quantity ?: null,
             'accessory_price' => $accessory_price ?: null
         ]);
 
-        $stmt = $conn->prepare("
-            SELECT stock FROM cars WHERE id = :car_id
-        ");
-        $stmt->execute(['car_id' => $car_id]);
-        $car = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$car || $car['stock'] < $quantity) return false;
         $stmt = $conn->prepare("
             UPDATE cars SET stock = stock - :quantity
             WHERE id = :car_id
@@ -121,12 +117,6 @@ class Orders
             'car_id' => $car_id
         ]);
 
-        $stmt = $conn->prepare("
-            SELECT stock FROM accessories WHERE id = :accessory_id
-        ");
-        $stmt->execute(['accessory_id' => $accessory_id]);
-        $accessory = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$accessory || $accessory['stock'] < $accessory_quantity) return false;
         if ($accessory_id && $accessory_quantity > 0) {
             $stmt = $conn->prepare("
             UPDATE accessories SET stock = stock - :accessory_quantity

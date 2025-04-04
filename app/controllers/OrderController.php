@@ -27,16 +27,16 @@ class OrderController
         }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $car_id = (int)($_POST['car_id'] ?? 0);
-            $quantity = (int)($_POST['quantity'] ?? 0);
-            $accessory_id = (int)($_POST['accessory_id'] ?? 0);
-            $accessory_quantity = (int)($_POST['accessory_quantity'] ?? 0);
+            $car_id = (int)($_POST['car_id'] ?? null);
+            $quantity = (int)($_POST['quantity'] ?? null);
+            $accessory_id = (int)($_POST['accessory_id'] ?? null);
+            $accessory_quantity = (int)($_POST['accessory_quantity'] ?? null);
             $total_price = floatval(str_replace(',', '', $_POST['total_price'] ?? 0));
             $address = $_POST['address'] ?? '';
             $phone = $_POST['phone'] ?? '';
 
-            if ($car_id <= 0 || $quantity <= 0 || $total_price <= 0) {
-                header("Location: /error?status=error&message=" . urlencode("Thông tin mua xe không hợp lệ!") . "&href=/home");
+            if ($total_price <= 0) {
+                header("Location: /error?status=error&message=" . urlencode("Vui lòng chọn sản phẩm") . "&href=/showOrderForm");
                 exit();
             }
 
@@ -46,7 +46,7 @@ class OrderController
                     $address = $user['address'];
                     $phone = $user['phone'];
                 } else {
-                    header("Location: /error?status=error&message=" . urlencode("Không tìm thấy thông tin người dùng!") . "&href=/home");
+                    header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!") . "&href=/home");
                     exit();
                 }
             }
@@ -81,22 +81,25 @@ class OrderController
                 o.id AS order_id,
                 o.order_date,
                 o.status,
-                o.total_amount,
+                o.total_amount AS total_price,
+                u.full_name AS user_name,
                 od.car_id,
                 c.name AS car_name,
                 od.quantity,
                 od.price,
                 od.accessory_id,
-                ac.name AS accessory_name,
+                a.name AS accessory_name,
                 od.accessory_quantity,
-                od.accessory_price,
-                ((od.quantity * od.price)+(od.accessory_quantity * od.accessory_price)) AS total_price
+                a.price AS accessory_price,
+                od.accessory_total,
+                od.subtotal
             FROM orders o
+            JOIN users u ON o.user_id = u.id
             JOIN order_details od ON o.id = od.order_id
             JOIN cars c ON od.car_id = c.id
-            JOIN accessories ac ON od.accessory_id = ac.id
+            LEFT JOIN accessories a ON od.accessory_id = a.id
             WHERE o.user_id = :user_id
-            ORDER BY o.id DESC
+            ORDER BY o.order_date DESC
         ";
 
         if ($startDate) {

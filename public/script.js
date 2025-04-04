@@ -23,52 +23,56 @@ if (filterToggleBtn && filterDropdown) {
 }
 
 function updatePrice() {
-    let carSelect = document.getElementById("car_id");
-    let quantityInput = document.getElementById("quantity");
-    let accessorySelect = document.getElementById("accessory_id");
-    let accessoryQuantityInput = document.getElementById("accessory_quantity"); 
-    let totalPriceInput = document.getElementById("total_price");
-    let totalPriceDisplay = document.getElementById("total_price_display");
-    let carNameInput = document.getElementById("car_name");
+    const carSelect = document.getElementById('car_id');
+    const carQuantity = document.getElementById('quantity');
+    const accessorySelect = document.getElementById('accessory_id');
+    const accessoryQuantity = document.getElementById('accessory_quantity');
+    const totalPriceDisplay = document.getElementById('total_price_display');
+    const totalPriceInput = document.getElementById('total_price');
+    const carNameInput = document.getElementById('car_name');
 
-    if (!carSelect || !quantityInput || !accessorySelect || !accessoryQuantityInput || !totalPriceInput || !totalPriceDisplay || !carNameInput) {
-        console.error("Một hoặc nhiều phần tử bị thiếu.");
-        return;
+    let subtotal = 0;
+
+    // Xử lý xe
+    const selectedCar = carSelect.options[carSelect.selectedIndex];
+    const carPrice = parseFloat(selectedCar.getAttribute('data-price') || 0);
+    if (carSelect.value) {
+        if (!carQuantity.value || carQuantity.value <= 0) {
+            carQuantity.value = 1;
+        }
+        subtotal += carPrice * parseInt(carQuantity.value);
+        carNameInput.value = selectedCar.getAttribute('data-name') || '';
     }
 
-    // Giá xe
-    let selectedCar = carSelect.options[carSelect.selectedIndex];
-    let carPrice = selectedCar.getAttribute("data-price") ? parseFloat(selectedCar.getAttribute("data-price")) : 0;
-    let carQuantity = parseInt(quantityInput.value) || 1;
-    let carSubtotal = carPrice * carQuantity;
+    // Xử lý phụ kiện
+    const selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex];
+    const accessoryPrice = parseFloat(selectedAccessory.getAttribute('data-accessosy-price') || 0);
+    if (accessorySelect.value) {
+        if (!accessoryQuantity.value || accessoryQuantity.value <= 0) {
+            accessoryQuantity.value = 1;
+        }
+        subtotal += accessoryPrice * parseInt(accessoryQuantity.value);
+    }
 
-    // Giá phụ kiện
-    let selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex];
-    let accessoryPrice = selectedAccessory ? parseFloat(selectedAccessory.getAttribute("data-accessosy-price")) || 0 : 0;
-    let accessoryQuantity = parseInt(accessoryQuantityInput.value) || 1;
-    let accessorySubtotal = accessoryPrice * accessoryQuantity;
+    // Tính thuế VAT 8%
+    const vat = subtotal * 0.08;
+    const total = subtotal + vat;
 
-    // Tổng phụ kiện + xe
-    let subtotal = carSubtotal + accessorySubtotal;
-    let tax = subtotal * 0.08; // VAT 8%
-    let total = subtotal + tax;
+    // Gán vào input (để submit)
+    totalPriceInput.value = total;
 
-    // Gán vào hidden + hiển thị
-    totalPriceInput.value = total.toFixed(0);
+    // Hiển thị chi tiết
     totalPriceDisplay.innerHTML = `
-        <div>Tiền xe: ${carSubtotal.toLocaleString('vi-VN')} VNĐ</div>
-        <div>Phụ kiện: ${accessorySubtotal.toLocaleString('vi-VN')} VNĐ</div>
-        <div>Thuế (8%): ${tax.toLocaleString('vi-VN')} VNĐ</div>
-        <div class="fw-bold mt-2">Tổng cộng: ${total.toLocaleString('vi-VN')} VNĐ</div>
+        <div><strong>Tạm tính:</strong> ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
+        <div><strong>Thuế VAT (8%):</strong> ${vat.toLocaleString('vi-VN')} VNĐ</div>
+        <div><strong>Tổng thanh toán:</strong> <span class="text-danger fw-bold">${total.toLocaleString('vi-VN')} VNĐ</span></div>
     `;
-
-    carNameInput.value = selectedCar.getAttribute("data-name");
 }
 
+// Gọi khi trang load
 document.addEventListener("DOMContentLoaded", function () {
     updatePrice();
 });
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const filterForm = document.getElementById("filter-form");
