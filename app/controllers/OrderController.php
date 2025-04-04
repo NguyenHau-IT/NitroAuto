@@ -96,7 +96,7 @@ class OrderController
             FROM orders o
             JOIN users u ON o.user_id = u.id
             JOIN order_details od ON o.id = od.order_id
-            JOIN cars c ON od.car_id = c.id
+            LEFT JOIN cars c ON od.car_id = c.id
             LEFT JOIN accessories a ON od.accessory_id = a.id
             WHERE o.user_id = :user_id
             ORDER BY o.order_date DESC

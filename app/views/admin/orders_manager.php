@@ -1,9 +1,12 @@
-<div class="d-flex justify-content-between mb-3">
-    <h2>Manage Orders</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0 d-flex align-items-center">
+        <i class="fas fa-receipt me-2 text-primary"></i> Manage Orders
+    </h2>
 </div>
-<div class="table-responsive mb-5" style="max-height: 700px; overflow-y: auto;">
-    <table class="table table-striped table-bordered align-middle bg-dark">
-        <thead class="table-dark text-center" style="position: sticky; top: 0; z-index: 10;">
+
+<div class="table-responsive rounded shadow-sm border mb-5" style="max-height: 700px; overflow-y: auto;">
+    <table class="table table-striped table-bordered align-middle bg-white mb-0">
+        <thead class="table-dark text-center sticky-top" style="top: 0; z-index: 10;">
             <tr>
                 <th>ID</th>
                 <th>Khách hàng</th>
@@ -20,24 +23,20 @@
                 <th>Hành động</th>
             </tr>
         </thead>
-        <tbody class="text-light">
+        <tbody class="text-center">
             <?php foreach ($orders as $order): ?>
                 <tr>
-                    <td><?php echo htmlspecialchars($order['id']); ?></td>
-                    <td><?php echo htmlspecialchars($order['user_name']); ?></td>
-                    <td><?php echo htmlspecialchars($order['car_name'] ?? '-'); ?></td>
-                    <td><?php echo htmlspecialchars($order['quantity'] ?? '-'); ?></td>
+                    <td><?= htmlspecialchars($order['id']) ?></td>
+                    <td><?= htmlspecialchars($order['user_name']) ?></td>
+                    <td><?= htmlspecialchars($order['car_name'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($order['quantity'] ?? '-') ?></td>
+                    <td class="text-end"><?= isset($order['price']) ? number_format($order['price']) . ' VND' : '-' ?></td>
+                    <td><?= htmlspecialchars($order['accessory_name'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($order['accessory_quantity'] ?? '-') ?></td>
+                    <td class="text-end"><?= isset($order['accessory_price']) ? number_format($order['accessory_price']) . ' VND' : '-' ?></td>
+                    <td class="text-end fw-bold text-success"><?= number_format($order['total_price']) ?> VND</td>
+                    <td class="text-start"><?= htmlspecialchars($order['address']) ?></td>
                     <td>
-                        <?php echo isset($order['price']) ? number_format($order['price']) . ' VND' : '-'; ?>
-                    </td>
-                    <td><?php echo htmlspecialchars($order['accessory_name'] ?? '-'); ?></td>
-                    <td><?php echo htmlspecialchars($order['accessory_quantity'] ?? '-'); ?></td>
-                    <td>
-                        <?php echo isset($order['accessory_price']) ? number_format($order['accessory_price']) . ' VND' : '-'; ?>
-                    </td>
-                    <td><?php echo $order['total_price'] ?> VND</td>
-                    <td><?php echo ($order['address']); ?></td>
-                    <td class="text-center">
                         <?php
                         $statusClass = '';
                         switch (strtolower($order['status'])) {
@@ -66,25 +65,21 @@
                                 $statusText = 'Không xác định';
                         }
                         ?>
-                        <span class="<?php echo $statusClass; ?>"><?php echo $statusText; ?></span>
+                        <span class="<?= $statusClass ?>"><?= $statusText ?></span>
                     </td>
-                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
-                    <td class="text-center">
-                        <a href="/order_edit/<?php echo htmlspecialchars($order['id']); ?>" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="/order_delete/<?php echo htmlspecialchars($order['id']); ?>"
-                            onclick="return confirm('Are you sure you want to delete this order?');"
-                            class="btn btn-danger btn-sm">Delete</a>
+                    <td><?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?></td>
+                    <td>
+                        <a href="/order_edit/<?= htmlspecialchars($order['id']) ?>" class="btn btn-sm btn-primary me-1">
+                            <i class="fas fa-edit me-1"></i> Edit
+                        </a>
+                        <a href="/order_delete/<?= htmlspecialchars($order['id']) ?>"
+                           onclick="return confirm('Are you sure you want to delete this order?');"
+                           class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash-alt me-1"></i> Delete
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
-
     </table>
 </div>
-
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/public/style.css">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
