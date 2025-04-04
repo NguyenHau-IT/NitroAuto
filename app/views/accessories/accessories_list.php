@@ -1,30 +1,35 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 <div class="overlay">
-<div class="container mt-5 mb-5 bg-light rounded-4 shadow-lg p-4">
-    <h1 class="mb-4 text-center">Danh sách phụ kiện cho xe</h1>
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>Tên phụ kiện</th>
-                <th>Giá</th>
-                <th>Mô tả</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody class="text-white">
-            <?php foreach ($accessories as $accessory): ?>
+    <div class="container mt-5 mb-5 bg-light rounded-4 shadow-lg p-4">
+        <h1 class="mb-4 text-center">Danh sách phụ kiện cho xe</h1>
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
                 <tr>
-                    <td><?php echo htmlspecialchars($accessory['name']); ?></td>
-                    <td><?php echo number_format($accessory['price'], 0, ',', '.') . ' VNĐ'; ?></td>
-                    <td><?php echo htmlspecialchars($accessory['description']); ?></td>
-                    <td>
-                        <a href="/add_to_cart/<?php echo $accessory['id']; ?>" class="btn btn-success">Thêm vào giỏ hàng</a>
-                    </td>
+                    <th>Tên phụ kiện</th>
+                    <th>Giá</th>
+                    <th>Mô tả</th>
+                    <th>Hành động</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody class="text-white">
+                <?php foreach ($accessories as $accessory): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($accessory['name']); ?></td>
+                        <td><?php echo number_format($accessory['price'], 0, ',', '.') . ' VNĐ'; ?></td>
+                        <td><?php echo htmlspecialchars($accessory['description']); ?></td>
+                        <td>
+                            <a href="/add_to_cart/<?php echo $accessory['id']; ?>" class="btn btn-success">Thêm vào giỏ hàng</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="text-end">
+            <a href="/home" class="btn btn-danger   " style="align-content: center; margin-left: 10px;">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </div>
 </div>
 
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

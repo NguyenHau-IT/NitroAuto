@@ -11,6 +11,7 @@ require_once '../app/controllers/NotificationController.php';
 require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/HistoryViewCarController.php';
 require_once '../app/controllers/CartController.php';
+require_once '../app/controllers/BannerController.php';
 
 $uri = trim($_SERVER['REQUEST_URI'], '/');
 
@@ -109,6 +110,10 @@ switch (true) {
 
     case $uri === 'update_cart':
         (new CartController())->updateCart();
+        break;
+
+    case $uri === 'toggle_banner_status':
+        (new BannerController())->toggleBannerStatus();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):

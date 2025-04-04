@@ -54,9 +54,12 @@
                 </table>
 
                 <?php if (!empty($carts)): ?>
-                    <div class="d-flex justify-content-end mt-3">
+                    <div class="d-flex justify-content-between mt-3">
                         <a href="/delete_all" class="btn btn-danger btn-clear-cart fs-5">
-                        <i class="fas fa-trash me-1"></i> Xoá tất cả
+                            <i class="fas fa-trash me-1"></i> Xoá tất cả
+                        </a>
+                        <a href="/home" class="btn btn-danger   " style="align-content: center; margin-left: 10px;">
+                            <i class="fas fa-arrow-left"></i> Quay lại
                         </a>
                     </div>
                 <?php endif; ?>
