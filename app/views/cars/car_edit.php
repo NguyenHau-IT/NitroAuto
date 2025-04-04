@@ -84,13 +84,19 @@
         </div>
 
         <div class="form-group">
-            <label for="image_url">Image URL:</label>
-            <input type="file" class="form-control" id="image_url" name="image_url" value="<?= htmlspecialchars($car['normal_image_url']) ?>">
+            <label for="image_url">Image:</label><br>
+            <?php if (!empty($car['normal_image_url'])): ?>
+                <img src="<?= htmlspecialchars($car['normal_image_url']) ?>" alt="Current Image" class="img-thumbnail mb-2" style="max-width: 200px;">
+            <?php endif; ?>
+            <input type="file" class="form-control" id="image_url" name="image_url">
         </div>
 
         <div class="form-group">
             <label for="image_url3D">Image URL 3D:</label>
-            <input type="text" class="form-control" id="image_url3D" name="image_url3D" value="<?= htmlspecialchars($car['three_d_image_url'] ?? '') ?>" required>
+            <input type="text" class="form-control" id="image_url3D" name="image_url3D" value="<?= htmlspecialchars($car['three_d_images'] ?? '') ?>">
+            <?php if (!empty($car['three_d_images'])): ?>
+                <a href="<?= htmlspecialchars($car['three_d_images']) ?>" target="_blank" class="mt-2 d-block">View Current 3D Image URL</a>
+            <?php endif; ?>
         </div>
 
         <button type="submit" class="btn btn-primary">Update</button>

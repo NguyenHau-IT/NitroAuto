@@ -109,4 +109,12 @@ class Users
         ]);
         return $conn->lastInsertId();
     }
+
+    public static function findByEmail($email)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

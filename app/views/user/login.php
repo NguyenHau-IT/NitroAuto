@@ -6,41 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/public/script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
     <div class="container">
-        <div class="row shadow-lg p-4 bg-white rounded">
-            <!-- Login Form Column -->
-            <div class="col-md-6 border-end">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 shadow-lg p-4 bg-white rounded">
                 <h2 class="text-center mb-4">Đăng nhập</h2>
                 <form action="" method="POST">
-                    <div class="mb-3">
+                    <div class="mb-3 input-group">
+                        <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
                         <input type="email" name="email" class="form-control" placeholder="Email" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 input-group">
+                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                         <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
                 </form>
-                <div class="text-center mt-3">
-                    <a href="register" class="text-decoration-none d-block text-primary">Chưa có tài khoản? Đăng ký</a>
-                    <a href="home" class="text-decoration-none d-block text-primary">Quay lại trang chủ</a>
-                </div>
-            </div>
 
-            <!-- OTP Column -->
-            <div class="col-md-6">
-                <div class="mt-4">
-                    <h5 class="mb-3">Nhập số điện thoại</h5>
-                    <input type="text" id="phone" class="form-control mb-3" placeholder="Số điện thoại">
-                    <button onclick="sendOTP()" class="btn btn-info w-100">Gửi OTP</button>
+                <hr class="my-4">
+
+                <div class="text-center mb-3">
+                    <span class="text-muted">hoặc đăng nhập bằng</span>
                 </div>
-                <div class="mt-4">
-                    <h5 class="mb-3">Nhập mã OTP</h5>
-                    <input type="text" id="otp" class="form-control mb-3" placeholder="Mã OTP">
-                    <button onclick="verifyOTP()" class="btn btn-success w-100">Xác thực</button>
+
+                <div class="d-grid mb-3">
+                    <?php $googleUrl = '/auth/google'; ?>
+                    <a href="<?= $googleUrl ?>" class="btn btn-outline-danger">
+                        <i class="bi bi-google me-2"></i> Đăng nhập với Google
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <a href="register" class="text-decoration-none text-primary d-block">Chưa có tài khoản? Đăng ký ngay</a>
+                    <a href="home" class="text-decoration-none text-secondary d-block mt-2">Quay lại trang chủ</a>
                 </div>
             </div>
         </div>

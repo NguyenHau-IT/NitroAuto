@@ -36,16 +36,24 @@ class Cars
     public static function find($id)
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT cars.id, cars.name, cars.price, cars.year, cars.mileage, cars.fuel_type, cars.transmission, cars.color, 
-                                categories.name AS category_name, brands.name AS brand_name, cars.description, cars.stock, cars.created_at,
-                                cars.brand_id, cars.category_id
+        $stmt = $conn->prepare("SELECT cars.id, cars.name, cars.price, cars.year, cars.mileage, 
+                                       cars.fuel_type, cars.transmission, cars.color, 
+                                       categories.name AS category_name, brands.name AS brand_name, 
+                                       cars.description, cars.stock, cars.created_at,
+                                       cars.brand_id, cars.category_id,
+                                       normal_images.image_url AS normal_image_url,
+                                       three_d_images.image_url AS three_d_images
                                 FROM cars
-                                Join brands ON cars.brand_id = brands.id
-                                Join categories ON cars.category_id = categories.id
+                                JOIN brands ON cars.brand_id = brands.id
+                                JOIN categories ON cars.category_id = categories.id
+                                LEFT JOIN car_images AS normal_images 
+                                     ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
+                                LEFT JOIN car_images AS three_d_images 
+                                     ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
                                 WHERE cars.id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    }    
 
     public static function findByBrand($id){
         global $conn;

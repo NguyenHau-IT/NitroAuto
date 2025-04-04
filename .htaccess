@@ -13,5 +13,6 @@ RewriteRule ^$ index.php [L]
 # Tìm xe theo thương hiệu
 RewriteRule ^car_find/([0-9]+)$ index.php?brand=$1 [L,QSA]
 
-# Thêm quy tắc này để gọi AjaxController.php
-RewriteRule ^ajax/(.*)$ app/controllers/AjaxController.php [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]

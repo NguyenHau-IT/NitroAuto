@@ -116,6 +116,13 @@ switch (true) {
         (new BannerController())->toggleBannerStatus();
         break;
 
+    case $uri === 'auth/google':
+        (new AuthController())->redirectToGoogle();
+        break;
+    case $uri === 'auth/google/callback':
+        (new AuthController())->handleGoogleCallback();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;

@@ -176,8 +176,9 @@ class CarController
         $cars = Cars::findByCategory($car['category_id'], $id);
         $accessories = Accessories::getByCarId($id);
 
-        if (!isset($_SESSION["user_id"])) {
-            exit();
+        if (!isset($_SESSION["user_id"])) 
+        {
+            require_once '../app/views/cars/car_detail.php';
         } else {
             $data = [
                 "user_id" => $_SESSION["user_id"],
