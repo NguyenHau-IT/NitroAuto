@@ -43,19 +43,17 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                                 <a class="dropdown-item" href="faq">FAQ</a>
                             </div>
                         </li>
-                        <li class="nav-item dropdown <?= ($current_page == 'product_list' || $current_page == 'accessories') ? 'active' : '' ?>">
+                        <li class="nav-item dropdown <?= ($current_page == 'product_list' || $current_page == 'accessories' || $current_page == 'services') ? 'active' : '' ?>">
                             <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-list"></i>Phụ kiện
+                                <i class="fas fa-list"></i>Danh mục sản phẩm
                             </a>
                             <div class="dropdown-menu" aria-labelledby="productDropdown">
                                 <a class="dropdown-item" href="/accessories">Phụ Kiện cho xe</a>
+                                <a class="dropdown-item" href="/services">Dịch vụ</a>
                             </div>
                         </li>
                         <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
                             <a class="nav-link" href="/showOrderForm"><i class="fas fa-car"></i> Mua hàng</a>
-                        </li>
-                        <li class="nav-item <?= ($current_page == 'services') ? 'active' : '' ?>">
-                            <a class="nav-link" href="/services"><i class="fas fa-cogs"></i> Dịch vụ</a>
                         </li>
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
                             <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i> Danh sách yêu thích</a>
