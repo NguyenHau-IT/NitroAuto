@@ -66,16 +66,16 @@ class OrderController
     public function getUserOrders()
     {
         global $conn;
-
+    
         if (!isset($_SESSION["user"]["id"])) {
             header("Location: /login");
             exit;
         }
-
+    
         $user_id = $_SESSION["user"]["id"];
         $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
         $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
-
+    
         $query = "
             SELECT 
                 o.id AS order_id,
@@ -99,35 +99,56 @@ class OrderController
             LEFT JOIN cars c ON od.car_id = c.id
             LEFT JOIN accessories a ON od.accessory_id = a.id
             WHERE o.user_id = :user_id
-            ORDER BY o.order_date DESC
         ";
-
+    
         if ($startDate) {
-            $query .= " AND order_date >= :startDate";
+            $query .= " AND o.order_date >= :startDate";
         }
-
+    
         if ($endDate) {
-            $query .= " AND order_date <= :endDate";
+            $query .= " AND o.order_date <= :endDate";
         }
-
+    
+        $query .= " ORDER BY o.order_date DESC";
+    
         $stmt = $conn->prepare($query);
-
-        $stmt->bindParam(':user_id', $user_id); // Bind the user_id to the query
-
+        $stmt->bindParam(':user_id', $user_id);
+    
         if ($startDate) {
             $stmt->bindParam(':startDate', $startDate);
         }
-
+    
         if ($endDate) {
             $stmt->bindParam(':endDate', $endDate);
         }
-
+    
         $stmt->execute();
-
-        $orders = $stmt->fetchAll(); // Fetch all results from the query
-
+        $orders = $stmt->fetchAll();
+    
+        // Gộp theo order_id
+        $groupedOrders = [];
+        foreach ($orders as $order) {
+            $orderId = $order['order_id'];
+            if (!isset($groupedOrders[$orderId])) {
+                $groupedOrders[$orderId] = [
+                    'order_id' => $order['order_id'],
+                    'order_date' => $order['order_date'],
+                    'status' => $order['status'],
+                    'total_price' => $order['total_price'],
+                    'items' => [],
+                ];
+            }
+    
+            $groupedOrders[$orderId]['items'][] = [
+                'car_name' => $order['car_name'],
+                'quantity' => $order['quantity'],
+                'accessory_name' => $order['accessory_name'],
+                'accessory_quantity' => $order['accessory_quantity'],
+            ];
+        }
+    
         require_once '../app/views/orders/order_list.php';
-    }
+    }   
 
     public function orderDetail($orderId)
     {

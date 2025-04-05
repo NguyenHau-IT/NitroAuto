@@ -49,9 +49,9 @@ class CartController
         }
 
         if ($success) {
-            header("Location: /success?status=success&message=" . urlencode("Thêm vào giỏ hàng thành công!") . "&href=cart");
+            header("Location: /success?status=success&message=" . urlencode("Thêm vào giỏ hàng thành công!") . "&href=accessories");
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Thêm vào giỏ hàng thất bại!") . "&href=accessories_list");
+            header("Location: /error?status=error&message=" . urlencode("Thêm vào giỏ hàng thất bại!") . "&href=accessories");
         }
 
         exit();
@@ -107,4 +107,77 @@ class CartController
         echo json_encode(['status' => 'invalid request']);
         exit;
     }
-}
+
+    public function checkOut()
+    {
+        $userId = $_SESSION['user']['id'];
+        $user = $_SESSION['user'];
+        $carts = Cart::find($userId);
+
+        if (empty($carts)) {
+            header("Location: /error?status=error&message=" . urlencode("Giỏ hàng trống!") . "&href=cart");
+            exit();
+        }
+
+        require_once '../app/views/orders/order_cart.php';
+    }
+
+    public function checkOutProcess()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_id = $_SESSION['user']['id'] ?? null;
+    
+            if (!$user_id) {
+                header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!") . "&href=/login");
+                exit();
+            }
+    
+            $carts = Cart::find($user_id); // Lấy giỏ hàng
+            if (empty($carts)) {
+                header("Location: /error?status=error&message=" . urlencode("Giỏ hàng trống!") . "&href=/cart");
+                exit();
+            }
+    
+            $address = $_POST['address'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+    
+            if (empty($address) || empty($phone)) {
+                header("Location: /error?status=error&message=" . urlencode("Vui lòng nhập đầy đủ thông tin!") . "&href=/checkout");
+                exit();
+            }
+    
+            // Tính tổng phụ kiện
+            $total_price = 0;
+            foreach ($carts as $item) {
+                $total_price += $item['accessory_price'] * $item['quantity'];
+            }
+    
+            // Tạo đơn hàng
+            $order_id = Orders::createMainOrder($user_id, $address, $phone, $total_price);
+            if (!$order_id) {
+                header("Location: /error?status=error&message=" . urlencode("Không thể tạo đơn hàng!") . "&href=/cart");
+                exit();
+            }
+    
+            // Lưu từng phụ kiện vào bảng order_details
+            foreach ($carts as $item) {
+                $accessory_id = $item['accessory_id'];
+                $quantity = $item['quantity'];
+                $price = $item['accessory_price'];
+    
+                Orders::addOrderItem(
+                    $order_id,
+                    $accessory_id,
+                    $quantity,
+                    $price
+                );
+            }
+    
+            // Xoá giỏ hàng
+            Cart::deleteAll($user_id);
+    
+            header("Location: /success?status=success&message=" . urlencode("Đặt hàng thành công!") . "&href=/home");
+            exit();
+        }
+    }
+    }

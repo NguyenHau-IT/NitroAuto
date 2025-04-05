@@ -39,7 +39,7 @@
                                         <a href="/delete_cart/<?php echo $item['id']; ?>" class="btn btn-sm btn-danger btn-delete fs-6" data-id="<?php echo $item['id']; ?>">
                                             <i class="fas fa-trash me-1"></i> Xoá
                                         </a>
-                                        <a href="/check_out/<?php echo $item['id']; ?>" class="btn btn-sm btn-success fs-6 mt-1">
+                                        <a href="/check_out" class="btn btn-sm btn-success fs-6 mt-1">
                                             <i class="fas fa-cart-plus me-1"></i> Đặt mua
                                         </a>
                                     </td>
@@ -57,6 +57,9 @@
                     <div class="d-flex justify-content-between mt-3">
                         <a href="/delete_all" class="btn btn-danger btn-clear-cart fs-5">
                             <i class="fas fa-trash me-1"></i> Xoá tất cả
+                        </a>
+                        <a href="/check_out" class="btn btn-success fs-5">
+                            <i class="fas fa-cart-plus me-1"></i> Đặt mua tất cả
                         </a>
                         <a href="/home" class="btn btn-danger   " style="align-content: center; margin-left: 10px;">
                             <i class="fas fa-arrow-left"></i> Quay lại

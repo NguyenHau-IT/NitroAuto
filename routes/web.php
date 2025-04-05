@@ -143,6 +143,14 @@ switch (true) {
         (new ServiceOrderController())->getByUserId();
         break;
 
+    case $uri ==='check_out':
+        (new CartController())->checkOut();
+        break;
+
+    case $uri ==='check_out_process':
+        (new CartController())->checkOutProcess();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;

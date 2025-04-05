@@ -181,4 +181,34 @@ class Orders
         $stmt = $conn->prepare("DELETE FROM orders WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public static function createMainOrder($user_id, $address, $phone, $total_price)
+    {
+        global $conn;
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, address, phone, total_amount, order_date)
+                          VALUES (?, ?, ?, ?, GETDATE())");
+        $stmt->execute([$user_id, $address, $phone, $total_price]);
+
+        return $conn->lastInsertId();
+    }
+
+    public static function addOrderItem(
+        $order_id,
+        $accessory_id,
+        $quantity,
+        $price
+    ) {
+        global $conn;
+
+        $stmt = $conn->prepare("INSERT INTO order_details 
+            (order_id, accessory_id, accessory_quantity, accessory_price)
+            VALUES (?, ?, ?, ?)");
+
+        return $stmt->execute([
+            $order_id,
+            $accessory_id,
+            $quantity,
+            $price,
+        ]);
+    }
 }

@@ -20,7 +20,7 @@
                     <i class="fas fa-user-edit me-2"></i> Chỉnh sửa thông tin
                 </a>
                 <a href="/user_orders" class="btn btn-outline-secondary btn-lg d-flex align-items-center">
-                    <i class="fas fa-history me-2"></i> Lịch sử mua xe
+                    <i class="fas fa-history me-2"></i> Lịch sử mua
                 </a>
                 <a href="home" class="btn btn-primary btn-lg d-flex align-items-center">
                     <i class="fas fa-home me-2"></i> Quay lại
