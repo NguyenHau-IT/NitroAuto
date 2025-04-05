@@ -126,11 +126,6 @@ class OrderController
 
         $orders = $stmt->fetchAll(); // Fetch all results from the query
 
-        if (empty($orders)) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
-            exit();
-        }
-
         require_once '../app/views/orders/order_list.php';
     }
 

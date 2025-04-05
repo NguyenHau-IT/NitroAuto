@@ -44,6 +44,11 @@
 
         <!-- Danh sách đơn hàng -->
         <div id="order-list" style="max-height: 500px; overflow-y: auto;">
+            <?php if (empty($orders)): ?>
+                <div class="alert alert-info text-center" role="alert">
+                    Không có đơn hàng nào trong danh sách.
+                </div>
+            <?php endif; ?>
             <?php foreach ($orders as $order): ?>
                 <div class="card mb-3 order-card <?= strtolower($order['status']) ?>"
                     data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
