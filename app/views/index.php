@@ -1,22 +1,8 @@
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 
-<!-- Banner cố định bên trái -->
-<div class="position-fixed top-50 start-0 translate-middle-y d-none d-lg-block z-3" style="left: 10px;">
-    <a href="#">
-        <img src="<?php echo htmlspecialchars($banner_left['image_url']); ?>" alt="Banner Trái"
-            class="rounded-4 shadow  animate__animated animate__bounce animate__infinite"
-            style="width: 12vw; height: 70vh; object-fit: cover;">
-    </a>
-</div>
+<!-- Banner cố định 2 bên -->
 
-<!-- Banner cố định bên phải -->
-<div class="position-fixed top-50 end-0 translate-middle-y d-none d-lg-block z-3" style="right: 10px;">
-    <a href="#">
-        <img src="<?php echo htmlspecialchars($banner_right['image_url']); ?>" alt="Banner Phải"
-            class="rounded-4 shadow  animate__animated animate__bounce animate__infinite"
-            style="width: 12vw; height: 70vh; object-fit: cover;">
-    </a>
-</div>
+<?php require_once __DIR__ . '/../views/slice-bar/left_right.php'; ?>
 
 <div class="overlay">
     <div class="container text-center">
