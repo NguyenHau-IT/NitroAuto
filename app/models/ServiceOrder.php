@@ -28,21 +28,26 @@ class ServiceOrder
     }
 
     // Thêm đơn đặt dịch vụ
-    public static function create($serviceId, $userId, $status = 'Pending', $note = null)
-{
-    global $conn;
-
-    $query = "INSERT INTO ServiceOrders (UserID, ServiceID, Note, Status)
-              VALUES (?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($query);
-    return $stmt->execute([
-        $userId,
-        $serviceId,
-        $note,
-        $status ?: 'Pending' // nếu status rỗng, fallback là 'Pending'
-    ]);
-}
+    public static function create($serviceId, $userId, $date, $status = 'Pending', $note = null)
+    {
+        global $conn;
+    
+        $date = (new DateTime($date))->format('Y-m-d H:i:s');
+    
+        $query = "INSERT INTO ServiceOrders (UserID, ServiceID, Note, OrderDate, Status)
+                  VALUES (?, ?, ?, ?, ?)";
+    
+        $stmt = $conn->prepare($query);
+        return $stmt->execute([
+            $userId,
+            $serviceId,
+            $note,
+            $date,
+            $status ?: 'Pending'
+        ]);
+    }
+    
+    
 
     // Lấy tất cả đơn đặt dịch vụ của 1 người dùng
     public static function getByUser($userID)
@@ -59,12 +64,12 @@ class ServiceOrder
                   JOIN CarServices cs ON so.ServiceID = cs.ServiceID
                   WHERE so.UserID = ?
                   ORDER BY so.OrderDate DESC";
-    
+
         $stmt = $conn->prepare($query);
         $stmt->execute([$userID]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
 
     // Lấy toàn bộ đơn đặt dịch vụ (cho admin)
     public function getAll()

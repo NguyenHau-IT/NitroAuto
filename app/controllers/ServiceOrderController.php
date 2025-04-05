@@ -21,10 +21,11 @@ class ServiceOrderController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $serviceId = $_POST['service_id'];
             $userId = $_POST['user_id'];
-            $status = $_POST['status'];
+            $status = 'Pending';
             $note = $_POST['note'];
+            $date = $_POST['service_date'];
 
-            ServiceOrder::create($serviceId, $userId, $status, $note);
+            ServiceOrder::create($serviceId, $userId, $date, $status, $note);
 
             header("Location: /success?status=success&message=" . urlencode("Thêm đơn hàng dịch vụ thành công!"));
             exit();

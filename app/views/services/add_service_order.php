@@ -18,6 +18,10 @@
                 </div>
 
                 <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                <div class="mb-4">
+                    <label for="service_date" class="form-label fw-semibold">Chọn ngày</label>
+                    <input type="datetime-local" name="service_date" id="service_date" class="form-control rounded-3" required>
+                </div>
 
                 <div class="mb-4">
                     <label for="note" class="form-label fw-semibold">Ghi chú (tùy chọn)</label>
