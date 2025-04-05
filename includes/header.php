@@ -58,11 +58,11 @@ $current_page = basename($_SERVER['PHP_SELF']); // Lấy tên file hiện tại
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
                             <a class="nav-link" href="/favorites"><i class="fas fa-heart"></i> Danh sách yêu thích</a>
                         </li>
-                        <li class="nav-item <?= ($current_page == 'cart') ? 'active' : '' ?>">
-                            <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
-                        </li>
                         <li class="nav-item <?= ($current_page == 'appointments') ? 'active' : '' ?>">
                             <a class="nav-link" href="/appointments"><i class="fas fa-calendar-alt"></i> Lịch hẹn</a>
+                        </li>
+                        <li class="nav-item <?= ($current_page == 'cart') ? 'active' : '' ?>">
+                            <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav ml-auto d-flex justify-content-end">
