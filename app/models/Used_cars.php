@@ -53,6 +53,7 @@ class Used_cars
         JOIN brands ON used_cars.brand_id = brands.id
         JOIN categories ON used_cars.category_id = categories.id
         JOIN users ON used_cars.user_id = users.id
+        WHERE used_cars.status = 'Approved'
         ORDER BY used_cars.created_at DESC
     ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
