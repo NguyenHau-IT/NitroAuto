@@ -28,11 +28,11 @@ class Used_cars
     }
 
     public static function all()
-{
-    global $conn;
-    $stmt = $conn->query("
+    {
+        global $conn;
+        $stmt = $conn->query("
         SELECT 
-            used_cars.id,
+            used_cars.id AS id,
             used_cars.name,
             used_cars.brand_id,
             used_cars.year,
@@ -55,15 +55,36 @@ class Used_cars
         JOIN users ON used_cars.user_id = users.id
         ORDER BY used_cars.created_at DESC
     ");
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 
     public static function find($id)
-    {
-        global $conn;
-        $stmt = $conn->prepare("SELECT * FROM used_cars WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+{
+    global $conn;
+
+    $sql = "SELECT 
+                used_cars.id, used_cars.name, used_cars.price, used_cars.year, used_cars.mileage, 
+                used_cars.fuel_type, used_cars.transmission, used_cars.color, 
+                categories.name AS category_name, 
+                brands.name AS brand_name, 
+                used_cars.description, used_cars.created_at,
+                used_cars.brand_id, used_cars.category_id,
+                normal_images.image_url AS normal_image_url,
+                three_d_images.image_url AS three_d_image_url
+            FROM used_cars
+            JOIN brands ON used_cars.brand_id = brands.id
+            JOIN categories ON used_cars.category_id = categories.id
+            LEFT JOIN car_images AS normal_images 
+                ON used_cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
+            LEFT JOIN car_images AS three_d_images 
+                ON used_cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
+            WHERE used_cars.id = :id";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['id' => $id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 }

@@ -14,6 +14,7 @@ require_once '../app/controllers/CartController.php';
 require_once '../app/controllers/BannerController.php';
 require_once '../app/controllers/CarServicesController.php';
 require_once '../app/controllers/ServiceOrderController.php';
+require_once '../app/controllers/UsedCarsController.php';
 
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -153,6 +154,10 @@ switch (true) {
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
+        break;
+
+    case preg_match('/^show_used_car\/(\d+)$/', $uri, $matches):
+        (new UsedCarsController())->showUsedCar($matches[1]);
         break;
 
     case preg_match('/^edit_car\/(\d+)$/', $uri, $matches):
