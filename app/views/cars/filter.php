@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between align-items-center my-4 bg-light rounded-4 shadow">
+<div class="d-flex justify-content-between align-items-center my-4 bg-light rounded-4 shadow border">
     <!-- Dropdown bộ lọc -->
     <div class="dropdown">
         <button class="btn btn-outline-info ms-3" type="button" id="filter-toggle-btn">

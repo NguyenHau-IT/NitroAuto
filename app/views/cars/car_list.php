@@ -1,4 +1,4 @@
-<div class="mt-4 bg-light rounded-4 shadow p-4">
+<div class="mt-4 bg-light rounded-4 shadow p-4 border">
     <?php if (!empty($cars)): ?>
         <div class="row g-4 justify-content-center">
             <?php foreach ($cars as $car): ?>
