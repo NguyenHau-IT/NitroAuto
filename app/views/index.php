@@ -19,6 +19,8 @@
             <div id="car-list-container">
                 <?php require_once __DIR__ . '/../views/cars/car_list.php'; ?>
             </div>
+
+            <?php require_once __DIR__ . '/../views/used_cars/list_used_cars.php'; ?>
         </div>
     </div>
 </div>

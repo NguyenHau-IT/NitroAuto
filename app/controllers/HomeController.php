@@ -4,6 +4,7 @@ require_once '../app/models/Brands.php';
 require_once '../app/models/Cars.php';
 require_once '../app/models/HistoryViewCar.php';
 require_once '../app/models/Banner.php';
+require_once '../app/models/Used_cars.php';
 
 class HomeController
 {
@@ -34,6 +35,8 @@ class HomeController
 
         $banner_left = Banner::banner_left();
         $banner_right = Banner::banner_right();
+
+        $used_cars = Used_cars::all();
 
         // Gửi dữ liệu đến view
         require_once '../app/views/index.php';
