@@ -7,7 +7,7 @@
         <div class="mb-3">
             <label for="fullname" class="form-label fs-5">Họ và tên</label>
             <input type="text" class="form-control fs-5" id="fullname" name="fullname"
-                value="<?php echo htmlspecialchars($user['fullname'] ?? ''); ?>" required>
+                value="<?php echo htmlspecialchars($user['full_name'] ?? ''); ?>" required>
         </div>
 
         <div class="mb-3">
