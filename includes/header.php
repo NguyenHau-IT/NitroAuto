@@ -20,7 +20,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -35,8 +34,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
-                <!-- Menu bên trái -->
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <!-- Menu bên trái -->
                 <ul class="navbar-nav d-flex gap-2">
                     <li class="nav-item <?= ($current_page == 'home') ? 'active' : '' ?>">
                         <a class="nav-link" href="/home"><i class="fas fa-home"></i> NitroAuto</a>
