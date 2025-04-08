@@ -153,32 +153,48 @@ class AuthController
         // Bước 5: Kiểm tra & tạo user
         try {
             $user = Users::findByEmail($userInfo->email);
+        
             if (!$user) {
                 echo "DEBUG: User chưa tồn tại. Tạo mới...\n";
-                $fakePassword = password_hash(bin2hex(random_bytes(8)), PASSWORD_BCRYPT);
-                Users::register(
+        
+                $password = '123456'; // Mật khẩu mặc định
+                $phone = '0' . str_pad(random_int(0, 999999999), 9, '0', STR_PAD_LEFT);
+                $address = 'Địa chỉ mặc định';
+        
+                $newUserId = Users::register(
                     $userInfo->name,
                     $userInfo->email,
-                    $fakePassword,
-                    '0123456789',
-                    null,
-                    'customer',
-                    null
+                    $password,
+                    $phone,
+                    $address
                 );
-                $user = Users::findByEmail($userInfo->email);
+        
+                if (!$newUserId) {
+                    throw new Exception("Không thể tạo user mới.");
+                }
+        
                 echo "DEBUG: Tạo user thành công ✔️\n";
+        
+                // Lấy lại user sau khi tạo
+                $user = Users::findByEmail($userInfo->email);
+                if (!$user) {
+                    throw new Exception("Không tìm thấy user sau khi tạo.");
+                }
             } else {
                 echo "DEBUG: User đã tồn tại ✔️\n";
             }
-
+        
+            // Lưu session
             $_SESSION['user'] = $user;
             $_SESSION['user_id'] = $user['id'];
             echo "DEBUG: Đã lưu session ✔️\n";
+        
         } catch (Exception $e) {
-            error_log("Lỗi khi xử lý user: " . $e->getMessage());
             echo "DEBUG: Exception khi xử lý user ❌\n";
+            echo "DEBUG: " . $e->getMessage() . "\n";
+            error_log("Lỗi khi xử lý user: " . $e->getMessage());
             exit();
-        }
+        }        
 
         // Bước 6: Chuyển hướng
         echo "DEBUG: Hoàn tất, chuyển hướng...\n";
