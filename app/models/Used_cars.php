@@ -42,7 +42,6 @@ class Used_cars
             used_cars.created_at,
             categories.name AS category_name,
             brands.name AS brand,
-            used_cars.created_at,
             (
                 SELECT TOP 1 image_url 
                 FROM used_car_images 
@@ -53,7 +52,7 @@ class Used_cars
         JOIN brands ON used_cars.brand_id = brands.id
         JOIN categories ON used_cars.category_id = categories.id
         JOIN users ON used_cars.user_id = users.id
-        WHERE used_cars.status = 'Approved'
+        WHERE used_cars.status = 'Approved' OR used_cars.status = 'Sold'
         ORDER BY used_cars.created_at DESC
     ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,7 +65,9 @@ class Used_cars
 
     $sql = "SELECT 
                 used_cars.id, used_cars.name, used_cars.price, used_cars.year, used_cars.mileage, 
-                used_cars.fuel_type, used_cars.transmission, used_cars.color, 
+                used_cars.fuel_type, used_cars.transmission, used_cars.color, used_cars.status,
+                users.full_name AS user_name,
+                users.phone AS user_phone, users.email AS user_email,
                 categories.name AS category_name, 
                 brands.name AS brand_name, 
                 used_cars.description, used_cars.created_at,
@@ -74,6 +75,7 @@ class Used_cars
                 normal_images.image_url AS normal_image_url,
                 three_d_images.image_url AS three_d_image_url
             FROM used_cars
+            JOIN users ON used_cars.user_id = users.id
             JOIN brands ON used_cars.brand_id = brands.id
             JOIN categories ON used_cars.category_id = categories.id
             LEFT JOIN car_images AS normal_images 

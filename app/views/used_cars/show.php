@@ -44,6 +44,35 @@
                             <?= nl2br(htmlspecialchars($used_car['description'] ?? '')) ?>
                         </div>
                     </div>
+
+                    <!-- Thời gian đăng tin -->
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <div class="w-50">
+                            <span class="fw-bold">Thời gian đăng tin:</span>
+                            <span class="fs-5"><?= htmlspecialchars(date('d/m/Y H:i', strtotime($used_car['created_at']))) ?></span>
+                        </div>
+                        <div class="w-50 text-end">
+                            <span class="fw-bold">Trạng thái:</span>
+                            <span class="fs-5 fw-bold <?= $used_car['status'] === 'Sold' ? 'text-danger' : 'text-success' ?>">
+                                <?= $used_car['status'] === 'Sold' ? 'Đã bán' : 'Còn' ?>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Thông tin người đăng -->
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <div class="w-50">
+                            <span class="fw-bold">Người đăng:</span>
+                            <span class="fs-5"><?= htmlspecialchars($used_car['user_name']) ?></span>
+                        </div>
+                        <div class="w-50 text-end">
+                            <span class="fw-bold">Số điện thoại:</span>
+                            <span class="fs-5"><?= htmlspecialchars($used_car['user_phone']) ?></span>
+                        </div>
+                        <div class="w-50 text-end">
+                            <span class="fw-bold">Email:</span>
+                            <span class="fs-5"><?= htmlspecialchars($used_car['user_email']) ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
