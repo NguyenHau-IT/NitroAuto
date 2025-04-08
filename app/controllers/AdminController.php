@@ -44,22 +44,60 @@ class AdminController
         $favorites = $stmt_favorites->fetchAll(PDO::FETCH_ASSOC);
 
         $stmt_orders = $conn->query("
-            SELECT 
-                orders.id, orders.order_date,
-                orders.status, orders.address,
-                orders.total_amount AS total_price, users.full_name AS user_name, 
-                cars.name AS car_name, order_details.quantity, 
-                order_details.price, order_details.subtotal,
-                accessories.name AS accessory_name, order_details.accessory_quantity, 
-                accessories.price AS accessory_price, order_details.accessory_total
-            FROM orders
-            JOIN users ON orders.user_id = users.id
-            LEFT JOIN order_details ON orders.id = order_details.order_id
-            LEFT JOIN cars ON order_details.car_id = cars.id
-            LEFT JOIN accessories ON order_details.accessory_id = accessories.id
-            ORDER BY orders.order_date DESC
-        ");
-        $orders = $stmt_orders->fetchAll(PDO::FETCH_ASSOC);
+        SELECT 
+            orders.id, orders.order_date,
+            orders.status, orders.address,
+            orders.total_amount AS total_price, users.full_name AS user_name, 
+            cars.name AS car_name, order_details.quantity, 
+            order_details.price, order_details.subtotal,
+            accessories.name AS accessory_name, order_details.accessory_quantity, 
+            accessories.price AS accessory_price, order_details.accessory_total
+        FROM orders
+        JOIN users ON orders.user_id = users.id
+        LEFT JOIN order_details ON orders.id = order_details.order_id
+        LEFT JOIN cars ON order_details.car_id = cars.id
+        LEFT JOIN accessories ON order_details.accessory_id = accessories.id
+        ORDER BY orders.order_date DESC
+    ");
+
+        $raw_orders = $stmt_orders->fetchAll(PDO::FETCH_ASSOC);
+
+        // Gộp theo order_id
+        $orders = [];
+
+        foreach ($raw_orders as $row) {
+            $id = $row['id'];
+
+            if (!isset($orders[$id])) {
+                $orders[$id] = [
+                    'id' => $id,
+                    'user_name' => $row['user_name'],
+                    'order_date' => $row['order_date'],
+                    'status' => $row['status'],
+                    'address' => $row['address'],
+                    'total_price' => $row['total_price'],
+                    'cars' => [],
+                    'accessories' => [],
+                ];
+            }
+
+            if (!empty($row['car_name'])) {
+                $orders[$id]['cars'][] = [
+                    'name' => $row['car_name'],
+                    'quantity' => $row['quantity'],
+                    'price' => $row['price'],
+                ];
+            }
+
+            if (!empty($row['accessory_name'])) {
+                $orders[$id]['accessories'][] = [
+                    'name' => $row['accessory_name'],
+                    'quantity' => $row['accessory_quantity'],
+                    'price' => $row['accessory_price'],
+                ];
+            }
+        }
+
 
 
         $stmt_brands = $conn->query("SELECT * FROM brands");
