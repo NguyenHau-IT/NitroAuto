@@ -49,9 +49,9 @@ class CartController
         }
 
         if ($success) {
-            header("Location: /success?status=success&message=" . urlencode("Thêm vào giỏ hàng thành công!") . "&href=accessories");
+            header("Location: /accessories?status=success&message=" . urlencode("Thêm vào giỏ hàng thành công!"));
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Thêm vào giỏ hàng thất bại!") . "&href=accessories");
+            header("Location: /accessories?status=error&message=" . urlencode("Thêm vào giỏ hàng thất bại!"));
         }
 
         exit();
@@ -61,9 +61,9 @@ class CartController
     {
         $userId = $_SESSION['user']['id'];
         if (Cart::deleteAll($userId)) {
-            header("Location: /success?status=success&message=" . urlencode("Xoá tất cả sản phẩm trong giỏ hàng thành công!") . "&href=cart");
+            header("Location: /cart?status=success&message=" . urlencode("Xoá tất cả sản phẩm trong giỏ hàng thành công!"));
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá tất cả sản phẩm trong giỏ hàng thất bại!") . "&href=cart");
+            header("Location: /cart?status=error&message=" . urlencode("Xoá tất cả sản phẩm trong giỏ hàng thất bại!"));
         }
         exit();
     }
@@ -72,9 +72,9 @@ class CartController
     {
         $userId = $_SESSION['user']['id'];
         if (Cart::delete($userId, $id)) {
-            header("Location: /success?status=success&message=" . urlencode("Xoá sản phẩm trong giỏ hàng thành công!") . "&href=cart");
+            header("Location: /cart?status=success&message=" . urlencode("Xoá sản phẩm trong giỏ hàng thành công!"));
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá sản phẩm trong giỏ hàng thất bại!") . "&href=cart");
+            header("Location: /cart?status=error&message=" . urlencode("Xoá sản phẩm trong giỏ hàng thất bại!"));
         }
         exit();
     }
@@ -115,7 +115,7 @@ class CartController
         $carts = Cart::find($userId);
 
         if (empty($carts)) {
-            header("Location: /error?status=error&message=" . urlencode("Giỏ hàng trống!") . "&href=cart");
+            header("Location: /cart?status=error&message=" . urlencode("Giỏ hàng trống!"));
             exit();
         }
 
@@ -128,13 +128,13 @@ class CartController
             $user_id = $_SESSION['user']['id'] ?? null;
     
             if (!$user_id) {
-                header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!") . "&href=/login");
+                header("Location: /cart?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!"));
                 exit();
             }
     
             $carts = Cart::find($user_id); // Lấy giỏ hàng
             if (empty($carts)) {
-                header("Location: /error?status=error&message=" . urlencode("Giỏ hàng trống!") . "&href=/cart");
+                header("Location: /cart?status=error&message=" . urlencode("Giỏ hàng trống!") );
                 exit();
             }
     
@@ -142,7 +142,7 @@ class CartController
             $phone = $_POST['phone'] ?? '';
     
             if (empty($address) || empty($phone)) {
-                header("Location: /error?status=error&message=" . urlencode("Vui lòng nhập đầy đủ thông tin!") . "&href=/checkout");
+                header("Location: /checkout?status=error&message=" . urlencode("Vui lòng nhập đầy đủ thông tin!"));
                 exit();
             }
     
@@ -155,7 +155,7 @@ class CartController
             // Tạo đơn hàng
             $order_id = Orders::createMainOrder($user_id, $address, $phone, $total_price);
             if (!$order_id) {
-                header("Location: /error?status=error&message=" . urlencode("Không thể tạo đơn hàng!") . "&href=/cart");
+                header("Location: /checkout?status=error&message=" . urlencode("Không thể tạo đơn hàng!") );
                 exit();
             }
     
@@ -176,7 +176,7 @@ class CartController
             // Xoá giỏ hàng
             Cart::deleteAll($user_id);
     
-            header("Location: /success?status=success&message=" . urlencode("Đặt hàng thành công!") . "&href=/home");
+            header("Location: /home?status=success&message=" . urlencode("Đặt hàng thành công!"));
             exit();
         }
     }

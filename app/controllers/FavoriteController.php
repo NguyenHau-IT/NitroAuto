@@ -6,12 +6,12 @@ class FavoriteController
     public function addFavorite()
     {
         if (!isset($_SESSION["user"])) {
-            header("Location: /error?status=error&message=" . urlencode("Bạn cần đăng nhập trước khi thêm vào danh sách!"));
+            header("Location: /home?status=error&message=" . urlencode("Bạn cần đăng nhập trước khi thêm vào danh sách!"));
             exit();
         }
 
         if (!isset($_POST["car_id"])) {
-            header("Location: /error?status=error&message=" . urlencode("Lỗi khi thêm vào danh sách!"));
+            header("Location: /home?status=error&message=" . urlencode("Lỗi khi thêm vào danh sách!"));
             exit();
         }
 
@@ -19,15 +19,15 @@ class FavoriteController
         $car_id = $_POST["car_id"] ?? null;
 
         if (!$user_id || !$car_id) {
-            header("Location: /error?status=error&message=" . urlencode("Lỗi khi thêm vào danh sách!"));
+            header("Location: /home?status=error&message=" . urlencode("Lỗi khi thêm vào danh sách!"));
             exit();
         }
 
         if ($favorites = Favorites::create($user_id, $car_id)) {
-            header("Location: /success?status=success&message=" . urlencode("Đã thêm vào danh sách yêu thích!"));
+            header("Location: /home?status=success&message=" . urlencode("Đã thêm vào danh sách yêu thích!"));
             exit();
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xe đã có trong danh sách yêu thích!"));
+            header("Location: /home?status=error&message=" . urlencode("Xe đã có trong danh sách yêu thích!"));
             exit();
         }
     }
@@ -48,10 +48,10 @@ class FavoriteController
     public function deleteFavorite($id)
     {
         if ($favorites = Favorites::delete($id)) {
-            header("Location: /success?status=success&message=" . urlencode("Đã xoá xe khỏi danh sách yêu thích!"));
+            header("Location: /favorites?status=success&message=" . urlencode("Đã xoá xe khỏi danh sách yêu thích!"));
             exit();
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Lỗi khi xoá xe khỏi danh sách yêu thích!"));
+            header("Location: /favorites?status=error&message=" . urlencode("Lỗi khi xoá xe khỏi danh sách yêu thích!"));
             exit();
         }
     }

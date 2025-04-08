@@ -14,7 +14,7 @@ class UsedCarsController
     {
         $used_car = Used_cars::find($id);
         if (!$used_car) {
-            header("Location: /error?status=error&message=" . urlencode("Xe đã qua sử dụng không tồn tại!") . "&href=/home");
+            header("Location: /home?status=error&message=" . urlencode("Bài đăng không tồn tại!"));
             exit();
         }
         require_once '../app/views/used_cars/show.php';

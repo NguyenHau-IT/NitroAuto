@@ -14,7 +14,7 @@ class TestDriveController
     public function Test_Drive()
     {
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước !") . "&href=/home");
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước !"));
             exit();
         }
 
@@ -26,7 +26,7 @@ class TestDriveController
     {
         $user_id = $_SESSION["user"]["id"] ?? null;
         if (!$user_id) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước !"));
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước !"));
             exit();
         }
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -37,15 +37,15 @@ class TestDriveController
             $location = $_POST['location'] ?? null;
 
             if (!$user_id || !$car_id || !$preferred_date || !$preferred_time || !$location) {
-                header("Location: /test-drive?status=error&message=" . urlencode("Vui lòng điền đầy đủ thông tin!"));
+                header("Location: /home?status=error&message=" . urlencode("Vui lòng điền đầy đủ thông tin!"));
                 exit();
             }
 
             $result = TestDriveRegistration::create($user_id, $car_id, $preferred_date, $preferred_time, $location);
             if ($result) {
-                header("Location: /test-drive?status=success&message=" . urlencode("Đăng ký lái thử thành công!"));
+                header("Location: /home?status=success&message=" . urlencode("Đăng ký lái thử thành công!"));
             } else {
-                header("Location: /test-drive?status=error&message=" . urlencode("Đăng ký lái thử thất bại!"));
+                header("Location: /home?status=error&message=" . urlencode("Đăng ký lái thử thất bại!"));
             }
             exit();
         }

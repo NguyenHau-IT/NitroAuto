@@ -7,7 +7,6 @@ require_once '../app/controllers/FavoriteController.php';
 require_once '../app/controllers/OrderController.php';
 require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/AccessoriesController.php';
-require_once '../app/controllers/NotificationController.php';
 require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/HistoryViewCarController.php';
 require_once '../app/controllers/CartController.php';
@@ -214,14 +213,6 @@ switch (true) {
 
     case preg_match('/^delete_accessory\/(\d+)$/', $uri, $matches):
         (new AccessoriesController())->deleteAccessory($matches[1]);
-        break;
-
-    case ($uri === 'error'):
-        (new NotificationController())->showMessage();
-        break;
-
-    case ($uri === 'success'):
-        (new NotificationController())->showMessage();
         break;
 
     default:

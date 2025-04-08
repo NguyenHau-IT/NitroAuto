@@ -154,7 +154,7 @@ class OrderController
     {
         $order = Orders::getOrderById($Id);
         if (!$order) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
+            header("Location: /user_orders?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
             exit();
         }
         require_once '../app/views/orders/order_detail.php';
@@ -164,7 +164,7 @@ class OrderController
     {
         $order = Orders::getOrderById($id);
         if (!$order) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
+            header("Location: /admin?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
             exit();
         }
         require_once __DIR__ . "/../views/orders/order_edit.php";
@@ -177,10 +177,10 @@ class OrderController
             $status = $_POST['order_status'];
             $result = Orders::updateStatus($id, $status);
             if ($result) {
-                header("Location: /success?status=success&message=" . urlencode("Cập nhật đơn hàng thành công!") . "&href=/admin");
+                header("Location: /admin");
                 exit;
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Cập nhật đơn hàng thất bại!" . "&href=/admin"));
+                header("Location: /amdin?status=error&message=" . urlencode("Cập nhật đơn hàng thất bại!"));
                 exit();
             }
         }
@@ -189,10 +189,10 @@ class OrderController
     public function deleteOrder($id)
     {
         if (Orders::delete($id)) {
-            header("Location: /success?status=success&message=" . urlencode("Xoá đơn hàng thành công!") . "&href=/admin");
+            header("Location: /admin");
             exit;
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá đơn hàng thất bại!") . "&href=/admin");
+            header("Location: /admin?status=error&message=" . urlencode("Xoá đơn hàng thất bại!"));
             exit();
         }
     }

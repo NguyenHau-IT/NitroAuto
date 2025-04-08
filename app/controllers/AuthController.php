@@ -33,10 +33,10 @@ class AuthController
             $address = $_POST["address"];
 
             if (Users::register($name, $email, $password, $phone, $address)) {
-                header("Location: /login");
+                header("Location: /login?status=success&message=" . urlencode("Đăng kí thành công vui lòng đăng nhập!"));
                 exit();
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Đăng kí thất bại vui lòng đăng kí lại!"));
+                header("Location: /register?status=error&message=" . urlencode("Đăng kí thất bại vui lòng đăng kí lại!"));
                 exit();
             }
         }
@@ -55,10 +55,10 @@ class AuthController
                 $_SESSION["user"] = $user;
                 $_SESSION["user_id"] = $user["id"];
 
-                header("Location: /success?status=success&message=" . urlencode("Đăng nhập thành công!"));
+                header("Location: /home?status=success&message=" . urlencode("Đăng nhập thành công"));
                 exit();
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));
+                header("Location: /login?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));
                 exit();
             }
         }
@@ -198,7 +198,7 @@ class AuthController
 
         // Bước 6: Chuyển hướng
         echo "DEBUG: Hoàn tất, chuyển hướng...\n";
-        header("Location: /success?status=success&message=" . urlencode("Đăng nhập Google thành công!") . "&href=/home");
-        exit();
+        header("Location: /home?status=success&message=" . urlencode("Đăng nhập thành công"));
+        exit;        
     }
 }

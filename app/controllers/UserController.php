@@ -20,7 +20,7 @@ class UserController
     {
         $id = $_SESSION["user"]["id"] ?? null;
         if (!$id) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
+            header("Location: /home?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
             exit();
         }
         $user = Users::find($id);
@@ -41,7 +41,7 @@ class UserController
     {
         $id = $_SESSION["user"]["id"] ?? null;
         if (!$id) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
+            header("Location: /home?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
             exit();
         }
         $user = Users::find($id);
@@ -52,7 +52,7 @@ class UserController
     {
         $id = $_POST['id'] ?? null;
         if (!$id) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
+            header("Location: /home?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
             exit();
         }
 
@@ -73,10 +73,10 @@ class UserController
         
             $_SESSION['user'] = $updatedUser;
         
-            header("Location: /success?status=success&message=" . urlencode("Cập nhật thông tin thành công!") . "&href=profile");
+            header("Location: /profile?status=success&message=" . urlencode("Cập nhật thông tin thành công!"));
             exit();        
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Cập nhật thông tin thất bại!") . "&href=profile");
+            header("Location: /profile?status=error&message=" . urlencode("Cập nhật thông tin thất bại!"));
             exit();
         }
     }

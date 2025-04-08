@@ -18,7 +18,7 @@ class AccessoriesController
     public function deleteAccessory($id) {
         $accessories = Accessories::delete($id);
         if (!$accessories) {
-            header("Location: /error?status=error&message=" . urlencode("Xoá phụ kiện thất bại!") ."&href=/admin");
+            header("Location: /admin?status=error&message=" . urlencode("Xoá phụ kiện thất bại!") ."&href=/admin");
             exit;
         }
         else {

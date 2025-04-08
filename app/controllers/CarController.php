@@ -30,7 +30,7 @@ class CarController
                 if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
                     $data['image_url'] = '/uploads/cars/' . basename($_FILES['image_url']['name']);
                 } else {
-                    header("Location: /error?status=error&message=" . urlencode("Thêm ảnh thất bại!"));
+                    header("Location: /admin?status=error&message=" . urlencode("Thêm ảnh thất bại!"));
                     exit();
                 }
             }
@@ -51,10 +51,10 @@ class CarController
             ];
 
             if ($car->addCar($data)) {
-                header("Location: /success?status=success&message=" . urlencode("Thêm xe thành công!") . "&href=/admin");
+                header("Location: /admin?status=success&message=" . urlencode("Thêm xe thành công!") );
                 exit();
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Thêm xe thất bại!") . "&href=/admin");
+                header("Location: /admin?status=error&message=" . urlencode("Thêm xe thất bại!") );
                 exit();
             }
         }
@@ -66,7 +66,7 @@ class CarController
         $brands = Brands::all();
         $categories = Categories::all();
         if (!$car) {
-            header("Location: /error?status=error&message=" . urlencode("Không tìm thấy xe!"));
+            header("Location: /admin?status=error&message=" . urlencode("Không tìm thấy xe!"));
             exit();
         }
         require_once __DIR__ . "/../views/cars/car_edit.php";
@@ -85,7 +85,7 @@ class CarController
                 if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
                     $image_url = '/uploads/cars/' . $fileName;
                 } else {
-                    header("Location: /error?status=error&message=" . urlencode("Upload ảnh thất bại!"));
+                    header("Location: /admin?status=error&message=" . urlencode("Upload ảnh thất bại!"));
                     exit();
                 }
             } else {
@@ -129,10 +129,10 @@ class CarController
                 $image_url,
                 $image_url3D
             )) {
-                header("Location: /admin?status=success&message=" . urlencode("Cập nhật xe thành công!") . "&href=/admin");
+                header("Location: /admin");
                 exit;
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Cập nhật xe thất bại!") . "&href=/admin");
+                header("Location: /admin?status=error&message=" . urlencode("Cập nhật xe thất bại!") );
                 exit();
             }
         }
@@ -145,7 +145,7 @@ class CarController
             header("Location: /admin");
             exit;
         } else {
-            header("Location: /error?status=error&message=" . urlencode("Xoá xe thất bại!"));
+            header("Location: /admin?status=error&message=" . urlencode("Xoá xe thất bại!"));
             exit();
         }
     }

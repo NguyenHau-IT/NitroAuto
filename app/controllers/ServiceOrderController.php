@@ -27,7 +27,7 @@ class ServiceOrderController
 
             ServiceOrder::create($serviceId, $userId, $date, $status, $note);
 
-            header("Location: /success?status=success&message=" . urlencode("Thêm đơn hàng dịch vụ thành công!"));
+            header("Location: /services?status=success&message=" . urlencode("Đặt lịch thành công!"));
             exit();
         }
 
