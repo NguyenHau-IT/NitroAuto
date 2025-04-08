@@ -16,6 +16,7 @@ class Cars
     public $stock;
     public $description;
     public $created_at;
+    public $horsepower;
 
     public function __construct($data = [])
     {
@@ -29,7 +30,20 @@ class Cars
     public static function all()
     {
         global $conn;
-        $stmt = $conn->query("SELECT * FROM cars");
+        $stmt = $conn->query("SELECT cars.id, cars.name, cars.price, cars.year, cars.mileage, 
+                                       cars.fuel_type, cars.transmission, cars.color, 
+                                       categories.name AS category_name, brands.name AS brand_name, 
+                                       cars.description, cars.stock, cars.created_at,
+                                       cars.brand_id, cars.category_id, cars.horsepower,
+                                       normal_images.image_url AS normal_image_url,
+                                       three_d_images.image_url AS three_d_images
+                                FROM cars
+                                JOIN brands ON cars.brand_id = brands.id
+                                JOIN categories ON cars.category_id = categories.id
+                                LEFT JOIN car_images AS normal_images 
+                                     ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
+                                LEFT JOIN car_images AS three_d_images 
+                                     ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -40,7 +54,7 @@ class Cars
                                        cars.fuel_type, cars.transmission, cars.color, 
                                        categories.name AS category_name, brands.name AS brand_name, 
                                        cars.description, cars.stock, cars.created_at,
-                                       cars.brand_id, cars.category_id,
+                                       cars.brand_id, cars.category_id, cars.horsepower,
                                        normal_images.image_url AS normal_image_url,
                                        three_d_images.image_url AS three_d_images
                                 FROM cars
@@ -53,9 +67,45 @@ class Cars
                                 WHERE cars.id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }    
+    }
 
-    public static function findByBrand($id){
+    public static function findList($ids)
+    {
+        global $conn;
+
+        // Đảm bảo $ids là mảng
+        if (!is_array($ids)) {
+            $ids = [$ids];
+        }
+
+        // Tạo placeholders ?,?,?,...
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+
+        // Câu truy vấn với IN (?,?,?)
+        $sql = "SELECT cars.id, cars.name, cars.price, cars.year, cars.mileage, 
+                   cars.fuel_type, cars.transmission, cars.color, 
+                   categories.name AS category_name, brands.name AS brand_name, 
+                   cars.description, cars.stock, cars.created_at,
+                   cars.brand_id, cars.category_id, cars.horsepower,
+                   normal_images.image_url AS normal_image_url,
+                   three_d_images.image_url AS three_d_images
+            FROM cars
+            JOIN brands ON cars.brand_id = brands.id
+            JOIN categories ON cars.category_id = categories.id
+            LEFT JOIN car_images AS normal_images 
+                 ON cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
+            LEFT JOIN car_images AS three_d_images 
+                 ON cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
+            WHERE cars.id IN ($placeholders)";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute($ids); // Truyền danh sách ID vào
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function findByBrand($id)
+    {
         global $conn;
         $stmt = $conn->prepare("SELECT cars.*, brands.name as brand_name, categories.name as category_name, 
                            normal_images.image_url as normal_image_url, 

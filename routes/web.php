@@ -1,4 +1,7 @@
 <?php
+
+use Google\Service\CustomSearchAPI\Resource\Cse;
+
 require_once '../app/controllers/HomeController.php';
 require_once '../app/controllers/UserController.php';
 require_once '../app/controllers/AdminController.php';
@@ -153,6 +156,14 @@ switch (true) {
 
     case $uri === 'update_cart_quantity':
         (new CartController)->updateQuantity();
+        break;
+
+    case $uri === 'compare':
+        (new CarController())->compareCar();
+        break;
+
+    case $uri === 'compare_cars':
+        (new CarController())->compareCars();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
