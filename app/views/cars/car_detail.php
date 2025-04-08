@@ -15,9 +15,13 @@
                         </div>
                     </div>
                     <div class='d-flex justify-content-between border-bottom pb-2'>
-                        <div class='w-100'>
+                        <div class='w-50'>
                             <span class='fw-bold'>Giá:</span>
                             <span class='fs-5 text-danger fw-bold'><?= number_format($car['price'], 0, ',', '.') ?> VNĐ</span>
+                        </div>
+                        <div class='w-50 text-end'>
+                            <span class='fw-bold'>Mã lực:</span>
+                            <span class='fs-5'><?= htmlspecialchars($car['horsepower']) ?> HP</span>
                         </div>
                     </div>
                     <?php
