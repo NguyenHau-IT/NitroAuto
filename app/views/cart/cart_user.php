@@ -36,7 +36,7 @@
                                         <?php echo number_format($item['accessory_price'] * $item['quantity'], 0, ',', '.') . ' VNĐ'; ?>
                                     </td>
                                     <td>
-                                        <a href="/delete_cart/<?php echo $item['id']; ?>" class="btn btn-sm btn-danger btn-delete fs-6" data-id="<?php echo $item['id']; ?>">
+                                        <a href="/delete_cart/<?php echo $item['accessory_id']; ?>" class="btn btn-sm btn-danger btn-delete fs-6" data-id="<?php echo $item['id']; ?>">
                                             <i class="fas fa-trash me-1"></i> Xoá
                                         </a>
                                         <a href="/check_out" class="btn btn-sm btn-success fs-6 mt-1">
