@@ -102,12 +102,12 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-dark ml-2" id="filter-from-current-year">
+    <button type="button" class="btn btn-dark mx-2" id="filter-from-current-year">
         <i class="fas fa-calendar-alt"></i> Mới
     </button>
 
     <!-- Ô tìm kiếm -->
-    <form action="" method="POST" class="ml-2 position-relative p-3 ps-0" id="search-form" style="flex: 1;">
+    <form action="" method="POST" class="position-relative p-3 ps-0" id="search-form" style="flex: 1;">
         <input type="hidden" name="brand" value="<?= isset($_POST['brand']) ? htmlspecialchars($_POST['brand']) : '' ?>">
         <input type="hidden" name="sortCar" value="<?= isset($_POST['sortCar']) ? htmlspecialchars($_POST['sortCar']) : '' ?>">
         <div class="input-group">
