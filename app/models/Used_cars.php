@@ -60,10 +60,10 @@ class Used_cars
 
 
     public static function find($id)
-{
-    global $conn;
+    {
+        global $conn;
 
-    $sql = "SELECT 
+        $sql = "SELECT 
                 used_cars.id, used_cars.name, used_cars.price, used_cars.year, used_cars.mileage, 
                 used_cars.fuel_type, used_cars.transmission, used_cars.color, used_cars.status,
                 users.full_name AS user_name,
@@ -84,10 +84,9 @@ class Used_cars
                 ON used_cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
             WHERE used_cars.id = :id";
 
-    $stmt = $conn->prepare($sql);
-    $stmt->execute(['id' => $id]);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
