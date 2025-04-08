@@ -1,3 +1,8 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <div class="container mt-5">
     <h2>Edit Car</h2>
     <form action="/update_car/<?= htmlspecialchars($car['id']) ?>" method="POST" enctype="multipart/form-data">
@@ -103,5 +108,3 @@
         <a href="/admin" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
-
-<?php include '/ProjectCarSale/includes/footer.php'; ?>

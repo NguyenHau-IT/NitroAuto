@@ -88,5 +88,3 @@
         <button type="submit" class="btn btn-success">Add Car</button>
     </form>
 </div>
-
-<?php include '/ProjectCarSale/includes/footer.php'; ?>

@@ -1,11 +1,3 @@
-<!-- Bootstrap 5.3 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<!-- Bootstrap 5.3 JS (kèm Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <div class="bg-light rounded-4 shadow p-4 border mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0">Danh sách xe đã qua sử dụng</h2>

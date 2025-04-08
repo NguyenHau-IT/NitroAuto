@@ -1,14 +1,22 @@
-<footer class="bg-dark text-white text-center py-2">
+<footer class="bg-dark text-white text-center py-3 mt-5">
     <div class="container">
-        <p>&copy; <?php echo date("Y"); ?> Nitro Auto. All rights reserved.</p>
-        <p>Follow us on:
-            <a href="#" class="text-white"><i class="fab fa-facebook-f"></i> Facebook </a>
+        <p class="mb-1">&copy; <?= date("Y"); ?> <strong>Nitro Auto</strong>. All rights reserved.</p>
+        <p class="mb-0">
+            Follow us on:
+            <a href="#" class="text-white text-decoration-none ms-1">
+                <i class="fab fa-facebook-f"></i> Facebook
+            </a>
         </p>
     </div>
 </footer>
-<script src="//code.tidio.co/p1jneu187wheegsekzemu9ezforibtsx.js" async></script>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- JavaScript Libraries (defer để tăng hiệu suất) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
+<!-- Custom script -->
+<script src="/script.js" defer></script>

@@ -1,20 +1,20 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="/style.css">
+<div class="container mt-5 text-dark fs-5 mb-4 bg-light shadow-lg rounded-4 p-4 border">
+    <h2 class="mb-4 text-center">Đăng kí láy thử xe</h2>
 
-<div class="container mt-5 overlay text-white fs-5 mb-4">
-    <h2 class="mb-4 text-center">Đăng ký lái thử</h2>
+    <div class="mb-3 fs-4">
+        <h4 class="mb-3">Thông tin người mua</h4>
 
-    <div class="mb-3 fs-3">
-        <h4>Thông tin người đăng ký</h4>
-        <p><strong>Tên:</strong> <?= isset($user['full_name']) ? htmlspecialchars($user['full_name']) : 'N/A' ?></p>
-        <p><strong>Email:</strong> <?= isset($user['email']) ? htmlspecialchars($user['email']) : 'N/A' ?></p>
-        <p><strong>Số điện thoại:</strong> <?= isset($user['phone']) ? htmlspecialchars($user['phone']) : 'N/A' ?></p>
-        <p><strong>Địa chỉ:</strong> <?= isset($user['address']) ? htmlspecialchars($user['address']) : 'N/A' ?></p>
+        <div class="row mb-2">
+            <div class="col-md-6"><strong>Tên:</strong> <?= htmlspecialchars($user['full_name']) ?></div>
+            <div class="col-md-6"><strong>Email:</strong> <?= htmlspecialchars($user['email']) ?></div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6"><strong>Số điện thoại:</strong> <?= htmlspecialchars($user['phone']) ?></div>
+            <div class="col-md-6"><strong>Địa chỉ:</strong> <?= htmlspecialchars($user['address'] ?? '-') ?></div>
+        </div>
     </div>
 
     <form action="/register_test_drive" method="POST">
@@ -48,8 +48,14 @@
             <input type="text" class="form-control" id="location" name="location" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Đăng ký lái thử</button>
-        <a href="/home" class="btn btn-secondary">Quay lại</a>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-car"></i> Đăng kí
+            </button>
+            <a href="/home" class="btn btn-danger" style="margin-left: 10px;">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
     </form>
 </div>
 

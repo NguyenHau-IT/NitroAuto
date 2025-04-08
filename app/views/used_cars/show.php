@@ -1,15 +1,5 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
-<!-- Bootstrap & Icon -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-<link rel="stylesheet" href="/style.css">
-
-<!-- Script -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/script.js"></script>
-
 <div class="container my-5">
     <h1 class="text-center text-primary-emphasis fs-1 fw-bold"><?= htmlspecialchars($used_car['name']) ?></h1>
 

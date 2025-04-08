@@ -1,6 +1,6 @@
 <?php if (!empty($histories)): ?>
     <div class="mb-4">
-        <div class="card shadow rounded-4 p-0" style="max-height: 200px; overflow-y: auto;">
+        <div class="card shadow rounded-4 p-0" style="max-height: 200px;">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <h5 class="text-warning mb-0"><?= htmlspecialchars($_SESSION["user"]["full_name"] ?? 'Không xác định')?> đã xem</h5>
@@ -47,4 +47,3 @@
         </div>
     </div>
 <?php endif; ?>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

@@ -1,5 +1,4 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
-<link rel="stylesheet" href="/style.css">
 
 <div class="overlay">
     <div class="bg-light rounded-4 shadow p-3 container my-4" style="max-width: 1000px;">
@@ -132,10 +131,3 @@
 </div>
 
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
-
-<!-- External scripts -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap&subset=vietnamese" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="/script.js"></script>
