@@ -45,6 +45,7 @@ class CarController
                 'transmission' => $_POST['transmission'],
                 'color' => $_POST['color'],
                 'stock' => $_POST['stock'],
+                'horsepower' => $_POST['horsepower'],
                 'description' => $_POST['description'],
                 'image_url' => isset($data['image_url']) ? $data['image_url'] : null,
                 'image_url3D' => $_POST['image_3d_url']
@@ -106,6 +107,7 @@ class CarController
             $transmission = $_POST['transmission'];
             $color = $_POST['color'];
             $stock = $_POST['stock'];
+            $horsepower = $_POST['horsepower'];
             $description = $_POST['description'];
             $created_at = $_POST['created_at'];
             $image_url = $image_url;
@@ -124,6 +126,7 @@ class CarController
                 $transmission,
                 $color,
                 $stock,
+                $horsepower,
                 $description,
                 $created_at,
                 $image_url,

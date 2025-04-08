@@ -20,6 +20,7 @@
                 <th>Giá</th>
                 <th>Hộp số</th>
                 <th>Số km</th>
+                <th>Mã lực</th>
                 <th>Loại nhiên liệu</th>
                 <th>Tồn kho</th>
                 <th>Hình ảnh</th>
@@ -40,6 +41,7 @@
                     <td class="text-end"><?= number_format($car['price'] ?? 0) ?> VND</td>
                     <td><?= htmlspecialchars($car['transmission'] ?? 'N/A') ?></td>
                     <td class="text-end"><?= number_format($car['mileage'] ?? 0) ?> km</td>
+                    <td class="text-end"><?= number_format($car['horsepower'] ?? 0) ?> HP</td>
                     <td><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
                     <td><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
 

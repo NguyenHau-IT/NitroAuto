@@ -164,6 +164,7 @@ class Cars
         $transmission,
         $color,
         $stock,
+        $horsepower,
         $description,
         $created_at,
         $image_url,
@@ -186,6 +187,7 @@ class Cars
                 transmission = :transmission, 
                 color = :color, 
                 stock = :stock, 
+                horsepower = :horsepower,
                 description = :description, 
                 created_at = :created_at 
             WHERE id = :id");
@@ -202,6 +204,7 @@ class Cars
                 "transmission" => $transmission,
                 "color" => $color,
                 "stock" => $stock,
+                "horsepower" => $horsepower,
                 "description" => $description,
                 "created_at" => $created_at
             ]);
@@ -246,8 +249,8 @@ class Cars
     public function addCar($data)
     {
         global $conn;
-        $sql = "INSERT INTO cars (name, brand_id, category_id, price, year, mileage, fuel_type, transmission, color, stock, description, created_at)
-                VALUES (:name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :stock, :description, GETDATE())";
+        $sql = "INSERT INTO cars (name, brand_id, category_id, price, year, mileage, fuel_type, transmission, color, horsepower, stock, description, created_at)
+                VALUES (:name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :horsepower, :stock, :description, GETDATE())";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
@@ -261,6 +264,7 @@ class Cars
             'transmission' => $data['transmission'],
             'color' => $data['color'],
             'stock' => $data['stock'],
+            'horsepower' => $data['horsepower'],
             'description' => $data['description']
         ]);
         $car_id = $conn->lastInsertId();

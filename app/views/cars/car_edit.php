@@ -79,6 +79,11 @@
         </div>
 
         <div class="form-group">
+            <label for="horsepower">Mã lực:</label>
+            <input type="number" class="form-control" id="horsepower" name="horsepower" value="<?= htmlspecialchars($car['horsepower']) ?>" required min="0">
+        </div>
+
+        <div class="form-group">
             <label for="description">Description:</label>
             <textarea class="form-control" id="description" name="description" required maxlength="1000"><?= htmlspecialchars($car['description']) ?></textarea>
         </div>
