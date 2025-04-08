@@ -73,7 +73,7 @@ class Cart
         ]);
         return true;
     }
-    
+
     public static function deleteAll($userId)
     {
         global $conn;
@@ -82,5 +82,16 @@ class Cart
             'user_id' => $userId
         ]);
         return true;
+    }
+
+    public static function updateQuantity($user_id, $item_id, $quantity)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE cart SET quantity = :quantity WHERE user_id = :user_id AND id = :item_id");
+        return $stmt->execute([
+            'quantity' => $quantity,
+            'user_id' => $user_id,
+            'item_id' => $item_id
+        ]);
     }
 }

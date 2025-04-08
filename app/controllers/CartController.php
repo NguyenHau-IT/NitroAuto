@@ -108,63 +108,49 @@ class CartController
         exit;
     }
 
-    public function checkOut()
-    {
-        $userId = $_SESSION['user']['id'];
-        $user = $_SESSION['user'];
-        $carts = Cart::find($userId);
-
-        if (empty($carts)) {
-            header("Location: /cart?status=error&message=" . urlencode("Giỏ hàng trống!"));
-            exit();
-        }
-
-        require_once '../app/views/orders/order_cart.php';
-    }
-
     public function checkOutProcess()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user_id = $_SESSION['user']['id'] ?? null;
-    
+
             if (!$user_id) {
                 header("Location: /cart?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!"));
                 exit();
             }
-    
+
             $carts = Cart::find($user_id); // Lấy giỏ hàng
             if (empty($carts)) {
-                header("Location: /cart?status=error&message=" . urlencode("Giỏ hàng trống!") );
+                header("Location: /cart?status=error&message=" . urlencode("Giỏ hàng trống!"));
                 exit();
             }
-    
+
             $address = $_POST['address'] ?? '';
             $phone = $_POST['phone'] ?? '';
-    
+
             if (empty($address) || empty($phone)) {
                 header("Location: /checkout?status=error&message=" . urlencode("Vui lòng nhập đầy đủ thông tin!"));
                 exit();
             }
-    
+
             // Tính tổng phụ kiện
             $total_price = 0;
             foreach ($carts as $item) {
                 $total_price += $item['accessory_price'] * $item['quantity'];
             }
-    
+
             // Tạo đơn hàng
             $order_id = Orders::createMainOrder($user_id, $address, $phone, $total_price);
             if (!$order_id) {
-                header("Location: /checkout?status=error&message=" . urlencode("Không thể tạo đơn hàng!") );
+                header("Location: /checkout?status=error&message=" . urlencode("Không thể tạo đơn hàng!"));
                 exit();
             }
-    
+
             // Lưu từng phụ kiện vào bảng order_details
             foreach ($carts as $item) {
                 $accessory_id = $item['accessory_id'];
                 $quantity = $item['quantity'];
                 $price = $item['accessory_price'];
-    
+
                 Orders::addOrderItem(
                     $order_id,
                     $accessory_id,
@@ -172,12 +158,54 @@ class CartController
                     $price
                 );
             }
-    
+
             // Xoá giỏ hàng
             Cart::deleteAll($user_id);
-    
+
             header("Location: /home?status=success&message=" . urlencode("Đặt hàng thành công!"));
             exit();
         }
     }
+
+    public function checkOutSelected()
+    {
+        $userId = $_SESSION['user']['id'] ?? null;
+        if (!$userId) {
+            header("Location: /login");
+            exit();
+        }
+
+        $selectedIds = $_POST['selected_items'] ?? [];
+
+        if (empty($selectedIds)) {
+            header("Location: /cart?status=error&message=" . urlencode("Vui lòng chọn ít nhất một sản phẩm để đặt hàng!"));
+            exit();
+        }
+
+        $allCart = Cart::find($userId);
+        $selectedItems = array_filter($allCart, function ($item) use ($selectedIds) {
+            return in_array($item['id'], $selectedIds);
+        });
+
+        // Gửi sang view để xác nhận đơn hàng
+        require_once '../app/views/orders/order_selected.php';
     }
+
+    public function updateQuantity()
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $id = $input['id'] ?? null;
+        $quantity = $input['quantity'] ?? null;
+        $user_id = $_SESSION['user']['id'] ?? null;
+
+        if (!$id || !$quantity || !$user_id) {
+            echo json_encode(['success' => false, 'message' => 'Thiếu dữ liệu']);
+            return;
+        }
+
+        // Gọi đến model để cập nhật
+        $result = Cart::updateQuantity($user_id, $id, $quantity);
+
+        echo json_encode(['success' => $result]);
+    }
+}

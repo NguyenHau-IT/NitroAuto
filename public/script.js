@@ -254,4 +254,48 @@ document.addEventListener("DOMContentLoaded", function () {
             history.replaceState(null, "", window.location.pathname);
         });
     }
+
+    const selectAll = document.getElementById("select-all");
+    const checkboxes = document.querySelectorAll(".select-item");
+
+    if (selectAll) {
+        selectAll.addEventListener("change", function () {
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    }
+    
+    const quantityInputs = document.querySelectorAll(".quantity-input");
+
+    quantityInputs.forEach(input => {
+        input.addEventListener("input", function () {
+            const quantity = parseInt(this.value) || 1;
+            const itemId = this.name.match(/\d+/)[0];
+            const price = parseInt(this.dataset.price);
+
+            // Gọi AJAX cập nhật server
+            fetch("/update_cart_quantity", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    id: itemId,
+                    quantity: quantity,
+                }),
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const totalElement = document.getElementById("total-" + itemId);
+                    if (totalElement) {
+                        const total = price * quantity;
+                        totalElement.textContent = total.toLocaleString("vi-VN") + " VNĐ";
+                    }
+                } else {
+                    alert("Cập nhật thất bại!");
+                }
+            })
+            .catch(() => alert("Lỗi kết nối đến server."));
+        });
+    });
 });
