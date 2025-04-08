@@ -48,12 +48,30 @@
 
             <?php foreach ($groupedOrders as $order): ?>
                 <div class="card mb-3 order-card <?= strtolower($order['status']) ?>"
-                     data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
+                    data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="card-title mb-0">Đơn hàng #<?= $order['order_id'] ?></h5>
+                            <div>
+                                <h5 class="card-title mb-0">Đơn hàng #<?= $order['order_id'] ?></h5>
+
+                                <?php if ($order['status'] == 'pending' || $order['status'] == 'Pending'): ?>
+                                    <span class="badge bg-warning text-dark">Đang chờ xử lý</span>
+                                <?php elseif ($order['status'] == 'confirmed' || $order['status'] == 'Confirmed'): ?>
+                                    <span class="badge bg-info text-dark">Đã xác nhận</span>
+                                <?php elseif ($order['status'] == 'shipping' || $order['status'] == 'Shipping'): ?>
+                                    <span class="badge bg-primary">Đang giao</span>
+                                <?php elseif ($order['status'] == 'completed' || $order['status'] == 'Completed'): ?>
+                                    <span class="badge bg-success">Đã hoàn thành</span>
+                                <?php elseif ($order['status'] == 'cancelled' || $order['status'] == 'Cancelled'): ?>
+                                    <span class="badge bg-danger">Đã huỷ</span>
+                                <?php else: ?>
+                                    <span class="badge bg-secondary">Không xác định</span>
+                                <?php endif; ?>
+                            </div>
+
                             <a href="/order_detail/<?= $order['order_id'] ?>" class="btn btn-success btn-sm">Xem chi tiết</a>
                         </div>
+
 
                         <?php if (count($order['items']) === 1): ?>
                             <?php $item = $order['items'][0]; ?>
