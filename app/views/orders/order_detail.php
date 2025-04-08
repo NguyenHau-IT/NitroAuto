@@ -9,7 +9,7 @@
                     <tbody>
                         <tr>
                             <th scope="row">Họ tên</th>
-                            <td><?= htmlspecialchars($order['full_name']) ?></td>
+                            <td><?= htmlspecialchars($order['user_name']) ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Email</th>
@@ -32,58 +32,69 @@
                     <tbody>
                         <tr>
                             <th scope="row">Tên xe</th>
-                            <td><?= htmlspecialchars($order['car_name']) ?></td>
+                            <td><?= !empty($order['car_name']) ? htmlspecialchars($order['car_name']) : '-' ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Số lượng</th>
-                            <td><?= htmlspecialchars($order['quantity']) ?></td>
+                            <td><?= isset($order['quantity']) ? htmlspecialchars($order['quantity']) : '-' ?></td>
                         </tr>
                         <tr>
-                            <th scope="row">Giá xe</th>
-                            <td><?= number_format($order['car_price'], 0, ',', '.') ?> VNĐ</td>
+                            <th scope="row">Giá Xe</th>
+                            <td><?= isset($order['subtotal']) ? number_format($order['subtotal'], 0, ',', '.') . ' VNĐ' : '-' ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Phụ kiện</th>
-                            <td><?= htmlspecialchars($order['accessory_name']) ?></td>
+                            <td><?= !empty($order['accessory_name']) ? htmlspecialchars($order['accessory_name']) : '-' ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Số lượng phụ kiện</th>
-                            <td><?= htmlspecialchars($order['accessory_quantity']) ?></td>
+                            <td><?= isset($order['accessory_quantity']) ? htmlspecialchars($order['accessory_quantity']) : '-' ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Giá phụ kiện</th>
-                            <td><?= number_format($order['accessory_price'], 0, ',', '.') ?> VNĐ</td>
+                            <td><?= isset($order['accessory_price']) ? number_format($order['accessory_price'], 0, ',', '.') . ' VNĐ' : '-' ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Tổng giá</th>
-                            <td><?= number_format($order['subtotal'], 0, ',', '.') ?> VNĐ</td>
+                            <td><?= isset($order['total_amount']) ? number_format($order['total_amount'], 0, ',', '.') . ' VNĐ' : '-' ?></td>
                         </tr>
                         <tr>
                             <th scope="row">Ngày đặt</th>
-                            <td><?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?></td>
+                            <td>
+                                <?= !empty($order['order_date']) ? date('d/m/Y - H:i:s', strtotime($order['order_date'])) : '-' ?>
+                            </td>
                         </tr>
                         <tr>
                             <th scope="row">Trạng thái</th>
                             <td>
                                 <?php
-                                switch ($order['status']) {
-                                    case 'pending':
-                                        echo 'Đang chờ xử lý';
-                                        break;
-                                    case 'confirmed':
-                                        echo 'Đã xác nhận';
-                                        break;
-                                    case 'shipped':
-                                        echo 'Đang giao';
-                                        break;
-                                    case 'canceled':
-                                        echo 'Đã hủy';
-                                        break;
-                                    case 'completed':
-                                        echo 'Đã hoàn thành';
-                                        break;
-                                    default:
-                                        echo 'Không xác định';
+                                if (empty($order['status'])) {
+                                    echo '-';
+                                } else {
+                                    switch ($order['status']) {
+                                        case 'pending':
+                                        case 'Pending':
+                                            echo 'Đang chờ xử lý';
+                                            break;
+                                        case 'confirmed':
+                                        case 'Confirmed':
+                                            echo 'Đã xác nhận';
+                                            break;
+                                        case 'shipped':
+                                        case 'Shipped':
+                                            echo 'Đang giao';
+                                            break;
+                                        case 'canceled':
+                                        case 'Canceled':
+                                            echo 'Đã hủy';
+                                            break;
+                                        case 'completed':
+                                        case 'Completed':
+                                            echo 'Đã hoàn thành';
+                                            break;
+                                        default:
+                                            echo 'Không xác định';
+                                    }
                                 }
                                 ?>
                             </td>

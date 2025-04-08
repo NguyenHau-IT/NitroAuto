@@ -150,10 +150,9 @@ class OrderController
         require_once '../app/views/orders/order_list.php';
     }   
 
-    public function orderDetail($orderId)
+    public function orderDetail($Id)
     {
-        global $conn;
-        $order = Order_details::find($orderId);
+        $order = Orders::getOrderById($Id);
         if (!$order) {
             header("Location: /error?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
             exit();

@@ -144,6 +144,9 @@ class Orders
             o.total_amount,
             o.user_id,
             u.full_name AS user_name,
+            u.email AS email,
+            u.phone AS phone,
+            u.address AS address,
             od.car_id,
             c.name AS car_name,
             od.quantity,
@@ -159,7 +162,7 @@ class Orders
             FROM orders o
             JOIN users u ON o.user_id = u.id
             JOIN order_details od ON o.id = od.order_id
-            JOIN cars c ON od.car_id = c.id
+            LEFT JOIN cars c ON od.car_id = c.id
             LEFT JOIN accessories a ON od.accessory_id = a.id
             LEFT JOIN car_accessories ca ON od.car_id = ca.car_id AND od.accessory_id = ca.accessory_id
             WHERE o.id = :order_id
