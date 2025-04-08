@@ -2,7 +2,7 @@
 
 <div class="overlay">
     <div class="container mt-5 mb-5 bg-light rounded-4 shadow-lg p-4">
-        <h2 class="mb-4 text-center fs-3 fw-bold">🛒 Giỏ hàng</h2>
+        <h2 class="mb-4 text-center fs-1">Giỏ hàng</h2>
 
         <form method="post" action="/checkout_selected">
             <?php if (!empty($carts)): ?>
