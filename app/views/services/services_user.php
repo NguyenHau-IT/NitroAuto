@@ -2,7 +2,7 @@
 
 <div class="overlay">
     <div class="bg-light rounded-4 shadow p-4 container my-4" style="max-width: 900px;">
-        <h2 class="text-center mb-4 text-primary">Danh sách đơn dịch vụ</h2>
+        <h2 class="text-center mb-4">Danh sách lịch hẹn</h2>
 
         <!-- Bộ lọc trạng thái -->
         <div class="btn-group mb-3 sticky-top bg-light py-2" role="group" style="z-index: 1020;">
