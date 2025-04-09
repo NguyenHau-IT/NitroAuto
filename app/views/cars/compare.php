@@ -19,6 +19,9 @@
             <?php endfor; ?>
         </div>
         <div id="compare-result"></div>
+        <div class="text-center mt-4">
+            <a href="/home" class="btn btn-primary"><i class="fa fa-home"></i> Quay lại</a>
+        </div>
     </div>
 </div>
 
