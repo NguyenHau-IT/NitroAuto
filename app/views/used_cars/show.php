@@ -40,7 +40,7 @@
                     <!-- Mô tả -->
                     <div class="d-flex flex-column border-bottom pb-2">
                         <span class="fw-bold">Mô tả:</span>
-                        <div class="fs-5 overflow-auto" style="max-height: 150px;">
+                        <div class="fs-5 overflow-auto" style="height: 100px;">
                             <?= nl2br(htmlspecialchars($used_car['description'] ?? '')) ?>
                         </div>
                     </div>
@@ -68,7 +68,9 @@
                             <span class="fw-bold">Số điện thoại:</span>
                             <span class="fs-5"><?= htmlspecialchars($used_car['user_phone']) ?></span>
                         </div>
-                        <div class="w-50 text-end">
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <div class="w-50 text-start">
                             <span class="fw-bold">Email:</span>
                             <span class="fs-5"><?= htmlspecialchars($used_car['user_email']) ?></span>
                         </div>
@@ -81,13 +83,13 @@
         <div class="col-lg-6">
             <div class="rounded-4 shadow-lg p-4 bg-light text-center">
                 <?php if (!empty($used_car)): ?>
-                    <img src="<?=$used_car['normal_image_url'] ?>" 
-                         alt="Hình ảnh xe" 
-                         class="w-100" style="height: 500px; border-radius: 15px;">
+                    <img src="<?= $used_car['normal_image_url'] ?>"
+                        alt="Hình ảnh xe"
+                        class="w-100" style="height: 620px; border-radius: 15px;">
                 <?php else: ?>
-                    <img src="/uploads/cars/default.jpg" alt="Ảnh mẫu" 
-                         class="img-fluid rounded-4" 
-                         style="height: 500px; object-fit: cover;">
+                    <img src="/uploads/cars/default.jpg" alt="Ảnh mẫu"
+                        class="img-fluid rounded-4"
+                        style="height: 500px; object-fit: cover;">
                 <?php endif; ?>
             </div>
         </div>
