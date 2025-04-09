@@ -1,6 +1,7 @@
 <?php
 
 use Google\Service\CustomSearchAPI\Resource\Cse;
+use Google\Service\ServiceControl\Auth;
 
 require_once '../app/controllers/HomeController.php';
 require_once '../app/controllers/UserController.php';
@@ -179,11 +180,11 @@ switch (true) {
         break;
 
     case $uri === 'reset_password':
-        (new UserController())->showChangePasswordForm();
+        (new AuthController())->showChangePasswordForm();
         break;
 
     case $uri === 'change_password':
-        (new UserController())->changePassword();
+        (new AuthController())->changePassword();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):

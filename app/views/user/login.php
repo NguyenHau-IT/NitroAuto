@@ -21,9 +21,12 @@
                         <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
                         <input type="email" name="email" class="form-control" placeholder="Email" required>
                     </div>
-                    <div class="mb-3 input-group">
+                    <div class="mb-1 input-group">
                         <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
                         <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
+                    </div>
+                    <div class="mb-3 text-end">
+                        <a href="forgot-password" class="text-decoration-none text-primary">Quên mật khẩu?</a>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
                 </form>

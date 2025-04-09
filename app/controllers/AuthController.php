@@ -201,4 +201,54 @@ class AuthController
         header("Location: /home?status=success&message=" . urlencode("Đăng nhập thành công"));
         exit;        
     }
+
+    public function showChangePasswordForm()
+    {
+        require_once '../app/views/user/change_password.php';
+    }
+
+    public function changePassword()
+    {
+        $userId = $_SESSION['user_id'] ?? null;
+
+        if (!$userId) {
+            header('Location: /login');
+            exit;
+        }
+
+        $user = Users::find($userId);
+
+        $oldPassword = $_POST['old_password'] ?? '';
+        $newPassword = $_POST['new_password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+
+        if (!password_verify($oldPassword, $user['password'])) {
+            header("Location: /reset_password?status=erros&message=" . urlencode("Sai mật khẩu củ!"));
+            exit(); 
+        }
+
+        if ($newPassword !== $confirmPassword) {
+            header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới không khớp!"));
+            exit(); 
+        }
+
+        if (strlen($newPassword) < 6) {
+            header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới phải có ít nhất 6 ký tự!"));
+            exit();
+        }
+
+        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        if(Users::updatePassword($userId, $hashedPassword))
+        {
+            header("Location: /home?status=success&message=" . urlencode("Đổi mật khẩu thành công!"));
+            exit();
+        }
+        else
+        {
+            header("Location: /home?status=error&message=" . urlencode("Đổi mật khẩu thất bại!"));
+            exit();
+        }
+    }
+
+    
 }
