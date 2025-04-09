@@ -71,28 +71,6 @@ function updatePrice() {
     `;
 }
 
-function initLoadMore() {
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    const carItems = document.querySelectorAll('.car-item');
-    let visibleCount = 12;
-    const step = 8;
-
-    if (!loadMoreBtn) return;
-
-    loadMoreBtn.addEventListener('click', function () {
-        let shown = 0;
-        for (let i = visibleCount; i < carItems.length && shown < step; i++) {
-            carItems[i].classList.remove('d-none');
-            shown++;
-        }
-        visibleCount += shown;
-
-        if (visibleCount >= carItems.length) {
-            loadMoreBtn.style.display = 'none';
-        }
-    });
-}
-
 document.addEventListener("DOMContentLoaded", function () {
     updatePrice();
 
@@ -114,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     const carList = document.getElementById("car-list-container");
                     if (carList) carList.innerHTML = data;
                     if (filterDropdown) filterDropdown.classList.remove("show");
-                    initLoadMore();
                 })
                 .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
         });
@@ -138,7 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     const carList = document.getElementById("car-list-container");
                     if (carList) carList.innerHTML = data;
-                    initLoadMore();
                 })
                 .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
         });
@@ -367,6 +343,4 @@ document.addEventListener("DOMContentLoaded", function () {
                 badge.style.display = 'none';
             }
         });
-
-    initLoadMore();
 });
