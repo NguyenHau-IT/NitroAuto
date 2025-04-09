@@ -31,7 +31,7 @@ class Users
     public static function find($id)
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT id, full_name, email, phone, address, created_at, role FROM users WHERE id = :id");
+        $stmt = $conn->prepare("SELECT id, full_name, email, phone, password, address, created_at, role FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }    
@@ -116,5 +116,12 @@ class Users
         $stmt = $conn->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function updatePassword($id, $hashedPassword)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $stmt->execute([$hashedPassword, $id]);
     }
 }

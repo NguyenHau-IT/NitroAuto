@@ -178,6 +178,14 @@ switch (true) {
         (new CartController())->countCart();
         break;
 
+    case $uri === 'reset_password':
+        (new UserController())->showChangePasswordForm();
+        break;
+
+    case $uri === 'change_password':
+        (new UserController())->changePassword();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;
