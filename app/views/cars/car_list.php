@@ -7,9 +7,9 @@
                         <!-- Hình ảnh xe -->
                         <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="car-img-container">
                             <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
-                                 class="card-img-top car-image"
-                                 alt="<?= htmlspecialchars($car['name']) ?>"
-                                 style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;">
+                                class="card-img-top car-image"
+                                alt="<?= htmlspecialchars($car['name']) ?>"
+                                style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;">
                         </a>
 
                         <div class="card-body text-center bg-dark text-light">
@@ -28,22 +28,26 @@
                             </p>
 
                             <!-- Phần nút hành động -->
-                            <div class="mt-3 d-flex justify-content-center gap-3 flex-wrap">
-                                <!-- Đặt mua button -->
-                                <form action="/showOrderForm" method="POST">
-                                    <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']); ?>">
-                                    <button type="submit" class="btn btn-lg btn-success d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale">
-                                        <i class="fas fa-shopping-cart me-1"></i> <span>Đặt mua</span>
-                                    </button>
-                                </form>
+                            <div class="row mt-3 g-3">
+                                <!-- Nút Đặt mua -->
+                                <div class="col-md-6">
+                                    <form action="/showOrderForm" method="POST">
+                                        <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']); ?>">
+                                        <button type="submit" class="btn btn-success w-100 d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale px-4 py-2">
+                                            <i class="fas fa-shopping-cart me-2"></i> <span>Đặt mua</span>
+                                        </button>
+                                    </form>
+                                </div>
 
-                                <!-- So sánh button -->
-                                <form action="/compare" method="POST">
-                                    <input type="hidden" id="car_id" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-                                    <button type="submit" class="btn btn-lg btn-outline-primary d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale">
-                                        So sánh
-                                    </button>
-                                </form>
+                                <!-- Nút So sánh -->
+                                <div class="col-md-6">
+                                    <form action="/compare" method="POST">
+                                        <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                                        <button type="submit" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale px-4 py-2">
+                                            <i class="fas fa-plus-circle me-2"></i> <span>So sánh</span>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
 
                         </div>
