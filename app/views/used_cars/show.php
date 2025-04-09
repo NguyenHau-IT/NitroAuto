@@ -102,6 +102,10 @@
             <button type="submit" class="btn btn-success btn-lg"><i class="bi bi-cart"></i> Đặt mua</button>
         </form>
     </div>
+
+    <div>
+        <?php require_once __DIR__ . '/list_used_cars.php'; ?>
+    </div>
 </div>
 
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
