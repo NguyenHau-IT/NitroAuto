@@ -2,7 +2,7 @@
     <a href="#">
         <img src="<?php echo htmlspecialchars($banner_left['image_url']); ?>" alt="Banner Trái"
             class="rounded-4 shadow  animate__animated animate__bounce animate__infinite"
-            style="width: 12vw; height: 70vh; object-fit: cover;">
+            style="width: 12vw; height: 60vh; object-fit: cover;">
     </a>
 </div>
 
@@ -11,6 +11,6 @@
     <a href="#">
         <img src="<?php echo htmlspecialchars($banner_right['image_url']); ?>" alt="Banner Phải"
             class="rounded-4 shadow  animate__animated animate__bounce animate__infinite"
-            style="width: 12vw; height: 70vh; object-fit: cover;">
+            style="width: 12vw; height: 60vh; object-fit: cover;">
     </a>
 </div>
