@@ -30,9 +30,15 @@
                         <input type="text" id="address" name="address" class="form-control" value="<?= htmlspecialchars($user['address']) ?>" required>
                     </div>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success">Cập nhật</button>
+                    <div class="text-center d-flex justify-content-between">
+                        <a href="/profile" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i> Quay lại
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i> Cập nhật
+                        </button>
                     </div>
+
                 </form>
             </div>
         </div>
