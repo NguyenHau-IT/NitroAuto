@@ -72,21 +72,50 @@ class Used_cars
                 brands.name AS brand_name, 
                 used_cars.description, used_cars.created_at,
                 used_cars.brand_id, used_cars.category_id,
-                normal_images.image_url AS normal_image_url,
-                three_d_images.image_url AS three_d_image_url
+                normal_images.image_url AS normal_image_url
             FROM used_cars
             JOIN users ON used_cars.user_id = users.id
             JOIN brands ON used_cars.brand_id = brands.id
             JOIN categories ON used_cars.category_id = categories.id
-            LEFT JOIN car_images AS normal_images 
-                ON used_cars.id = normal_images.car_id AND normal_images.image_type = 'normal'
-            LEFT JOIN car_images AS three_d_images 
-                ON used_cars.id = three_d_images.car_id AND three_d_images.image_type = '3D'
+            LEFT JOIN used_car_images AS normal_images 
+                ON used_cars.id = normal_images.used_car_id AND normal_images.image_type = 'normal'
             WHERE used_cars.id = :id";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute(['id' => $id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function addCar($data)
+    {
+        global $conn;
+        $sql = "INSERT INTO used_cars (user_id, name, brand_id, category_id, price, year, mileage, fuel_type, transmission, color, description, created_at)
+                VALUES (:user_id, :name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :description, GETDATE())";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            'user_id' => $data['user_id'],
+            'name' => $data['name'],
+            'brand_id' => $data['brand_id'],
+            'category_id' => $data['category_id'],
+            'price' => $data['price'],
+            'year' => $data['year'],
+            'mileage' => $data['mileage'],
+            'fuel_type' => $data['fuel_type'],
+            'transmission' => $data['transmission'],
+            'color' => $data['color'],
+            'description' => $data['description']
+        ]);
+        $car_id = $conn->lastInsertId();
+
+        if (isset($data['image_url'])) {
+            $stmt = $conn->prepare("INSERT INTO used_car_images (used_car_id, image_url, image_type) VALUES (:car_id, :image_url, 'normal')");
+            $stmt->execute([
+                'car_id' => $car_id,
+                'image_url' => $data['image_url']
+            ]);
+        }
+        return true;
     }
 }

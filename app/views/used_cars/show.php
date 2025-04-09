@@ -80,11 +80,10 @@
         <!-- Hình ảnh -->
         <div class="col-lg-6">
             <div class="rounded-4 shadow-lg p-4 bg-light text-center">
-                <?php if (!empty($images) && $images[0]['image_type'] == '3D'): ?>
-                    <iframe src="<?= htmlspecialchars($images[0]['image_url']) ?>" 
-                            allow="autoplay; fullscreen; xr-spatial-tracking" 
-                            allowfullscreen 
-                            class="w-100" style="height: 500px; border-radius: 15px;"></iframe>
+                <?php if (!empty($used_car)): ?>
+                    <img src="<?=$used_car['normal_image_url'] ?>" 
+                         alt="Hình ảnh xe" 
+                         class="w-100" style="height: 500px; border-radius: 15px;">
                 <?php else: ?>
                     <img src="/uploads/cars/default.jpg" alt="Ảnh mẫu" 
                          class="img-fluid rounded-4" 

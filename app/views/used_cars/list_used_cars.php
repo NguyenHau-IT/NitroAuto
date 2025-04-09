@@ -8,7 +8,7 @@
 
     <div class="row">
         <?php foreach ($used_cars as $car): ?>
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 w-25">
                 <div class="card car-card p-0 h-100 shadow-lg rounded-3 overflow-hidden">
                     <img src="<?= htmlspecialchars(!empty($car["image_url"]) ? $car["image_url"] : '/uploads/cars/default.jpg') ?>"
                         class="card-img-top"
