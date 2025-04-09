@@ -26,7 +26,7 @@
                         <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
                     </div>
                     <div class="mb-3 text-end">
-                        <a href="forgot-password" class="text-decoration-none text-primary">Quên mật khẩu?</a>
+                        <a href="show_forgot_password" class="text-decoration-none text-primary">Quên mật khẩu?</a>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
                 </form>

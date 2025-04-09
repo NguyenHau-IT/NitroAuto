@@ -187,6 +187,30 @@ switch (true) {
         (new AuthController())->changePassword();
         break;
 
+    case $uri === 'show_forgot_password':
+        (new AuthController())->showForgotPasswordForm();
+        break;
+
+    case $uri === 'forgot-password':
+        (new AuthController())->sendVerificationCode()();
+        break;
+
+    case $uri === 'show_verify-code':
+        (new AuthController())->showVerifyCodeForm();
+        break;
+
+    case $uri === 'verify-code':
+        (new AuthController())->handleCodeVerification();
+        break;
+
+    case $uri === 'show_reset_password':
+        (new AuthController())->showResetForm();
+        break;
+
+    case $uri === 'reset-password':
+        (new AuthController())->resetPassword();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;

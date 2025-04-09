@@ -124,4 +124,11 @@ class Users
         $stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
         return $stmt->execute([$hashedPassword, $id]);
     }
+
+    public static function updateByEmail($email, $hashedPassword)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE users SET password = ? WHERE email = ?");
+        return $stmt->execute([$hashedPassword, $email]);
+    }
 }

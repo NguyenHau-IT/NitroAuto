@@ -20,7 +20,6 @@ class AuthController
         $this->client->setRedirectUri($config['GOOGLE_REDIRECT_URI']);
         $this->client->addScope("email");
         $this->client->addScope("profile");
-        
     }
 
     public function register()
@@ -40,7 +39,7 @@ class AuthController
                 exit();
             }
         }
-        require_once '../app/views/user/register.php';
+        require_once '../app/views/auth/register.php';
     }
 
     public function login()
@@ -62,7 +61,7 @@ class AuthController
                 exit();
             }
         }
-        require_once '../app/views/user/login.php';
+        require_once '../app/views/auth/login.php';
     }
 
     public function logout()
@@ -153,14 +152,14 @@ class AuthController
         // Bước 5: Kiểm tra & tạo user
         try {
             $user = Users::findByEmail($userInfo->email);
-        
+
             if (!$user) {
                 echo "DEBUG: User chưa tồn tại. Tạo mới...\n";
-        
+
                 $password = '123456'; // Mật khẩu mặc định
                 $phone = '0' . str_pad(random_int(0, 999999999), 9, '0', STR_PAD_LEFT);
                 $address = 'Địa chỉ mặc định';
-        
+
                 $newUserId = Users::register(
                     $userInfo->name,
                     $userInfo->email,
@@ -168,13 +167,13 @@ class AuthController
                     $phone,
                     $address
                 );
-        
+
                 if (!$newUserId) {
                     throw new Exception("Không thể tạo user mới.");
                 }
-        
+
                 echo "DEBUG: Tạo user thành công ✔️\n";
-        
+
                 // Lấy lại user sau khi tạo
                 $user = Users::findByEmail($userInfo->email);
                 if (!$user) {
@@ -183,28 +182,27 @@ class AuthController
             } else {
                 echo "DEBUG: User đã tồn tại ✔️\n";
             }
-        
+
             // Lưu session
             $_SESSION['user'] = $user;
             $_SESSION['user_id'] = $user['id'];
             echo "DEBUG: Đã lưu session ✔️\n";
-        
         } catch (Exception $e) {
             echo "DEBUG: Exception khi xử lý user ❌\n";
             echo "DEBUG: " . $e->getMessage() . "\n";
             error_log("Lỗi khi xử lý user: " . $e->getMessage());
             exit();
-        }        
+        }
 
         // Bước 6: Chuyển hướng
         echo "DEBUG: Hoàn tất, chuyển hướng...\n";
         header("Location: /home?status=success&message=" . urlencode("Đăng nhập thành công"));
-        exit;        
+        exit;
     }
 
     public function showChangePasswordForm()
     {
-        require_once '../app/views/user/change_password.php';
+        require_once '../app/views/auth/change_password.php';
     }
 
     public function changePassword()
@@ -224,12 +222,12 @@ class AuthController
 
         if (!password_verify($oldPassword, $user['password'])) {
             header("Location: /reset_password?status=erros&message=" . urlencode("Sai mật khẩu củ!"));
-            exit(); 
+            exit();
         }
 
         if ($newPassword !== $confirmPassword) {
             header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới không khớp!"));
-            exit(); 
+            exit();
         }
 
         if (strlen($newPassword) < 6) {
@@ -238,17 +236,95 @@ class AuthController
         }
 
         $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        if(Users::updatePassword($userId, $hashedPassword))
-        {
+        if (Users::updatePassword($userId, $hashedPassword)) {
             header("Location: /home?status=success&message=" . urlencode("Đổi mật khẩu thành công!"));
             exit();
-        }
-        else
-        {
+        } else {
             header("Location: /home?status=error&message=" . urlencode("Đổi mật khẩu thất bại!"));
             exit();
         }
     }
 
-    
+    public function showForgotPasswordForm()
+    {
+        require_once '../app/views/auth/forgot_password.php';
+    }
+
+    public function sendVerificationCode()
+    {
+        $email = $_POST['email'] ?? '';
+
+        $user = Users::findByEmail($email);
+
+        if ($user) {
+            $code = rand(100000, 999999);
+            $_SESSION['reset_email'] = $email;
+            $_SESSION['reset_code'] = $code;
+            $_SESSION['code_expires'] = time() + 300; // 5 phút
+
+            // Gửi email (giả lập)
+            mail($email, "Mã xác nhận", "Mã xác nhận của bạn là: $code");
+
+            header('Location: /show_verify-code?' . $code);
+        } else {
+            header('Location: /show_forgot_password?status=error&message=' . urlencode('Email không tồn tại'));
+            exit();
+        }
+    }
+
+    public function showVerifyCodeForm()
+    {
+        require_once '../app/views/auth/verify_code.php';
+    }
+
+    public function handleCodeVerification()
+    {
+        $inputCode = $_POST['code'] ?? '';
+        $sessionCode = $_SESSION['reset_code'] ?? '';
+        $expires = $_SESSION['code_expires'] ?? 0;
+
+        if (time() > $expires) {
+            session_unset();
+            header('Location: /show_verify-code?status=error&message=' . urlencode('Mã xác nhận đã hết hạn'));
+            exit;
+        }
+
+        if ($inputCode == $sessionCode) {
+            $_SESSION['verified'] = true;
+            header('Location: /show_reset_password');
+        } else {
+            header('Location: /show_verify-code?status=error&message=' . urlencode('Mã xác nhận không đúng'));
+        }
+    }
+
+    public function showResetForm()
+    {
+        if (!isset($_SESSION['verified'])) {
+            header('Location: /show_forgot_password');
+            exit;
+        }
+
+        require_once '../app/views/auth/reset_password.php';
+    }
+
+    public function resetPassword()
+    {
+        $email = $_SESSION['reset_email'] ?? null;
+        $password = $_POST['password'] ?? null;
+
+        if (!$email || !$password) {
+            header('Location: /show_reset_password?status=error&message=' . urlencode('Vui lòng nhập đầy đủ thông tin'));
+            exit();
+        }
+
+        if (Users::updateByEmail($email, password_hash($password, PASSWORD_BCRYPT))) {
+            header('Location: /login?status=success&message=' . urlencode('Mật khẩu đã được đặt lại'));
+            exit();
+        } else {
+            header('Location: /show_forgot_password?status=error&message=' . urlencode('Đặt lại mật khẩu thất bại'));
+            exit();
+        }
+
+        session_unset();
+    }
 }
