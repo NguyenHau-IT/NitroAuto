@@ -94,4 +94,12 @@ class Cart
             'item_id' => $item_id
         ]);
     }
+
+    public static function getCartCount($userId)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM cart WHERE user_id = :user_id");
+        $stmt->execute(['user_id' => $userId]);
+        return $stmt->fetchColumn();
+    }
 }

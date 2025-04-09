@@ -4,6 +4,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $user = $_SESSION['user'] ?? null;
 $current_page = basename($_SERVER['PHP_SELF']);
+$count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
+
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +85,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
                         <?php if ($user): ?>
                             <li class="nav-item <?= ($current_page == 'cart') ? 'active' : '' ?>">
-                                <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
+                                <a class="nav-link d-flex align-items-center gap-1" href="/cart">
+                                    <div class="position-relative">
+                                        <i class="fas fa-shopping-cart fa-lg"></i>
+                                        <?php if ($count_cart > 0): ?>
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                                                <?= $count_cart ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <span>Giỏ hàng</span>
+                                </a>
                             </li>
                             <li class="nav-item <?= ($current_page == 'profile') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/profile">

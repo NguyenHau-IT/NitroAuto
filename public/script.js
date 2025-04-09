@@ -331,4 +331,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selects[0].value !== "") {
         fetchCompare();
     }
+
+    fetch('/countCart') // đường dẫn tới action countCart
+        .then(response => response.json())
+        .then(data => {
+            const badge = document.getElementById('cart-count');
+            if (data.count > 0) {
+                badge.textContent = data.count;
+                badge.style.display = 'inline-block';
+            } else {
+                badge.style.display = 'none';
+            }
+        });
 });

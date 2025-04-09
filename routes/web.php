@@ -174,6 +174,10 @@ switch (true) {
         (new UsedCarsController())->storeCar();
         break;
 
+    case $uri === 'countCart':
+        (new CartController())->countCart();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;

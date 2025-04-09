@@ -10,6 +10,18 @@ class CartController
         require_once __DIR__ . "/../views/cars/list.php";
     }
 
+    public function countCart()
+    {
+        if (isset($_SESSION['user']['id'])) {
+            $userId = $_SESSION['user']['id'];
+            $cartCount = Cart::getCartCount($userId);
+            echo json_encode(['count' => $cartCount]);
+        } else {
+            echo json_encode(['count' => 0]);
+        }
+        exit();
+    }
+
     public function getByUserId()
     {
         $userId = $_SESSION['user']['id'];
