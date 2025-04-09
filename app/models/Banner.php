@@ -51,11 +51,13 @@ class Banner
     {
         global $conn;
         $stmt = $conn->prepare("UPDATE banners SET is_active = :new_status WHERE id = :id");
-        return $stmt->execute([
+        $stmt->execute([
             'new_status' => $new_status,
             'id' => $banner_id
         ]);
+        return true;
     }
+    
     public static function deleteBanner($banner_id)
     {
         global $conn;

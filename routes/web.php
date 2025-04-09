@@ -119,10 +119,6 @@ switch (true) {
         (new CartController())->updateCart();
         break;
 
-    case $uri === 'toggle_banner_status':
-        (new BannerController())->toggleBannerStatus();
-        break;
-
     case $uri === 'auth/google':
         (new AuthController())->redirectToGoogle();
         break;
@@ -209,6 +205,10 @@ switch (true) {
 
     case $uri === 'reset-password':
         (new AuthController())->resetPassword();
+        break;
+
+    case $uri === 'updateBannerStatus':
+        (new BannerController())->updateBannerStatus();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):

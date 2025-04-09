@@ -7,19 +7,30 @@ class BannerController
         $banners = Banner::getAllBanners();
         require_once '../app/views/banners/banner_list.php';
     }
-
-    public function toggleBannerStatus()
+    
+    public function updateBannerStatus()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = (int)($_POST['banner_id'] ?? 0);
-            $current_status = (int)($_POST['current_status'] ?? 1);
-            $new_status = $current_status ? 0 : 1;
-
-            $success = Banner::updateBannerStatus($id, $new_status);
-
-            header('Content-Type: application/json');
-            echo json_encode(['success' => $success]);
-            exit();
+        // Lấy dữ liệu từ POST
+        $bannerId = $_POST['banner_id'] ?? null;
+        $isActive = $_POST['is_active'] ?? null;
+    
+        // Kiểm tra giá trị đầu vào
+        if ($bannerId !== null && $isActive !== null) {
+            // Ép kiểu an toàn
+            $bannerId = (int)$bannerId;
+            $isActive = (int)$isActive;
+    
+            // Gọi model để update
+            $result = Banner::updateBannerStatus($bannerId, $isActive);
+    
+            if ($result) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Cập nhật thất bại']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Dữ liệu không hợp lệ']);
         }
-    }
+    }    
+
 }

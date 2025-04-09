@@ -124,6 +124,34 @@ if (!isset($_SESSION['user'])) {
                 sections[0].style.display = "block";
                 navLinks[0].classList.add("active");
             }
+
+            document.querySelectorAll('.toggle-active').forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    const bannerId = this.getAttribute('data-id');
+                    const isActive = this.checked ? 1 : 0;
+
+                    fetch('/updateBannerStatus', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: `banner_id=${bannerId}&is_active=${isActive}`
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log('Cập nhật trạng thái thành công');
+                            } else {
+                                alert('Cập nhật thất bại');
+                                this.checked = !this.checked;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Lỗi:', error);
+                            this.checked = !this.checked;
+                        });
+                });
+            });
         });
     </script>
 

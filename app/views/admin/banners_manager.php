@@ -27,26 +27,29 @@
                     <td>
                         <?php if (!empty($banner['image_url'])): ?>
                             <img src="<?= htmlspecialchars($banner['image_url']) ?>"
-                                 alt="<?= htmlspecialchars($banner['name'] ?? 'Banner Image') ?>"
-                                 class="img-thumbnail"
-                                 style="max-height: 120px; max-width: 300px;">
+                                alt="<?= htmlspecialchars($banner['name'] ?? 'Banner Image') ?>"
+                                class="img-thumbnail"
+                                style="max-height: 120px; max-width: 300px;">
                         <?php else: ?>
                             <span class="text-muted">No image</span>
                         <?php endif; ?>
                     </td>
-                    <td><?= htmlspecialchars($banner['type']) ?></td>
                     <td>
-                        <span class="badge rounded-pill <?= $banner['is_active'] ? 'bg-success' : 'bg-secondary' ?>" id="badge-<?= $banner['id'] ?>">
-                            <?= $banner['is_active'] ? 'Hiển thị' : 'Đã ẩn' ?>
-                        </span>
+                        <?= htmlspecialchars($banner['type']) ?></td>
+                    <td>
+                        <div class="form-check form-switch d-flex justify-content-center">
+                            <input class="form-check-input toggle-active" type="checkbox"
+                                data-id="<?= $banner['id'] ?>"
+                                <?= $banner['is_active'] ? 'checked' : '' ?>>
+                        </div>
                     </td>
                     <td>
                         <a href="/banner_edit/<?= htmlspecialchars($banner['id']) ?>" class="btn btn-sm btn-primary me-1">
                             <i class="fas fa-edit me-1"></i> Edit
                         </a>
                         <a href="/banner_delete/<?= htmlspecialchars($banner['id']) ?>"
-                           onclick="return confirm('Bạn có chắc chắn muốn xóa banner này?');"
-                           class="btn btn-sm btn-danger">
+                            onclick="return confirm('Bạn có chắc chắn muốn xóa banner này?');"
+                            class="btn btn-sm btn-danger">
                             <i class="fas fa-trash-alt me-1"></i> Delete
                         </a>
                     </td>
