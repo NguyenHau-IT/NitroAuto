@@ -67,9 +67,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <li class="nav-item <?= ($current_page == 'appointments') ? 'active' : '' ?>">
                         <a class="nav-link" href="/appointments"><i class="fas fa-calendar-alt"></i> Lịch hẹn</a>
                     </li>
-                    <li class="nav-item <?= ($current_page == 'cart') ? 'active' : '' ?>">
-                        <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
-                    </li>
                 </ul>
 
                 <!-- Menu bên phải -->
@@ -84,6 +81,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <?php endif; ?>
 
                     <?php if ($user): ?>
+                        <li class="nav-item <?= ($current_page == 'cart') ? 'active' : '' ?>">
+                        <a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a>
+                    </li>
                         <li class="nav-item <?= ($current_page == 'profile') ? 'active' : '' ?>">
                             <a class="nav-link" href="/profile">
                                 <i class="fas fa-user"></i> <?= htmlspecialchars($user['full_name']) ?>
