@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <div class="overlay">
-    <div class="bg-light rounded-4 shadow p-3 container my-4" style="max-width: 1000px;">
+    <div class="container mt-5 text-dark fs-5 mb-4 bg-light shadow-lg rounded-4 p-4">
         <h2 class="text-center mb-4">Danh sách đơn hàng</h2>
 
         <div class="btn-group mb-3 sticky-top bg-light py-2" role="group" style="z-index: 1020;">

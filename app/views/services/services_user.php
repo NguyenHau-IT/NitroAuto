@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <div class="overlay">
-    <div class="bg-light rounded-4 shadow p-4 container my-4" style="max-width: 900px;">
+    <div class="container mt-5 text-dark fs-5 mb-4 bg-light shadow-lg rounded-4 p-4">
         <h2 class="text-center mb-4">Danh sách lịch hẹn</h2>
 
         <!-- Bộ lọc trạng thái -->
@@ -54,7 +54,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <h5 class="card-title mb-0">Dịch vụ: <?= htmlspecialchars($order['car_name']) ?></h5>
-                            
+
                         </div>
 
                         <p class="mb-1"><strong>Giá dịch vụ:</strong> <?= number_format($order['total_price'], 0, ',', '.') ?> VNĐ</p>
