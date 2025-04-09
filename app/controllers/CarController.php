@@ -294,4 +294,25 @@ class CarController
         }
         require_once '../app/views/cars/filter.php';
     }
+
+    public function compare(){
+        $cars = Cars::all();
+        require_once '../app/views/cars/compare.php';
+    }
+
+    public function compareCars() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $car_ids = $data['car_ids'] ?? [];
+    
+        if (count($car_ids) >= 2 && count($car_ids) <= 3) {
+            $cars = [];
+    
+            foreach ($car_ids as $id) {
+                $cars[] = Cars::find($id);
+            }
+    
+            require_once '../app/views/cars/compare_result.php';
+        }
+    }
+    
 }

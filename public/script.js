@@ -298,4 +298,37 @@ document.addEventListener("DOMContentLoaded", function () {
                 .catch(() => alert("Lỗi kết nối đến server."));
         });
     });
+
+    const selects = document.querySelectorAll('.compare-select');
+
+    function fetchCompare() {
+        const carIds = Array.from(selects).map(sel => sel.value).filter(v => v !== "");
+
+        const uniqueIds = [...new Set(carIds)];
+        if (uniqueIds.length < carIds.length) {
+            document.getElementById('compare-result').innerHTML = "<p>Không được chọn trùng xe.</p>";
+            return;
+        }
+
+        if (carIds.length >= 2) {
+            fetch('/compareCars', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ car_ids: carIds })
+            })
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('compare-result').innerHTML = html;
+                });
+        } else {
+            document.getElementById('compare-result').innerHTML = "<p>Chọn ít nhất 2 xe để so sánh.</p>";
+        }
+    }
+
+    selects.forEach(sel => sel.addEventListener('change', fetchCompare));
+
+    // 👇 Gọi so sánh ngay nếu có xe đầu được chọn qua POST
+    if (selects[0].value !== "") {
+        fetchCompare();
+    }
 });
