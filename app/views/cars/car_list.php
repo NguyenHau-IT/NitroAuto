@@ -9,7 +9,7 @@
                             <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
                                 class="card-img-top car-image"
                                 alt="<?= htmlspecialchars($car['name']) ?>"
-                                style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;">
+                                style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;" loading="lazy">
                         </a>
 
                         <div class="card-body text-center bg-dark text-light">

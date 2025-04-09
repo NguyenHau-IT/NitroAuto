@@ -16,7 +16,7 @@
                             <a href="/car_detail/<?= htmlspecialchars($history['car_id']) ?>">
                                 <img src="<?= htmlspecialchars($history['image_url'] ?? '/uploads/cars/default.jpg') ?>"
                                     alt="<?= htmlspecialchars($history['car_name'] ?? 'Không xác định') ?>"
-                                    class="rounded-2 me-2" style="width: 90px; height: 80px; object-fit: cover;">
+                                    class="rounded-2 me-2" style="width: 90px; height: 80px; object-fit: cover;" loading="lazy">
                             </a>
 
                             <div class="flex-grow-1 d-flex flex-column justify-content-between" style="padding-right: 30px; min-height: 80px;">

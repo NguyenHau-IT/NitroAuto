@@ -54,7 +54,7 @@
                 <?php if (!empty($images) && $images[0]['image_type'] == '3D'): ?>
                     <iframe src="<?= htmlspecialchars($images[0]['image_url']) ?>" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen style="height: 500px; width: 100%; border-radius: 15px;"></iframe>
                 <?php else: ?>
-                    <img src="/uploads/cars/default.jpg" alt="Ảnh mẫu" class="img-fluid rounded-4" style="height: 600px; width: 100%; object-fit: cover;">
+                    <img src="/uploads/cars/default.jpg" loading="lazy" alt="Ảnh mẫu" class="img-fluid rounded-4" style="height: 600px; width: 100%; object-fit: cover;">
                 <?php endif; ?>
             </div>
         </div>

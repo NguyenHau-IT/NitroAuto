@@ -14,7 +14,7 @@
                     <img src="<?= htmlspecialchars(!empty($car["image_url"]) ? $car["image_url"] : '/uploads/cars/default.jpg') ?>"
                          class="card-img-top"
                          alt="<?= htmlspecialchars($car['name']) ?>"
-                         style="height: 200px; object-fit: cover;">
+                         style="height: 200px; object-fit: cover;" loading="lazy">
                     <div class="card-body d-flex flex-column text-light bg-dark">
                         <h5 class="card-title fw-bold mb-3" style="height: 30px;">
                             <a href="/show_used_car/<?= htmlspecialchars($car['id']) ?>" class="text-decoration-none text-light">

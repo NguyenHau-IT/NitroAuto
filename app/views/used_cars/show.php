@@ -85,11 +85,11 @@
                 <?php if (!empty($used_car)): ?>
                     <img src="<?= $used_car['normal_image_url'] ?>"
                         alt="Hình ảnh xe"
-                        class="w-100" style="height: 620px; border-radius: 15px;">
+                        class="w-100" style="height: 620px; border-radius: 15px;" loading="lazy">
                 <?php else: ?>
                     <img src="/uploads/cars/default.jpg" alt="Ảnh mẫu"
                         class="img-fluid rounded-4"
-                        style="height: 500px; object-fit: cover;">
+                        style="height: 500px; object-fit: cover;" loading="lazy">
                 <?php endif; ?>
             </div>
         </div>
