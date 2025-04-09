@@ -23,18 +23,57 @@ class CarController
     public function storeCar()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $car = new Cars();
+            $data = [];
+
+            // Xử lý ảnh
             if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == 0) {
-                $uploadDir = 'D:NitroAuto/public/uploads/cars/';
-                $uploadFile = $uploadDir . basename($_FILES['image_url']['name']);
-                if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
-                    $data['image_url'] = '/uploads/cars/' . basename($_FILES['image_url']['name']);
+                $allowedExt = ['jpg', 'jpeg', 'png'];
+                $fileExt = strtolower(pathinfo($_FILES['image_url']['name'], PATHINFO_EXTENSION));
+
+                if (!in_array($fileExt, $allowedExt)) {
+                    header("Location: /admin?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
+                    exit();
+                }
+
+                // Đổi tên ảnh dựa vào tên xe (POST['name']), loại bỏ ký tự đặc biệt
+                $newName = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['name']);
+                $webpName = $newName . '.webp';
+
+                // Đường dẫn lưu ảnh
+                $uploadDir = __DIR__ . '/../../public/uploads/cars/';
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0777, true); // Tạo thư mục nếu chưa có
+                }
+
+                $uploadFile = $uploadDir . $webpName;
+
+                // Convert ảnh sang webp
+                switch ($fileExt) {
+                    case 'jpg':
+                    case 'jpeg':
+                        $image = imagecreatefromjpeg($_FILES['image_url']['tmp_name']);
+                        break;
+                    case 'png':
+                        $image = imagecreatefrompng($_FILES['image_url']['tmp_name']);
+                        imagepalettetotruecolor($image);
+                        imagealphablending($image, true);
+                        imagesavealpha($image, true);
+                        break;
+                    default:
+                        $image = false;
+                }
+
+                if ($image && imagewebp($image, $uploadFile, 80)) {
+                    imagedestroy($image);
+                    $data['image_url'] = '/uploads/cars/' . $webpName;
                 } else {
-                    header("Location: /admin?status=error&message=" . urlencode("Thêm ảnh thất bại!"));
+                    header("Location: /admin?status=error&message=" . urlencode("Chuyển ảnh sang WebP thất bại!"));
                     exit();
                 }
             }
-            $data = [
+
+            // Gán các dữ liệu còn lại
+            $data += [
                 'name' => $_POST['name'],
                 'brand_id' => $_POST['brand_id'],
                 'category_id' => $_POST['category_id'],
@@ -51,7 +90,8 @@ class CarController
                 'image_url3D' => $_POST['image_3d_url']
             ];
 
-            if ($car->addCar($data)) {
+            // Lưu vào DB
+            if (Cars::addCar($data)) {
                 header("Location: /admin?status=success&message=" . urlencode("Thêm xe thành công!"));
                 exit();
             } else {
@@ -76,26 +116,57 @@ class CarController
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $car = new Cars();
-            $uploadDir = 'D:NitroAuto/public/uploads/cars/';
+            // Đường dẫn lưu ảnh
+            $uploadDir = __DIR__ . '/../../public/uploads/cars/';
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
 
+            // Kiểm tra có upload ảnh mới không
             if (!empty($_FILES['image_url']['name']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
-                $fileName = basename($_FILES['image_url']['name']);
-                $uploadFile = $uploadDir . $fileName;
+                $allowedExt = ['jpg', 'jpeg', 'png'];
+                $fileExt = strtolower(pathinfo($_FILES['image_url']['name'], PATHINFO_EXTENSION));
 
-                if (move_uploaded_file($_FILES['image_url']['tmp_name'], $uploadFile)) {
-                    $image_url = '/uploads/cars/' . $fileName;
+                if (!in_array($fileExt, $allowedExt)) {
+                    header("Location: /admin?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
+                    exit();
+                }
+
+                // Đổi tên file theo name
+                $newName = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['name']);
+                $webpName = $newName . '.webp';
+                $uploadFile = $uploadDir . $webpName;
+
+                // Convert sang webp
+                switch ($fileExt) {
+                    case 'jpg':
+                    case 'jpeg':
+                        $image = imagecreatefromjpeg($_FILES['image_url']['tmp_name']);
+                        break;
+                    case 'png':
+                        $image = imagecreatefrompng($_FILES['image_url']['tmp_name']);
+                        imagepalettetotruecolor($image);
+                        imagealphablending($image, true);
+                        imagesavealpha($image, true);
+                        break;
+                    default:
+                        $image = false;
+                }
+
+                if ($image && imagewebp($image, $uploadFile, 80)) {
+                    imagedestroy($image);
+                    $image_url = '/uploads/cars/' . $webpName;
                 } else {
-                    header("Location: /admin?status=error&message=" . urlencode("Upload ảnh thất bại!"));
+                    header("Location: /admin?status=error&message=" . urlencode("Chuyển ảnh sang WebP thất bại!"));
                     exit();
                 }
             } else {
-                // Nếu không có ảnh mới, giữ nguyên ảnh cũ
-                $stmt = $car->find($_POST['id']);
+                // Không có ảnh mới => dùng ảnh cũ
+                $stmt = Cars::find($_POST['id']);
                 $image_url = $stmt['normal_image_url'];
             }
 
-            // Lấy dữ liệu từ form
+            // Lấy dữ liệu form
             $id = $_POST['id'];
             $name = $_POST['name'];
             $brand_id = $_POST['brand_id'];
@@ -110,10 +181,9 @@ class CarController
             $horsepower = $_POST['horsepower'];
             $description = $_POST['description'];
             $created_at = $_POST['created_at'];
-            $image_url = $image_url;
             $image_url3D = $_POST['image_url3D'];
 
-            // Cập nhật vào database
+            // Cập nhật
             if (Cars::update(
                 $id,
                 $name,
@@ -132,7 +202,7 @@ class CarController
                 $image_url,
                 $image_url3D
             )) {
-                header("Location: /admin");
+                header("Location: /admin?status=success&message=" . urlencode("Cập nhật xe thành công!"));
                 exit;
             } else {
                 header("Location: /admin?status=error&message=" . urlencode("Cập nhật xe thất bại!"));
@@ -140,7 +210,6 @@ class CarController
             }
         }
     }
-
 
     public function delete($id)
     {
@@ -295,24 +364,25 @@ class CarController
         require_once '../app/views/cars/filter.php';
     }
 
-    public function compare(){
+    public function compare()
+    {
         $cars = Cars::all();
         require_once '../app/views/cars/compare.php';
     }
 
-    public function compareCars() {
+    public function compareCars()
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $car_ids = $data['car_ids'] ?? [];
-    
+
         if (count($car_ids) >= 2 && count($car_ids) <= 3) {
             $cars = [];
-    
+
             foreach ($car_ids as $id) {
                 $cars[] = Cars::find($id);
             }
-    
+
             require_once '../app/views/cars/compare_result.php';
         }
     }
-    
 }

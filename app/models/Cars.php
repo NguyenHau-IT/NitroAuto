@@ -246,7 +246,7 @@ class Cars
         }
     }
 
-    public function addCar($data)
+    public static function addCar($data)
     {
         global $conn;
         $sql = "INSERT INTO cars (name, brand_id, category_id, price, year, mileage, fuel_type, transmission, color, horsepower, stock, description, created_at)
