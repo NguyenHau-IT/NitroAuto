@@ -6,15 +6,16 @@
         </a>
     </div>
 
-    <div class="row">
-        <?php foreach ($used_cars as $car): ?>
-            <div class="col-md-6 col-lg-4 mb-4 w-25">
-                <div class="card car-card p-0 h-100 shadow-lg rounded-3 overflow-hidden">
+    <!-- Cuộn ngang -->
+    <div class="overflow-auto p-3">
+        <div class="d-flex flex-nowrap gap-3">
+            <?php foreach ($used_cars as $car): ?>
+                <div class="card car-card p-0 shadow-lg rounded-3 overflow-hidden" style="min-width: 300px; max-width: 300px;">
                     <img src="<?= htmlspecialchars(!empty($car["image_url"]) ? $car["image_url"] : '/uploads/cars/default.jpg') ?>"
-                        class="card-img-top"
-                        alt="<?= htmlspecialchars($car['name']) ?>"
-                        style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column text-light">
+                         class="card-img-top"
+                         alt="<?= htmlspecialchars($car['name']) ?>"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column text-light bg-dark">
                         <h5 class="card-title fw-bold mb-3" style="height: 30px;">
                             <a href="/show_used_car/<?= htmlspecialchars($car['id']) ?>" class="text-decoration-none text-light">
                                 <?= htmlspecialchars($car['name']) ?>
@@ -30,7 +31,7 @@
                         </p>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
