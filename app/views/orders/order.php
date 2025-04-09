@@ -75,11 +75,11 @@
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group d-flex justify-content-between">
             <button type="submit" class="btn btn-primary">
                 <i class="fas fa-shopping-cart"></i> Đặt hàng
             </button>
-            <a href="/home" class="btn btn-danger" style="margin-left: 10px;">
+            <a href="/home" class="btn btn-danger">
                 <i class="fas fa-arrow-left"></i> Quay lại
             </a>
         </div>
