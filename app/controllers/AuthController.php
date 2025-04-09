@@ -1,6 +1,8 @@
 <?php
 require_once '../app/models/Users.php';
 require_once '../vendor/autoload.php';
+require_once '../app/services/MailService.php';
+use PHPMailer\PHPMailer\PHPMailer;
 
 use Twilio\Rest\Client;
 use Google\Client as Google_Client;
@@ -263,7 +265,7 @@ class AuthController
             $_SESSION['code_expires'] = time() + 300; // 5 phút
 
             // Gửi email (giả lập)
-            mail($email, "Mã xác nhận", "Mã xác nhận của bạn là: $code");
+            $sent = MailService::sendVerificationCode($email, $code);
 
             header('Location: /show_verify-code?' . $code);
         } else {
