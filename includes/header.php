@@ -78,9 +78,6 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                             <li class="nav-item <?= ($current_page == 'admin') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/admin"><i class="fas fa-user-shield"></i> Admin</a>
                             </li>
-                            <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
-                                <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử</a>
-                            </li>
                         <?php endif; ?>
 
                         <?php if ($user): ?>
@@ -96,6 +93,9 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                                     </div>
                                     <span>Giỏ hàng</span>
                                 </a>
+                            </li>
+                            <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
+                                <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử</a>
                             </li>
                             <li class="nav-item <?= ($current_page == 'profile' || $current_page == 'edit_profile') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/profile">

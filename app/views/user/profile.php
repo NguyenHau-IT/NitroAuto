@@ -15,16 +15,19 @@
                 <p><strong>Địa chỉ:</strong> <?php echo htmlspecialchars($user['address'] ?? '-'); ?></p>
                 <p><strong>Ngày tạo:</strong> <?php echo htmlspecialchars($user['created_at'] ?? '-'); ?></p>
             </div>
-            <div class="d-flex justify-content-between mt-3">
+            <div class="d-flex justify-content-between mt-3 flex-wrap gap-2">
                 <a href="/edit_profile" class="btn btn-outline-primary btn-lg d-flex align-items-center">
                     <i class="fas fa-user-edit me-2"></i> Chỉnh sửa thông tin
                 </a>
-                <a href="/user_orders" class="btn btn-outline-secondary btn-lg d-flex align-items-center">
-                    <i class="fas fa-history me-2"></i> Lịch sử mua
+
+                <a href="/reset_password" class="btn btn-warning btn-lg d-flex align-items-center">
+                    <i class="fas fa-key me-2"></i> Đổi mật khẩu
                 </a>
-                <a href="home" class="btn btn-primary btn-lg d-flex align-items-center">
+
+                <a href="/home" class="btn btn-primary btn-lg d-flex align-items-center">
                     <i class="fas fa-home me-2"></i> Quay lại
                 </a>
+
                 <a href="#" id="logoutBtn" class="btn btn-danger btn-lg d-flex align-items-center">
                     <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
                 </a>
