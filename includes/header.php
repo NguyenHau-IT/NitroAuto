@@ -97,7 +97,7 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                                     <span>Giỏ hàng</span>
                                 </a>
                             </li>
-                            <li class="nav-item <?= ($current_page == 'profile') ? 'active' : '' ?>">
+                            <li class="nav-item <?= ($current_page == 'profile' || $current_page == 'edit_profile') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/profile">
                                     <i class="fas fa-user"></i> <?= htmlspecialchars($user['full_name']) ?>
                                 </a>
