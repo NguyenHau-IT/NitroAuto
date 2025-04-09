@@ -158,14 +158,6 @@ switch (true) {
         (new CartController)->updateQuantity();
         break;
 
-    case $uri === 'compare':
-        (new CarController())->compareCar();
-        break;
-
-    case $uri === 'compare_cars':
-        (new CarController())->compareCars();
-        break;
-
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;

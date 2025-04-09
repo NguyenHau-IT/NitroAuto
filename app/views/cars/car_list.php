@@ -39,7 +39,7 @@
 
                                 <!-- So sánh button -->
                                 <form action="/compare" method="POST">
-                                    <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                                    <input type="hidden" id="car_id" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
                                     <button type="submit" class="btn btn-lg btn-outline-primary d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale">
                                         So sánh
                                     </button>

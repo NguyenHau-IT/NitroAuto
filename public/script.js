@@ -87,13 +87,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.text())
-            .then(data => {
-                const carList = document.getElementById("car-list-container");
-                if (carList) carList.innerHTML = data;
-                if (filterDropdown) filterDropdown.classList.remove("show");
-            })
-            .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
+                .then(response => response.text())
+                .then(data => {
+                    const carList = document.getElementById("car-list-container");
+                    if (carList) carList.innerHTML = data;
+                    if (filterDropdown) filterDropdown.classList.remove("show");
+                })
+                .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
         });
 
         filterForm.addEventListener("reset", function () {
@@ -111,12 +111,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 body: formData
             })
-            .then(response => response.text())
-            .then(data => {
-                const carList = document.getElementById("car-list-container");
-                if (carList) carList.innerHTML = data;
-            })
-            .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
+                .then(response => response.text())
+                .then(data => {
+                    const carList = document.getElementById("car-list-container");
+                    if (carList) carList.innerHTML = data;
+                })
+                .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
         });
     }
 
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const logoutBtn = document.getElementById('logoutBtn');
     if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
+        logoutBtn.addEventListener('click', function (e) {
             e.preventDefault();
             Swal.fire({
                 title: 'Đăng xuất?',
@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", function () {
             checkboxes.forEach(cb => cb.checked = this.checked);
         });
     }
-    
+
     const quantityInputs = document.querySelectorAll(".quantity-input");
 
     quantityInputs.forEach(input => {
@@ -283,69 +283,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     quantity: quantity,
                 }),
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    const totalElement = document.getElementById("total-" + itemId);
-                    if (totalElement) {
-                        const total = price * quantity;
-                        totalElement.textContent = total.toLocaleString("vi-VN") + " VNĐ";
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const totalElement = document.getElementById("total-" + itemId);
+                        if (totalElement) {
+                            const total = price * quantity;
+                            totalElement.textContent = total.toLocaleString("vi-VN") + " VNĐ";
+                        }
+                    } else {
+                        alert("Cập nhật thất bại!");
                     }
-                } else {
-                    alert("Cập nhật thất bại!");
-                }
-            })
-            .catch(() => alert("Lỗi kết nối đến server."));
+                })
+                .catch(() => alert("Lỗi kết nối đến server."));
         });
-    });
-});
-
-const storageKey = 'selectedCars';
-
-function saveSelection(slot, value) {
-    let selected = JSON.parse(localStorage.getItem(storageKey)) || ["", "", ""];
-    selected[slot] = value;
-    localStorage.setItem(storageKey, JSON.stringify(selected));
-    updateDropdowns();
-    loadCompare();
-}
-
-function updateDropdowns() {
-    const selected = JSON.parse(localStorage.getItem(storageKey)) || ["", "", ""];
-    $('.car-select').each(function () {
-        const slot = $(this).data('slot');
-        $(this).val(selected[slot]);
-    });
-}
-
-function loadCompare() {
-    const selected = JSON.parse(localStorage.getItem(storageKey)) || [];
-    const ids = selected.filter(id => id !== "");
-    if (ids.length < 2) {
-        $('#compare-result').html('<div class="alert alert-info">Chọn ít nhất 2 xe để so sánh.</div>');
-        return;
-    }
-
-    $.ajax({
-        url: '/compare_cars',
-        method: 'POST',
-        data: { ids: ids },
-        success: function (response) {
-            $('#compare-result').html(response);
-        },
-        error: function () {
-            $('#compare-result').html('<div class="alert alert-danger">Không thể so sánh xe.</div>');
-        }
-    });
-}
-
-$(document).ready(function () {
-    updateDropdowns();
-    loadCompare();
-
-    $('.car-select').on('change', function () {
-        const slot = $(this).data('slot');
-        const value = $(this).val();
-        saveSelection(slot, value);
     });
 });
