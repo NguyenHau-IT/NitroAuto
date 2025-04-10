@@ -10,7 +10,7 @@ class OrderController
     public function showOrderForm()
     {
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") . "&href=/home");
+            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
         }
 
         $cars = Cars::all();
@@ -22,7 +22,7 @@ class OrderController
     {
         $user_id = $_SESSION["user"]["id"] ?? null;
         if (!$user_id) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") . "&href=/home");
+            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
             exit();
         }
 
@@ -46,7 +46,7 @@ class OrderController
                     $address = $user['address'];
                     $phone = $user['phone'];
                 } else {
-                    header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!") . "&href=/home");
+                    header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!") );
                     exit();
                 }
             }
@@ -54,10 +54,10 @@ class OrderController
             $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $total_price, $address, $phone);
 
             if ($result) {
-                header("Location: /success?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") . "&href=/home");
+                header("Location: /showOrderForm?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") );
                 exit();
             } else {
-                header("Location: /error?status=error&message=" . urlencode("Lỗi khi đặt mua xe!") . "&href=/home");
+                header("Location: /showOrderForm?status=error&message=" . urlencode("Lỗi khi đặt mua xe!") );
                 exit();
             }
         }

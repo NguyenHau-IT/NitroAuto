@@ -18,6 +18,7 @@ require_once '../app/controllers/BannerController.php';
 require_once '../app/controllers/CarServicesController.php';
 require_once '../app/controllers/ServiceOrderController.php';
 require_once '../app/controllers/UsedCarsController.php';
+require_once '../app/controllers/PromotionsController.php';
 
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -209,6 +210,10 @@ switch (true) {
 
     case $uri === 'updateBannerStatus':
         (new BannerController())->updateBannerStatus();
+        break;
+
+    case $uri === 'applyPromotion':
+        (new PromotionsController())->apply_promotions();
         break;
 
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):

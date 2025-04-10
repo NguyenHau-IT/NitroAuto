@@ -34,6 +34,7 @@ function updatePrice() {
     const totalPriceDisplay = document.getElementById('total_price_display');
     const totalPriceInput = document.getElementById('total_price');
     const carNameInput = document.getElementById('car_name');
+    const promoCode = document.getElementById('promotions').value;
 
     if (!carSelect || !carQuantity || !accessorySelect || !accessoryQuantity ||
         !totalPriceDisplay || !totalPriceInput || !carNameInput) return;
@@ -59,16 +60,56 @@ function updatePrice() {
         subtotal += accessoryPrice * parseInt(accessoryQuantity.value);
     }
 
-    const vat = subtotal * 0.08;
-    const total = subtotal + vat;
+    // Gửi AJAX kiểm tra mã khuyến mãi
+    if (promoCode.trim() !== '') {
+        fetch('/applyPromotion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                code: promoCode,
+                total: subtotal
+            })
+        })
+        
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const discount = data.discount;
+                    const discountedTotal = subtotal - discount;
+                    const vat = discountedTotal * 0.08;
+                    const finalTotal = discountedTotal + vat;
 
-    totalPriceInput.value = total;
+                    totalPriceInput.value = finalTotal;
 
-    totalPriceDisplay.innerHTML = `
-        <div><strong>Tạm tính:</strong> ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
-        <div><strong>Thuế VAT (8%):</strong> ${vat.toLocaleString('vi-VN')} VNĐ</div>
-        <div><strong>Tổng thanh toán:</strong> <span class="text-danger fw-bold">${total.toLocaleString('vi-VN')} VNĐ</span></div>
-    `;
+                    totalPriceDisplay.innerHTML = `
+                    <div><strong>Tạm tính:</strong> ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
+                    <div><strong>Khuyến mãi:</strong> -${discount.toLocaleString('vi-VN')} VNĐ</div>
+                    <div><strong>Thuế VAT (8%):</strong> ${vat.toLocaleString('vi-VN')} VNĐ</div>
+                    <div><strong>Tổng thanh toán:</strong> <span class="text-danger fw-bold">${finalTotal.toLocaleString('vi-VN')} VNĐ</span></div>
+                `;
+                } else {
+                    alert(data.message);
+                    // fallback nếu mã lỗi
+                    const vat = subtotal * 0.08;
+                    const total = subtotal + vat;
+                    totalPriceInput.value = total;
+                    totalPriceDisplay.innerHTML = `
+                    <div><strong>Tạm tính:</strong> ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
+                    <div><strong>Thuế VAT (8%):</strong> ${vat.toLocaleString('vi-VN')} VNĐ</div>
+                    <div><strong>Tổng thanh toán:</strong> <span class="text-danger fw-bold">${total.toLocaleString('vi-VN')} VNĐ</span></div>
+                `;
+                }
+            });
+    } else {
+        const vat = subtotal * 0.08;
+        const total = subtotal + vat;
+        totalPriceInput.value = total;
+        totalPriceDisplay.innerHTML = `
+            <div><strong>Tạm tính:</strong> ${subtotal.toLocaleString('vi-VN')} VNĐ</div>
+            <div><strong>Thuế VAT (8%):</strong> ${vat.toLocaleString('vi-VN')} VNĐ</div>
+            <div><strong>Tổng thanh toán:</strong> <span class="text-danger fw-bold">${total.toLocaleString('vi-VN')} VNĐ</span></div>
+        `;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {

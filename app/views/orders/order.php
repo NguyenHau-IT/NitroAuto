@@ -67,6 +67,11 @@
             <input type="number" class="form-control fs-4" id="accessory_quantity" name="accessory_quantity" min="0" onchange="updatePrice()">
         </div>
 
+        <div class="form-group">
+            <label for="promotions">Mã khuyến mãi:</label>
+            <input type="text" class="form-control fs-4" id="promotions" name="promotions" onblur="updatePrice()">
+            </div>
+
         <div class="form-group fs-4">
             <label for="total_price">Thành tiền:</label>
             <input type="hidden" id="total_price" name="total_price">
