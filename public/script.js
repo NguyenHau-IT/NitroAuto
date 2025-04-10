@@ -35,10 +35,13 @@ function updatePrice() {
     const totalPriceInput = document.getElementById('total_price');
     const carNameInput = document.getElementById('car_name');
     const promoCodeInput = document.getElementById('promotions');
-    const promoCode = promoCodeInput ? promoCodeInput.value : '';
-    
+
+    // ✅ THÊM DÒNG NÀY ĐỂ CHẶN LỖI
     if (!carSelect || !carQuantity || !accessorySelect || !accessoryQuantity ||
-        !totalPriceDisplay || !totalPriceInput || !carNameInput) return;
+        !totalPriceDisplay || !totalPriceInput || !carNameInput) {
+        console.warn("⛔ Thiếu phần tử trong form updatePrice");
+        return;
+    }
 
     let subtotal = 0;
 
@@ -52,14 +55,16 @@ function updatePrice() {
         carNameInput.value = selectedCar.getAttribute('data-name') || '';
     }
 
-    const selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex];
-    const accessoryPrice = parseFloat(selectedAccessory.getAttribute('data-accessosy-price') || 0);
-    if (accessorySelect.value) {
-        if (!accessoryQuantity.value || accessoryQuantity.value <= 0) {
-            accessoryQuantity.value = 1;
+    if (accessorySelect && accessorySelect.selectedIndex >= 0) {
+        const selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex];
+        const accessoryPrice = parseFloat(selectedAccessory?.getAttribute('data-accessosy-price') || 0);
+        if (accessorySelect.value) {
+            if (!accessoryQuantity.value || accessoryQuantity.value <= 0) {
+                accessoryQuantity.value = 1;
+            }
+            subtotal += accessoryPrice * parseInt(accessoryQuantity.value);
         }
-        subtotal += accessoryPrice * parseInt(accessoryQuantity.value);
-    }
+    }    
 
     // Gửi AJAX kiểm tra mã khuyến mãi
     if (promoCode.trim() !== '') {
@@ -71,7 +76,7 @@ function updatePrice() {
                 total: subtotal
             })
         })
-        
+
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -114,7 +119,9 @@ function updatePrice() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    updatePrice();
+    if (window.location.pathname === "/showOrderForm") {
+        updatePrice();
+    }    
 
     const filterForm = document.getElementById("filter-form");
     const searchForm = document.getElementById("search-form");
@@ -370,19 +377,48 @@ document.addEventListener("DOMContentLoaded", function () {
     selects.forEach(sel => sel.addEventListener('change', fetchCompare));
 
     // 👇 Gọi so sánh ngay nếu có xe đầu được chọn qua POST
-    if (selects[0].value !== "") {
+    if (selects.length > 0 && selects[0].value !== "") {
         fetchCompare();
-    }
+    }    
 
-    fetch('/countCart') // đường dẫn tới action countCart
-        .then(response => response.json())
-        .then(data => {
-            const badge = document.getElementById('cart-count');
-            if (data.count > 0) {
-                badge.textContent = data.count;
-                badge.style.display = 'inline-block';
+    if (document.getElementById('cart-count')) {
+        fetch('/countCart')
+            .then(response => response.json())
+            .then(data => {
+                const badge = document.getElementById('cart-count');
+                if (data.count > 0) {
+                    badge.textContent = data.count;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            });
+    }    
+
+    const loadMoreBtn = document.getElementById('loadMoreCars');
+    const carItems = document.querySelectorAll('.car-item');
+    const batchSize = 8;
+    let visibleCount = batchSize;
+    let isExpanded = false;
+
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function () {
+            if (!isExpanded) {
+                // Mở rộng
+                for (let i = visibleCount; i < carItems.length; i++) {
+                    carItems[i].classList.remove('d-none');
+                }
+                isExpanded = true;
+                loadMoreBtn.textContent = 'Thu gọn';
             } else {
-                badge.style.display = 'none';
+                // Thu gọn lại
+                for (let i = batchSize; i < carItems.length; i++) {
+                    carItems[i].classList.add('d-none');
+                }
+                visibleCount = batchSize;
+                isExpanded = false;
+                loadMoreBtn.textContent = 'Xem thêm';
             }
         });
+    }
 });

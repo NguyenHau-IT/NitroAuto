@@ -1,15 +1,15 @@
 <div class="mt-4 bg-light rounded-4 shadow p-4 border">
     <?php if (!empty($cars)): ?>
         <div class="row g-4 justify-content-center">
-            <?php foreach ($cars as $car): ?>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <?php foreach ($cars as $index => $car): ?>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 car-item <?= $index >= 8 ? 'd-none' : '' ?>">
                     <div class="card car-card p-0 h-100 shadow-lg rounded-3 overflow-hidden">
                         <!-- Hình ảnh xe -->
                         <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="car-img-container">
-                            <img src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
+                            <img loading="lazy" src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
                                 class="card-img-top car-image"
                                 alt="<?= htmlspecialchars($car['name']) ?>"
-                                style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;" loading="lazy">
+                                style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;">
                         </a>
 
                         <div class="card-body text-center bg-dark text-light">
@@ -55,6 +55,11 @@
                 </div>
             <?php endforeach; ?>
         </div>
+        <?php if (count($cars) > 8): ?>
+            <div class="text-center mt-4">
+                <button id="loadMoreCars" class="btn btn-primary">Xem thêm</button>
+            </div>
+        <?php endif; ?>
     <?php else: ?>
         <div class="alert alert-warning text-center" role="alert">
             ⚠️ Không tìm thấy xe nào phù hợp với tiêu chí tìm kiếm của bạn.
