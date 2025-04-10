@@ -17,7 +17,10 @@
             <div class="col-md-8 col-lg-6 shadow-lg p-4 bg-white rounded">
                 <h2 class="text-center mb-4">Nhập mặt khẩu mới</h2>
                 <form method="POST" action="/reset-password">
-                    <input type="password" name="password" class="form-control mb-3" required>
+                    <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Mật khẩu" required
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                        title="Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt">
                     <button type="submit" class="btn btn-success w-100">Đặt lại mật khẩu</button>
                 </form>
             </div>
