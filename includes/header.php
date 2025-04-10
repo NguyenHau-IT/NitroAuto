@@ -43,15 +43,6 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                         <li class="nav-item <?= ($current_page == 'home') ? 'active' : '' ?>">
                             <a class="nav-link" href="/home"><i class="fas fa-home"></i> NitroAuto</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="contactDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-envelope"></i> Contact
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="contactDropdown">
-                                <li><a class="dropdown-item" href="/email_support">Email Support</a></li>
-                                <li><a class="dropdown-item" href="/faq">FAQ</a></li>
-                            </ul>
-                        </li>
                         <li class="nav-item dropdown <?= ($current_page == 'product_list' || $current_page == 'accessories' || $current_page == 'services') ? 'active' : '' ?>">
                             <a class="nav-link dropdown-toggle" href="#" id="productDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-list"></i> Danh mục sản phẩm
