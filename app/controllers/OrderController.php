@@ -10,7 +10,7 @@ class OrderController
     public function showOrderForm()
     {
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
+            header("Location: /showOrderForm?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
         }
 
         $cars = Cars::all();
@@ -22,7 +22,7 @@ class OrderController
     {
         $user_id = $_SESSION["user"]["id"] ?? null;
         if (!$user_id) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
+            header("Location: /showOrderForm?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
             exit();
         }
 
@@ -36,7 +36,7 @@ class OrderController
             $phone = $_POST['phone'] ?? '';
 
             if ($total_price <= 0) {
-                header("Location: /error?status=error&message=" . urlencode("Vui lòng chọn sản phẩm") . "&href=/showOrderForm");
+                header("Location: /showOrderForm?status=error&message=" . urlencode("Vui lòng chọn sản phẩm") . "&href=/showOrderForm");
                 exit();
             }
 
