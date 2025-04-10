@@ -33,6 +33,17 @@ class AuthController
             $phone = $_POST["phone"];
             $address = $_POST["address"];
 
+            //kiểm tra email đã tồn tại chưa
+            if (Users::findByEmail($email)) {
+                header("Location: /register?status=error&message=" . urlencode("Email đã tồn tại vui lòng chọn email khác!"));
+                exit();
+            }
+            //kiểm tra số điện thoại đã tồn tại chưa
+            if (Users::findByPhone($phone)) {
+                header("Location: /register?status=error&message=" . urlencode("Số điện thoại đã tồn tại vui lòng chọn số khác!"));
+                exit();
+            }
+
             if (Users::register($name, $email, $password, $phone, $address)) {
                 header("Location: /login?status=success&message=" . urlencode("Đăng kí thành công vui lòng đăng nhập!"));
                 exit();
@@ -54,7 +65,6 @@ class AuthController
             if ($user) {
                 session_start();
                 $_SESSION["user"] = $user;
-                $_SESSION["user_id"] = $user["id"];
 
                 header("Location: /home?status=success&message=" . urlencode("Đăng nhập thành công"));
                 exit();
@@ -209,7 +219,7 @@ class AuthController
 
     public function changePassword()
     {
-        $userId = $_SESSION['user_id'] ?? null;
+        $userId = $_SESSION['user']['id'] ?? null;
 
         if (!$userId) {
             header('Location: /login');
@@ -229,11 +239,6 @@ class AuthController
 
         if ($newPassword !== $confirmPassword) {
             header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới không khớp!"));
-            exit();
-        }
-
-        if (strlen($newPassword) < 6) {
-            header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới phải có ít nhất 6 ký tự!"));
             exit();
         }
 
@@ -267,7 +272,7 @@ class AuthController
             // Gửi email (giả lập)
             $sent = MailService::sendVerificationCode($email, $code);
 
-            header('Location: /show_verify-code?' . $code);
+            header('Location: /show_verify-code');
         } else {
             header('Location: /show_forgot_password?status=error&message=' . urlencode('Email không tồn tại'));
             exit();

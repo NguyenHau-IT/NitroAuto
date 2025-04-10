@@ -131,4 +131,12 @@ class Users
         $stmt = $conn->prepare("UPDATE users SET password = ? WHERE email = ?");
         return $stmt->execute([$hashedPassword, $email]);
     }
+
+    public static function findByPhone($phone)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT * FROM users WHERE phone = :phone");
+        $stmt->execute(['phone' => $phone]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

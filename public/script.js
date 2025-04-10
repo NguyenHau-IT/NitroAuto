@@ -34,8 +34,9 @@ function updatePrice() {
     const totalPriceDisplay = document.getElementById('total_price_display');
     const totalPriceInput = document.getElementById('total_price');
     const carNameInput = document.getElementById('car_name');
-    const promoCode = document.getElementById('promotions').value;
-
+    const promoCodeInput = document.getElementById('promotions');
+    const promoCode = promoCodeInput ? promoCodeInput.value : '';
+    
     if (!carSelect || !carQuantity || !accessorySelect || !accessoryQuantity ||
         !totalPriceDisplay || !totalPriceInput || !carNameInput) return;
 

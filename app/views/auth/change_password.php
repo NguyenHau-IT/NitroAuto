@@ -8,7 +8,10 @@
     </div>
     <div class="mb-3">
         <label for="new_password" class="form-label">Mật khẩu mới</label>
-        <input type="password" name="new_password" class="form-control" required>
+        <input type="password" class="form-control" id="new_password" name="new_password"
+            placeholder="Mật khẩu" required
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            title="Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt">
     </div>
     <div class="mb-3">
         <label for="confirm_password" class="form-label">Nhập lại mật khẩu mới</label>
