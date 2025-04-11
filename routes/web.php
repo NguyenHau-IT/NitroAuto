@@ -3,22 +3,22 @@
 use Google\Service\CustomSearchAPI\Resource\Cse;
 use Google\Service\ServiceControl\Auth;
 
-require_once '../app/controllers/HomeController.php';
-require_once '../app/controllers/UserController.php';
+require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/AdminController.php';
 require_once '../app/controllers/AuthController.php';
-require_once '../app/controllers/FavoriteController.php';
-require_once '../app/controllers/OrderController.php';
-require_once '../app/controllers/CarController.php';
-require_once '../app/controllers/AccessoriesController.php';
-require_once '../app/controllers/TestDriveController.php';
-require_once '../app/controllers/HistoryViewCarController.php';
-require_once '../app/controllers/CartController.php';
 require_once '../app/controllers/BannerController.php';
+require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/CarServicesController.php';
-require_once '../app/controllers/ServiceOrderController.php';
-require_once '../app/controllers/UsedCarsController.php';
+require_once '../app/controllers/CartController.php';
+require_once '../app/controllers/FavoriteController.php';
+require_once '../app/controllers/HistoryViewCarController.php';
+require_once '../app/controllers/HomeController.php';
+require_once '../app/controllers/OrderController.php';
 require_once '../app/controllers/PromotionsController.php';
+require_once '../app/controllers/ServiceOrderController.php';
+require_once '../app/controllers/TestDriveController.php';
+require_once '../app/controllers/UsedCarsController.php';
+require_once '../app/controllers/UserController.php';
 
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -38,10 +38,6 @@ switch (true) {
 
     case ($uri === 'add'):
         (new CarController())->storeCar();
-        break;
-
-    case ($uri === 'user'):
-        (new UserController())->customer();
         break;
 
     case ($uri === 'admin'):
@@ -238,10 +234,6 @@ switch (true) {
 
     case preg_match('/^delete_car\/(\d+)$/', $uri, $matches):
         (new CarController())->delete($matches[1]);
-        break;
-
-    case (preg_match('/^car_find\/(\d+)$/', $uri, $matches)):
-        (new CarController())->search($matches[1]);
         break;
 
     case (preg_match('/^order_detail\/(\d+)$/', $uri, $matches)):
