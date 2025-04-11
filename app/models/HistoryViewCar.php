@@ -1,6 +1,6 @@
 <?php
-class HistoryViewCar {
-
+class HistoryViewCar
+{
     // Thuộc tính
     public $id;
     public $user_id;
@@ -9,21 +9,19 @@ class HistoryViewCar {
     public $ip_address;
     public $user_agent;
 
-    // Thêm lịch sử xem xe
-    public static function create($data) {
+    public static function create($data)
+    {
         global $conn;
-    
-        // Kiểm tra xem car_id đã tồn tại trong lịch sử của user_id chưa
+
         $checkQuery = "SELECT COUNT(*) FROM HistoryViewCar WHERE user_id = :user_id AND car_id = :car_id";
         $checkStmt = $conn->prepare($checkQuery);
         $checkStmt->bindValue(":user_id", $data["user_id"], PDO::PARAM_INT);
         $checkStmt->bindValue(":car_id", $data["car_id"], PDO::PARAM_INT);
         $checkStmt->execute();
-    
+
         $exists = $checkStmt->fetchColumn(); // Lấy số lượng bản ghi tìm thấy
-    
+
         if ($exists > 0) {
-            // Nếu đã tồn tại, cập nhật thời gian xem mới nhất
             $updateQuery = "UPDATE HistoryViewCar 
                             SET view_time = GETDATE(), ip_address = :ip_address, user_agent = :user_agent
                             WHERE user_id = :user_id AND car_id = :car_id";
@@ -32,10 +30,10 @@ class HistoryViewCar {
             $updateStmt->bindValue(":car_id", $data["car_id"], PDO::PARAM_INT);
             $updateStmt->bindValue(":ip_address", $data["ip_address"], PDO::PARAM_STR);
             $updateStmt->bindValue(":user_agent", $data["user_agent"], PDO::PARAM_STR);
-    
+
             return $updateStmt->execute();
         }
-    
+
         // Nếu chưa tồn tại, thêm mới
         $insertQuery = "INSERT INTO HistoryViewCar (user_id, car_id, view_time, ip_address, user_agent) 
                         VALUES (:user_id, :car_id, GETDATE(), :ip_address, :user_agent)";
@@ -44,11 +42,12 @@ class HistoryViewCar {
         $insertStmt->bindValue(":car_id", $data["car_id"], PDO::PARAM_INT);
         $insertStmt->bindValue(":ip_address", $data["ip_address"], PDO::PARAM_STR);
         $insertStmt->bindValue(":user_agent", $data["user_agent"], PDO::PARAM_STR);
-    
+
         return $insertStmt->execute();
     }
-  
-    public static function getHistoryByUser($user_id) {
+
+    public static function getHistoryByUser($user_id)
+    {
         global $conn;
 
         $stmt = $conn->prepare("SELECT hvc.id AS hvc_id,c.stock AS stock, c.id AS car_id, ci.image_url AS image_url, c.name AS car_name, hvc.view_time, hvc.ip_address, hvc.user_agent 
@@ -63,24 +62,26 @@ class HistoryViewCar {
     }
 
     // Xoá lịch sử xem xe theo ID
-    public static function delete($id) {
+    public static function delete($id)
+    {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM HistoryViewCar WHERE id = :id");
         return $stmt->execute([':id' => $id]);
     }
 
     // Xoá tất cả lịch sử xem xe
-    public static function deleteAll() {
+    public static function deleteAll()
+    {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM HistoryViewCar");
         return $stmt->execute();
     }
 
     //xoá tất cả lịch sử xem xe của user
-    public static function deleteAllByUser($user_id) {
+    public static function deleteAllByUser($user_id)
+    {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM HistoryViewCar WHERE user_id = :user_id");
         return $stmt->execute([':user_id' => $user_id]);
     }
 }
-?>

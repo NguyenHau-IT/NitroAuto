@@ -74,7 +74,6 @@ class Orders
         // Tính tổng tiền
         $total_price = $car_subtotal + $accessory_total;
 
-        // Tạo đơn hàng mới (SQL Server syntax)
         $stmt = $conn->prepare("
             INSERT INTO orders (user_id, order_date, status, total_amount, address, phone)
             OUTPUT INSERTED.id
@@ -87,7 +86,6 @@ class Orders
             'phone' => $phone
         ]);
 
-        // Lấy ID đơn hàng vừa tạo (SQL Server)
         $order_id = $stmt->fetchColumn();
         if (!$order_id) return false;
 
@@ -117,16 +115,14 @@ class Orders
             'car_id' => $car_id
         ]);
 
-        if ($accessory_id && $accessory_quantity > 0) {
-            $stmt = $conn->prepare("
+        $stmt = $conn->prepare("
             UPDATE accessories SET stock = stock - :accessory_quantity
             WHERE id = :accessory_id
         ");
-            $stmt->execute([
-                'accessory_quantity' => $accessory_quantity,
-                'accessory_id' => $accessory_id
-            ]);
-        }
+        $stmt->execute([
+            'accessory_quantity' => $accessory_quantity,
+            'accessory_id' => $accessory_id
+        ]);
 
         return true;
     }
@@ -200,7 +196,8 @@ class Orders
         $accessory_id,
         $quantity,
         $price
-    ) {
+    ) 
+    {
         global $conn;
 
         $stmt = $conn->prepare("INSERT INTO order_details 

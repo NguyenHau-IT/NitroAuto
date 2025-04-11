@@ -1,7 +1,8 @@
 <?php
 require_once '../config/database.php';
 
-class Order_details {
+class Order_details
+{
     public $id;
     public $order_id;
     public $car_id;
@@ -12,7 +13,8 @@ class Order_details {
     public $accessory_quantity;
     public $accessory_total;
 
-    public function __construct($data = []) {
+    public function __construct($data = [])
+    {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->$key = $value;
@@ -20,13 +22,15 @@ class Order_details {
         }
     }
 
-    public static function all() {
+    public static function all()
+    {
         global $conn;
         $stmt = $conn->query("SELECT * FROM order_details");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function find($id) {
+    public static function find($id)
+    {
         global $conn;
         $stmt = $conn->prepare("
             SELECT users.*, orders.*, cars.name AS car_name, cars.*, order_details.*, cars.price AS car_price,
@@ -42,4 +46,3 @@ class Order_details {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
-?>

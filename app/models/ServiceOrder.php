@@ -46,8 +46,6 @@ class ServiceOrder
             $status ?: 'Pending'
         ]);
     }
-    
-    
 
     // Lấy tất cả đơn đặt dịch vụ của 1 người dùng
     public static function getByUser($userID)
