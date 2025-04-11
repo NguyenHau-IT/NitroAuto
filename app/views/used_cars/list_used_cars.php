@@ -13,16 +13,16 @@
         <div class="d-flex flex-nowrap gap-3">
             <?php foreach ($used_cars as $car): ?>
                 <div class="card border-0 rounded-3 shadow-sm position-relative"
-                     style="min-width: 300px; max-width: 300px;">
-                     
+                    style="min-width: 300px; max-width: 300px;">
+
                     <!-- Link toàn bộ card -->
                     <a href="/show_used_car/<?= htmlspecialchars($car['id']) ?>" class="stretched-link"></a>
 
                     <div class="ratio ratio-4x3">
                         <img src="<?= htmlspecialchars(!empty($car["image_url"]) ? $car["image_url"] : '/uploads/cars/default.jpg') ?>"
-                             class="object-fit-cover w-100 h-100 rounded-top"
-                             alt="<?= htmlspecialchars($car['name']) ?>"
-                             loading="lazy">
+                            loading="lazy"
+                            class="object-fit-cover w-100 h-100 rounded-top"
+                            alt="<?= htmlspecialchars($car['name']) ?>">
                     </div>
 
                     <div class="card-body bg-dark text-light d-flex flex-column">
