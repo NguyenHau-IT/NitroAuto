@@ -118,3 +118,95 @@
         </div>
     </form>
 </div>
+
+<script>
+    let filterToggleBtn = document.getElementById("filter-toggle-btn");
+    let filterDropdown = document.getElementById("filter-dropdown");
+
+    if (filterToggleBtn && filterDropdown) {
+        filterToggleBtn.addEventListener("click", function(e) {
+            e.stopPropagation();
+            filterDropdown.classList.toggle("show");
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!filterToggleBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+                filterDropdown.classList.remove("show");
+            }
+        });
+
+        const resetBtn = document.getElementById("reset-filters");
+        const filterForm = document.getElementById("filter-form");
+        if (resetBtn && filterForm) {
+            resetBtn.addEventListener("click", function() {
+                filterForm.reset();
+                filterDropdown.classList.remove("show");
+            });
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const filterForm = document.getElementById("filter-form");
+        const searchForm = document.getElementById("search-form");
+        const filterDropdown = document.getElementById("filter-dropdown");
+        const filterFromCurrentYearBtn = document.getElementById("filter-from-current-year");
+
+        if (filterForm) {
+            filterForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const formData = new FormData(filterForm);
+                fetch("/filter-cars", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        const carList = document.getElementById("car-list-container");
+                        if (carList) carList.innerHTML = data;
+                        if (filterDropdown) filterDropdown.classList.remove("show");
+                    })
+                    .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
+            });
+
+            filterForm.addEventListener("reset", function() {
+                setTimeout(() => {
+                    filterForm.dispatchEvent(new Event("submit", {
+                        bubbles: true,
+                        cancelable: true
+                    }));
+                }, 0);
+            });
+        }
+
+        if (searchForm) {
+            searchForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+                const formData = new FormData(searchForm);
+                fetch("/filter-cars", {
+                        method: "POST",
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        const carList = document.getElementById("car-list-container");
+                        if (carList) carList.innerHTML = data;
+                    })
+                    .catch(error => console.error("Lỗi khi tải dữ liệu:", error));
+            });
+        }
+
+        if (filterFromCurrentYearBtn) {
+            filterFromCurrentYearBtn.addEventListener("click", function() {
+                const yearSelect = document.getElementById("year-manufacture-select");
+                if (yearSelect) yearSelect.value = new Date().getFullYear();
+                if (filterForm) {
+                    filterForm.dispatchEvent(new Event("submit", {
+                        bubbles: true,
+                        cancelable: true
+                    }));
+                }
+            });
+        }
+    });
+</script>
