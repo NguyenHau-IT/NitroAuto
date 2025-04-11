@@ -13,14 +13,7 @@ class CarController
         require_once __DIR__ . "/../views/cars/list.php";
     }
 
-    public function showAddForm()
-    {
-        $brands = Brands::all();
-        $categories = Categories::all();
-        require_once __DIR__ . "/../views/cars/car_add.php";
-    }
-
-    public function storeCar()
+    public function addCar()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data = [];
@@ -99,6 +92,9 @@ class CarController
                 exit();
             }
         }
+        $brands = Brands::all();
+        $categories = Categories::all();
+        require_once __DIR__ . "/../views/cars/car_add.php";
     }
 
     public function edit($id)
@@ -180,11 +176,22 @@ class CarController
             $image_url3D = $_POST['image_url3D'];
 
             if (Cars::update(
-                $id,$name,$brand_id,$category_id,
-                $price,$year,$mileage,$fuel_type,
-                $transmission,$color,$stock,
-                $horsepower,$description,$created_at,
-                $image_url,$image_url3D
+                $id,
+                $name,
+                $brand_id,
+                $category_id,
+                $price,
+                $year,
+                $mileage,
+                $fuel_type,
+                $transmission,
+                $color,
+                $stock,
+                $horsepower,
+                $description,
+                $created_at,
+                $image_url,
+                $image_url3D
             )) {
                 header("Location: /admin?status=success&message=" . urlencode("Cập nhật xe thành công!"));
                 exit;

@@ -29,15 +29,11 @@ switch (true) {
         break;
 
     case ($uri === 'add_car'):
-        (new CarController())->showAddForm();
+        (new CarController())->addCar();
         break;
 
     case ($uri === 'auth'):
         (new AuthController())->index();
-        break;
-
-    case ($uri === 'add'):
-        (new CarController())->storeCar();
         break;
 
     case ($uri === 'admin'):
