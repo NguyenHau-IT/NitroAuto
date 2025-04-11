@@ -1,10 +1,15 @@
 <?php
 
 // Require các controller
+
+use FontLib\Table\Type\prep;
+
 require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/AdminController.php';
 require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/BannerController.php';
+// require_once '../app/controllers/BrandsController.php';
+require_once '../app/controllers/CategoriesController.php';
 require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/CarServicesController.php';
 require_once '../app/controllers/CartController.php';
@@ -138,6 +143,23 @@ switch (true) {
 
     case preg_match('/^delete_car\/(\d+)$/', $uri, $matches):
         (new CarController())->delete($matches[1]);
+        break;
+
+    // === CATEGORY === //
+    case $uri === 'add_category':
+        (new CategoriesController())->addCate();
+        break;
+
+    case $uri === 'create_category':
+        (new CategoriesController())->createCate();
+        break;
+
+    case preg_match('/^edit_category\/(\d+)$/', $uri, $matches):
+        (new CategoriesController())->editCate($matches[1]);
+        break;
+
+    case preg_match('/^delete_category\/(\d+)$/', $uri, $matches):
+        (new CategoriesController())->deleteCate($matches[1]);
         break;
 
     // === USED CAR ===

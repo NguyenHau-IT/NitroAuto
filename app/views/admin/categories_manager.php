@@ -13,6 +13,7 @@
             <tr class="align-middle">
                 <th >ID</th>
                 <th >Tên danh mục</th>
+                <th >Mô tả</th>
                 <th >Hành động</th>
             </tr>
         </thead>
@@ -20,7 +21,8 @@
             <?php foreach ($categories as $category): ?>
                 <tr>
                     <td><?= htmlspecialchars($category['id'] ?? 0) ?></td>
-                    <td class="text-start"><?= htmlspecialchars($category['name'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($category['name'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($category['description'] ?? '') ?></td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
                             <a href="/edit_category/<?= $category['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">

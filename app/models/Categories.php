@@ -52,6 +52,7 @@ class Categories {
         global $conn;
         $stmt = $conn->prepare("UPDATE categories SET name = :name, description = :description WHERE id = :id");
         $stmt->execute([
+            'id' => $id,
             'name' => $data['name'],
             'description' => $data['description']
             ]);

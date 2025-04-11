@@ -61,4 +61,20 @@ class CategoriesController
         $category = Categories::find($id);
         require_once '../app/views/categories/edit_category.php';
     }
+
+    public function deleteCate($id)
+    {
+        if (!is_numeric($id)) {
+            header('Location: /admin#categories?status=error');
+            exit;
+        }
+
+        if (Categories::delete($id)) {
+            header('Location: /admin#categories');
+            exit;
+        } else {
+            header('Location: /admin#categories?status=error');
+            exit;
+        }
+    }
 }
