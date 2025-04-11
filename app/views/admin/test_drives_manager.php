@@ -1,13 +1,13 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0 d-flex align-items-center">
-        <i class="fas fa-road me-2 text-primary"></i> Manage Test Drives
+        <i class="bi bi-signpost-split-fill me-2 text-primary fs-4"></i> Quản lý Lái thử
     </h2>
 </div>
 
-<div class="table-responsive rounded shadow-sm border mb-5" style="max-height: 700px; overflow-y: auto;">
-    <table class="table table-striped table-bordered align-middle bg-white mb-0">
-        <thead class="table-dark text-center sticky-top" style="top: 0; z-index: 10;">
-            <tr>
+<div class="table-responsive rounded border shadow-sm mb-5 bg-white">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light text-center">
+            <tr class="align-middle">
                 <th>ID</th>
                 <th>Khách hàng</th>
                 <th>Xe</th>
@@ -31,33 +31,29 @@
                     <td>
                         <?php
                         $status = strtolower($test_drive['status']);
-                        $statusClass = match ($status) {
-                            'pending' => 'badge bg-warning text-dark',
-                            'confirmed' => 'badge bg-primary',
-                            'canceled' => 'badge bg-danger',
-                            'completed' => 'badge bg-success',
-                            default => 'badge bg-secondary'
-                        };
-                        $statusText = match ($status) {
-                            'pending' => 'Đang chờ xử lý',
-                            'confirmed' => 'Đã xác nhận',
-                            'canceled' => 'Đã hủy',
-                            'completed' => 'Đã hoàn thành',
-                            default => 'Không xác định'
-                        };
+                        $statusMap = [
+                            'pending' => ['Đang chờ xử lý', 'bg-warning text-dark'],
+                            'confirmed' => ['Đã xác nhận', 'bg-primary'],
+                            'canceled' => ['Đã hủy', 'bg-danger'],
+                            'completed' => ['Đã hoàn thành', 'bg-success'],
+                        ];
+                        $statusText = $statusMap[$status][0] ?? 'Không xác định';
+                        $statusClass = $statusMap[$status][1] ?? 'bg-secondary';
                         ?>
-                        <span class="<?= $statusClass ?>"><?= $statusText ?></span>
+                        <span class="badge <?= $statusClass ?>"><?= $statusText ?></span>
                     </td>
                     <td><?= date('d/m/Y - H:i:s', strtotime($test_drive['created_at'])) ?></td>
                     <td>
-                        <a href="/test_drive_edit/<?= htmlspecialchars($test_drive['id']) ?>" class="btn btn-sm btn-primary me-1">
-                            <i class="fas fa-edit me-1"></i> Edit
-                        </a>
-                        <a href="/test_drive_delete/<?= htmlspecialchars($test_drive['id']) ?>"
-                           onclick="return confirm('Are you sure you want to delete this test drive?');"
-                           class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash-alt me-1"></i> Delete
-                        </a>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="/test_drive_edit/<?= $test_drive['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                                <i class="bi bi-pencil-square"></i> Sửa
+                            </a>
+                            <a href="/test_drive_delete/<?= $test_drive['id'] ?>"
+                               onclick="return confirm('Bạn có chắc chắn muốn xóa lịch lái thử này?');"
+                               class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
+                                <i class="bi bi-trash3"></i> Xóa
+                            </a>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
