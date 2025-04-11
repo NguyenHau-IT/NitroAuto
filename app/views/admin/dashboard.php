@@ -42,7 +42,6 @@ if (!isset($_SESSION['user'])) {
             <ul class="nav flex-column">
                 <?php
                 $tabs = [
-                    'dashboard' => ['label' => 'Dashboard', 'icon' => 'bi-speedometer2'],
                     'cars' => ['label' => 'Quản lý xe', 'icon' => 'bi-car-front'],
                     'brands' => ['label' => 'Hãng xe', 'icon' => 'bi-buildings'],
                     'categories' => ['label' => 'Danh mục', 'icon' => 'bi-tags'],
@@ -53,6 +52,11 @@ if (!isset($_SESSION['user'])) {
                     'test_drives' => ['label' => 'Lái thử', 'icon' => 'bi-steering-wheel'],
                     'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
                 ];
+                //sắp xếp lại thứ tự các tab
+                uasort($tabs, function ($a, $b) {
+                    return $a['label'] <=> $b['label'];
+                });
+
                 foreach ($tabs as $id => $tab): ?>
                     <li class="nav-item">
                         <a class="nav-link text-white d-flex align-items-center gap-2" href="#<?= $id ?>">
