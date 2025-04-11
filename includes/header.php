@@ -61,6 +61,9 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                         <li class="nav-item <?= ($current_page == 'appointments') ? 'active' : '' ?>">
                             <a class="nav-link" href="/appointments"><i class="fas fa-calendar-alt"></i> Lịch hẹn</a>
                         </li>
+                        <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
+                            <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử</a>
+                        </li>
                     </ul>
 
                     <!-- Menu bên phải -->
@@ -84,9 +87,6 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                                     </div>
                                     <span>Giỏ hàng</span>
                                 </a>
-                            </li>
-                            <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
-                                <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử</a>
                             </li>
                             <li class="nav-item <?= ($current_page == 'profile' || $current_page == 'edit_profile') ? 'active' : '' ?>">
                                 <a class="nav-link" href="/profile">
