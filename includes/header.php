@@ -27,7 +27,7 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
 
 <body>
     <header class="text-center">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light py-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-light py-3">
             <div class="container">
                 <a class="navbar-brand" href="/home">
                     <img src="/uploads/logo.webp" alt="logo" width="50" height="50" style="border-radius: 10px;">
@@ -100,6 +100,11 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                                 </a>
                             </li>
                         <?php endif; ?>
+                        <li class="nav-item">
+                            <button id="toggle-theme" class="btn btn-outline-dark" title="Đổi chế độ sáng/tối">
+                                <i class="bi bi-moon-fill"></i>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>

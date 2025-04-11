@@ -1,4 +1,35 @@
 console.log("✅ script.js loaded");
+const toggleBtn = document.getElementById('toggle-theme');
+const icon = toggleBtn.querySelector('i');
+
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    enableDarkMode();
+}
+
+toggleBtn.addEventListener('click', () => {
+    if (document.body.classList.contains('bg-dark')) {
+        disableDarkMode();
+    } else {
+        enableDarkMode();
+    }
+});
+
+function enableDarkMode() {
+    document.body.classList.add('bg-dark', 'text-white');
+    toggleBtn.classList.remove('btn-outline-dark');
+    toggleBtn.classList.add('btn-outline-light');
+    icon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+    localStorage.setItem('theme', 'dark');
+}
+
+function disableDarkMode() {
+    document.body.classList.remove('bg-dark', 'text-white');
+    toggleBtn.classList.remove('btn-outline-light');
+    toggleBtn.classList.add('btn-outline-dark');
+    icon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+    localStorage.setItem('theme', 'light');
+}
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -110,5 +141,5 @@ document.addEventListener("DOMContentLoaded", function () {
                     badge.style.display = 'none';
                 }
             });
-    }    
+    }
 });
