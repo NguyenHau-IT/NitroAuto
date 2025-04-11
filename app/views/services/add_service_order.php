@@ -35,7 +35,7 @@
                 <!-- Ghi chú -->
                 <div class="mb-4">
                     <label for="note" class="form-label fw-semibold">
-                        <i class="bi bi-chat-left-dots me-2"></i>Ghi chú (tùy chọn)
+                        <i class="bi bi-chat-left-dots me-2"></i>Ghi chú
                     </label>
                     <textarea name="note" id="note" class="form-control rounded-3" rows="4" placeholder="Thời gian mong muốn, yêu cầu thêm,..."></textarea>
                 </div>
