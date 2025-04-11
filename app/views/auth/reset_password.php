@@ -18,9 +18,9 @@
                 <h2 class="text-center mb-4">Nhập mặt khẩu mới</h2>
                 <form method="POST" action="/reset-password">
                     <input type="password" class="form-control" id="password" name="password"
-                        placeholder="Mật khẩu" required
+                        placeholder="Mật khẩu mới" required
                         pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-                        title="Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt">
+                        title="Mật khẩu mới phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt">
                     <button type="submit" class="btn btn-success w-100">Đặt lại mật khẩu</button>
                 </form>
             </div>
@@ -28,7 +28,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- ✅ thêm dòng này -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/script.js" defer></script>
 
 </body>
