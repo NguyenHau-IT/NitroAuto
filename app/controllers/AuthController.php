@@ -2,6 +2,7 @@
 require_once '../app/models/Users.php';
 require_once '../vendor/autoload.php';
 require_once '../app/services/MailService.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 
 use Twilio\Rest\Client;
@@ -217,38 +218,36 @@ class AuthController
         exit;
     }
 
-    public function showChangePasswordForm()
+    public function ChangePassword()
     {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $userId = $_SESSION['user']['id'];
+            $user = Users::find($userId);
+
+            $oldPassword = $_POST['old_password'] ?? '';
+            $newPassword = $_POST['new_password'] ?? '';
+            $confirmPassword = $_POST['confirm_password'] ?? '';
+
+            if (!password_verify($oldPassword, $user['password'])) {
+                header("Location: /reset_password?status=erros&message=" . urlencode("Sai mật khẩu củ!"));
+                exit();
+            }
+
+            if ($newPassword !== $confirmPassword) {
+                header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới không khớp!"));
+                exit();
+            }
+
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            if (Users::updatePassword($userId, $hashedPassword)) {
+                header("Location: /profile?status=success&message=" . urlencode("Đổi mật khẩu thành công!"));
+                exit();
+            } else {
+                header("Location: /reset_password?status=error&message=" . urlencode("Đổi mật khẩu thất bại!"));
+                exit();
+            }
+        }
         require_once '../app/views/auth/change_password.php';
-    }
-
-    public function changePassword()
-    {
-        $userId = $_SESSION['user']['id'];
-        $user = Users::find($userId);
-
-        $oldPassword = $_POST['old_password'] ?? '';
-        $newPassword = $_POST['new_password'] ?? '';
-        $confirmPassword = $_POST['confirm_password'] ?? '';
-
-        if (!password_verify($oldPassword, $user['password'])) {
-            header("Location: /reset_password?status=erros&message=" . urlencode("Sai mật khẩu củ!"));
-            exit();
-        }
-
-        if ($newPassword !== $confirmPassword) {
-            header("Location: /reset_password?status=error&message=" . urlencode("Mật khẩu mới không khớp!"));
-            exit();
-        }
-
-        $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-        if (Users::updatePassword($userId, $hashedPassword)) {
-            header("Location: /home?status=success&message=" . urlencode("Đổi mật khẩu thành công!"));
-            exit();
-        } else {
-            header("Location: /home?status=error&message=" . urlencode("Đổi mật khẩu thất bại!"));
-            exit();
-        }
     }
 
     public function showForgotPasswordForm()

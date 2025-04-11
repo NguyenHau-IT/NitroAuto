@@ -173,11 +173,7 @@ switch (true) {
         break;
 
     case $uri === 'reset_password':
-        (new AuthController())->showChangePasswordForm();
-        break;
-
-    case $uri === 'change_password':
-        (new AuthController())->changePassword();
+        (new AuthController())->ChangePassword();
         break;
 
     case $uri === 'show_forgot_password':

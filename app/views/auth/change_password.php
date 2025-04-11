@@ -7,7 +7,7 @@
                 <i class="bi bi-shield-lock-fill me-2 text-primary"></i>Đổi mật khẩu
             </h4>
 
-            <form action="/change_password" method="POST">
+            <form action="" method="POST">
                 <!-- Mật khẩu cũ -->
                 <div class="mb-3">
                     <label for="old_password" class="form-label fw-semibold">
