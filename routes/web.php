@@ -228,10 +228,6 @@ switch (true) {
         (new OrderController())->order_edit($matches[1]);
         break;
 
-    case preg_match('/^orderupdate\/(\d+)$/', $uri, $matches):
-        (new OrderController())->updateOrder();
-        break;
-
     case preg_match('/^order_delete\/(\d+)$/', $uri, $matches):
         (new OrderController())->deleteOrder($matches[1]);
         break;

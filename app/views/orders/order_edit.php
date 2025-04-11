@@ -57,7 +57,7 @@
         </p>
     </div>
 
-    <form method="POST" action="/orderupdate/<?= htmlspecialchars($order['order_id']) ?>">
+    <form method="POST" action="">
         <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
 
         <div class="mb-3">

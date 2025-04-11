@@ -153,16 +153,6 @@ class OrderController
 
     public function order_edit($id)
     {
-        $order = Orders::getOrderById($id);
-        if (!$order) {
-            header("Location: /admin?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
-            exit();
-        }
-        require_once __DIR__ . "/../views/orders/order_edit.php";
-    }
-
-    public function updateOrder()
-    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['order_id'];
             $status = $_POST['order_status'];
@@ -175,6 +165,12 @@ class OrderController
                 exit();
             }
         }
+        $order = Orders::getOrderById($id);
+        if (!$order) {
+            header("Location: /admin?status=error&message=" . urlencode("Không tìm thấy đơn hàng!"));
+            exit();
+        }
+        require_once __DIR__ . "/../views/orders/order_edit.php";
     }
 
     public function deleteOrder($id)
