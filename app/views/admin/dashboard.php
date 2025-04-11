@@ -15,116 +15,118 @@ if (!isset($_SESSION['user'])) {
     <title>Admin Dashboard</title>
     <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
     <header class="bg-dark text-white py-3 shadow-sm">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h4 mb-0">Admin Dashboard</h1>
+            <h1 class="h5 mb-0 d-flex align-items-center">
+                <i class="bi bi-speedometer2 me-2 text-primary fs-4"></i> Admin Dashboard
+            </h1>
             <div class="d-flex align-items-center gap-3">
-                <span class="me-3">Xin chào, <strong><?= htmlspecialchars($_SESSION['user']['full_name']) ?></strong></span>
-                <a class="btn btn-outline-light btn-sm" href="/home"><i class="fas fa-home"></i> Trang chủ</a>
-                <a class="btn btn-outline-danger btn-sm" href="/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                <span>Xin chào, <strong><?= htmlspecialchars($_SESSION['user']['full_name']) ?></strong></span>
+                <a class="btn btn-outline-light btn-sm d-flex align-items-center gap-1" href="/home">
+                    <i class="bi bi-house-door"></i> Trang chủ
+                </a>
+                <a class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1" href="/logout">
+                    <i class="bi bi-box-arrow-right"></i> Đăng xuất
+                </a>
             </div>
         </div>
     </header>
 
+
     <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="bg-dark text-white p-3" style="width: 250px; height: 100vh; position: sticky; top: 0;">
+        <nav class="bg-dark text-white p-3 vh-100 sticky-top">
             <ul class="nav flex-column">
                 <?php
                 $tabs = [
-                    'dashboard' => 'Dashboard',
-                    'cars' => 'Manage Cars',
-                    'brands' => 'Manage Brands',
-                    'categories' => 'Manage Categories',
-                    'accessories' => 'Manage Accessories',
-                    'users' => 'Manage Users',
-                    'favorites' => 'Manage Favorites',
-                    'orders' => 'Manage Orders',
-                    'test_drives' => 'Manage Test Drives',
-                    'banners' => 'Manage Banners',
+                    'dashboard' => ['label' => 'Dashboard', 'icon' => 'bi-speedometer2'],
+                    'cars' => ['label' => 'Quản lý xe', 'icon' => 'bi-car-front'],
+                    'brands' => ['label' => 'Hãng xe', 'icon' => 'bi-buildings'],
+                    'categories' => ['label' => 'Danh mục', 'icon' => 'bi-tags'],
+                    'accessories' => ['label' => 'Phụ kiện', 'icon' => 'bi-tools'],
+                    'users' => ['label' => 'Người dùng', 'icon' => 'bi-people'],
+                    'favorites' => ['label' => 'Yêu thích', 'icon' => 'bi-heart'],
+                    'orders' => ['label' => 'Đơn hàng', 'icon' => 'bi-bag-check'],
+                    'test_drives' => ['label' => 'Lái thử', 'icon' => 'bi-steering-wheel'],
+                    'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
                 ];
-
-                // Sắp xếp theo bảng chữ cái dựa trên label
-                asort($tabs);
-
-                foreach ($tabs as $id => $label): ?>
+                foreach ($tabs as $id => $tab): ?>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#<?= $id ?>">
-                            <i class="fas fa-chevron-right me-2"></i> <?= $label ?>
+                        <a class="nav-link text-white d-flex align-items-center gap-2" href="#<?= $id ?>">
+                            <i class="bi <?= $tab['icon'] ?>"></i> <?= $tab['label'] ?>
                         </a>
                     </li>
                 <?php endforeach; ?>
-
             </ul>
         </nav>
 
         <!-- Main content -->
         <main class="container mt-4 flex-grow-1">
             <section id="dashboard">
-                <h2>Welcome to the Admin Dashboard</h2>
-                <p>Here you can manage cars, users, banners and more.</p>
+                <h2>Chào mừng bạn đến với Admin Dashboard</h2>
+                <p>Bạn có thể quản lý xe, người dùng, banner và nhiều hơn nữa.</p>
             </section>
 
-            <section id="cars" style="display: none;"><?php require_once __DIR__ . '/car_manager.php'; ?></section>
-            <section id="brands" style="display: none;"><?php require_once __DIR__ . '/brands_manager.php'; ?></section>
-            <section id="categories" style="display: none;"><?php require_once __DIR__ . '/categories_manager.php'; ?></section>
-            <section id="accessories" style="display: none;"><?php require_once __DIR__ . '/accessories_manager.php'; ?></section>
-            <section id="users" style="display: none;"><?php require_once __DIR__ . '/users_manager.php'; ?></section>
-            <section id="favorites" style="display: none;"><?php require_once __DIR__ . '/favorites_manager.php'; ?></section>
-            <section id="orders" style="display: none;"><?php require_once __DIR__ . '/orders_manager.php'; ?></section>
-            <section id="test_drives" style="display: none;"><?php require_once __DIR__ . '/test_drives_manager.php'; ?></section>
-            <section id="banners" style="display: none;"><?php require_once __DIR__ . '/banners_manager.php'; ?></section>
+            <section id="cars" class="d-none"><?php require_once __DIR__ . '/car_manager.php'; ?></section>
+            <section id="brands" class="d-none"><?php require_once __DIR__ . '/brands_manager.php'; ?></section>
+            <section id="categories" class="d-none"><?php require_once __DIR__ . '/categories_manager.php'; ?></section>
+            <section id="accessories" class="d-none"><?php require_once __DIR__ . '/accessories_manager.php'; ?></section>
+            <section id="users" class="d-none"><?php require_once __DIR__ . '/users_manager.php'; ?></section>
+            <section id="favorites" class="d-none"><?php require_once __DIR__ . '/favorites_manager.php'; ?></section>
+            <section id="orders" class="d-none"><?php require_once __DIR__ . '/orders_manager.php'; ?></section>
+            <section id="test_drives" class="d-none"><?php require_once __DIR__ . '/test_drives_manager.php'; ?></section>
+            <section id="banners" class="d-none"><?php require_once __DIR__ . '/banners_manager.php'; ?></section>
         </main>
     </div>
-
-    <style>
-        nav .nav-link {
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-            font-weight: 500;
-        }
-
-        nav .nav-link:hover,
-        nav .nav-link.active {
-            background-color: #0d6efd;
-            color: #fff !important;
-        }
-
-        main section {
-            padding: 20px 0;
-        }
-    </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const navLinks = document.querySelectorAll("nav .nav-link");
             const sections = document.querySelectorAll("main section");
 
+            function showSection(id) {
+                sections.forEach(section => {
+                    section.classList.add("d-none");
+                    if (section.id === id) section.classList.remove("d-none");
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove("active");
+                    if (link.getAttribute("href") === `#${id}`) {
+                        link.classList.add("active");
+                    }
+                });
+            }
+
+            // Click tab: chuyển URL hash và hiện section
             navLinks.forEach(link => {
                 link.addEventListener("click", function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute("href").substring(1);
-
-                    sections.forEach(section => {
-                        section.style.display = section.id === targetId ? "block" : "none";
-                    });
-
-                    navLinks.forEach(l => l.classList.remove("active"));
-                    this.classList.add("active");
+                    history.pushState(null, "", `#${targetId}`);
+                    showSection(targetId);
                 });
             });
 
-            if (sections.length > 0) {
-                sections[0].style.display = "block";
-                navLinks[0].classList.add("active");
+            // Load lại trang: hiện section theo hash nếu có
+            const currentHash = window.location.hash.substring(1);
+            if (currentHash && document.getElementById(currentHash)) {
+                showSection(currentHash);
+            } else {
+                // Mặc định nếu không có hash
+                showSection("dashboard");
             }
 
+            // Bắt sự kiện back/forward của trình duyệt
+            window.addEventListener("popstate", function() {
+                const hash = window.location.hash.substring(1);
+                if (hash && document.getElementById(hash)) {
+                    showSection(hash);
+                }
+            });
             document.querySelectorAll('.toggle-active').forEach(function(checkbox) {
                 checkbox.addEventListener('change', function() {
                     const bannerId = this.getAttribute('data-id');
