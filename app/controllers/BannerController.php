@@ -125,4 +125,57 @@ class BannerController
             exit;
         }
     }
+
+    public function BannerEdit($id)
+    {
+        if(!is_numeric($id)) {
+            header('Location: /admin#banners?status=error');
+            exit;
+        }
+
+        if($_SERVER['REQUEST_METHOD'] === 'POST')
+        {
+            $type = $_POST['type'] ?? '';
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+            $image_url = $_POST['image_url'] ?? '';
+            if($image_url == '') {
+                $stmt = Banner::find($id);
+                $image_url = $stmt['image_url'];
+            }
+
+            $data = [
+                'image_url' => $image_url,
+                'type' => $type,
+                'is_active' => $is_active
+            ];            
+
+            if(Banner::updateBanner($id, $data)) {
+                header('Location: /admin#banners');
+                exit;
+            } else {
+                header('Location: /admin#banners?status=error');
+                exit;
+            }
+
+        }
+        $banner = Banner::find($id);
+        require_once '../app/views/slice-bar/edit_banner.php';
+    }
+
+    public function deleteBanner($id)
+    {
+        if(!is_numeric($id)) {
+            header('Location: /admin#banners?status=error');
+            exit;
+        }
+
+        if(Banner::deleteBanner($id))
+        {
+            header('Location: /admin#banners');
+            exit;
+        } else {
+            header('Location: /admin#banners?status=error');
+            exit;
+        }
+    }
 }

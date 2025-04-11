@@ -268,6 +268,14 @@ switch (true) {
         (new AccessoriesController())->deleteAccessory($matches[1]);
         break;
 
+    case preg_match('/^banner_edit\/(\d+)$/', $uri, $matches):
+        (new BannerController())->BannerEdit($matches[1]);
+        break;
+        
+    case preg_match('/^banner_delete\/(\d+)$/', $uri, $matches):
+        (new BannerController())->deleteBanner($matches[1]);
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Không tìm thấy trang";

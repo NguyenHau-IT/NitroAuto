@@ -25,6 +25,14 @@ class Banner
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function find($id)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT * FROM banners WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     // 📌 1️⃣ Lấy danh sách tất cả banner
     public static function getAllBanners()
     {
@@ -74,6 +82,19 @@ class Banner
             'created_at' => $data['created_at'],
             'type' => $data['type'],
             'is_active' => isset($data['is_active']) ? 1 : 0
+        ]);
+        return true;
+    }
+
+    public static function updateBanner($id, $data)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE banners SET image_url = :image_url, type = :type, is_active = :is_active WHERE id = :id");
+        $stmt->execute([
+            'image_url' => $data['image_url'],
+            'type' => $data['type'],
+            'is_active' => isset($data['is_active']) ? 1 : 0,
+            'id' => $id
         ]);
         return true;
     }
