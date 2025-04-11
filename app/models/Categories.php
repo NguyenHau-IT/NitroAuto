@@ -37,5 +37,33 @@ class Categories {
                             ORDER BY categories.name ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }   
+
+    public static function create($data) {
+        global $conn;
+        $stmt = $conn->prepare("INSERT INTO categories (name, description) VALUES (:name, :description)");
+        $stmt->execute([
+            'name' => $data['name'],
+            'description' => $data['description']
+            ]);
+        return true;
+    }
+
+    public static function update($id, $data) {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE categories SET name = :name, description = :description WHERE id = :id");
+        $stmt->execute([
+            'name' => $data['name'],
+            'description' => $data['description']
+            ]);
+        return true;
+    }
+
+    public static function delete($id) {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM categories WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return true;
+    }
+
 }
 ?>
