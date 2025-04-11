@@ -3,30 +3,42 @@ $min_price = min(array_column($cars, 'price'));
 $max_hp = max(array_column($cars, 'horsepower'));
 $min_mileage = min(array_column($cars, 'mileage'));
 $max_year = max(array_column($cars, 'year'));
+$colWidth = floor(100 / (count($cars) + 1)); // +1 cho cột tiêu đề
 ?>
 
-<table class="table table-bordered text-center table-compare">
+<table class="table table-bordered text-center table-compare align-middle">
     <thead class="table-dark">
         <tr>
-            <th style="width: 100px;">Thông số</th>
+            <th style="width: <?= $colWidth ?>%;">Thông số</th>
             <?php foreach ($cars as $car): ?>
-                <th style="width: 250px;"><?= $car['name'] ?></th>
+                <th style="width: <?= $colWidth ?>%;">
+                    <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="text-light text-decoration-none">
+                        <?= htmlspecialchars($car['name']) ?>
+                    </a>
+                </th>
             <?php endforeach; ?>
         </tr>
     </thead>
+
     <tbody>
         <tr>
             <td>Hình ảnh</td>
             <?php foreach ($cars as $car): ?>
-                <td><img src="<?= $car['normal_image_url'] ?? '/uploads/cars/default.jpg' ?>" width="200"></td>
+                <td>
+                    <img src="<?= htmlspecialchars($car['normal_image_url'] ?? '/uploads/cars/default.jpg') ?>"
+                        class="img-fluid rounded"
+                        style="max-width: 200px; height: auto;" loading="lazy">
+                </td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Hãng</td>
             <?php foreach ($cars as $car): ?>
-                <td><?= $car['brand_name'] ?? 'Chưa có' ?></td>
+                <td><?= htmlspecialchars($car['brand_name'] ?? 'Chưa có') ?></td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Giá</td>
             <?php foreach ($cars as $car): ?>
@@ -35,6 +47,7 @@ $max_year = max(array_column($cars, 'year'));
                 </td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Năm sản xuất</td>
             <?php foreach ($cars as $car): ?>
@@ -43,6 +56,7 @@ $max_year = max(array_column($cars, 'year'));
                 </td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Số km đã đi</td>
             <?php foreach ($cars as $car): ?>
@@ -51,6 +65,7 @@ $max_year = max(array_column($cars, 'year'));
                 </td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Mã lực</td>
             <?php foreach ($cars as $car): ?>
@@ -59,34 +74,58 @@ $max_year = max(array_column($cars, 'year'));
                 </td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Nhiên liệu</td>
             <?php foreach ($cars as $car): ?>
-                <td><?= $car['fuel_type'] ?></td>
+                <td><?= htmlspecialchars($car['fuel_type']) ?></td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Hộp số</td>
             <?php foreach ($cars as $car): ?>
-                <td><?= $car['transmission'] ?></td>
+                <td><?= htmlspecialchars($car['transmission']) ?></td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Màu sắc</td>
             <?php foreach ($cars as $car): ?>
-                <td><?= $car['color'] ?></td>
+                <td><?= htmlspecialchars($car['color']) ?></td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Tình trạng kho</td>
             <?php foreach ($cars as $car): ?>
-                <td><?= $car['stock'] > 0 ? 'Còn hàng' : 'Hết hàng' ?></td>
+                <td class="<?= $car['stock'] > 0 ? 'text-success fw-semibold' : 'text-danger fw-semibold' ?>">
+                    <?= $car['stock'] > 0 ? 'Còn hàng' : 'Hết hàng' ?>
+                </td>
             <?php endforeach; ?>
         </tr>
+
         <tr>
             <td>Mô tả</td>
             <?php foreach ($cars as $car): ?>
-                <td><?= mb_strimwidth(strip_tags($car['description']), 0, 100, "...") ?></td>
+                <td class="text-start">
+                    <?= mb_strimwidth(strip_tags($car['description']), 0, 100, "...") ?>
+                </td>
+            <?php endforeach; ?>
+        </tr>
+
+        <!-- Hàng chứa nút Đặt mua -->
+        <tr>
+            <td class="fw-bold">Hành động</td>
+            <?php foreach ($cars as $car): ?>
+                <td>
+                    <form action="/showOrderForm" method="POST">
+                        <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-cart-fill me-1"></i> Đặt mua
+                        </button>
+                    </form>
+                </td>
             <?php endforeach; ?>
         </tr>
     </tbody>
