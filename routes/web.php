@@ -1,8 +1,6 @@
 <?php
 
-use Google\Service\CustomSearchAPI\Resource\Cse;
-use Google\Service\ServiceControl\Auth;
-
+// Require các controller
 require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/AdminController.php';
 require_once '../app/controllers/AuthController.php';
@@ -20,156 +18,44 @@ require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/UsedCarsController.php';
 require_once '../app/controllers/UserController.php';
 
-
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
+// ROUTING
 switch (true) {
+
+    // === HOME ===
     case ($uri === '' || $uri === 'home'):
         (new HomeController())->index();
         break;
 
-    case ($uri === 'add_car'):
-        (new CarController())->addCar();
-        break;
-
-    case ($uri === 'auth'):
-        (new AuthController())->index();
-        break;
-
+    // === ADMIN ===
     case ($uri === 'admin'):
         (new AdminController())->index();
+        break;
+
+    // === AUTH ===
+    case ($uri === 'auth'):
+        (new AuthController())->index();
         break;
 
     case ($uri === 'login'):
         (new AuthController())->login();
         break;
 
-    case ($uri === 'register'):
-        (new AuthController())->register();
-        break;
-
     case ($uri === 'logout'):
         (new AuthController())->logout();
         break;
 
-    case ($uri === 'add_favorite'):
-        (new FavoriteController())->addFavorite();
+    case ($uri === 'register'):
+        (new AuthController())->register();
         break;
 
-    case ($uri === 'OrderForm'):
-        (new OrderController())->OrderForm();
-        break;
-
-    case ($uri === 'Order'):
-        (new OrderController())->Order();
-        break;
-
-    case ($uri === 'user_orders'):
-        (new OrderController())->getUserOrders();
-        break;
-
-    case ($uri === 'profile'):
-        (new UserController())->userById();
-        break;
-
-    case ($uri === 'favorites'):
-        (new FavoriteController())->favoriteById();
-        break;
-
-    case ($uri === 'accessories'):
-        (new AccessoriesController())->index();
-        break;
-
-    case ($uri === 'testdriveform'):
-        (new TestDriveController())->Test_Drive();
-        break;
-
-    case ($uri === 'register_test_drive'):
-        (new TestDriveController())->create();
-        break;
-
-    case ($uri === 'filter-cars'):
-        (new CarController())->filterCar();
-        break;
-
-    case ($uri === 'reset-filters'):
-        (new CarController())->resetFilters();
-        break;
-
-    case ($uri === 'edit_profile'):
-        (new UserController())->editProfile();
-        break;
-
-    case ($uri === 'update_profile'):
-        (new UserController())->updateProfile();
-        break;
-
-    case ($uri === 'cart'):
-        (new CartController())->getByUserId();
-        break;
-
-    case ($uri === 'delete_all'):
-        (new CartController())->deleteAll();
-        break;
-
-    case $uri === 'update_cart':
-        (new CartController())->updateCart();
-        break;
-
-    case $uri === 'auth/google':
+    case ($uri === 'auth/google'):
         (new AuthController())->redirectToGoogle();
         break;
 
-    case $uri === 'auth/google/callback':
+    case ($uri === 'auth/google/callback'):
         (new AuthController())->handleGoogleCallback();
-        break;
-
-    case $uri === 'services':
-        (new CarServicesController())->index();
-        break;
-
-    case $uri === 'order_service_form':
-        (new ServiceOrderController())->ServicesOrderForm();
-        break;
-
-    case $uri === 'ServicesOrder':
-        (new ServiceOrderController())->ServicesOrder();
-        break;
-
-    case $uri === 'appointments':
-        (new ServiceOrderController())->getByUserId();
-        break;
-
-    case $uri ==='checkout_selected':
-        (new CartController())->checkOutSelected();
-        break;
-
-    case $uri ==='check_out_selected_process':
-        (new CartController())->checkOutProcess();
-        break;
-
-    case $uri === 'update_cart_quantity':
-        (new CartController)->updateQuantity();
-        break;
-
-    case $uri === 'compare':
-        (new CarController())->compare();
-        break;
-
-    case $uri === 'compareCars':
-        (new CarController())->compareCars();
-        break;
-
-    case $uri === 'add_used_car':
-        (new UsedCarsController())->addUsedCar();
-        break;
-
-    case $uri === 'add_used_car_process':
-        (new UsedCarsController())->storeCar();
-        break;
-
-    case $uri === 'countCart':
-        (new CartController())->countCart();
         break;
 
     case $uri === 'reset_password':
@@ -200,28 +86,50 @@ switch (true) {
         (new AuthController())->resetPassword();
         break;
 
-    case $uri === 'updateBannerStatus':
-        (new BannerController())->updateBannerStatus();
-        break;
-
-    case $uri === 'applyPromotion':
-        (new PromotionsController())->apply_promotions();
-        break;
-
+    // === BANNER ===
     case $uri === 'add_banner':
         (new BannerController())->addBanner();
         break;
-    
+
     case $uri === 'create_banner':
         (new BannerController())->createBanner();
         break;
 
-    case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
-        (new CarController())->showCarDetail($matches[1]);
+    case $uri === 'updateBannerStatus':
+        (new BannerController())->updateBannerStatus();
         break;
 
-    case preg_match('/^show_used_car\/(\d+)$/', $uri, $matches):
-        (new UsedCarsController())->showUsedCar($matches[1]);
+    case preg_match('/^banner_edit\/(\d+)$/', $uri, $matches):
+        (new BannerController())->BannerEdit($matches[1]);
+        break;
+
+    case preg_match('/^banner_delete\/(\d+)$/', $uri, $matches):
+        (new BannerController())->deleteBanner($matches[1]);
+        break;
+
+    // === CAR ===
+    case ($uri === 'add_car'):
+        (new CarController())->addCar();
+        break;
+
+    case $uri === 'filter-cars':
+        (new CarController())->filterCar();
+        break;
+
+    case $uri === 'reset-filters':
+        (new CarController())->resetFilters();
+        break;
+
+    case $uri === 'compare':
+        (new CarController())->compare();
+        break;
+
+    case $uri === 'compareCars':
+        (new CarController())->compareCars();
+        break;
+
+    case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
+        (new CarController())->showCarDetail($matches[1]);
         break;
 
     case preg_match('/^edit_car\/(\d+)$/', $uri, $matches):
@@ -232,28 +140,46 @@ switch (true) {
         (new CarController())->delete($matches[1]);
         break;
 
-    case (preg_match('/^order_detail\/(\d+)$/', $uri, $matches)):
-        (new OrderController())->orderDetail($matches[1]);
+    // === USED CAR ===
+    case $uri === 'add_used_car':
+        (new UsedCarsController())->addUsedCar();
         break;
 
-    case (preg_match('/^order_edit\/(\d+)$/', $uri, $matches)):
-        (new OrderController())->order_edit($matches[1]);
+    case $uri === 'add_used_car_process':
+        (new UsedCarsController())->storeCar();
         break;
 
-    case preg_match('/^order_delete\/(\d+)$/', $uri, $matches):
-        (new OrderController())->deleteOrder($matches[1]);
+    case preg_match('/^show_used_car\/(\d+)$/', $uri, $matches):
+        (new UsedCarsController())->showUsedCar($matches[1]);
         break;
 
-    case preg_match('/^favarite_delete\/(\d+)$/', $uri, $matches):
-        (new FavoriteController())->deleteFavorite($matches[1]);
+    // === CART ===
+    case $uri === 'cart':
+        (new CartController())->getByUserId();
         break;
 
-    case preg_match('/^clear_history\/(\d+)$/', $uri, $matches):
-        (new HistoryViewCarController())->deleteHistoryByUser($matches[1]);
+    case $uri === 'delete_all':
+        (new CartController())->deleteAll();
         break;
 
-    case preg_match('/^remove_history\/(\d+)$/', $uri, $matches):
-        (new HistoryViewCarController())->deleteHistory($matches[1]);
+    case $uri === 'update_cart':
+        (new CartController())->updateCart();
+        break;
+
+    case $uri === 'update_cart_quantity':
+        (new CartController())->updateQuantity();
+        break;
+
+    case $uri === 'checkout_selected':
+        (new CartController())->checkOutSelected();
+        break;
+
+    case $uri === 'check_out_selected_process':
+        (new CartController())->checkOutProcess();
+        break;
+
+    case $uri === 'countCart':
+        (new CartController())->countCart();
         break;
 
     case preg_match('/^add_to_cart\/(\d+)$/', $uri, $matches):
@@ -264,18 +190,107 @@ switch (true) {
         (new CartController())->deleteCart($matches[1]);
         break;
 
+    // === ORDER ===
+    case ($uri === 'OrderForm'):
+        (new OrderController())->OrderForm();
+        break;
+
+    case ($uri === 'Order'):
+        (new OrderController())->Order();
+        break;
+
+    case ($uri === 'user_orders'):
+        (new OrderController())->getUserOrders();
+        break;
+
+    case (preg_match('/^order_detail\/(\d+)$/', $uri, $matches)):
+        (new OrderController())->orderDetail($matches[1]);
+        break;
+
+    case (preg_match('/^order_edit\/(\d+)$/', $uri, $matches)):
+        (new OrderController())->order_edit($matches[1]);
+        break;
+
+    case (preg_match('/^order_delete\/(\d+)$/', $uri, $matches)):
+        (new OrderController())->deleteOrder($matches[1]);
+        break;
+
+    // === FAVORITE ===
+    case $uri === 'add_favorite':
+        (new FavoriteController())->addFavorite();
+        break;
+
+    case $uri === 'favorites':
+        (new FavoriteController())->favoriteById();
+        break;
+
+    case preg_match('/^favarite_delete\/(\d+)$/', $uri, $matches):
+        (new FavoriteController())->deleteFavorite($matches[1]);
+        break;
+
+    // === HISTORY ===
+    case preg_match('/^clear_history\/(\d+)$/', $uri, $matches):
+        (new HistoryViewCarController())->deleteHistoryByUser($matches[1]);
+        break;
+
+    case preg_match('/^remove_history\/(\d+)$/', $uri, $matches):
+        (new HistoryViewCarController())->deleteHistory($matches[1]);
+        break;
+
+    // === ACCESSORIES ===
+    case $uri === 'accessories':
+        (new AccessoriesController())->index();
+        break;
+
     case preg_match('/^delete_accessory\/(\d+)$/', $uri, $matches):
         (new AccessoriesController())->deleteAccessory($matches[1]);
         break;
 
-    case preg_match('/^banner_edit\/(\d+)$/', $uri, $matches):
-        (new BannerController())->BannerEdit($matches[1]);
-        break;
-        
-    case preg_match('/^banner_delete\/(\d+)$/', $uri, $matches):
-        (new BannerController())->deleteBanner($matches[1]);
+    // === PROMOTIONS ===
+    case $uri === 'applyPromotion':
+        (new PromotionsController())->apply_promotions();
         break;
 
+    // === TEST DRIVE ===
+    case $uri === 'testdriveform':
+        (new TestDriveController())->Test_Drive();
+        break;
+
+    case $uri === 'register_test_drive':
+        (new TestDriveController())->create();
+        break;
+
+    // === SERVICE ORDERS ===
+    case $uri === 'services':
+        (new CarServicesController())->index();
+        break;
+
+    case $uri === 'order_service_form':
+        (new ServiceOrderController())->ServicesOrderForm();
+        break;
+
+    case $uri === 'ServicesOrder':
+        (new ServiceOrderController())->ServicesOrder();
+        break;
+
+    case $uri === 'appointments':
+        (new ServiceOrderController())->getByUserId();
+        break;
+
+    // === USER ===
+    case $uri === 'profile':
+        (new UserController())->userById();
+        break;
+
+    case $uri === 'edit_profile':
+        (new UserController())->editProfile();
+        break;
+
+    case $uri === 'update_profile':
+        (new UserController())->updateProfile();
+        break;
+
+    // === DEFAULT ===
     default:
         http_response_code(404);
         echo "404 - Không tìm thấy trang";
