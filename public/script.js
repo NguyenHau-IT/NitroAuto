@@ -1,4 +1,3 @@
-
 console.log("✅ script.js loaded");
 
 let filterToggleBtn = document.getElementById("filter-toggle-btn");
