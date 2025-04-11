@@ -1,8 +1,6 @@
 <?php
 require_once '../app/models/Accessories.php';
 
-
-
 class AccessoriesController
 {
     public function index() {
