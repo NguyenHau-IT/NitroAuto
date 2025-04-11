@@ -8,7 +8,7 @@
     <div class="row g-4">
         <!-- Thông tin xe -->
         <div class="col-lg-6">
-            <div class="rounded-4 shadow-lg p-4 bg-light">
+            <div class="rounded-4 shadow-lg p-4 bg-light text-black">
                 <h3 class="text-success fs-4 mb-3"><i class="bi bi-info-circle me-2"></i>Thông tin xe</h3>
                 <div class="d-flex flex-column gap-3">
                     <!-- Hãng & Giá & Mã lực -->

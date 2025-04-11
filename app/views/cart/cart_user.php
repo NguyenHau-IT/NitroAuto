@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <div class="overlay">
-    <div class="container mt-5 mb-5 bg-light rounded-4 shadow-lg p-4">
+    <div class="container mt-5 mb-5 bg-light  text-primary  rounded-4 shadow-lg p-4">
         <h2 class="mb-4 text-center fs-1">Giỏ hàng</h2>
 
         <form method="post" action="/checkout_selected">

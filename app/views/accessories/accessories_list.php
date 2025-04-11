@@ -1,8 +1,8 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <div class="overlay">
-    <div class="container mt-5 mb-5 bg-light rounded-4 shadow-lg p-4">
-        <h2 class="mb-4 text-center"><i class="bi bi-nut text-primary me-2"></i>Danh sách phụ kiện cho xe</h2>
+    <div class="container mt-5 mb-5 bg-light  text-primary  rounded-4 shadow-lg p-4">
+        <h2 class="mb-4 text-center"><i class="bi bi-nut me-2"></i>Danh sách phụ kiện cho xe</h2>
 
         <div class="row">
             <?php if (!empty($accessories)): ?>

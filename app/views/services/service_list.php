@@ -1,8 +1,8 @@
     <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
     <div class="overlay">
-        <div class="container text-dark my-5 bg-light shadow rounded-4 p-4">
-            <h2 class="text-center mb-4"><i class="bi bi-tools text-primary me-2"></i>Dịch vụ ô tô</h2>
+        <div class="container text-dark my-5 bg-light text-primary shadow rounded-4 p-4">
+            <h2 class="text-center mb-4"><i class="bi bi-tools me-2"></i>Dịch vụ ô tô</h2>
 
             <div class="row mt-4">
                 <?php if (!empty($services)): ?>
