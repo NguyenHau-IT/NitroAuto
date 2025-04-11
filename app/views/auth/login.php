@@ -23,7 +23,10 @@
                     </div>
                     <div class="mb-1 input-group">
                         <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                        <input type="password" name="password" class="form-control" placeholder="Mật khẩu" required>
+                        <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Mật khẩu" required
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                        title="Mật khẩu phải có ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt">
                     </div>
                     <div class="mb-3 text-end">
                         <a href="show_forgot_password" class="text-decoration-none text-primary">Quên mật khẩu?</a>
