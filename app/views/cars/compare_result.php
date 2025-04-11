@@ -40,6 +40,13 @@ $colWidth = floor(100 / (count($cars) + 1)); // +1 cho cột tiêu đề
         </tr>
 
         <tr>
+            <td>Loại xe</td>
+            <?php foreach ($cars as $car): ?>
+                <td><?= htmlspecialchars($car['category_name'] ?? 'Chưa có') ?></td>
+            <?php endforeach; ?>
+        </tr>
+
+        <tr>
             <td>Giá</td>
             <?php foreach ($cars as $car): ?>
                 <td class="<?= $car['price'] == $min_price ? 'fw-bold text-success' : '' ?>">
@@ -116,7 +123,7 @@ $colWidth = floor(100 / (count($cars) + 1)); // +1 cho cột tiêu đề
 
         <!-- Hàng chứa nút Đặt mua -->
         <tr>
-            <td class="fw-bold">Hành động</td>
+            <td class="fw-bold"></td>
             <?php foreach ($cars as $car): ?>
                 <td>
                     <form action="/showOrderForm" method="POST">
