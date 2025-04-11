@@ -7,7 +7,7 @@
                 <i class="bi bi-tools me-2"></i>Đặt dịch vụ ô tô
             </h2>
 
-            <form action="/service_order_add" method="POST">
+            <form action="ServicesOrder" method="POST">
                 <!-- Chọn dịch vụ -->
                 <div class="mb-4">
                     <label for="service_id" class="form-label fw-semibold">

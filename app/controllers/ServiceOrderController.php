@@ -10,15 +10,15 @@ class ServiceOrderController
         require_once '../app/views/service_orders/service_order_list.php';
     }
 
-    public function addForm()
+    public function ServicesOrderForm()
     {
         $services = CarServices::all();
         require_once '../app/views/services/add_service_order.php';
     }
 
-    public function addServiceOrder()
+    public function ServicesOrder()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $serviceId = $_POST['service_id'];
             $userId = $_POST['user_id'];
             $status = 'Pending';
@@ -38,8 +38,6 @@ class ServiceOrderController
                 exit();
             }
         }
-
-        require_once '../app/views/services/add_service_order.php';
     }
 
     public function getByUserId()

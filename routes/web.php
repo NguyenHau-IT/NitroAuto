@@ -129,7 +129,11 @@ switch (true) {
         break;
 
     case $uri === 'order_service_form':
-        (new ServiceOrderController())->addForm();
+        (new ServiceOrderController())->ServicesOrderForm();
+        break;
+
+    case $uri === 'ServicesOrder':
+        (new ServiceOrderController())->ServicesOrder();
         break;
 
     case $uri === 'appointments':
