@@ -6,8 +6,19 @@ require_once '../app/models/Order_details.php';
 
 class OrderController
 {
-
     public function OrderForm()
+    {
+        if (!isset($_SESSION["user"]["id"])) {
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
+            exit();
+        }
+
+        $cars = Cars::all();
+        $accessories = Accessories::all();
+        require_once '../app/views/orders/order.php';
+    }
+
+    public function Order()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $user_id = $_SESSION["user"]["id"] ?? null;
@@ -45,16 +56,8 @@ class OrderController
                 exit();
             }
         }
-        if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
-            exit();
-        }
-
-        $cars = Cars::all();
-        $accessories = Accessories::all();
-        require_once '../app/views/orders/order.php';
     }
-
+    
     public function getUserOrders()
     {
         global $conn;

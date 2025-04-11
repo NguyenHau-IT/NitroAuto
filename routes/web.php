@@ -56,8 +56,12 @@ switch (true) {
         (new FavoriteController())->addFavorite();
         break;
 
-    case ($uri === 'showOrderForm'):
+    case ($uri === 'OrderForm'):
         (new OrderController())->OrderForm();
+        break;
+
+    case ($uri === 'Order'):
+        (new OrderController())->Order();
         break;
 
     case ($uri === 'user_orders'):
@@ -126,10 +130,6 @@ switch (true) {
 
     case $uri === 'order_service_form':
         (new ServiceOrderController())->addForm();
-        break;
-
-    case $uri === 'service_order_add':
-        (new ServiceOrderController())->addServiceOrder();
         break;
 
     case $uri === 'appointments':

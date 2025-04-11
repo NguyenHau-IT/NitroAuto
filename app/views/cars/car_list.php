@@ -31,7 +31,7 @@
                             <div class="row mt-3 g-3">
                                 <!-- Nút Đặt mua -->
                                 <div class="col-md-6">
-                                    <form action="/showOrderForm" method="POST">
+                                    <form action="/OrderForm" method="POST">
                                         <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']); ?>">
                                         <button type="submit" class="btn btn-success w-100 d-flex align-items-center justify-content-center shadow-sm rounded-3 hover-scale px-4 py-2">
                                             <i class="fas fa-shopping-cart me-2"></i> <span>Đặt mua</span>
