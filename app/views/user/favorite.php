@@ -1,39 +1,53 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <div class="overlay">
-    <div class="container text-dark mb-4 bg-light shadow rounded-4 p-4">
-        <h1 class="mb-4 text-center">Danh sách yêu thích của <?= htmlspecialchars($user['full_name']) ?></h1>
-        <div class="table-container">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-light">
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên Xe</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="container py-5">
+        <div class="bg-white text-dark shadow rounded-4 p-4">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-heart-fill text-danger me-2"></i>
+                Danh sách yêu thích của <?= htmlspecialchars($user['full_name']) ?>
+            </h2>
+
+            <?php if (empty($favorites)): ?>
+                <div class="alert alert-info text-center fs-5">
+                    <i class="bi bi-info-circle-fill me-2"></i>Không có xe nào trong danh sách yêu thích.
+                </div>
+            <?php else: ?>
+                <div class="row g-3">
                     <?php foreach ($favorites as $favorite): ?>
-                        <tr>
-                            <td><?php echo htmlspecialchars($favorite['id']); ?></td>
-                            <td><?php echo htmlspecialchars($favorite['car_name']); ?></td>
-                            <td>
-                                <a href="/favarite_delete/<?php echo $favorite['id']; ?>" class="btn btn-danger btn-sm mr-2">Xóa</a>
-                                <a href="/car_detail/<?php echo $favorite['car_id']; ?>" class="btn btn-primary btn-sm mr-2">Xem chi tiết</a>
-                                <form action="/showOrderForm" method="POST" style="display:inline;">
-                                    <input type="hidden" name="car_id" value="<?php echo htmlspecialchars($favorite['car_id']); ?>">
-                                    <button type="submit" class="btn btn-success btn-sm">Đặt mua</button>
-                                </form>
-                            </td>
-                        </tr>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-car-front-fill me-1 text-primary"></i>
+                                        <?= htmlspecialchars($favorite['car_name']) ?>
+                                    </h5>
+                                    <div class="d-flex flex-wrap gap-2 mt-3">
+                                        <a href="/favarite_delete/<?= $favorite['id'] ?>" class="btn btn-outline-danger btn-sm">
+                                            <i class="bi bi-x-circle"></i> Xóa
+                                        </a>
+                                        <a href="/car_detail/<?= $favorite['car_id'] ?>" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye-fill"></i> Xem chi tiết
+                                        </a>
+                                        <form action="/showOrderForm" method="POST" class="d-inline">
+                                            <input type="hidden" name="car_id" value="<?= htmlspecialchars($favorite['car_id']) ?>">
+                                            <button type="submit" class="btn btn-outline-success btn-sm">
+                                                <i class="bi bi-cart-check-fill"></i> Đặt mua
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-        <div class="text-end">
-            <a href="/home" class="btn btn-danger   " style="align-content: center; margin-left: 10px;">
-                <i class="fas fa-arrow-left"></i> Quay lại
-            </a>
+                </div>
+            <?php endif; ?>
+
+            <div class="text-end mt-4">
+                <a href="/home" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle me-1"></i> Quay lại trang chủ
+                </a>
+            </div>
         </div>
     </div>
 </div>
