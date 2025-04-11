@@ -15,14 +15,14 @@
                 </div>
 
                 <!-- Danh sách cuộn ngang -->
-                <div class="d-flex flex-nowrap overflow-auto gap-3 pb-2">
+                <div class="d-flex flex-nowrap overflow-auto gap-3 pb-1">
                     <?php foreach ($histories as $history): ?>
-                        <div class="card flex-shrink-0 border-0 shadow-sm" style="width: 260px; min-width: 260px;">
+                        <div class="card flex-shrink-0 border-0 shadow-sm" style="width: 200px;">
                             <div class="position-relative">
                                 <a href="/car_detail/<?= htmlspecialchars($history['car_id']) ?>">
                                     <img src="<?= htmlspecialchars($history['image_url'] ?? '/uploads/cars/default.jpg') ?>"
                                          alt="<?= htmlspecialchars($history['car_name'] ?? 'Không xác định') ?>"
-                                         class="card-img-top rounded-top" style="height: 140px; object-fit: cover;" loading="lazy">
+                                         class="card-img-top rounded-top" style="height: 100px; object-fit: cover;" loading="lazy">
                                 </a>
 
                                 <!-- Nút xoá -->
