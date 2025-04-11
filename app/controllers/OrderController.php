@@ -10,7 +10,8 @@ class OrderController
     public function showOrderForm()
     {
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /showOrderForm?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
+            exit();
         }
 
         $cars = Cars::all();
@@ -20,13 +21,8 @@ class OrderController
 
     public function placeOrder()
     {
-        $user_id = $_SESSION["user"]["id"] ?? null;
-        if (!$user_id) {
-            header("Location: /showOrderForm?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
-            exit();
-        }
-
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $user_id = $_SESSION["user"]["id"] ?? null;
             $car_id = (int)($_POST['car_id'] ?? null);
             $quantity = (int)($_POST['quantity'] ?? null);
             $accessory_id = (int)($_POST['accessory_id'] ?? null);
@@ -54,7 +50,7 @@ class OrderController
             $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $total_price, $address, $phone);
 
             if ($result) {
-                header("Location: /showOrderForm?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") );
+                header("Location: /home?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") );
                 exit();
             } else {
                 header("Location: /showOrderForm?status=error&message=" . urlencode("Lỗi khi đặt mua xe!") );
@@ -68,7 +64,7 @@ class OrderController
         global $conn;
     
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /login");
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem lịch sử!") );
             exit;
         }
     
@@ -125,7 +121,6 @@ class OrderController
         $stmt->execute();
         $orders = $stmt->fetchAll();
     
-        // Gộp theo order_id
         $groupedOrders = [];
         foreach ($orders as $order) {
             $orderId = $order['order_id'];

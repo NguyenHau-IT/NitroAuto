@@ -37,7 +37,7 @@ class FavoriteController
         $user_id = $_SESSION["user_id"] ?? null;
 
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /login");
+            header("Location: /home?status=error&message=" . urlencode("Bạn cần đăng nhập trước khi xem danh sách yêu thích!"));
             exit;
         }
 

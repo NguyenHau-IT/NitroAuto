@@ -25,10 +25,18 @@ class ServiceOrderController
             $note = $_POST['note'];
             $date = $_POST['service_date'];
 
-            ServiceOrder::create($serviceId, $userId, $date, $status, $note);
+            if (!$serviceId || !$userId || !$date) {
+                header("Location: /services?status=error&message=" . urlencode("Lỗi khi đặt lịch!"));
+                exit();
+            }
 
-            header("Location: /services?status=success&message=" . urlencode("Đặt lịch thành công!"));
-            exit();
+            if (ServiceOrder::create($serviceId, $userId, $date, $status, $note)) {
+                header("Location: /services?status=success&message=" . urlencode("Đặt lịch thành công!"));
+                exit();
+            } else {
+                header("Location: /services?status=error&message=" . urlencode("Lỗi khi đặt lịch!"));
+                exit();
+            }
         }
 
         require_once '../app/views/services/add_service_order.php';
@@ -37,12 +45,12 @@ class ServiceOrderController
     public function getByUserId()
     {
         if (!isset($_SESSION['user_id'])) {
-            header("Location: /login");
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem lịch sử đặt dịch vụ!"));
             exit();
         }
 
         $userId = $_SESSION['user_id'];
-    
+
         $orders = ServiceOrder::getByUser($userId);
         require_once '../app/views/services/services_user.php';
     }

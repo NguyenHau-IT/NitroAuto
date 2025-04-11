@@ -26,11 +26,6 @@ class AuthController
 
     public function index()
     {
-        if (isset($_SESSION['user'])) {
-            header('Location: /home');
-            exit;
-        }
-
         require_once '../app/views/auth/auth.php';
     }
 
@@ -45,24 +40,24 @@ class AuthController
 
             //kiểm tra email đã tồn tại chưa
             if (Users::findByEmail($email)) {
-                header("Location: /register?status=error&message=" . urlencode("Email đã tồn tại vui lòng chọn email khác!"));
+                header("Location: /auth?status=error&message=" . urlencode("Email đã tồn tại vui lòng chọn email khác!"));
                 exit();
             }
             //kiểm tra số điện thoại đã tồn tại chưa
             if (Users::findByPhone($phone)) {
-                header("Location: /register?status=error&message=" . urlencode("Số điện thoại đã tồn tại vui lòng chọn số khác!"));
+                header("Location: /auth?status=error&message=" . urlencode("Số điện thoại đã tồn tại vui lòng chọn số khác!"));
                 exit();
             }
 
             if (Users::register($name, $email, $password, $phone, $address)) {
-                header("Location: /login?status=success&message=" . urlencode("Đăng kí thành công vui lòng đăng nhập!"));
+                header("Location: /auth?status=success&message=" . urlencode("Đăng kí thành công vui lòng đăng nhập!"));
                 exit();
             } else {
-                header("Location: /register?status=error&message=" . urlencode("Đăng kí thất bại vui lòng đăng kí lại!"));
+                header("Location: /auth?status=error&message=" . urlencode("Đăng kí thất bại vui lòng đăng kí lại!"));
                 exit();
             }
         }
-        require_once '../app/views/auth/register.php';
+        require_once '../app/views/auth/auth.php';
     }
 
     public function login()
@@ -79,11 +74,11 @@ class AuthController
                 header("Location: /home?status=success&message=" . urlencode("Đăng nhập thành công"));
                 exit();
             } else {
-                header("Location: /login?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));
+                header("Location: /auth?status=error&message=" . urlencode("Đăng nhập thất bại vui lòng đăng nhập lại!"));
                 exit();
             }
         }
-        require_once '../app/views/auth/login.php';
+        require_once '../app/views/auth/auth.php';
     }
 
     public function logout()
@@ -178,7 +173,7 @@ class AuthController
             if (!$user) {
                 echo "DEBUG: User chưa tồn tại. Tạo mới...\n";
 
-                $password = '123456'; // Mật khẩu mặc định
+                $password = '123456nvh@Aa'; // Mật khẩu mặc định
                 $phone = '0' . str_pad(random_int(0, 999999999), 9, '0', STR_PAD_LEFT);
                 $address = 'Địa chỉ mặc định';
 
@@ -229,13 +224,7 @@ class AuthController
 
     public function changePassword()
     {
-        $userId = $_SESSION['user']['id'] ?? null;
-
-        if (!$userId) {
-            header('Location: /login');
-            exit;
-        }
-
+        $userId = $_SESSION['user']['id'];
         $user = Users::find($userId);
 
         $oldPassword = $_POST['old_password'] ?? '';
@@ -279,7 +268,6 @@ class AuthController
             $_SESSION['reset_code'] = $code;
             $_SESSION['code_expires'] = time() + 300; // 5 phút
 
-            // Gửi email (giả lập)
             $sent = MailService::sendVerificationCode($email, $code);
 
             header('Location: /show_verify-code');
@@ -335,7 +323,7 @@ class AuthController
         }
 
         if (Users::updateByEmail($email, password_hash($password, PASSWORD_BCRYPT))) {
-            header('Location: /login?status=success&message=' . urlencode('Mật khẩu đã được đặt lại'));
+            header('Location: /auth?status=success&message=' . urlencode('Mật khẩu đã được đặt lại'));
             exit();
         } else {
             header('Location: /show_forgot_password?status=error&message=' . urlencode('Đặt lại mật khẩu thất bại'));

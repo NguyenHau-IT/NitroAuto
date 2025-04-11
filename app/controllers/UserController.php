@@ -10,38 +10,22 @@ class UserController
         require_once '../app/views/user.php';
     }
 
-    public function customer()
-    {
-        $users = Users::where('customer');
-        require_once '../app/views/user.php';
-    }
-
     public function userById()
     {
         $id = $_SESSION["user"]["id"] ?? null;
         if (!$id) {
-            header("Location: /home?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem thông tin tài khoản!"));
             exit();
         }
         $user = Users::find($id);
         require_once '../app/views/user/profile.php';
     }
 
-    public function showUserList()
-    {
-        global $conn;
-
-        $stmt = $conn->query("SELECT * FROM users");
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        require_once '../app/views/user/user.php';
-    }
-
     public function editProfile()
     {
         $id = $_SESSION["user"]["id"] ?? null;
         if (!$id) {
-            header("Location: /home?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
+            header("Location: /home?status=error&message=" . urlencode("Đăng nhập để cập nhật thông tin tài khoản!"));
             exit();
         }
         $user = Users::find($id);
@@ -50,12 +34,7 @@ class UserController
 
     public function updateProfile()
     {
-        $id = $_POST['id'] ?? null;
-        if (!$id) {
-            header("Location: /home?status=error&message=" . urlencode("Không tìm thấy tài khoản đăng nhập!"));
-            exit();
-        }
-
+        $id = $_SESSION["user"]["id"];
         $full_name = $_POST['full_name'] ?? '';
         $email     = $_POST['email'] ?? '';
         $phone     = $_POST['phone'] ?? '';
@@ -63,7 +42,7 @@ class UserController
 
         // Kiểm tra xem tất cả các trường có bị bỏ trống không
         if (empty($full_name) || empty($email) || empty($phone) || empty($address)) {
-            header("Location: /error?status=error&message=" . urlencode("Vui lòng điền đầy đủ thông tin!") . "&href=edit_profile");
+            header("Location: /edit_profile?status=error&message=" . urlencode("Vui lòng điền đầy đủ thông tin!"));
             exit();
         }
         

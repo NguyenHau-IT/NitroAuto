@@ -18,6 +18,11 @@ class AdminController
 {
     public function index()
     {
+        if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
+            header("Location: /home?status=error&message=" . urlencode("Bạn không có quyền truy cập vào trang này!") );
+            exit();
+        }
+        
         global $conn;
 
         $stmt = $conn->query("

@@ -25,6 +25,10 @@ class CartController
     public function getByUserId()
     {
         $userId = $_SESSION['user']['id'];
+        if (!$userId) {
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem giỏ hàng!"));
+            exit();
+        }
 
         $carts = Cart::find($userId);
         require_once __DIR__ . "/../views/cart/cart_user.php";
@@ -33,7 +37,7 @@ class CartController
     public function addToCart($accessoryId)
     {
         if (!isset($_SESSION['user']['id'])) {
-            header("Location: /login");
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để thêm vào giỏ hàng!"));
             exit();
         }
 
@@ -42,7 +46,6 @@ class CartController
 
         global $conn;
 
-        // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
         $stmt = $conn->prepare("SELECT * FROM cart WHERE user_id = :user_id AND accessory_id = :accessory_id");
         $stmt->execute([
             ':user_id' => $userId,
@@ -183,7 +186,7 @@ class CartController
     {
         $userId = $_SESSION['user']['id'] ?? null;
         if (!$userId) {
-            header("Location: /login");
+            header("Location: /cart?status=error&message=" . urlencode("Vui lòng đăng nhập để đặt hàng!"));
             exit();
         }
 

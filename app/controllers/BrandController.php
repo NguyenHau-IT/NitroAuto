@@ -22,10 +22,7 @@ class UserController
             $logo = $_POST['logo'];
 
             $brands = Brands::create($name, $country, $logo);
-            if ($brands) {
-                header("Location: /admin?status=success&message=" . urlencode("Đã thêm vào danh sách thành công!"));
-                exit();
-            } else {
+            if (!$brands) {
                 header("Location: /admin?status=error&message=" . urlencode("Bạn đã thêm vào danh sách thất bại!"));
                 exit();
                 require_once '../app/views/brands/add.php';

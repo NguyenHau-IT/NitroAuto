@@ -116,7 +116,6 @@ class CarController
     public function update()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Đường dẫn lưu ảnh
             $uploadDir = __DIR__ . '/../../public/uploads/cars/';
             if (!file_exists($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
@@ -161,12 +160,9 @@ class CarController
                     exit();
                 }
             } else {
-                // Không có ảnh mới => dùng ảnh cũ
                 $stmt = Cars::find($_POST['id']);
                 $image_url = $stmt['normal_image_url'];
             }
-
-            // Lấy dữ liệu form
             $id = $_POST['id'];
             $name = $_POST['name'];
             $brand_id = $_POST['brand_id'];
@@ -183,24 +179,12 @@ class CarController
             $created_at = $_POST['created_at'];
             $image_url3D = $_POST['image_url3D'];
 
-            // Cập nhật
             if (Cars::update(
-                $id,
-                $name,
-                $brand_id,
-                $category_id,
-                $price,
-                $year,
-                $mileage,
-                $fuel_type,
-                $transmission,
-                $color,
-                $stock,
-                $horsepower,
-                $description,
-                $created_at,
-                $image_url,
-                $image_url3D
+                $id,$name,$brand_id,$category_id,
+                $price,$year,$mileage,$fuel_type,
+                $transmission,$color,$stock,
+                $horsepower,$description,$created_at,
+                $image_url,$image_url3D
             )) {
                 header("Location: /admin?status=success&message=" . urlencode("Cập nhật xe thành công!"));
                 exit;
@@ -220,18 +204,6 @@ class CarController
             header("Location: /admin?status=error&message=" . urlencode("Xoá xe thất bại!"));
             exit();
         }
-    }
-
-    public function search($id)
-    {
-        $brands = Brands::all();
-        if (!is_numeric($id)) {
-            header("Location: /error?status=error&message=" . urlencode("⚠️ ID hãng xe không hợp lệ!"));
-            exit();
-        }
-
-        $cars = Cars::findByBrand($id);
-        require_once '../app/views/cars/car_find.php';
     }
 
     public function showCarDetail($id)
