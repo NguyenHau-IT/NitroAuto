@@ -56,12 +56,8 @@ switch (true) {
         (new FavoriteController())->addFavorite();
         break;
 
-    case ($uri === 'place_order'):
-        (new OrderController())->placeOrder();
-        break;
-
     case ($uri === 'showOrderForm'):
-        (new OrderController())->showOrderForm();
+        (new OrderController())->OrderForm();
         break;
 
     case ($uri === 'user_orders'):

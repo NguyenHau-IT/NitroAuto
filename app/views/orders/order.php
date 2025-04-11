@@ -17,7 +17,7 @@
     </div>
 
     <!-- Form đặt hàng -->
-    <form action="/place_order" method="POST" id="orderForm">
+    <form action="" method="POST" id="orderForm">
         <div class="mb-3">
             <label for="address">Địa chỉ nhận xe:</label>
             <input type="text" class="form-control fs-5" id="address" name="address"
@@ -45,7 +45,7 @@
         <div class="mb-3">
             <label for="quantity">Số lượng xe:</label>
             <input type="number" class="form-control fs-5" id="quantity" name="quantity"
-                   min="1" value="1" onchange="updatePrice()">
+                   min="0" value="0" onchange="updatePrice()">
         </div>
 
         <div class="mb-3">
