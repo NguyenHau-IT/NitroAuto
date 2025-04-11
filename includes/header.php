@@ -27,7 +27,7 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
 
 <body>
     <header class="text-center">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-light py-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary text-white py-3">
             <div class="container">
                 <a class="navbar-brand" href="/home">
                     <img src="/uploads/logo.webp" alt="logo" width="50" height="50" style="border-radius: 10px;">

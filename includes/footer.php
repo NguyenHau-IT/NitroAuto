@@ -1,4 +1,4 @@
-<footer class="bg-light text-black border-top text-center py-3 mt-5">
+<footer class="text-dark bg-primary-subtle border-top text-center py-3 mt-5">
     <div class="container">
         <p class="mb-1">&copy; <?= date("Y"); ?> <strong>Nitro Auto</strong>. All rights reserved.</p>
         <p class="mb-0">
