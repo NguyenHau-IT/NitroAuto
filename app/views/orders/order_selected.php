@@ -2,69 +2,60 @@
 
 <div class="overlay">
     <div class="container mt-5 mb-5 bg-light p-4 rounded-4 shadow-lg">
-        <h2 class="text-center mb-4 fs-3 fw-bold">🧾 Xác nhận đơn hàng</h2>
+        <h2 class="text-center mb-4 fs-3 fw-bold text-success">🧾 Xác nhận đơn hàng</h2>
 
         <form action="/check_out_selected_process" method="post">
-            <div class="table-responsive mb-4">
-                <table class="table table-bordered table-striped align-middle text-center fs-5">
-                    <thead class="table-dark">
-                        <tr>
-                            <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Giá</th>
-                            <th scope="col">Số lượng</th>
-                            <th scope="col">Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $total = 0; ?>
-                        <?php foreach ($selectedItems as $item): ?>
-                            <?php
-                            $itemTotal = $item['accessory_price'] * $item['quantity'];
-                            $total += $itemTotal;
-                            ?>
-                            <tr>
-                                <td><?= htmlspecialchars($item['accessory_name']) ?></td>
-                                <td class="text-primary"><?= number_format($item['accessory_price'], 0, ',', '.') ?> VNĐ</td>
-                                <td>
-                                    <input type="number"
-                                        name="quantities[<?= $item['id'] ?>]"
-                                        value="<?= $item['quantity'] ?>"
-                                        min="1"
-                                        class="form-control text-center fs-5"
-                                        data-price="<?= $item['accessory_price'] ?>"
-                                        disabled> <!-- Disabled input -->
-                                    <input type="hidden" name="selected_ids[]" value="<?= $item['id'] ?>">
-                                </td>
-                                <td class="text-success fw-bold">
-                                    <?= number_format($itemTotal, 0, ',', '.') ?> VNĐ
-                                </td>
 
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+            <!-- Danh sách sản phẩm -->
+            <div class="mb-4">
+                <?php $total = 0; ?>
+                <?php foreach ($selectedItems as $item): ?>
+                    <?php
+                        $itemTotal = $item['accessory_price'] * $item['quantity'];
+                        $total += $itemTotal;
+                    ?>
+                    <div class="card mb-3 shadow-sm">
+                        <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
+                            <div class="mb-2 mb-md-0">
+                                <h5 class="mb-1"><?= htmlspecialchars($item['accessory_name']) ?></h5>
+                                <div class="text-muted">Giá: <span class="text-primary"><?= number_format($item['accessory_price'], 0, ',', '.') ?> VNĐ</span></div>
+                                <div>Số lượng: <?= $item['quantity'] ?></div>
+                                <input type="hidden" name="selected_ids[]" value="<?= $item['id'] ?>">
+                                <input type="hidden" name="quantities[<?= $item['id'] ?>]" value="<?= $item['quantity'] ?>">
+                            </div>
+                            <div class="text-success fw-bold fs-5 text-end">
+                                <?= number_format($itemTotal, 0, ',', '.') ?> VNĐ
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
+            <!-- Tổng tiền -->
             <div class="text-end fs-5 mb-4">
                 <strong>Tổng tiền:</strong>
-                <span class="text-danger fw-bold fs-4" id="grand-total"><?= number_format($total, 0, ',', '.') ?> VNĐ</span>
+                <span class="text-danger fw-bold fs-4"><?= number_format($total, 0, ',', '.') ?> VNĐ</span>
             </div>
 
-            <div class="row mb-4">
-                <div class="col-md-6 mb-3">
-                    <label for="address" class="form-label fw-semibold">Địa chỉ nhận hàng</label>
-                    <input type="text" name="address" id="address" class="form-control fs-5" required>
+            <!-- Thông tin nhận hàng -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <label for="address" class="form-label fw-semibold">📍 Địa chỉ nhận hàng</label>
+                    <input type="text" name="address" id="address" class="form-control fs-5" placeholder="Nhập địa chỉ" required>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="phone" class="form-label fw-semibold">Số điện thoại</label>
-                    <input type="text" name="phone" id="phone" class="form-control fs-5" required>
+                <div class="col-md-6">
+                    <label for="phone" class="form-label fw-semibold">📞 Số điện thoại</label>
+                    <input type="text" name="phone" id="phone" class="form-control fs-5" placeholder="Nhập số điện thoại" required>
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between">
-                <a href="/cart" class="btn btn-secondary fs-5"><i class="fas fa-arrow-left me-1"></i> Quay lại giỏ hàng</a>
-                <button type="submit" class="btn btn-success fs-5">
-                    <i class="fas fa-check-circle me-1"></i> Xác nhận đặt hàng
+            <!-- Hành động -->
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/cart" class="btn btn-outline-secondary fs-5">
+                    <i class="bi bi-arrow-left-circle me-1"></i> Quay lại giỏ hàng
+                </a>
+                <button type="submit" class="btn btn-success fs-5 px-4">
+                    <i class="bi bi-bag-check-fill me-1"></i> Xác nhận đặt hàng
                 </button>
             </div>
         </form>
