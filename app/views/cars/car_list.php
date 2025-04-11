@@ -56,8 +56,10 @@
             <?php endforeach; ?>
         </div>
         <?php if (count($cars) > 8): ?>
-            <div class="text-center mt-4">
-                <button id="loadMoreCars" class="btn btn-primary">Xem thêm</button>
+            <div class="text-center mt-5 pt-2">
+                <button id="loadMoreCars" class="btn btn-primary">
+                    <i class="bi bi-chevron-down me-1"></i> <span>Xem thêm</span>
+                </button>
             </div>
         <?php endif; ?>
     <?php else: ?>
@@ -66,3 +68,34 @@
         </div>
     <?php endif; ?>
 </div>
+
+<script>
+    const loadMoreBtn = document.getElementById('loadMoreCars');
+    const carItems = document.querySelectorAll('.car-item');
+    const batchSize = 8;
+    let visibleCount = batchSize;
+    let isExpanded = false;
+
+    if (loadMoreBtn) {
+        const icon = loadMoreBtn.querySelector('i');
+        const label = loadMoreBtn.querySelector('span');
+
+        loadMoreBtn.addEventListener('click', function() {
+            if (!isExpanded) {
+                for (let i = visibleCount; i < carItems.length; i++) {
+                    carItems[i].classList.remove('d-none');
+                }
+                isExpanded = true;
+                icon.className = 'bi bi-chevron-up me-1';
+                label.textContent = 'Thu gọn';
+            } else {
+                for (let i = batchSize; i < carItems.length; i++) {
+                    carItems[i].classList.add('d-none');
+                }
+                isExpanded = false;
+                icon.className = 'bi bi-chevron-down me-1';
+                label.textContent = 'Xem thêm';
+            }
+        });
+    }
+</script>
