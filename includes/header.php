@@ -94,11 +94,10 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                                 </a>
                             </li>
                         <?php else: ?>
-                            <li class="nav-item <?= ($current_page == 'login') ? 'active' : '' ?>">
-                                <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
-                            </li>
-                            <li class="nav-item <?= ($current_page == 'register') ? 'active' : '' ?>">
-                                <a class="nav-link" href="/register"><i class="fas fa-user-plus"></i> Register</a>
+                            <li class="nav-item <?= ($current_page == 'auth') ? 'active' : '' ?>">
+                                <a class="nav-link" href="/auth">
+                                    <i class="fas fa-user-circle"></i> Đăng nhập / Đăng ký
+                                </a>
                             </li>
                         <?php endif; ?>
                     </ul>
