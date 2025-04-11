@@ -21,9 +21,7 @@ if (!isset($_SESSION['user'])) {
 <body>
     <header class="bg-dark text-white py-3 shadow-sm">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="h5 mb-0 d-flex align-items-center">
-                <i class="bi bi-speedometer2 me-2 text-primary fs-4"></i> Admin Dashboard
-            </h1>
+            <h1 class="h5 mb-0 d-flex align-items-center">Admin Dashboard</h1>
             <div class="d-flex align-items-center gap-3">
                 <span>Xin chào, <strong><?= htmlspecialchars($_SESSION['user']['full_name']) ?></strong></span>
                 <a class="btn btn-outline-light btn-sm d-flex align-items-center gap-1" href="/home">
@@ -49,7 +47,7 @@ if (!isset($_SESSION['user'])) {
                     'users' => ['label' => 'Người dùng', 'icon' => 'bi-people'],
                     'favorites' => ['label' => 'Yêu thích', 'icon' => 'bi-heart'],
                     'orders' => ['label' => 'Đơn hàng', 'icon' => 'bi-bag-check'],
-                    'test_drives' => ['label' => 'Lái thử', 'icon' => 'bi-steering-wheel'],
+                    'test_drives' => ['label' => 'Lái thử', 'icon' => 'bi-speedometer2'],
                     'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
                 ];
                 //sắp xếp lại thứ tự các tab
