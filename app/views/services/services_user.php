@@ -8,10 +8,9 @@
         <div class="btn-group mb-3 sticky-top bg-light py-2 shadow-sm rounded-3 px-2" role="group" style="z-index: 1020;">
             <button class="btn btn-outline-secondary" onclick="filterOrders('all')">Tất cả</button>
             <button class="btn btn-outline-warning" onclick="filterOrders('pending')">Đang chờ</button>
-            <button class="btn btn-outline-info" onclick="filterOrders('confirmed')">Đã xác nhận</button>
-            <button class="btn btn-outline-primary" onclick="filterOrders('shipping')">Đang giao</button>
+            <button class="btn btn-outline-primary" onclick="filterOrders('approved')">Đã duyệt</button>
             <button class="btn btn-outline-success" onclick="filterOrders('completed')">Hoàn thành</button>
-            <button class="btn btn-outline-danger" onclick="filterOrders('canceled')">Đã hủy</button>
+            <button class="btn btn-outline-danger" onclick="filterOrders('cancelled')">Đã hủy</button>
         </div>
 
         <!-- Bộ lọc thời gian -->
@@ -53,6 +52,16 @@
                                 <i class="bi bi-wrench-adjustable-circle me-2 text-success"></i>
                                 <?= htmlspecialchars($order['car_name']) ?>
                             </h5>
+                            <?php
+                            $status = strtolower($order['status']);
+                            $badge = [
+                                'pending'   => '<span class="badge bg-warning text-dark">Đang chờ</span>',
+                                'approved'  => '<span class="badge bg-primary">Đã duyệt</span>',
+                                'completed' => '<span class="badge bg-success">Hoàn thành</span>',
+                                'cancelled' => '<span class="badge bg-danger">Đã hủy</span>',
+                            ];
+                            echo $badge[$status] ?? '<span class="badge bg-secondary">Không rõ</span>';
+                            ?>
                         </div>
 
                         <p class="mb-1"><strong>Giá dịch vụ:</strong> <?= number_format($order['total_price'], 0, ',', '.') ?> VNĐ</p>
@@ -72,7 +81,6 @@
     </div>
 </div>
 
-<!-- Script lọc giống trang đơn hàng -->
 <script>
     const dateRange = document.getElementById('date-range');
     const customRange = document.getElementById('custom-date-range');
@@ -84,12 +92,12 @@
     if (dateRange && customRange && startDate && endDate && orderCards.length > 0) {
         let currentStatus = 'all';
 
-        window.filterOrders = function (status) {
+        window.filterOrders = function(status) {
             currentStatus = status;
             applyFilter();
         };
 
-        dateRange.addEventListener('change', function () {
+        dateRange.addEventListener('change', function() {
             customRange.style.display = this.value === 'custom' ? 'flex' : 'none';
             if (this.value !== 'custom') applyFilter();
         });
