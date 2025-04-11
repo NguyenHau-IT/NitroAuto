@@ -208,6 +208,14 @@ switch (true) {
         (new PromotionsController())->apply_promotions();
         break;
 
+    case $uri === 'add_banner':
+        (new BannerController())->addBanner();
+        break;
+    
+    case $uri === 'create_banner':
+        (new BannerController())->createBanner();
+        break;
+
     case preg_match('/^car_detail\/(\d+)$/', $uri, $matches):
         (new CarController())->showCarDetail($matches[1]);
         break;

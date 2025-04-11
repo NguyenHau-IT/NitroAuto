@@ -64,4 +64,17 @@ class Banner
         $stmt = $conn->prepare("DELETE FROM banners WHERE id = :id");
         $stmt->execute(['id' => $banner_id]);
     }
+
+    public static function createBanner($data)
+    {
+        global $conn;
+        $stmt = $conn->prepare("INSERT INTO banners (image_url, created_at, type, is_active) VALUES (:image_url, :created_at, :type, :is_active)");
+        $stmt->execute([
+            'image_url' => $data['image_url'],
+            'created_at' => $data['created_at'],
+            'type' => $data['type'],
+            'is_active' => isset($data['is_active']) ? 1 : 0
+        ]);
+        return true;
+    }
 }

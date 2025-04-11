@@ -86,6 +86,7 @@ if (!isset($_SESSION['user'])) {
         </main>
     </div>
 
+    <script src="/scripts.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const navLinks = document.querySelectorAll("nav .nav-link");
