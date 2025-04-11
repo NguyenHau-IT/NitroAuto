@@ -14,7 +14,7 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Sale Project</title>
+    <title>NITRO AUTO</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
