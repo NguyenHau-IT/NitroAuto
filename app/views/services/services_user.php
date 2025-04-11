@@ -2,22 +2,22 @@
 
 <div class="overlay">
     <div class="container mt-5 text-dark fs-5 mb-4 bg-light shadow-lg rounded-4 p-4">
-        <h2 class="text-center mb-4">Danh sách lịch hẹn</h2>
+        <h2 class="text-center mb-4"><i class="bi bi-calendar-check-fill text-primary me-2"></i>Danh sách lịch hẹn</h2>
 
         <!-- Bộ lọc trạng thái -->
-        <div class="btn-group mb-3 sticky-top bg-light py-2" role="group" style="z-index: 1020;">
-            <button class="btn btn-secondary" onclick="filterOrders('all')">Tất cả</button>
-            <button class="btn btn-warning" onclick="filterOrders('pending')">Đang chờ xử lý</button>
-            <button class="btn btn-info" onclick="filterOrders('confirmed')">Đã xác nhận</button>
-            <button class="btn btn-primary" onclick="filterOrders('shipped')">Đang giao</button>
-            <button class="btn btn-success" onclick="filterOrders('completed')">Đã hoàn thành</button>
-            <button class="btn btn-danger" onclick="filterOrders('canceled')">Đã hủy</button>
+        <div class="btn-group mb-3 sticky-top bg-light py-2 shadow-sm rounded-3 px-2" role="group" style="z-index: 1020;">
+            <button class="btn btn-outline-secondary" onclick="filterOrders('all')">Tất cả</button>
+            <button class="btn btn-outline-warning" onclick="filterOrders('pending')">Đang chờ</button>
+            <button class="btn btn-outline-info" onclick="filterOrders('confirmed')">Đã xác nhận</button>
+            <button class="btn btn-outline-primary" onclick="filterOrders('shipping')">Đang giao</button>
+            <button class="btn btn-outline-success" onclick="filterOrders('completed')">Hoàn thành</button>
+            <button class="btn btn-outline-danger" onclick="filterOrders('canceled')">Đã hủy</button>
         </div>
 
         <!-- Bộ lọc thời gian -->
         <div class="mb-3">
             <label for="date-range" class="form-label">Chọn khoảng thời gian:</label>
-            <select id="date-range" class="form-control">
+            <select id="date-range" class="form-select">
                 <option value="none" selected>-- Lọc theo ngày --</option>
                 <option value="today">Hôm nay</option>
                 <option value="last_week">Tuần này</option>
@@ -27,48 +27,124 @@
             </select>
         </div>
 
-        <!-- Ngày bắt đầu và kết thúc nếu chọn "Tùy chỉnh" -->
-        <div id="custom-date-range" style="display: none;">
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="start-date" class="form-label">Ngày bắt đầu:</label>
-                    <input type="date" id="start-date" class="form-control">
-                </div>
-                <div class="col">
-                    <label for="end-date" class="form-label">Ngày kết thúc:</label>
-                    <input type="date" id="end-date" class="form-control">
-                </div>
+        <!-- Ngày bắt đầu / kết thúc -->
+        <div id="custom-date-range" class="row g-3 mb-3" style="display: none;">
+            <div class="col-md-6">
+                <label for="start-date" class="form-label">Ngày bắt đầu:</label>
+                <input type="date" id="start-date" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <label for="end-date" class="form-label">Ngày kết thúc:</label>
+                <input type="date" id="end-date" class="form-control">
             </div>
         </div>
 
+        <!-- Danh sách lịch hẹn -->
+        <div id="order-list" class="border rounded px-2 py-3" style="max-height: 600px; overflow-y: auto;">
+            <div id="no-result-message" class="alert alert-warning text-center d-none">
+                <i class="bi bi-emoji-frown"></i> Không có lịch hẹn nào phù hợp với bộ lọc.
+            </div>
 
-        <div id="order-list" style="max-height: 500px; overflow-y: auto;">
-            <?php if (empty($orders)): ?>
-                <div class="alert alert-info text-center" role="alert">
-                    Không có đặt lịch nào trong danh sách.
-                </div>
-            <?php endif; ?>
             <?php foreach ($orders as $order): ?>
-                <div class="card mb-3 order-card <?= strtolower($order['status']) ?>"
-                    data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
+                <div class="card mb-3 order-card <?= strtolower($order['status']) ?>" data-date="<?= date('Y-m-d', strtotime($order['order_date'])) ?>">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h5 class="card-title mb-0">Dịch vụ: <?= htmlspecialchars($order['car_name']) ?></h5>
-
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-wrench-adjustable-circle me-2 text-success"></i>
+                                <?= htmlspecialchars($order['car_name']) ?>
+                            </h5>
                         </div>
 
                         <p class="mb-1"><strong>Giá dịch vụ:</strong> <?= number_format($order['total_price'], 0, ',', '.') ?> VNĐ</p>
-
                         <?php if (!empty($order['note'])): ?>
                             <p class="mb-1"><strong>Ghi chú:</strong> <?= htmlspecialchars($order['note']) ?></p>
                         <?php endif; ?>
-
-                        <p class="mb-0"><strong>Ngày đặt:</strong> <?= date('d/m/Y - H:i', strtotime($order['order_date'])) ?></p>
+                        <p class="mb-0">
+                            <strong>Ngày đặt:</strong>
+                            <span data-bs-toggle="tooltip" title="<?= date('H:i:s', strtotime($order['order_date'])) ?>">
+                                <?= date('d/m/Y', strtotime($order['order_date'])) ?>
+                            </span>
+                        </p>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
 </div>
+
+<!-- Script lọc giống trang đơn hàng -->
+<script>
+    const dateRange = document.getElementById('date-range');
+    const customRange = document.getElementById('custom-date-range');
+    const startDate = document.getElementById('start-date');
+    const endDate = document.getElementById('end-date');
+    const orderCards = document.querySelectorAll('.order-card');
+    const noResultMessage = document.getElementById('no-result-message');
+
+    if (dateRange && customRange && startDate && endDate && orderCards.length > 0) {
+        let currentStatus = 'all';
+
+        window.filterOrders = function (status) {
+            currentStatus = status;
+            applyFilter();
+        };
+
+        dateRange.addEventListener('change', function () {
+            customRange.style.display = this.value === 'custom' ? 'flex' : 'none';
+            if (this.value !== 'custom') applyFilter();
+        });
+
+        startDate.addEventListener('change', () => {
+            if (startDate.value && endDate.value) applyFilter();
+        });
+        endDate.addEventListener('change', () => {
+            if (startDate.value && endDate.value) applyFilter();
+        });
+
+        function applyFilter() {
+            const selectedRange = dateRange.value;
+            const now = new Date();
+            let start = null;
+            let end = new Date();
+
+            if (selectedRange === 'today') {
+                start = new Date();
+                start.setHours(0, 0, 0, 0);
+            } else if (selectedRange === 'last_week') {
+                start = new Date();
+                start.setDate(now.getDate() - 7);
+            } else if (selectedRange === 'this_month') {
+                start = new Date(now.getFullYear(), now.getMonth(), 1);
+            } else if (selectedRange === 'last_5_days') {
+                start = new Date();
+                start.setDate(now.getDate() - 5);
+            } else if (selectedRange === 'custom') {
+                if (startDate.value && endDate.value) {
+                    start = new Date(startDate.value);
+                    end = new Date(endDate.value);
+                    end.setHours(23, 59, 59, 999);
+                }
+            }
+
+            let visibleCount = 0;
+            orderCards.forEach(card => {
+                const cardDateStr = card.getAttribute('data-date');
+                const cardDate = new Date(cardDateStr + 'T00:00:00');
+                const matchesStatus = (currentStatus === 'all') || card.classList.contains(currentStatus);
+                const matchesDate = !start || (cardDate >= start && cardDate <= end);
+                const show = matchesStatus && matchesDate;
+                card.style.display = show ? 'block' : 'none';
+                if (show) visibleCount++;
+            });
+
+            noResultMessage.classList.toggle('d-none', visibleCount > 0);
+        }
+
+        applyFilter();
+    }
+
+    const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(el => new bootstrap.Tooltip(el));
+</script>
 
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>
