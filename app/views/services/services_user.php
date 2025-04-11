@@ -6,11 +6,26 @@
 
         <!-- Bộ lọc trạng thái -->
         <div class="btn-group mb-3 sticky-top bg-light py-2 shadow-sm rounded-3 px-2" role="group" style="z-index: 1020;">
-            <button class="btn btn-outline-secondary" onclick="filterOrders('all')">Tất cả</button>
-            <button class="btn btn-outline-warning" onclick="filterOrders('pending')">Đang chờ</button>
-            <button class="btn btn-outline-primary" onclick="filterOrders('approved')">Đã duyệt</button>
-            <button class="btn btn-outline-success" onclick="filterOrders('completed')">Hoàn thành</button>
-            <button class="btn btn-outline-danger" onclick="filterOrders('cancelled')">Đã hủy</button>
+            <button class="btn btn-outline-secondary" onclick="filterOrders('all')" data-status="Tất cả">
+                <i class="bi bi-list-check me-1"></i> Tất cả
+            </button>
+            <button class="btn btn-outline-warning" onclick="filterOrders('pending')" data-status="Đang chờ">
+                <i class="bi bi-clock-history me-1"></i> Đang chờ
+            </button>
+            <button class="btn btn-outline-primary" onclick="filterOrders('approved')" data-status="Đã duyệt">
+                <i class="bi bi-patch-check-fill me-1"></i> Đã duyệt
+            </button>
+            <button class="btn btn-outline-success" onclick="filterOrders('completed')" data-status="Hoàn thành">
+                <i class="bi bi-check-circle-fill me-1"></i> Hoàn thành
+            </button>
+            <button class="btn btn-outline-danger" onclick="filterOrders('cancelled')" data-status="Đã hủy">
+                <i class="bi bi-x-circle-fill me-1"></i> Đã hủy
+            </button>
+        </div>
+
+        <!-- Hiển thị trạng thái đang lọc -->
+        <div id="active-status-label" class="text-muted mb-3">
+            <i class="bi bi-eye-fill me-1"></i> Đang hiển thị: <span class="fw-bold">Tất cả</span>
         </div>
 
         <!-- Bộ lọc thời gian -->
@@ -88,68 +103,81 @@
     const endDate = document.getElementById('end-date');
     const orderCards = document.querySelectorAll('.order-card');
     const noResultMessage = document.getElementById('no-result-message');
+    const activeStatusLabel = document.getElementById('active-status-label').querySelector('span');
+    const filterButtons = document.querySelectorAll('[onclick^="filterOrders"]');
 
-    if (dateRange && customRange && startDate && endDate && orderCards.length > 0) {
-        let currentStatus = 'all';
+    let currentStatus = 'all';
 
-        window.filterOrders = function(status) {
-            currentStatus = status;
-            applyFilter();
-        };
-
-        dateRange.addEventListener('change', function() {
-            customRange.style.display = this.value === 'custom' ? 'flex' : 'none';
-            if (this.value !== 'custom') applyFilter();
+    function highlightActiveButton(status) {
+        filterButtons.forEach(btn => {
+            btn.classList.remove('active');
         });
+        const activeBtn = document.querySelector(`[onclick="filterOrders('${status}')"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+    }
 
-        startDate.addEventListener('change', () => {
-            if (startDate.value && endDate.value) applyFilter();
-        });
-        endDate.addEventListener('change', () => {
-            if (startDate.value && endDate.value) applyFilter();
-        });
+    window.filterOrders = function(status) {
+        currentStatus = status;
+        const btn = document.querySelector(`[onclick="filterOrders('${status}')"]`);
+        if (btn) {
+            activeStatusLabel.textContent = btn.getAttribute('data-status');
+        }
+        highlightActiveButton(status);
+        applyFilter();
+    };
 
-        function applyFilter() {
-            const selectedRange = dateRange.value;
-            const now = new Date();
-            let start = null;
-            let end = new Date();
+    dateRange.addEventListener('change', function() {
+        customRange.style.display = this.value === 'custom' ? 'flex' : 'none';
+        if (this.value !== 'custom') applyFilter();
+    });
 
-            if (selectedRange === 'today') {
-                start = new Date();
-                start.setHours(0, 0, 0, 0);
-            } else if (selectedRange === 'last_week') {
-                start = new Date();
-                start.setDate(now.getDate() - 7);
-            } else if (selectedRange === 'this_month') {
-                start = new Date(now.getFullYear(), now.getMonth(), 1);
-            } else if (selectedRange === 'last_5_days') {
-                start = new Date();
-                start.setDate(now.getDate() - 5);
-            } else if (selectedRange === 'custom') {
-                if (startDate.value && endDate.value) {
-                    start = new Date(startDate.value);
-                    end = new Date(endDate.value);
-                    end.setHours(23, 59, 59, 999);
-                }
+    startDate.addEventListener('change', () => {
+        if (startDate.value && endDate.value) applyFilter();
+    });
+    endDate.addEventListener('change', () => {
+        if (startDate.value && endDate.value) applyFilter();
+    });
+
+    function applyFilter() {
+        const selectedRange = dateRange.value;
+        const now = new Date();
+        let start = null;
+        let end = new Date();
+
+        if (selectedRange === 'today') {
+            start = new Date();
+            start.setHours(0, 0, 0, 0);
+        } else if (selectedRange === 'last_week') {
+            start = new Date();
+            start.setDate(now.getDate() - 7);
+        } else if (selectedRange === 'this_month') {
+            start = new Date(now.getFullYear(), now.getMonth(), 1);
+        } else if (selectedRange === 'last_5_days') {
+            start = new Date();
+            start.setDate(now.getDate() - 5);
+        } else if (selectedRange === 'custom') {
+            if (startDate.value && endDate.value) {
+                start = new Date(startDate.value);
+                end = new Date(endDate.value);
+                end.setHours(23, 59, 59, 999);
             }
-
-            let visibleCount = 0;
-            orderCards.forEach(card => {
-                const cardDateStr = card.getAttribute('data-date');
-                const cardDate = new Date(cardDateStr + 'T00:00:00');
-                const matchesStatus = (currentStatus === 'all') || card.classList.contains(currentStatus);
-                const matchesDate = !start || (cardDate >= start && cardDate <= end);
-                const show = matchesStatus && matchesDate;
-                card.style.display = show ? 'block' : 'none';
-                if (show) visibleCount++;
-            });
-
-            noResultMessage.classList.toggle('d-none', visibleCount > 0);
         }
 
-        applyFilter();
+        let visibleCount = 0;
+        orderCards.forEach(card => {
+            const cardDateStr = card.getAttribute('data-date');
+            const cardDate = new Date(cardDateStr + 'T00:00:00');
+            const matchesStatus = (currentStatus === 'all') || card.classList.contains(currentStatus);
+            const matchesDate = !start || (cardDate >= start && cardDate <= end);
+            const show = matchesStatus && matchesDate;
+            card.style.display = show ? 'block' : 'none';
+            if (show) visibleCount++;
+        });
+
+        noResultMessage.classList.toggle('d-none', visibleCount > 0);
     }
+
+    applyFilter();
 
     const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     tooltips.forEach(el => new bootstrap.Tooltip(el));
