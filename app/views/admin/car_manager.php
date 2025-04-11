@@ -1,89 +1,92 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0 d-flex align-items-center">
-        <i class="fas fa-car-side me-2 text-primary"></i> Manage Cars
+    <h2 class="mb-0 text-primary d-flex align-items-center">
+        <i class="bi bi-car-front-fill me-2 fs-3"></i> Quản lý xe
     </h2>
-    <a href="/add_car" class="btn btn-primary shadow-sm">
-        <i class="fas fa-plus-circle me-1"></i> Add New Car
+    <a href="/add_car" class="btn btn-success shadow-sm">
+        <i class="bi bi-plus-circle me-1"></i> Thêm xe mới
     </a>
 </div>
 
-<div class="table-responsive rounded shadow-sm border mb-5" style="max-height: 700px; overflow-y: auto;">
-    <table class="table table-striped table-bordered align-middle bg-white mb-0">
-        <thead class="table-dark text-center sticky-top" style="top: 0; z-index: 10;">
-            <tr>
+<div class="table-responsive rounded border shadow-sm mb-5 bg-white">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light text-center">
+            <tr class="align-middle">
                 <th>ID</th>
-                <th>Tên</th>
-                <th>Thương hiệu</th>
+                <th>Tên xe</th>
+                <th>Hãng</th>
                 <th>Danh mục</th>
                 <th>Năm</th>
-                <th>Màu sắc</th>
                 <th>Giá</th>
+                <th>Màu</th>
                 <th>Hộp số</th>
-                <th>Số km</th>
-                <th>Mã lực</th>
-                <th>Loại nhiên liệu</th>
-                <th>Tồn kho</th>
-                <th>Hình ảnh</th>
-                <th>Hình ảnh 3D</th>
-                <th style="width: 400px;">Mô tả</th>
-                <th>Hành động</th>
+                <th>Kho</th>
+                <th>Ảnh</th>
+                <th>3D</th>
+                <th style="min-width: 150px;">Mô tả</th>
+                <th class="text-center">Hành động</th>
             </tr>
         </thead>
         <tbody class="text-center">
             <?php foreach ($cars as $car): ?>
                 <tr>
-                    <td><?= htmlspecialchars($car['id'] ?? 0) ?></td>
-                    <td class="text-start"><?= htmlspecialchars($car['name'] ?? '') ?></td>
-                    <td><?= htmlspecialchars($car['brand_name'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($car['category_name'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($car['year'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($car['color'] ?? 'N/A') ?></td>
-                    <td class="text-end"><?= number_format($car['price'] ?? 0) ?> VND</td>
-                    <td><?= htmlspecialchars($car['transmission'] ?? 'N/A') ?></td>
-                    <td class="text-end"><?= number_format($car['mileage'] ?? 0) ?> km</td>
-                    <td class="text-end"><?= number_format($car['horsepower'] ?? 0) ?> HP</td>
-                    <td><?= htmlspecialchars($car['fuel_type'] ?? 'N/A') ?></td>
-                    <td><?= htmlspecialchars($car['stock'] ?? 'N/A') ?></td>
+                    <td><?= htmlspecialchars($car['id']) ?></td>
+                    <td class="text-start"><?= htmlspecialchars($car['name']) ?></td>
+                    <td><?= htmlspecialchars($car['brand_name']) ?></td>
+                    <td><?= htmlspecialchars($car['category_name']) ?></td>
+                    <td><?= htmlspecialchars($car['year']) ?></td>
+                    <td class="text-end text-nowrap"><?= number_format($car['price']) ?> đ</td>
+                    <td><?= htmlspecialchars($car['color']) ?></td>
+                    <td><?= htmlspecialchars($car['transmission']) ?></td>
+                    <td><?= htmlspecialchars($car['stock']) ?></td>
 
+                    <!-- Ảnh xe -->
                     <td>
                         <?php if (!empty($car['image_url'])): ?>
-                            <img src="<?= htmlspecialchars($car['image_url']) ?>"
-                                alt="Car image"
-                                class="img-thumbnail"
-                                style="max-width: 150px; max-height: 100px;">
+                            <img src="<?= htmlspecialchars($car['image_url']) ?>" alt="Ảnh xe" class="img-thumbnail border" style="width: 80px; height: auto;">
                         <?php else: ?>
-                            <span class="text-muted">No image</span>
+                            <span class="text-muted">Không có</span>
                         <?php endif; ?>
                     </td>
 
+                    <!-- Ảnh 3D -->
                     <td>
                         <?php if (!empty($car['image_3d_url'])): ?>
-                            <iframe src="<?= htmlspecialchars($car['image_3d_url']) ?>" title="3D View"
-                                width="400" height="300"
-                                style="border: none; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"></iframe>
+                            <a href="<?= htmlspecialchars($car['image_3d_url']) ?>" target="_blank" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" title="Xem ảnh 3D">
+                                <i class="bi bi-box me-1"></i> 3D
+                            </a>
                         <?php else: ?>
-                            <span class="text-muted">No 3D</span>
+                            <span class="text-muted">Không có</span>
                         <?php endif; ?>
                     </td>
 
-                    <td class="text-start" style="min-width: 600px;">
-                        <div class="bg-light rounded p-2" style="max-height: 200px; overflow-y: auto; white-space: pre-wrap;">
-                            <?= nl2br(htmlspecialchars($car['description'] ?? '')) ?>
-                        </div>
+                    <!-- Mô tả -->
+                    <td class="text-start">
+                        <span data-bs-toggle="tooltip" title="<?= htmlspecialchars($car['description']) ?>">
+                            <?= strlen($car['description']) > 50 ? htmlspecialchars(mb_substr($car['description'], 0, 50)) . '...' : htmlspecialchars($car['description']) ?>
+                        </span>
                     </td>
 
-                    <td>
-                        <a href="/edit_car/<?= htmlspecialchars($car['id'] ?? 0) ?>" class="btn btn-sm btn-primary me-1">
-                            <i class="fas fa-edit me-1"></i> Edit
-                        </a>
-                        <a href="/delete_car/<?= htmlspecialchars($car['id'] ?? 0) ?>"
-                            onclick="return confirm('Are you sure you want to delete this car?');"
-                            class="btn btn-sm btn-danger">
-                            <i class="fas fa-trash-alt me-1"></i> Delete
-                        </a>
+                    <!-- Hành động -->
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="/edit_car/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center">
+                                <i class="bi bi-pencil-square me-1"></i> Sửa
+                            </a>
+                            <a href="/delete_car/<?= $car['id'] ?>"
+                                onclick="return confirm('Bạn có chắc muốn xóa xe này?');"
+                                class="btn btn-sm btn-outline-danger d-flex align-items-center">
+                                <i class="bi bi-trash3 me-1"></i> Xóa
+                            </a>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </div>
+
+<!-- Kích hoạt tooltip Bootstrap -->
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+</script>
