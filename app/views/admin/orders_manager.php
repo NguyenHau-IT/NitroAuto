@@ -1,13 +1,13 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0 d-flex align-items-center">
-        <i class="fas fa-receipt me-2 text-primary"></i> Manage Orders
+        <i class="bi bi-receipt-cutoff me-2 text-primary fs-4"></i> Quản lý đơn hàng
     </h2>
 </div>
 
-<div class="table-responsive rounded shadow-sm border mb-5" style="max-height: 700px; overflow-y: auto;">
-    <table class="table table-striped table-bordered align-middle bg-white mb-0">
-        <thead class="table-dark text-center sticky-top" style="top: 0; z-index: 10;">
-            <tr>
+<div class="table-responsive rounded border shadow-sm mb-5 bg-white">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light text-center">
+            <tr class="align-middle">
                 <th>ID</th>
                 <th>Khách hàng</th>
                 <th>Xe</th>
@@ -29,79 +29,51 @@
                 $carCount = count($order['cars']);
                 $accCount = count($order['accessories']);
                 $rowspan = max($carCount, $accCount);
-
                 for ($i = 0; $i < $rowspan; $i++):
                 ?>
                     <tr>
                         <?php if ($i === 0): ?>
-                            <td rowspan="<?= $rowspan ?>"><?= htmlspecialchars($order['id']) ?></td>
+                            <td rowspan="<?= $rowspan ?>"><?= $order['id'] ?></td>
                             <td rowspan="<?= $rowspan ?>"><?= htmlspecialchars($order['user_name']) ?></td>
                         <?php endif; ?>
 
-                        <!-- Xe -->
                         <td><?= $order['cars'][$i]['name'] ?? '-' ?></td>
                         <td><?= $order['cars'][$i]['quantity'] ?? '-' ?></td>
-                        <td class="text-end">
-                            <?= isset($order['cars'][$i]['price']) ? number_format($order['cars'][$i]['price']) . ' VND' : '-' ?>
-                        </td>
+                        <td class="text-end"><?= isset($order['cars'][$i]['price']) ? number_format($order['cars'][$i]['price']) . ' đ' : '-' ?></td>
 
-                        <!-- Phụ kiện -->
                         <td><?= $order['accessories'][$i]['name'] ?? '-' ?></td>
                         <td><?= $order['accessories'][$i]['quantity'] ?? '-' ?></td>
-                        <td class="text-end">
-                            <?= isset($order['accessories'][$i]['price']) ? number_format($order['accessories'][$i]['price']) . ' VND' : '-' ?>
-                        </td>
+                        <td class="text-end"><?= isset($order['accessories'][$i]['price']) ? number_format($order['accessories'][$i]['price']) . ' đ' : '-' ?></td>
 
                         <?php if ($i === 0): ?>
-                            <td rowspan="<?= $rowspan ?>" class="text-end fw-bold text-success">
-                                <?= number_format($order['total_price']) ?> VND
-                            </td>
-                            <td rowspan="<?= $rowspan ?>" class="text-start">
-                                <?= htmlspecialchars($order['address']) ?>
-                            </td>
+                            <td rowspan="<?= $rowspan ?>" class="text-end text-success fw-bold"><?= number_format($order['total_price']) ?> đ</td>
+                            <td rowspan="<?= $rowspan ?>" class="text-start"><?= htmlspecialchars($order['address']) ?></td>
                             <td rowspan="<?= $rowspan ?>">
                                 <?php
-                                $statusClass = '';
-                                switch (strtolower($order['status'])) {
-                                    case 'pending':
-                                        $statusClass = 'badge bg-warning text-dark';
-                                        $statusText = 'Đang chờ xử lý';
-                                        break;
-                                    case 'confirmed':
-                                        $statusClass = 'badge bg-primary';
-                                        $statusText = 'Đã xác nhận';
-                                        break;
-                                    case 'shipped':
-                                        $statusClass = 'badge bg-info text-dark';
-                                        $statusText = 'Đang giao';
-                                        break;
-                                    case 'canceled':
-                                        $statusClass = 'badge bg-danger';
-                                        $statusText = 'Đã hủy';
-                                        break;
-                                    case 'completed':
-                                        $statusClass = 'badge bg-success';
-                                        $statusText = 'Đã hoàn thành';
-                                        break;
-                                    default:
-                                        $statusClass = 'badge bg-secondary';
-                                        $statusText = 'Không xác định';
-                                }
+                                $statusMap = [
+                                    'pending' => ['Đang chờ xử lý', 'warning', 'text-dark'],
+                                    'confirmed' => ['Đã xác nhận', 'primary', 'text-white'],
+                                    'shipped' => ['Đang giao', 'info', 'text-dark'],
+                                    'completed' => ['Đã hoàn thành', 'success', 'text-white'],
+                                    'canceled' => ['Đã hủy', 'danger', 'text-white'],
+                                ];
+                                $statusKey = strtolower($order['status']);
+                                [$statusText, $bg, $text] = $statusMap[$statusKey] ?? ['Không xác định', 'secondary', 'text-white'];
                                 ?>
-                                <span class="<?= $statusClass ?>"><?= $statusText ?></span>
+                                <span class="badge bg-<?= $bg ?> <?= $text ?>"><?= $statusText ?></span>
                             </td>
+                            <td rowspan="<?= $rowspan ?>"><?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?></td>
                             <td rowspan="<?= $rowspan ?>">
-                                <?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?>
-                            </td>
-                            <td rowspan="<?= $rowspan ?>">
-                                <a href="/order_edit/<?= $order['id'] ?>" class="btn btn-sm btn-primary me-1">
-                                    <i class="fas fa-edit me-1"></i> Edit
-                                </a>
-                                <a href="/order_delete/<?= $order['id'] ?>"
-                                    onclick="return confirm('Are you sure you want to delete this order?');"
-                                    class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash-alt me-1"></i> Delete
-                                </a>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="/order_edit/<?= $order['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </a>
+                                    <a href="/order_delete/<?= $order['id'] ?>"
+                                       onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"
+                                       class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
+                                        <i class="bi bi-trash3"></i> Xóa
+                                    </a>
+                                </div>
                             </td>
                         <?php endif; ?>
                     </tr>
