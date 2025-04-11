@@ -224,10 +224,6 @@ switch (true) {
         (new CarController())->edit($matches[1]);
         break;
 
-    case preg_match('/^update_car\/(\d+)$/', $uri, $matches):
-        (new CarController())->update();
-        break;
-
     case preg_match('/^delete_car\/(\d+)$/', $uri, $matches):
         (new CarController())->delete($matches[1]);
         break;

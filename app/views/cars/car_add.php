@@ -112,6 +112,9 @@
               <button type="submit" class="btn btn-success mt-3">
                 <i class="bi bi-check-circle me-1"></i>Thêm xe
               </button>
+              <a href="/admin" class="btn btn-secondary mt-3 ms-2">
+                <i class="bi bi-x-circle me-1"></i>Hủy
+              </a>
             </div>
           </div>
         </form>

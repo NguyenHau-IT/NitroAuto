@@ -99,18 +99,6 @@ class CarController
 
     public function edit($id)
     {
-        $car = Cars::find($id);
-        $brands = Brands::all();
-        $categories = Categories::all();
-        if (!$car) {
-            header("Location: /admin?status=error&message=" . urlencode("Không tìm thấy xe!"));
-            exit();
-        }
-        require_once __DIR__ . "/../views/cars/car_edit.php";
-    }
-
-    public function update()
-    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $uploadDir = __DIR__ . '/../../public/uploads/cars/';
             if (!file_exists($uploadDir)) {
@@ -200,6 +188,14 @@ class CarController
                 exit();
             }
         }
+        $car = Cars::find($id);
+        $brands = Brands::all();
+        $categories = Categories::all();
+        if (!$car) {
+            header("Location: /admin?status=error&message=" . urlencode("Không tìm thấy xe!"));
+            exit();
+        }
+        require_once __DIR__ . "/../views/cars/car_edit.php";
     }
 
     public function delete($id)
