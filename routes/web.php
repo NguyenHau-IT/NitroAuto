@@ -32,6 +32,10 @@ switch (true) {
         (new CarController())->showAddForm();
         break;
 
+    case ($uri === 'auth'):
+        (new AuthController())->index();
+        break;
+
     case ($uri === 'add'):
         (new CarController())->storeCar();
         break;

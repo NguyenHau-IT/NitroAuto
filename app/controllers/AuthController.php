@@ -24,6 +24,16 @@ class AuthController
         $this->client->addScope("profile");
     }
 
+    public function index()
+    {
+        if (isset($_SESSION['user'])) {
+            header('Location: /home');
+            exit;
+        }
+
+        require_once '../app/views/auth/auth.php';
+    }
+
     public function register()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
