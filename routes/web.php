@@ -6,9 +6,9 @@ use FontLib\Table\Type\prep;
 
 require_once '../app/controllers/AccessoriesController.php';
 require_once '../app/controllers/AdminController.php';
+require_once '../app/controllers/BrandController.php';
 require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/BannerController.php';
-// require_once '../app/controllers/BrandsController.php';
 require_once '../app/controllers/CategoriesController.php';
 require_once '../app/controllers/CarController.php';
 require_once '../app/controllers/CarServicesController.php';
@@ -112,6 +112,23 @@ switch (true) {
         (new BannerController())->deleteBanner($matches[1]);
         break;
 
+    // === BRANDS === //
+    case $uri === 'add_brand':
+        (new BrandController())->formadd();
+        break;
+
+    case $uri === 'addbrand':
+        (new BrandController())->addbrand();
+        break;
+
+    case preg_match('/^edit_brand\/(\d+)$/', $uri, $matches):
+        (new BrandController())->edit($matches[1]);
+        break;
+
+    case preg_match('/^delete_brand\/(\d+)$/', $uri, $matches):
+        (new BrandController())->delete($matches[1]);
+        break;
+    
     // === CAR ===
     case ($uri === 'add_car'):
         (new CarController())->addCar();
