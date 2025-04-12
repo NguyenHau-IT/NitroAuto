@@ -48,7 +48,7 @@
                         <td><?= htmlspecialchars($car['fuel_type']) ?></td>
                         <td><?= date('d/m/Y', strtotime($car['created_at'])) ?></td>
                         <td class="text-start align-top">
-                            <div class="overflow-auto bg-light p-2 rounded" style="max-height: 100px; min-width: 200px; white-space: pre-wrap;">
+                            <div class="overflow-auto bg-light p-2 rounded text-start" style="max-height: 100px; min-width: 200px;">
                                 <?= nl2br(htmlspecialchars($car['description'])) ?>
                             </div>
                         </td>
