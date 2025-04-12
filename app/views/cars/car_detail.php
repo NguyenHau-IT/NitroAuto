@@ -81,7 +81,7 @@
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
 
-        <form action="/showOrderForm" method="POST">
+        <form action="/OrderForm" method="POST">
             <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
             <button type="submit" class="btn btn-success btn-lg">
                 <i class="bi bi-cart"></i> Đặt mua
