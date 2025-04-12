@@ -45,7 +45,8 @@ class CarServicesController
             $Price = $_POST['price'];
             $EstimatedTime = $_POST['estimated_time'];
             $Status = $_POST['status'];
-            if (!$ServiceName || !$Description || !$Price || !$EstimatedTime || !$Status) {
+
+            if (!$ServiceName || !$Description || !$Price || !$EstimatedTime) {
                 header("Location: /admin#car_services?status=error&message=" . urlencode("Vui lòng điền đầy đủ thông tin!"));
                 exit();
             }
