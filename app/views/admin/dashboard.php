@@ -57,7 +57,7 @@ if (!isset($_SESSION['user'])) {
                     'history_view_car' => ['label' => 'Lịch sử xem xe', 'icon' => 'bi-clock-history'],
                     'used_car_requests' => ['label' => 'Yêu cầu bán xe cũ', 'icon' => 'bi-box-arrow-up'],
                     'test_drive_registration' => ['label' => 'Đăng ký lái thử', 'icon' => 'bi-clipboard2-check'],
-                ];                
+                ];
                 //sắp xếp lại thứ tự các tab
                 uasort($tabs, function ($a, $b) {
                     return $a['label'] <=> $b['label'];
@@ -92,8 +92,7 @@ if (!isset($_SESSION['user'])) {
         </main>
     </div>
 
-    <script src="/script.js" defer></script>
-    <script>
+<script>
         document.addEventListener("DOMContentLoaded", function() {
             const navLinks = document.querySelectorAll("nav .nav-link");
             const sections = document.querySelectorAll("main section");
@@ -166,6 +165,36 @@ if (!isset($_SESSION['user'])) {
                 });
             });
         });
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get("status");
+        const message = params.get("message");
+
+        if (status && message && typeof Swal !== 'undefined') {
+            let icon = "info";
+            let title = "Thông báo";
+
+            if (status === "success") {
+                icon = "success";
+                title = "Thành công!";
+            } else if (status === "error") {
+                icon = "error";
+                title = "Lỗi!";
+            } else if (status === "warning") {
+                icon = "warning";
+                title = "Cảnh báo!";
+            }
+
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: decodeURIComponent(message),
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            }).then(() => {
+                history.replaceState(null, "", window.location.pathname);
+            });
+        }
     </script>
 
     <!-- Bootstrap JS (no jQuery needed in BS5) -->
