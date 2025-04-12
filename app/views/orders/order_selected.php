@@ -33,18 +33,18 @@
 
             <!-- Tổng tiền -->
             <div class="text-end fs-5 mb-4">
-                <strong>Tổng tiền:</strong>
+                <strong class="text-dark fw-semibold">Tổng tiền:</strong>
                 <span class="text-danger fw-bold fs-4"><?= number_format($total, 0, ',', '.') ?> VNĐ</span>
             </div>
 
             <!-- Thông tin nhận hàng -->
             <div class="row g-4 mb-4">
                 <div class="col-md-6">
-                    <label for="address" class="form-label fw-semibold">📍 Địa chỉ nhận hàng</label>
+                    <label for="address" class="text-dark form-label fw-semibold">📍 Địa chỉ nhận hàng</label>
                     <input type="text" name="address" id="address" class="form-control fs-5" placeholder="Nhập địa chỉ" required>
                 </div>
                 <div class="col-md-6">
-                    <label for="phone" class="form-label fw-semibold">📞 Số điện thoại</label>
+                    <label for="phone" class="text-dark form-label fw-semibold">📞 Số điện thoại</label>
                     <input type="text" name="phone" id="phone" class="form-control fs-5" placeholder="Nhập số điện thoại" required>
                 </div>
             </div>
