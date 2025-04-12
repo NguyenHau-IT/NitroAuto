@@ -23,55 +23,59 @@ class UsedCarsController
 
     public function addUsedCar()
     {
-        $brands = Brands::all();
-        $categories = Categories::all();
-        require_once '../app/views/used_cars/add_used_cars.php';
-    }
-
-    public function storeCar()
-    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $data = [];
-    
-                // Xử lý ảnh
-                if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == 0) {
-                    $allowedExt = ['jpg', 'jpeg', 'png'];
-                    $fileExt = strtolower(pathinfo($_FILES['image_url']['name'], PATHINFO_EXTENSION));
-    
-                    if (!in_array($fileExt, $allowedExt)) {
-                        header("Location: /add_used_car?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
-                        exit();
-                    }
-    
-                    // Đổi tên ảnh dựa vào tên xe (POST['name']), loại bỏ ký tự đặc biệt
-                    $newName = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['name']);
-                    $webpName = $newName . '.webp';
-    
-                    // Đường dẫn lưu ảnh
-                    $uploadDir = __DIR__ . '/../../public/uploads/used_cars/';
-                    if (!file_exists($uploadDir)) {
-                        mkdir($uploadDir, 0777, true); // Tạo thư mục nếu chưa có
-                    }
-    
-                    $uploadFile = $uploadDir . $webpName;
-    
-                    // Convert ảnh sang webp
-                    switch ($fileExt) {
-                        case 'jpg':
-                        case 'jpeg':
-                            $image = imagecreatefromjpeg($_FILES['image_url']['tmp_name']);
-                            break;
-                        case 'png':
-                            $image = imagecreatefrompng($_FILES['image_url']['tmp_name']);
-                            imagepalettetotruecolor($image);
-                            imagealphablending($image, true);
-                            imagesavealpha($image, true);
-                            break;
-                        default:
-                            $image = false;
-                    }
-    
+            $data = [];
+
+            // Xử lý ảnh
+            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == 0) {
+                $allowedExt = ['jpg', 'jpeg', 'png'];
+                $fileExt = strtolower(pathinfo($_FILES['image_url']['name'], PATHINFO_EXTENSION));
+
+                if (!in_array($fileExt, $allowedExt)) {
+                    header("Location: /add_used_car?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
+                    exit();
+                }
+
+                // Đổi tên ảnh dựa vào tên xe (POST['name']), loại bỏ ký tự đặc biệt
+                $newName = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['name']);
+                $webpName = $newName . '.webp';
+
+                // Đường dẫn lưu ảnh
+                $uploadDir = __DIR__ . '/../../public/uploads/used_cars/';
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0777, true); // Tạo thư mục nếu chưa có
+                }
+
+                $uploadFile = $uploadDir . $webpName;
+
+                // Convert ảnh sang webp
+                switch ($fileExt) {
+                    case 'jpg':
+                    case 'jpeg':
+                        $image = imagecreatefromjpeg($_FILES['image_url']['tmp_name']);
+                        break;
+                    case 'png':
+                        $image = imagecreatefrompng($_FILES['image_url']['tmp_name']);
+                        imagepalettetotruecolor($image);
+                        imagealphablending($image, true);
+                        imagesavealpha($image, true);
+                        break;
+                    default:
+                        $image = false;
+                }
+                if ($image) {
+                    $origWidth = imagesx($image);
+                    $origHeight = imagesy($image);
+                    $newWidth = 300; // Thumbnail chiều rộng
+                    $newHeight = intval($origHeight * ($newWidth / $origWidth));
+
+                    $resized = imagecreatetruecolor($newWidth, $newHeight);
+                    imagealphablending($resized, false);
+                    imagesavealpha($resized, true);
+                    imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+                    imagedestroy($image); // free original
+
+
                     if ($image && imagewebp($image, $uploadFile, 80)) {
                         imagedestroy($image);
                         $data['image_url'] = '/uploads/used_cars/' . $webpName;
@@ -79,6 +83,9 @@ class UsedCarsController
                         header("Location: /add_used_car?status=error&message=" . urlencode("Chuyển ảnh sang WebP thất bại!"));
                         exit();
                     }
+                } else {
+                    header("Location: /add_used_car?status=error&message=" . urlencode("Không thể xử lý ảnh!"));
+                    exit();
                 }
             }
 
@@ -105,5 +112,14 @@ class UsedCarsController
                 exit();
             }
         }
+        if (isset($_SESSION['user']['id'])) {
+            $userId = $_SESSION['user']['id'];
+        } else {
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để thêm bài đăng!"));
+            exit();
+        }
+        $brands = Brands::all();
+        $categories = Categories::all();
+        require_once '../app/views/used_cars/add_used_cars.php';
     }
 }

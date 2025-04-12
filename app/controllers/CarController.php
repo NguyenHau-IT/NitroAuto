@@ -40,7 +40,7 @@ class CarController
 
                 $uploadFile = $uploadDir . $webpName;
 
-                // Convert ảnh sang webp
+                // Convert ảnh sang WebP với resize về thumbnail ~300px
                 switch ($fileExt) {
                     case 'jpg':
                     case 'jpeg':
@@ -56,11 +56,27 @@ class CarController
                         $image = false;
                 }
 
-                if ($image && imagewebp($image, $uploadFile, 80)) {
-                    imagedestroy($image);
-                    $data['image_url'] = '/uploads/cars/' . $webpName;
+                if ($image) {
+                    $origWidth = imagesx($image);
+                    $origHeight = imagesy($image);
+                    $newWidth = 300; // Thumbnail chiều rộng
+                    $newHeight = intval($origHeight * ($newWidth / $origWidth));
+
+                    $resized = imagecreatetruecolor($newWidth, $newHeight);
+                    imagealphablending($resized, false);
+                    imagesavealpha($resized, true);
+                    imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+                    imagedestroy($image); // free original
+
+                    if (imagewebp($resized, $uploadFile, 80)) {
+                        imagedestroy($resized);
+                        $data['image_url'] = '/uploads/cars/' . $webpName;
+                    } else {
+                        header("Location: /admin?status=error&message=" . urlencode("Lưu ảnh WebP thất bại!"));
+                        exit();
+                    }
                 } else {
-                    header("Location: /admin?status=error&message=" . urlencode("Chuyển ảnh sang WebP thất bại!"));
+                    header("Location: /admin?status=error&message=" . urlencode("Không thể xử lý ảnh!"));
                     exit();
                 }
             }
@@ -105,7 +121,7 @@ class CarController
                 mkdir($uploadDir, 0777, true);
             }
 
-            // Kiểm tra có upload ảnh mới không
+            // Xử lý ảnh nếu có upload mới
             if (!empty($_FILES['image_url']['name']) && $_FILES['image_url']['error'] === UPLOAD_ERR_OK) {
                 $allowedExt = ['jpg', 'jpeg', 'png'];
                 $fileExt = strtolower(pathinfo($_FILES['image_url']['name'], PATHINFO_EXTENSION));
@@ -115,12 +131,12 @@ class CarController
                     exit();
                 }
 
-                // Đổi tên file theo name
+                // Đổi tên ảnh theo tên xe
                 $newName = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['name']);
                 $webpName = $newName . '.webp';
                 $uploadFile = $uploadDir . $webpName;
 
-                // Convert sang webp
+                // Tạo ảnh từ file upload
                 switch ($fileExt) {
                     case 'jpg':
                     case 'jpeg':
@@ -136,17 +152,37 @@ class CarController
                         $image = false;
                 }
 
-                if ($image && imagewebp($image, $uploadFile, 80)) {
+                if ($image) {
+                    // Resize về thumbnail 300px chiều rộng
+                    $origWidth = imagesx($image);
+                    $origHeight = imagesy($image);
+                    $newWidth = 300;
+                    $newHeight = intval($origHeight * ($newWidth / $origWidth));
+
+                    $resized = imagecreatetruecolor($newWidth, $newHeight);
+                    imagealphablending($resized, false);
+                    imagesavealpha($resized, true);
+                    imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
                     imagedestroy($image);
-                    $image_url = '/uploads/cars/' . $webpName;
+
+                    if (imagewebp($resized, $uploadFile, 80)) {
+                        imagedestroy($resized);
+                        $image_url = '/uploads/cars/' . $webpName;
+                    } else {
+                        header("Location: /admin?status=error&message=" . urlencode("Lưu ảnh WebP thất bại!"));
+                        exit();
+                    }
                 } else {
-                    header("Location: /admin?status=error&message=" . urlencode("Chuyển ảnh sang WebP thất bại!"));
+                    header("Location: /admin?status=error&message=" . urlencode("Không thể xử lý ảnh!"));
                     exit();
                 }
             } else {
+                // Không upload ảnh mới, giữ ảnh cũ
                 $stmt = Cars::find($_POST['id']);
                 $image_url = $stmt['normal_image_url'];
             }
+
+            // Lấy dữ liệu khác
             $id = $_POST['id'];
             $name = $_POST['name'];
             $brand_id = $_POST['brand_id'];
@@ -163,6 +199,7 @@ class CarController
             $created_at = $_POST['created_at'];
             $image_url3D = $_POST['image_url3D'];
 
+            // Cập nhật DB
             if (Cars::update(
                 $id,
                 $name,
@@ -188,6 +225,8 @@ class CarController
                 exit();
             }
         }
+
+        // Hiển thị form edit
         $car = Cars::find($id);
         $brands = Brands::all();
         $categories = Categories::all();

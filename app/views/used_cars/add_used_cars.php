@@ -6,7 +6,7 @@
             <i class="bi bi-car-front-fill me-2"></i>Thêm xe đã qua sử dụng
         </h2>
 
-        <form action="/add_used_car_process" method="POST" enctype="multipart/form-data" class="row g-4">
+        <form action="" method="POST" enctype="multipart/form-data" class="row g-4">
             <!-- Thông tin cơ bản -->
             <div class="col-md-6">
                 <label for="name" class="form-label fw-semibold">Tên xe</label>
