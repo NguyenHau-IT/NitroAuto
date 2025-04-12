@@ -299,7 +299,7 @@ switch (true) {
         (new TestDriveController())->create();
         break;
 
-    // === SERVICE ORDERS ===
+    // === SERVICE ===
     case $uri === 'services':
         (new CarServicesController())->index();
         break;
@@ -314,6 +314,22 @@ switch (true) {
 
     case $uri === 'appointments':
         (new ServiceOrderController())->getByUserId();
+        break;
+
+    case $uri ==='add_service_form':
+        (new CarServicesController())->addServiceForm();
+        break;
+    
+    case $uri ==='add_service':
+        (new CarServicesController())->addService();
+        break;
+
+    case preg_match('/^edit_service\/(\d+)$/', $uri, $matches):
+        (new CarServicesController())->edit($matches[1]);
+        break;
+        
+    case preg_match( '/^delete_service\/(\d+)$/', $uri, $matches):
+        (new CarServicesController())->delete($matches[1]);
         break;
 
     // === USER ===

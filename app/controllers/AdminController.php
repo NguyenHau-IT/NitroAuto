@@ -19,10 +19,10 @@ class AdminController
     public function index()
     {
         if (!isset($_SESSION["user"]) || $_SESSION["user"]["role"] != "admin") {
-            header("Location: /home?status=error&message=" . urlencode("Bạn không có quyền truy cập vào trang này!") );
+            header("Location: /home?status=error&message=" . urlencode("Bạn không có quyền truy cập vào trang này!"));
             exit();
         }
-        
+
         global $conn;
 
         $stmt = $conn->query("
@@ -122,7 +122,8 @@ class AdminController
         $accessoires = Accessories::all();
         $banners = Banner::all();
         $usedCars = Used_cars::getall();
-        
+        $services = CarServices::all();
+
         require_once '../app/views/admin/dashboard.php';
     }
 }

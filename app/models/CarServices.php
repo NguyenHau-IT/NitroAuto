@@ -22,7 +22,14 @@ class CarServices
     public static function all()
     {
         global $conn;
-        $stmt = $conn->query("SELECT * FROM CarServices ORDER BY ServiceID ASC");
+        $stmt = $conn->query("SELECT 
+                            ServiceID, 
+                            ServiceName, 
+                            Description, 
+                            Price, 
+                            EstimatedTime, 
+                            Status  
+                            FROM CarServices ORDER BY ServiceID ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -65,7 +72,8 @@ class CarServices
     {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM CarServices WHERE ServiceID = :ServiceID");
-        return $stmt->execute(['ServiceID' => $ServiceID]);
+        $stmt->execute(['ServiceID' => $ServiceID]);
+        return true;
     }
 
 
