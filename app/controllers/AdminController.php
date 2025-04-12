@@ -121,6 +121,8 @@ class AdminController
 
         $accessoires = Accessories::all();
         $banners = Banner::all();
+        $usedCars = Used_cars::getall();
+        
         require_once '../app/views/admin/dashboard.php';
     }
 }

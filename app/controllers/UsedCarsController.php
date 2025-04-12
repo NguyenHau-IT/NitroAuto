@@ -12,7 +12,7 @@ class UsedCarsController
 
     public function showUsedCar($id)
     {
-        $used_cars = Used_cars::getAll($id);
+        $used_cars = Used_cars::getByid($id);
         $used_car = Used_cars::find($id);
         if (!$used_car) {
             header("Location: /home?status=error&message=" . urlencode("Bài đăng không tồn tại!"));

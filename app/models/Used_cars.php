@@ -27,6 +27,38 @@ class Used_cars
         }
     }
 
+    public static function getall()
+    {
+        global $conn;
+        $stmt = $conn->query("
+        SELECT 
+            users.full_name AS user_name,
+            used_cars.id AS id,
+            used_cars.name,
+            used_cars.brand_id,
+            used_cars.year,
+            used_cars.price,
+            used_cars.fuel_type,
+            used_cars.description,
+            used_cars.created_at,
+            used_cars.status,
+            categories.name AS category_name,
+            brands.name AS brand,
+            (
+                SELECT TOP 1 image_url 
+                FROM used_car_images 
+                WHERE used_car_images.used_car_id = used_cars.id 
+                  AND image_type = 'normal'
+            ) AS image_url
+        FROM used_cars
+        JOIN brands ON used_cars.brand_id = brands.id
+        JOIN categories ON used_cars.category_id = categories.id
+        JOIN users ON used_cars.user_id = users.id
+        ORDER BY used_cars.created_at DESC
+    ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function all()
     {
         global $conn;
@@ -52,13 +84,13 @@ class Used_cars
         JOIN brands ON used_cars.brand_id = brands.id
         JOIN categories ON used_cars.category_id = categories.id
         JOIN users ON used_cars.user_id = users.id
-        WHERE used_cars.status = 'Approved' OR used_cars.status = 'Sold'
+        WHERE used_cars.status = 'Approved'
         ORDER BY used_cars.created_at DESC
     ");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getAll($id)
+    public static function getByid($id)
     {
         global $conn;
         $stmt = $conn->prepare("
