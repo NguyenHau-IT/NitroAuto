@@ -41,6 +41,7 @@ if (!isset($_SESSION['user'])) {
                 <?php
                 $tabs = [
                     'cars' => ['label' => 'Quản lý xe', 'icon' => 'bi-car-front'],
+                    'used_cars' => ['label' => 'Bài đăng xe củ', 'icon' => 'bi-car-front-fill'],
                     'brands' => ['label' => 'Hãng xe', 'icon' => 'bi-buildings'],
                     'categories' => ['label' => 'Danh mục', 'icon' => 'bi-tags'],
                     'accessories' => ['label' => 'Phụ kiện', 'icon' => 'bi-tools'],
@@ -48,8 +49,15 @@ if (!isset($_SESSION['user'])) {
                     'favorites' => ['label' => 'Yêu thích', 'icon' => 'bi-heart'],
                     'orders' => ['label' => 'Đơn hàng', 'icon' => 'bi-bag-check'],
                     'test_drives' => ['label' => 'Lái thử', 'icon' => 'bi-speedometer2'],
+                    'service_orders' => ['label' => 'Lịch hẹn dịch vụ', 'icon' => 'bi-calendar-check'],
+                    'car_services' => ['label' => 'Dịch vụ xe', 'icon' => 'bi-tools'],
+                    'promotions' => ['label' => 'Khuyến mãi', 'icon' => 'bi-stars'],
                     'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
-                ];
+                    'reviews' => ['label' => 'Đánh giá', 'icon' => 'bi-chat-square-text'],
+                    'history_view_car' => ['label' => 'Lịch sử xem xe', 'icon' => 'bi-clock-history'],
+                    'used_car_requests' => ['label' => 'Yêu cầu bán xe cũ', 'icon' => 'bi-box-arrow-up'],
+                    'test_drive_registration' => ['label' => 'Đăng ký lái thử', 'icon' => 'bi-clipboard2-check'],
+                ];                
                 //sắp xếp lại thứ tự các tab
                 uasort($tabs, function ($a, $b) {
                     return $a['label'] <=> $b['label'];
