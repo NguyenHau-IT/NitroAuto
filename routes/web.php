@@ -184,6 +184,10 @@ switch (true) {
         (new UsedCarsController())->addUsedCar();
         break;
 
+    case preg_match('/^edit_used_car\/(\d+)$/', $uri, $matches):
+        (new UsedCarsController())->edit($matches[1]);
+        break;
+
     case preg_match('/^show_used_car\/(\d+)$/', $uri, $matches):
         (new UsedCarsController())->showUsedCar($matches[1]);
         break;

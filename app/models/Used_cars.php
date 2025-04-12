@@ -42,6 +42,9 @@ class Used_cars
             used_cars.description,
             used_cars.created_at,
             used_cars.status,
+            used_cars.color,
+            used_cars.mileage,
+            used_cars.transmission,
             categories.name AS category_name,
             brands.name AS brand,
             (
@@ -180,6 +183,49 @@ class Used_cars
                 'image_url' => $data['image_url']
             ]);
         }
+        return true;
+    }
+
+    public static function edit($data)
+    {
+        global $conn;
+        $conn->beginTransaction();
+
+        $sql = "UPDATE used_cars SET name = :name, brand_id = :brand_id, category_id = :category_id, price = :price, year = :year, mileage = :mileage
+                , fuel_type = :fuel_type, transmission = :transmission, color = :color, description = :description, status = :status
+                WHERE id = :id";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            'id' => $data['id'],
+            'name' => $data['name'],
+            'brand_id' => $data['brand_id'],
+            'category_id' => $data['category_id'],
+            'price' => $data['price'],
+            'year' => $data['year'],
+            'mileage' => $data['mileage'],
+            'fuel_type' => $data['fuel_type'],
+            'transmission' => $data['transmission'],
+            'color' => $data['color'],
+            'description' => $data['description'],
+            'status' => $data['status']
+        ]);
+
+        $stmt = $conn->prepare("SELECT id FROM used_car_images WHERE used_car_id = :used_car_id AND image_type = 'normal'");
+        $stmt->execute(["used_car_id" => $data['id']]);
+        $existingImage = $stmt->fetch();
+
+        if ($existingImage) {
+            $stmt = $conn->prepare("UPDATE used_car_images SET image_url = :image_url WHERE used_car_id = :used_car_id AND image_type = 'normal'");
+        } else {
+            $stmt = $conn->prepare("INSERT INTO used_car_images (used_car_id, image_url, image_type) VALUES (:used_car_id, :image_url, 'normal')");
+        }
+        $stmt->execute([
+            "used_car_id" => $data['id'],
+            "image_url" => $data['image_url']
+        ]);
+
+        $conn->commit();
         return true;
     }
 }
