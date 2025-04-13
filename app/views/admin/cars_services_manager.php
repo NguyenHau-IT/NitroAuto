@@ -8,7 +8,7 @@
     <div class="card shadow border-0">
         <div class="card-body p-0">
             <table class="table table-hover table-bordered mb-0">
-                <thead class="table-dark text-center">
+                <thead class="table-light text-center">
                     <tr>
                         <th>#</th>
                         <th>Tên dịch vụ</th>
@@ -38,10 +38,10 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="/edit_service/<?= $service['ServiceID'] ?>" class="btn btn-warning">
+                                    <a href="/edit_service/<?= $service['ServiceID'] ?>" class="btn btn-outline-primary">
                                         <i class="bi bi-pencil-square"></i> Sửa
                                     </a>
-                                    <a href="/delete_service/<?= $service['ServiceID'] ?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                    <a href="/delete_service/<?= $service['ServiceID'] ?>" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                                         <i class="bi bi-trash"></i> Xoá
                                     </a>
                                 </div>
