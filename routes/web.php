@@ -294,6 +294,18 @@ switch (true) {
         (new PromotionsController())->apply_promotions();
         break;
 
+    case $uri === 'admin/promotions/create':
+        (new PromotionsController())->create_promotion();
+        break;
+
+    case preg_match('#^admin/promotions/edit/(\d+)$#', $uri, $matches):
+        (new PromotionsController())->edit_promotion($matches[1]);
+        break;
+
+    case preg_match('#^admin/promotions/delete/(\d+)$#', $uri, $matches):
+        (new PromotionsController())->delete_promotion($matches[1]);
+        break;
+
     // === TEST DRIVE ===
     case $uri === 'testdriveform':
         (new TestDriveController())->Test_Drive();

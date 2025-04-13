@@ -1,5 +1,7 @@
 <?php
 
+use FontLib\Table\Type\head;
+
 class PromotionsController
 {
     public function apply_promotions()
@@ -44,5 +46,83 @@ class PromotionsController
         }
 
         echo json_encode($response);
+    }
+
+    public function create_promotion()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $code = $_POST['code'] ?? '';
+            $start_date = $_POST['start_date'] ?? '';
+            $end_date = $_POST['end_date'] ?? '';
+            $discount_percent = $_POST['discount_percent'] ?? '';
+            $discount_amount = $_POST['discount_amount'] ?? '';
+            $is_active = $_POST['is_active'] ?? '';
+            $data = [
+                'name' => $name,
+                'code' => $code,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'discount_percent' => $discount_percent,
+                'discount_amount' => $discount_amount,
+                'is_active' => $is_active
+            ];
+
+            if (Promotions::create($data)) {
+                header('Location: /admin#promotions');
+                exit;
+            } else {
+                header('Location: /admin#promotions?status=error');
+                exit;
+            }
+        }
+
+        require_once '../app/views/promotions/create_promotion.php';
+    }
+
+
+    public function edit_promotion($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            $name = $_POST['name'] ?? '';
+            $code = $_POST['code'] ?? '';
+            $start_date = $_POST['start_date'] ?? '';
+            $end_date = $_POST['end_date'] ?? '';
+            $discount_percent = $_POST['discount_percent'] ?? '';
+            $discount_amount = $_POST['discount_amount'] ?? '';
+            $is_active = $_POST['is_active'] ?? '';
+            $data = [
+                'name' => $name,
+                'code' => $code,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'discount_percent' => $discount_percent,
+                'discount_amount' => $discount_amount,
+                'is_active' => $is_active
+            ];
+
+            if (Promotions::update($id, $data)) {
+                header('Location: /admin#promotions');
+                exit;
+            } else {
+                header('Location: /admin#promotions?status=error');
+                exit;
+            }
+        }
+
+        $promotion = Promotions::find($id);
+        require_once '../app/views/promotions/edit_promotion.php';
+    }
+
+    public function delete_promotion($id)
+    {
+        if (Promotions::delete($id)) {
+            header('Location: /admin#promotions');
+            exit;
+        } else {
+            header('Location: /admin#promotions?status=error');
+            exit;
+        }
     }
 }
