@@ -2,15 +2,12 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="text-primary m-0"><i class="bi bi-car-front-fill"></i> Quản lý Xe Đã Qua Sử Dụng</h3>
-        <a href="/add_used_car" class="btn btn-success">
-            <i class="bi bi-plus-circle me-1"></i> Thêm Xe Mới
-        </a>
     </div>
 
     <!-- Table -->
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle text-center">
-            <thead class="table-dark">
+            <thead class="table-light">
                 <tr>
                     <th>Người đăng</th>
                     <th>Ảnh</th>
@@ -81,12 +78,12 @@
                         </td>
                         <td>
                             <div class="d-flex flex-column gap-1">
-                                <a href="/edit_used_car/<?= $car['id'] ?>" class="btn btn-sm btn-warning">
+                                <a href="/edit_used_car/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil-square"></i> Sửa
                                 </a>
-                                <a href="/admin/used_cars/delete/<?= $car['id'] ?>"
+                                <a href="/used_cars_delete/<?= $car['id'] ?>"
                                     onclick="return confirm('Xác nhận xoá bài đăng này?');"
-                                    class="btn btn-sm btn-danger">
+                                    class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-trash"></i> Xoá
                                 </a>
                             </div>
