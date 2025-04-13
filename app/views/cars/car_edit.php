@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
 </head>
 
-<body class="bg-light d-flex align-items-center justify-content-center vh-100">
-
+<body class="bg-light py-5">
     <div class="container w-75">
         <div class="card shadow">
             <div class="card-header bg-primary text-white">

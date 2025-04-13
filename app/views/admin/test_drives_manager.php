@@ -45,10 +45,10 @@
                     <td><?= date('d/m/Y - H:i:s', strtotime($test_drive['created_at'])) ?></td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="/test_drive_edit/<?= $test_drive['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                            <a href="/admin/test_drive/edit/<?= $test_drive['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="bi bi-pencil-square"></i> Sửa
                             </a>
-                            <a href="/test_drive_delete/<?= $test_drive['id'] ?>"
+                            <a href="/admin/test_drive/delete/<?= $test_drive['id'] ?>"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa lịch lái thử này?');"
                                class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
                                 <i class="bi bi-trash3"></i> Xóa

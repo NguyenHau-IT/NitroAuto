@@ -38,10 +38,10 @@
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm" role="group">
-                                    <a href="/edit_service/<?= $service['ServiceID'] ?>" class="btn btn-outline-primary">
+                                    <a href="/admin/service/edit/<?= $service['ServiceID'] ?>" class="btn btn-outline-primary">
                                         <i class="bi bi-pencil-square"></i> Sửa
                                     </a>
-                                    <a href="/delete_service/<?= $service['ServiceID'] ?>" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                                    <a href="/admin/service/delete/<?= $service['ServiceID'] ?>" class="btn btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                                         <i class="bi bi-trash"></i> Xoá
                                     </a>
                                 </div>

@@ -78,10 +78,10 @@
                         </td>
                         <td>
                             <div class="d-flex flex-column gap-1">
-                                <a href="/edit_used_car/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary">
+                                <a href="/admin/used_car/edit/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary">
                                     <i class="bi bi-pencil-square"></i> Sửa
                                 </a>
-                                <a href="/used_cars_delete/<?= $car['id'] ?>"
+                                <a href="/admin/used_car/delete/<?= $car['id'] ?>"
                                     onclick="return confirm('Xác nhận xoá bài đăng này?');"
                                     class="btn btn-sm btn-outline-danger">
                                     <i class="bi bi-trash"></i> Xoá

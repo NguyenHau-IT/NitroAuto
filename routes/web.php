@@ -104,11 +104,11 @@ switch (true) {
         (new BannerController())->updateBannerStatus();
         break;
 
-    case preg_match('/^banner_edit\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/banner/edit/(\d+)$#', $uri, $matches):
         (new BannerController())->BannerEdit($matches[1]);
         break;
 
-    case preg_match('/^banner_delete\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/banner/delete/(\d+)$#', $uri, $matches):
         (new BannerController())->deleteBanner($matches[1]);
         break;
 
@@ -121,14 +121,14 @@ switch (true) {
         (new BrandController())->addbrand();
         break;
 
-    case preg_match('/^edit_brand\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/brands/edit/(\d+)$#', $uri, $matches):
         (new BrandController())->edit($matches[1]);
         break;
 
-    case preg_match('/^delete_brand\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/brand/delete/(\d+)$#', $uri, $matches):
         (new BrandController())->delete($matches[1]);
         break;
-    
+
     // === CAR ===
     case ($uri === 'add_car'):
         (new CarController())->addCar();
@@ -154,11 +154,11 @@ switch (true) {
         (new CarController())->showCarDetail($matches[1]);
         break;
 
-    case preg_match('/^edit_car\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/car/edit/(\d+)$#', $uri, $matches):
         (new CarController())->edit($matches[1]);
         break;
 
-    case preg_match('/^delete_car\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/car/delete/(\d+)$#', $uri, $matches):
         (new CarController())->delete($matches[1]);
         break;
 
@@ -171,11 +171,11 @@ switch (true) {
         (new CategoriesController())->createCate();
         break;
 
-    case preg_match('/^edit_category\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/category/edit/(\d+)$#', $uri, $matches):
         (new CategoriesController())->editCate($matches[1]);
         break;
 
-    case preg_match('/^delete_category\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/category/delete/(\d+)$#', $uri, $matches):
         (new CategoriesController())->deleteCate($matches[1]);
         break;
 
@@ -184,9 +184,13 @@ switch (true) {
         (new UsedCarsController())->addUsedCar();
         break;
 
-    case preg_match('/^edit_used_car\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/used_car/edit/(\d+)$#', $uri, $matches):
         (new UsedCarsController())->edit($matches[1]);
         break;
+
+    case preg_match('#^admin/used_car/delete/(\d+)$#',$uri,$matches):
+        (new UsedCarsController())->delete($matches[1]);
+        break;    
 
     case preg_match('/^show_used_car\/(\d+)$/', $uri, $matches):
         (new UsedCarsController())->showUsedCar($matches[1]);
@@ -246,11 +250,11 @@ switch (true) {
         (new OrderController())->orderDetail($matches[1]);
         break;
 
-    case (preg_match('/^order_edit\/(\d+)$/', $uri, $matches)):
+    case (preg_match('#^admin/order/edit/(\d+)$#', $uri, $matches)):
         (new OrderController())->order_edit($matches[1]);
         break;
 
-    case (preg_match('/^order_delete\/(\d+)$/', $uri, $matches)):
+    case (preg_match('#^admin/order/delete/(\d+)$#', $uri, $matches)):
         (new OrderController())->deleteOrder($matches[1]);
         break;
 
@@ -281,7 +285,7 @@ switch (true) {
         (new AccessoriesController())->index();
         break;
 
-    case preg_match('/^delete_accessory\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/accessories/edit/(\d+)$#', $uri, $matches):
         (new AccessoriesController())->deleteAccessory($matches[1]);
         break;
 
@@ -316,19 +320,19 @@ switch (true) {
         (new ServiceOrderController())->getByUserId();
         break;
 
-    case $uri ==='add_service_form':
+    case $uri === 'add_service_form':
         (new CarServicesController())->addServiceForm();
         break;
-    
-    case $uri ==='add_service':
+
+    case $uri === 'add_service':
         (new CarServicesController())->addService();
         break;
 
     case preg_match('/^edit_service\/(\d+)$/', $uri, $matches):
         (new CarServicesController())->edit($matches[1]);
         break;
-        
-    case preg_match( '/^delete_service\/(\d+)$/', $uri, $matches):
+
+    case preg_match('/^delete_service\/(\d+)$/', $uri, $matches):
         (new CarServicesController())->delete($matches[1]);
         break;
 

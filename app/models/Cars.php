@@ -148,8 +148,12 @@ class Cars
     public static function delete($id)
     {
         global $conn;
+        $conn->beginTransaction();
+        $stmt = $conn->prepare("DELETE FROM HistoryViewCar WHERE car_id = :id");
+        $stmt->execute(['id' => $id]);
         $stmt = $conn->prepare("DELETE FROM cars WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
+        $stmt->execute(['id' => $id]);
+        return true;
     }
 
     public static function update(

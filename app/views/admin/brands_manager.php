@@ -36,10 +36,10 @@
                     </td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="/edit_brand/<?= $brand['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                            <a href="/admin/brand/edit/<?= $brand['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="bi bi-pencil-square"></i> Sửa
                             </a>
-                            <a href="/delete_brand/<?= $brand['id'] ?>"
+                            <a href="/admin/brand/delete/<?= $brand['id'] ?>"
                                 onclick="return confirm('Bạn có chắc muốn xóa hãng này?');"
                                 class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
                                 <i class="bi bi-trash3"></i> Xóa

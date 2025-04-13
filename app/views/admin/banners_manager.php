@@ -44,11 +44,11 @@
                     </td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="/banner_edit/<?= $banner['id'] ?>" 
+                            <a href="/admin/banner/edit/<?= $banner['id'] ?>" 
                                class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="bi bi-pencil-square"></i> Sửa
                             </a>
-                            <a href="/banner_delete/<?= $banner['id'] ?>"
+                            <a href="/admin/banner/delete/<?= $banner['id'] ?>"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa banner này?');"
                                class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
                                 <i class="bi bi-trash3"></i> Xóa

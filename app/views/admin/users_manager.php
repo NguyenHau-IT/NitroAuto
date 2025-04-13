@@ -42,10 +42,10 @@
                     <td><?= date('d/m/Y - H:i:s', strtotime($user['created_at'])) ?></td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="/edit_user/<?= $user['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                            <a href="/admin/user/edit/<?= $user['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="bi bi-pencil-square"></i> Sửa
                             </a>
-                            <a href="/delete_user/<?= $user['id'] ?>"
+                            <a href="/admin/user/delete/<?= $user['id'] ?>"
                                onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?');"
                                class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
                                 <i class="bi bi-trash3"></i> Xóa

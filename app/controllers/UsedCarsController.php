@@ -252,4 +252,15 @@ class UsedCarsController
         }
         require_once __DIR__ . "/../views/used_cars/edit_used_cars.php";
     }
+
+    public function delete($id)
+    {
+        if (Used_cars::delete($id)) {
+        header("Location: /admin#used_cars");
+        exit();
+        }else{
+            header("Location: /admin#used_cars");
+            exit();
+        }
+    }
 }

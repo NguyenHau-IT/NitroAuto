@@ -25,10 +25,10 @@
                     <td><?= htmlspecialchars($category['description'] ?? '') ?></td>
                     <td>
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="/edit_category/<?= $category['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
+                            <a href="/admin/category/edit/<?= $category['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1">
                                 <i class="bi bi-pencil-square"></i> Sửa
                             </a>
-                            <a href="/delete_category/<?= $category['id'] ?>"
+                            <a href="/admin/category/delete/<?= $category['id'] ?>"
                                onclick="return confirm('Bạn có chắc muốn xóa danh mục này?');"
                                class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
                                 <i class="bi bi-trash3"></i> Xóa

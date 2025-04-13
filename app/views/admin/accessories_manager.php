@@ -30,10 +30,10 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <a href="/edit_accessory/<?= $accessory['id'] ?>" class="btn btn-sm btn-primary me-1 d-inline-flex align-items-center">
+                        <a href="admin/accessory/edit/<?= $accessory['id'] ?>" class="btn btn-sm btn-primary me-1 d-inline-flex align-items-center">
                             <i class="bi bi-pencil-square me-1"></i> Sửa
                         </a>
-                        <a href="/delete_accessory/<?= $accessory['id'] ?>"
+                        <a href="admin/accessory/delete/<?= $accessory['id'] ?>"
                             onclick="return confirm('Bạn có chắc chắn muốn xóa phụ kiện này?');"
                             class="btn btn-sm btn-danger d-inline-flex align-items-center">
                             <i class="bi bi-trash me-1"></i> Xóa

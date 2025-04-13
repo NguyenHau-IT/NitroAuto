@@ -69,10 +69,10 @@
                     <!-- Hành động -->
                     <td class="text-center">
                         <div class="d-flex justify-content-center gap-2">
-                            <a href="/edit_car/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center">
+                            <a href="/admin/car/edit/<?= $car['id'] ?>" class="btn btn-sm btn-outline-primary d-flex align-items-center">
                                 <i class="bi bi-pencil-square me-1"></i> Sửa
                             </a>
-                            <a href="/delete_car/<?= $car['id'] ?>"
+                            <a href="/admin/car/delete/<?= $car['id'] ?>"
                                 onclick="return confirm('Bạn có chắc muốn xóa xe này?');"
                                 class="btn btn-sm btn-outline-danger d-flex align-items-center">
                                 <i class="bi bi-trash3 me-1"></i> Xóa

@@ -89,12 +89,43 @@ if (!isset($_SESSION['user'])) {
             <section id="orders" class="d-none"><?php require_once __DIR__ . '/orders_manager.php'; ?></section>
             <section id="test_drives" class="d-none"><?php require_once __DIR__ . '/test_drives_manager.php'; ?></section>
             <section id="banners" class="d-none"><?php require_once __DIR__ . '/banners_manager.php'; ?></section>
-            <section id="used_cars" class="d-none"><?php require_once __DIR__ . '/used_cars_manager.php';?></section>
-            <section id="car_services" class="d-none"><?php require_once __DIR__ . '/cars_services_manager.php';?></section>
+            <section id="used_cars" class="d-none"><?php require_once __DIR__ . '/used_cars_manager.php'; ?></section>
+            <section id="car_services" class="d-none"><?php require_once __DIR__ . '/cars_services_manager.php'; ?></section>
+            <section id="promotions" class="d-none"><?php require_once __DIR__ . '/promotions_manager.php'; ?></section>
         </main>
     </div>
 
-<script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get("status");
+        const message = params.get("message");
+
+        if (status && message && typeof Swal !== 'undefined') {
+            let icon = "info";
+            let title = "Thông báo";
+
+            if (status === "success") {
+                icon = "success";
+                title = "Thành công!";
+            } else if (status === "error") {
+                icon = "error";
+                title = "Lỗi!";
+            } else if (status === "warning") {
+                icon = "warning";
+                title = "Cảnh báo!";
+            }
+
+            Swal.fire({
+                icon: icon,
+                title: title,
+                text: decodeURIComponent(message),
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            }).then(() => {
+                history.replaceState(null, "", window.location.pathname);
+            });
+        }
         document.addEventListener("DOMContentLoaded", function() {
             const navLinks = document.querySelectorAll("nav .nav-link");
             const sections = document.querySelectorAll("main section");
@@ -167,36 +198,6 @@ if (!isset($_SESSION['user'])) {
                 });
             });
         });
-        const params = new URLSearchParams(window.location.search);
-        const status = params.get("status");
-        const message = params.get("message");
-
-        if (status && message && typeof Swal !== 'undefined') {
-            let icon = "info";
-            let title = "Thông báo";
-
-            if (status === "success") {
-                icon = "success";
-                title = "Thành công!";
-            } else if (status === "error") {
-                icon = "error";
-                title = "Lỗi!";
-            } else if (status === "warning") {
-                icon = "warning";
-                title = "Cảnh báo!";
-            }
-
-            Swal.fire({
-                icon: icon,
-                title: title,
-                text: decodeURIComponent(message),
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true
-            }).then(() => {
-                history.replaceState(null, "", window.location.pathname);
-            });
-        }
     </script>
 
     <!-- Bootstrap JS (no jQuery needed in BS5) -->

@@ -228,4 +228,19 @@ class Used_cars
         $conn->commit();
         return true;
     }
+
+    public static function delete($id)
+    {
+        global $conn;
+        $conn->beginTransaction();
+
+        $stmt = $conn->prepare("DELETE FROM used_car_images WHERE used_car_id = :id");
+        $stmt->execute(["id" => $id]);
+
+        $stmt = $conn->prepare("DELETE FROM used_cars WHERE id = :id");
+        $stmt->execute(["id" => $id]);
+
+        $conn->commit();
+        return true;
+    }
 }

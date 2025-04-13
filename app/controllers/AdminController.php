@@ -12,6 +12,8 @@ require_once '../app/models/Order_details.php';
 require_once '../app/models/Car_images.php';
 require_once '../app/models/Accessories.php';
 require_once '../app/models/TestDriveRegistration.php';
+require_once '../app/models/Promotions.php';
+require_once '../app/models/Used_cars.php';
 
 
 class AdminController
@@ -123,6 +125,7 @@ class AdminController
         $banners = Banner::all();
         $usedCars = Used_cars::getall();
         $services = CarServices::all();
+        $promotions = Promotions::all();
 
         require_once '../app/views/admin/dashboard.php';
     }
