@@ -46,7 +46,6 @@ if (!isset($_SESSION['user'])) {
                     'categories' => ['label' => 'Danh mục', 'icon' => 'bi-tags'],
                     'accessories' => ['label' => 'Phụ kiện', 'icon' => 'bi-tools'],
                     'users' => ['label' => 'Người dùng', 'icon' => 'bi-people'],
-                    'favorites' => ['label' => 'Yêu thích', 'icon' => 'bi-heart'],
                     'orders' => ['label' => 'Đơn hàng', 'icon' => 'bi-bag-check'],
                     'test_drives' => ['label' => 'Lái thử', 'icon' => 'bi-speedometer2'],
                     'service_orders' => ['label' => 'Lịch hẹn dịch vụ', 'icon' => 'bi-calendar-check'],
@@ -83,7 +82,6 @@ if (!isset($_SESSION['user'])) {
             <section id="categories" class="d-none"><?php require_once __DIR__ . '/categories_manager.php'; ?></section>
             <section id="accessories" class="d-none"><?php require_once __DIR__ . '/accessories_manager.php'; ?></section>
             <section id="users" class="d-none"><?php require_once __DIR__ . '/users_manager.php'; ?></section>
-            <section id="favorites" class="d-none"><?php require_once __DIR__ . '/favorites_manager.php'; ?></section>
             <section id="orders" class="d-none"><?php require_once __DIR__ . '/orders_manager.php'; ?></section>
             <section id="test_drives" class="d-none"><?php require_once __DIR__ . '/test_drives_manager.php'; ?></section>
             <section id="banners" class="d-none"><?php require_once __DIR__ . '/banners_manager.php'; ?></section>
