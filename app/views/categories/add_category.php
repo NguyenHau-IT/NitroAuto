@@ -18,7 +18,7 @@
             <i class="bi bi-tags-fill me-2"></i> Thêm Danh Mục Mới
         </h4>
 
-        <form action="/create_category" method="POST">
+        <form action="" method="POST">
             <!-- Tên danh mục -->
             <div class="mb-3">
                 <label for="name" class="form-label">Tên danh mục</label>

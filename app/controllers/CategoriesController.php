@@ -5,25 +5,23 @@ class CategoriesController
 {
     public function addCate()
     {
-        require_once '../app/views/categories/add_category.php';
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $description = $_POST['description'] ?? '';
+            $data = [
+                'name' => $name,
+                'description' => $description
+            ];
 
-    public function createCate()
-    {
-        $name = $_POST['name'] ?? '';
-        $description = $_POST['description'] ?? '';
-        $data = [
-            'name' => $name,
-            'description' => $description
-        ];
-
-        if (Categories::create($data)) {
-            header('Location: /admin#categories');
-            exit;
-        } else {
-            header('Location: /admin#categories?status=error');
-            exit;
+            if (Categories::create($data)) {
+                header('Location: /admin#categories');
+                exit;
+            } else {
+                header('Location: /admin#categories?status=error');
+                exit;
+            }
         }
+        require_once '../app/views/categories/add_category.php';
     }
 
     public function editCate($id)

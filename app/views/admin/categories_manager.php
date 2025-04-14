@@ -2,7 +2,7 @@
     <h2 class="mb-0 d-flex align-items-center">
         <i class="bi bi-ui-checks-grid me-2 text-primary fs-4"></i> Quản lý Danh mục
     </h2>
-    <a href="/add_category" class="btn btn-success d-flex align-items-center gap-1 shadow-sm">
+    <a href="/admin/category/add" class="btn btn-success d-flex align-items-center gap-1 shadow-sm">
         <i class="bi bi-plus-circle"></i> Thêm danh mục
     </a>
 </div>

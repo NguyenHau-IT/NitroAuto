@@ -155,12 +155,8 @@ switch (true) {
         break;
 
     // === CATEGORY === //
-    case $uri === 'add_category':
+    case $uri === 'admin/category/add':
         (new CategoriesController())->addCate();
-        break;
-
-    case $uri === 'create_category':
-        (new CategoriesController())->createCate();
         break;
 
     case preg_match('#^admin/category/edit/(\d+)$#', $uri, $matches):
