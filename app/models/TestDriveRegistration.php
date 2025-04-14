@@ -70,7 +70,7 @@ class TestDriveRegistration
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function update($data)
+    public static function update($id, $data)
     {
         global $conn;
         $stmt = $conn->prepare("UPDATE TestDriveRegistration SET user_id = :user_id, car_id = :car_id, preferred_date = :preferred_date, preferred_time = :preferred_time, location = :location, status = :status WHERE id = :id");

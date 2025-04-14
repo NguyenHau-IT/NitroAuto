@@ -303,6 +303,14 @@ switch (true) {
         (new TestDriveController())->create();
         break;
 
+    case preg_match('#^admin/test_drive/edit/(\d+)$#', $uri, $matches):
+        (new TestDriveController())->edit($matches[1]);
+        break;
+
+    case preg_match('#^admin/test_drive/delete/(\d+)$#', $uri, $matches):
+        (new TestDriveController())->delete($matches[1]);
+        break;
+
     // === SERVICE ===
     case $uri === 'services':
         (new CarServicesController())->index();

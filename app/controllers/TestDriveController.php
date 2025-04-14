@@ -50,4 +50,45 @@ class TestDriveController
             exit();
         }
     }
+
+    public function edit($id)
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $id = $_POST['id'] ?? null;
+            $user_id = $_POST['user_id'] ?? null;
+            $car_id = $_POST['car_id'] ?? null;
+            $preferred_date = $_POST['preferred_date'] ?? null;
+            $preferred_time = $_POST['preferred_time'] ?? null;
+            $location = $_POST['location'] ?? null;
+            $status = $_POST['status'] ?? null;
+            $data = [
+                'user_id' => $user_id,
+                'car_id' => $car_id,
+                'preferred_date' => $preferred_date,
+                'preferred_time' => $preferred_time,
+                'location' => $location,
+                'status' => $status
+            ];
+
+            if (TestDriveRegistration::update($id, $data)) {
+                header("Location: /admin#test_drive?status=success");
+            } else {
+                header("Location: /admin#test_drive?status=error");
+            }
+            exit();
+        }
+        $testDrive = TestDriveRegistration::find($id);
+        require_once '../app/views/test_drives/edit_test_drive.php';
+    }
+
+    public function delete($id)
+    {
+        if (TestDriveRegistration::delete($id)) {
+            header("Location: /admin#test_drive");
+            exit();
+        } else {
+            header("Location: /admin#test_drive?status=error");
+            exit();
+        }
+    }
 }
