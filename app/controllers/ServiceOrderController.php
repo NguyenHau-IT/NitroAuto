@@ -42,12 +42,12 @@ class ServiceOrderController
 
     public function getByUserId()
     {
-        if (!isset($_SESSION['user_id'])) {
+        if (!isset($_SESSION['user'])) {
             header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem lịch sử đặt dịch vụ!"));
             exit();
         }
 
-        $userId = $_SESSION['user_id'];
+        $userId = $_SESSION['user']['id'];
 
         $orders = ServiceOrder::getByUser($userId);
         require_once '../app/views/services/services_user.php';
