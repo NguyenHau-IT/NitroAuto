@@ -14,18 +14,5 @@ class Car_images {
             }
         }
     }
-
-    public static function all() {
-        global $conn;
-        $stmt = $conn->query("SELECT * FROM car_images");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function find($id) {
-        global $conn;
-        $stmt = $conn->prepare("SELECT * FROM car_images WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
 }
 ?>

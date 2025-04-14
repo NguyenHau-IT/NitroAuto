@@ -40,14 +40,6 @@ class Orders
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function find($id)
-    {
-        global $conn;
-        $stmt = $conn->prepare("SELECT * FROM orders WHERE id = :id");
-        $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
     public static function where($user_id)
     {
         global $conn;

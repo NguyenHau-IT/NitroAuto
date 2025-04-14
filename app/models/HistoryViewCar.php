@@ -69,14 +69,6 @@ class HistoryViewCar
         return $stmt->execute([':id' => $id]);
     }
 
-    // Xoá tất cả lịch sử xem xe
-    public static function deleteAll()
-    {
-        global $conn;
-        $stmt = $conn->prepare("DELETE FROM HistoryViewCar");
-        return $stmt->execute();
-    }
-
     //xoá tất cả lịch sử xem xe của user
     public static function deleteAllByUser($user_id)
     {

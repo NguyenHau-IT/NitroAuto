@@ -157,11 +157,22 @@ class Cars
     }
 
     public static function update(
-        $id,$name,$brand_id,$category_id,
-        $price,$year,$mileage,$fuel_type,
-        $transmission,$color,$stock,
-        $horsepower,$description,$created_at,
-        $image_url,$image_url3D
+        $id,
+        $name,
+        $brand_id,
+        $category_id,
+        $price,
+        $year,
+        $mileage,
+        $fuel_type,
+        $transmission,
+        $color,
+        $stock,
+        $horsepower,
+        $description,
+        $created_at,
+        $image_url,
+        $image_url3D
     ) {
 
         global $conn;
