@@ -11,11 +11,6 @@ class BrandController
 
     public function formadd()
     {
-        require_once '../app/views/brands/add_brand.php';
-    }
-
-    public function addbrand()
-    {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $name = $_POST['name'];
             $country = $_POST['country'];
@@ -87,9 +82,7 @@ class BrandController
                 exit();
             }
         }
-
-        // Hiển thị form nếu GET
-        require_once __DIR__ . '/../views/brands/add_brand.php';
+        require_once '../app/views/brands/add_brand.php';
     }
 
     public function edit($id)

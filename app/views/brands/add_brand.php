@@ -17,7 +17,7 @@
             </div>
         <?php endif; ?>
 
-        <form action="/addbrand" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Tên Hãng Xe</label>
                 <input type="text" name="name" id="name" class="form-control" required placeholder="VD: Toyota, BMW...">

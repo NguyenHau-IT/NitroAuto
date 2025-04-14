@@ -113,10 +113,6 @@ switch (true) {
         (new BrandController())->formadd();
         break;
 
-    case $uri === 'addbrand':
-        (new BrandController())->addbrand();
-        break;
-
     case preg_match('#^admin/brands/edit/(\d+)$#', $uri, $matches):
         (new BrandController())->edit($matches[1]);
         break;
