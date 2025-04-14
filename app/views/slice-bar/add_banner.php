@@ -11,9 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
-<body class="bg-light d-flex align-items-center justify-content-center vh-100">
-
-    <div class="container bg-white p-5 rounded-4 shadow w-100" style="max-width: 600px;">
+<body class="bg-light py-5">
+    <div class="container bg-white p-5 rounded-4 shadow w-75" style="max-width: 600px;">
         <h3 class="mb-4 text-primary">
             <i class="bi bi-image-fill me-2"></i> Thêm Banner Mới
         </h3>
