@@ -37,7 +37,7 @@ class BannerController
 
     public function addBanner()
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $type = $_POST['type'] ?? '';
             $is_active = isset($_POST['is_active']) ? 1 : 0;
             $image_url = '';

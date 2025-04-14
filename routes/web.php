@@ -92,7 +92,7 @@ switch (true) {
         break;
 
     // === BANNER ===
-    case $uri === 'add_banner':
+    case $uri === 'admin/banner/add':
         (new BannerController())->addBanner();
         break;
 
