@@ -2,7 +2,7 @@
 
 <div class="overlay">
     <div class="container mt-5 text-dark fs-5 mb-4 bg-light shadow-lg rounded-4 p-4">
-        <h2 class="text-center mb-4"><i class="bi bi-steering-wheel me-2 text-primary"></i>Danh sách đăng ký lái thử</h2>
+        <h2 class="text-center mb-4"><i class="bi bi-car-front me-2 text-primary"></i>Danh sách đăng ký lái thử</h2>
 
         <!-- Bộ lọc trạng thái -->
         <div class="btn-group mb-3 sticky-top bg-light py-2 shadow-sm rounded-3 px-3" role="group" style="z-index: 1020;">
