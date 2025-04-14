@@ -15,7 +15,7 @@
     <div class="container my-5">
         <h2 class="text-primary mb-4">📝 Thêm Dịch Vụ Mới</h2>
 
-        <form action="/add_service" method="post">
+        <form action="" method="post">
             <div class="mb-3">
                 <label for="service_name" class="form-label">Tên dịch vụ</label>
                 <input type="text" class="form-control" id="service_name" name="service_name" required>
@@ -45,7 +45,7 @@
             </div>
 
             <div class="text-end">
-                <a href="services.php" class="btn btn-secondary">
+                <a href="/admin#car_services" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Quay lại
                 </a>
                 <button type="submit" class="btn btn-primary">

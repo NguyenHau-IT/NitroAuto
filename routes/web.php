@@ -328,12 +328,8 @@ switch (true) {
         (new ServiceOrderController())->getByUserId();
         break;
 
-    case $uri === 'add_service_form':
+    case $uri === 'admin/service/add':
         (new CarServicesController())->addServiceForm();
-        break;
-
-    case $uri === 'add_service':
-        (new CarServicesController())->addService();
         break;
 
     case preg_match('/^edit_service\/(\d+)$/', $uri, $matches):

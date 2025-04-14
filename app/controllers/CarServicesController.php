@@ -11,11 +11,6 @@ class CarServicesController
 
     public function addServiceForm()
     {
-        require_once '../app/views/services/add_service.php';
-    }
-
-    public function addService()
-    {
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $ServiceName = $_POST['service_name'];
             $Description = $_POST['description'];
@@ -34,6 +29,7 @@ class CarServicesController
                 exit();
             }
         }
+        require_once '../app/views/services/add_service.php';
     }
 
     public function edit($id)
