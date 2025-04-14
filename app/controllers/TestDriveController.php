@@ -77,8 +77,9 @@ class TestDriveController
             }
             exit();
         }
+        $cars = Cars::all();
         $testDrive = TestDriveRegistration::find($id);
-        require_once '../app/views/test_drives/edit_test_drive.php';
+        require_once '../app/views/test_drives/test_drive_edit.php';
     }
 
     public function delete($id)

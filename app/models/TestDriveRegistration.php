@@ -49,10 +49,28 @@ class TestDriveRegistration
     public static function find($id)
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT * FROM TestDriveRegistration WHERE id = :id");
+        $stmt = $conn->prepare("SELECT 
+                                    td.id,
+                                    td.user_id,
+                                    td.car_id,
+                                    td.preferred_date,
+                                    td.preferred_time,
+                                    td.location,
+                                    td.status,
+                                    td.created_at,
+                                    u.full_name,
+                                    u.email,
+                                    u.phone,
+                                    u.address,
+                                    c.name AS car_name,
+                                    c.price AS car_price
+                                FROM TestDriveRegistration td
+                                JOIN Users u ON td.user_id = u.id
+                                JOIN Cars c ON td.car_id = c.id
+                                WHERE td.id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    }    
 
     public static function findByUser($user_id)
     {
@@ -75,7 +93,7 @@ class TestDriveRegistration
         global $conn;
         $stmt = $conn->prepare("UPDATE TestDriveRegistration SET user_id = :user_id, car_id = :car_id, preferred_date = :preferred_date, preferred_time = :preferred_time, location = :location, status = :status WHERE id = :id");
         $stmt->execute([
-            'id' => $data['id'],
+            'id' => $id,
             'user_id' => $data['user_id'],
             'car_id' => $data['car_id'],
             'preferred_date' => $data['preferred_date'],
