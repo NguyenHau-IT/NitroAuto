@@ -340,6 +340,14 @@ switch (true) {
         (new CarServicesController())->delete($matches[1]);
         break;
 
+    case preg_match('#^admin/service-order/edit/(\d+)$#', $uri, $matches):
+        (new ServiceOrderController())->updateStatus($matches[1]);
+        break;
+
+    case preg_match('#^admin/service-order/delete/(\d+)$#', $uri, $matches):
+        (new ServiceOrderController())->delete($matches[1]);
+        break;
+        
     // === USER ===
     case $uri === 'profile':
         (new UserController())->userById();

@@ -52,4 +52,35 @@ class ServiceOrderController
         $orders = ServiceOrder::getByUser($userId);
         require_once '../app/views/services/services_user.php';
     }
+
+    public function updateStatus($orderID)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $orderID = $_POST['ServiceOrderID'];
+            $status = $_POST['status'];
+            if (ServiceOrder::updateStatus($orderID, $status)) {
+                header("Location: /admin");
+                exit();
+            } else {
+                header("Location: /admin#service_orders?status=error&message=" . urlencode("Cập nhật trạng thái thất bại!"));
+                exit();
+            }
+        }
+
+        $serviceOrder = ServiceOrder::find($orderID);
+        require_once '../app/views/services/edit_service_order.php';
+    }
+
+    public function delete($orderID)
+    {
+        if (ServiceOrder::delete($orderID)) {
+            header("Location: /admin");
+            exit();
+        }
+        else
+        {
+            header("Location: /admin#service_orders?status=error&message=" . urlencode("Xoá thất bại!"));
+            exit();
+        }
+    }
 }

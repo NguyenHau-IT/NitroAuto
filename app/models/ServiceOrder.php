@@ -23,7 +23,13 @@ class ServiceOrder
     public static function all()
     {
         global $conn;
-        $stmt = $conn->query("SELECT * FROM ServiceOrders ORDER BY OrderDate DESC");
+        $stmt = $conn->query("SELECT *, ServiceOrders.Status,
+                                Users.full_name AS UserFullName, 
+                                CarServices.ServiceName AS ServiceName
+                                FROM ServiceOrders 
+                                JOIN Users ON ServiceOrders.UserID = Users.ID 
+                                JOIN CarServices ON ServiceOrders.ServiceID = CarServices.ServiceID 
+                                ORDER BY OrderDate DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -31,12 +37,12 @@ class ServiceOrder
     public static function create($serviceId, $userId, $date, $status = 'Pending', $note = null)
     {
         global $conn;
-    
+
         $date = (new DateTime($date))->format('Y-m-d H:i:s');
-    
+
         $query = "INSERT INTO ServiceOrders (UserID, ServiceID, Note, OrderDate, Status)
                   VALUES (?, ?, ?, ?, ?)";
-    
+
         $stmt = $conn->prepare($query);
         return $stmt->execute([
             $userId,
@@ -84,20 +90,37 @@ class ServiceOrder
     }
 
     // Cập nhật trạng thái đơn
-    public function updateStatus($orderID, $status)
+    public static function updateStatus($orderID, $status)
     {
         global $conn;
         $query = "UPDATE ServiceOrders SET Status = ? WHERE ServiceOrderID = ?";
         $stmt = $conn->prepare($query);
-        return $stmt->execute([$status, $orderID]);
+        $stmt->execute([$status, $orderID]);
+        return $stmt->rowCount();
     }
 
     // Xoá đơn
-    public function delete($orderID)
+    public static function delete($orderID)
     {
         global $conn;
         $query = "DELETE FROM ServiceOrders WHERE ServiceOrderID = ?";
         $stmt = $conn->prepare($query);
         return $stmt->execute([$orderID]);
+    }
+
+    //tìm theo id
+    public static function find($orderID)
+    {
+        global $conn;
+        $query = "SELECT so.*, u.full_name AS UserFullName, 
+              cs.ServiceName AS ServiceName
+              FROM ServiceOrders so
+              JOIN Users u ON so.UserID = u.ID
+              JOIN CarServices cs ON so.ServiceID = cs.ServiceID
+              WHERE so.ServiceOrderID = ?";
+
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$orderID]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
