@@ -2,7 +2,7 @@
     <h2 class="mb-0 d-flex align-items-center">
         <i class="bi bi-building-gear me-2 text-primary fs-4"></i> Quản lý Hãng Xe
     </h2>
-    <a href="/add_brand" class="btn btn-success shadow-sm d-flex align-items-center gap-1">
+    <a href="/admin/brand/add" class="btn btn-success shadow-sm d-flex align-items-center gap-1">
         <i class="bi bi-plus-circle"></i> Thêm Hãng Mới
     </a>
 </div>

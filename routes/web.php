@@ -109,7 +109,7 @@ switch (true) {
         break;
 
     // === BRANDS === //
-    case $uri === 'add_brand':
+    case $uri === 'admin/brand/add':
         (new BrandController())->formadd();
         break;
 
