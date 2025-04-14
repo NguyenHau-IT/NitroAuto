@@ -30,7 +30,7 @@
         </div>
 
         <form action="" method="POST" class="mt-4">
-            <input type="hidden" name="user_id" value="<?= htmlspecialchars($testDrive['id']) ?>">
+            <input type="hidden" name="user_id" value="<?= htmlspecialchars($testDrive['user_id']) ?>">
             <input type="hidden" name="id" value="<?= htmlspecialchars($testDrive['id']) ?>">
 
             <div class="mb-3">

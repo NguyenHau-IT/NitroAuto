@@ -54,9 +54,7 @@ if (!isset($_SESSION['user'])) {
                     'promotions' => ['label' => 'Khuyến mãi', 'icon' => 'bi-stars'],
                     'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
                     'reviews' => ['label' => 'Đánh giá', 'icon' => 'bi-chat-square-text'],
-                    'history_view_car' => ['label' => 'Lịch sử xem xe', 'icon' => 'bi-clock-history'],
                     'used_car_requests' => ['label' => 'Yêu cầu bán xe cũ', 'icon' => 'bi-box-arrow-up'],
-                    'test_drive_registration' => ['label' => 'Đăng ký lái thử', 'icon' => 'bi-clipboard2-check'],
                 ];
                 //sắp xếp lại thứ tự các tab
                 uasort($tabs, function ($a, $b) {
@@ -94,6 +92,11 @@ if (!isset($_SESSION['user'])) {
             <section id="promotions" class="d-none"><?php require_once __DIR__ . '/promotions_manager.php'; ?></section>
         </main>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -199,9 +202,6 @@ if (!isset($_SESSION['user'])) {
             });
         });
     </script>
-
-    <!-- Bootstrap JS (no jQuery needed in BS5) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
