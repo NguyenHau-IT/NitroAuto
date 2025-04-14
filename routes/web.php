@@ -122,7 +122,7 @@ switch (true) {
         break;
 
     // === CAR ===
-    case ($uri === 'add_car'):
+    case ($uri === 'admin/car/add'):
         (new CarController())->addCar();
         break;
 

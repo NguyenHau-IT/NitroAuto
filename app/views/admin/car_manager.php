@@ -2,7 +2,7 @@
     <h2 class="mb-0 text-primary d-flex align-items-center">
         <i class="bi bi-car-front-fill me-2 fs-3"></i> Quản lý xe
     </h2>
-    <a href="/add_car" class="btn btn-success shadow-sm">
+    <a href="/admin/car/add" class="btn btn-success shadow-sm">
         <i class="bi bi-plus-circle me-1"></i> Thêm xe mới
     </a>
 </div>
