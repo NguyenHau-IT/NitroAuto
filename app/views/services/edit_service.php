@@ -52,7 +52,7 @@
             </div>
 
             <div class="text-end">
-                <a href="services.php" class="btn btn-secondary">
+                <a href="/admin#car_services" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Quay lại
                 </a>
                 <button type="submit" class="btn btn-primary">

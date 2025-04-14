@@ -332,11 +332,11 @@ switch (true) {
         (new CarServicesController())->addServiceForm();
         break;
 
-    case preg_match('/^edit_service\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/service/edit/(\d+)$#', $uri, $matches):
         (new CarServicesController())->edit($matches[1]);
         break;
 
-    case preg_match('/^delete_service\/(\d+)$/', $uri, $matches):
+    case preg_match('#^admin/service/delete/(\d+)$#', $uri, $matches):
         (new CarServicesController())->delete($matches[1]);
         break;
 
