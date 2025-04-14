@@ -139,4 +139,15 @@ class Users
         $stmt->execute(['phone' => $phone]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function updateRole($id, $role)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE users SET role = :role WHERE id = :id");
+        $stmt->execute([
+            'id' => $id,
+            'role' => $role
+        ]);
+        return $stmt->rowCount();
+    }
 }

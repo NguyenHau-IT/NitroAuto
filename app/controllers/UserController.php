@@ -59,4 +59,56 @@ class UserController
             exit();
         }
     }
+
+    public function addUser()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $full_name = $_POST['full_name'];
+            $email     = $_POST['email'];
+            $password  = $_POST['password'];
+            $phone     = $_POST['phone'];
+            $address   = $_POST['address'];
+            if (!$full_name || !$email || !$password || !$phone || !$address) {
+                header("Location: /admin#users");
+                exit();
+            }
+            if (Users::register($full_name, $email, $password, $phone, $address)) {
+                header("Location: /admin#users?status=success&message=" . urlencode("Thêm người dùng thành công!"));
+                exit();
+            } else {
+                header("Location: /admin#users?status=error&message=" . urlencode("Thêm người dùng thất bại!"));
+                exit();
+            }
+        }
+        require_once '../app/views/user/register.php';
+    }
+
+    public function deleteUser($id)
+    {
+        if (Users::delete($id)) {
+            header("Location: /admin");
+            exit();
+        } else {
+            header("Location: /admin#users?status=error&message=" . urlencode("Xoá người dùng thất bại!"));
+            exit();
+        }
+    }
+    public function editUser($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $id = $_POST['id'];
+            $role = $_POST['role'];
+            if (Users::updateRole($id, $role)) {
+                header("Location: /admin#users");
+                exit();
+            } else {
+                header("Location: /admin#users?status=error&message=" . urlencode("Cập nhật vai trò thất bại!"));
+                exit();
+            }
+        }
+
+        $user = Users::find($id);
+        require_once '../app/views/user/edit_user.php';
+    }
+
 }

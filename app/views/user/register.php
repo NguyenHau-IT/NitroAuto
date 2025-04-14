@@ -43,8 +43,6 @@
                             </div>
                             <button type="submit" class="btn btn-success btn-block">Đăng ký</button>
                         </form>
-                        <a href="/login" class="d-block text-center mt-3">Đã có tài khoản? Đăng nhập</a>
-                        <a href="/home" class="d-block text-center mt-2">Quay lại trang chủ</a>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
     <h2 class="mb-0 d-flex align-items-center">
         <i class="bi bi-people-fill me-2 text-primary fs-4"></i> Quản lý Người dùng
     </h2>
-    <a href="/add_user" class="btn btn-success d-flex align-items-center gap-1 shadow-sm">
+    <a href="/admin/user/add" class="btn btn-success d-flex align-items-center gap-1 shadow-sm">
         <i class="bi bi-person-plus-fill"></i> Thêm người dùng
     </a>
 </div>

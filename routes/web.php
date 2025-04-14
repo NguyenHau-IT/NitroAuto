@@ -361,6 +361,19 @@ switch (true) {
         (new UserController())->updateProfile();
         break;
 
+    case $uri === 'admin/user/add':
+        (new UserController())->addUser();
+        break;
+    
+    case preg_match('#^admin/user/edit/(\d+)$#', $uri, $matches):
+        (new UserController())->editUser($matches[1]);
+        break;
+
+    case preg_match('#^admin/user/delete/(\d+)$#', $uri, $matches):
+        (new UserController())->deleteUser($matches[1]);
+        break;
+        
+
     // === DEFAULT ===
     default:
         http_response_code(404);
