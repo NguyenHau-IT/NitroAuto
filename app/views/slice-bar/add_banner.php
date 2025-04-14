@@ -18,7 +18,7 @@
             <i class="bi bi-image-fill me-2"></i> Thêm Banner Mới
         </h3>
 
-        <form action="/create_banner" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             <!-- Image URL -->
             <div class="mb-3">
                 <label for="image_file" class="form-label">Chọn hình ảnh</label>

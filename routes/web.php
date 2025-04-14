@@ -96,10 +96,6 @@ switch (true) {
         (new BannerController())->addBanner();
         break;
 
-    case $uri === 'create_banner':
-        (new BannerController())->createBanner();
-        break;
-
     case $uri === 'updateBannerStatus':
         (new BannerController())->updateBannerStatus();
         break;
