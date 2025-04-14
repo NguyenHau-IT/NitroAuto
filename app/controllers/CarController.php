@@ -260,7 +260,7 @@ class CarController
 
         $carByBrand = Cars::findByBrand($car['brand_id']);
         $cars = Cars::findByCategory($car['category_id'], $id);
-        $accessories = Accessories::getByCarId($id);
+        $accessories = Accessories::all();
 
         if (!isset($_SESSION["user_id"])) {
             require_once '../app/views/cars/car_detail.php';
