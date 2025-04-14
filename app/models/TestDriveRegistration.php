@@ -42,7 +42,10 @@ class TestDriveRegistration
     public static function all()
     {
         global $conn;
-        $stmt = $conn->query("SELECT * FROM TestDriveRegistration");
+        $stmt = $conn->query("SELECT TestDriveRegistration.*, users.full_name AS user_name, cars.name AS car_name
+        FROM TestDriveRegistration
+        JOIN users ON TestDriveRegistration.user_id = users.id
+        JOIN cars ON TestDriveRegistration.car_id = cars.id");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

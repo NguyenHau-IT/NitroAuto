@@ -41,8 +41,8 @@
 
                     <!-- Ảnh xe -->
                     <td>
-                        <?php if (!empty($car['image_url'])): ?>
-                            <img src="<?= htmlspecialchars($car['image_url']) ?>" alt="Ảnh xe" class="img-thumbnail border" style="width: 80px; height: auto;">
+                        <?php if (!empty($car['normal_image_url'])): ?>
+                            <img src="<?= htmlspecialchars($car['normal_image_url']) ?>" alt="Ảnh xe" class="img-thumbnail border" style="width: 80px; height: auto;">
                         <?php else: ?>
                             <span class="text-muted">Không có</span>
                         <?php endif; ?>
@@ -50,8 +50,8 @@
 
                     <!-- Ảnh 3D -->
                     <td>
-                        <?php if (!empty($car['image_3d_url'])): ?>
-                            <a href="<?= htmlspecialchars($car['image_3d_url']) ?>" target="_blank" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" title="Xem ảnh 3D">
+                        <?php if (!empty($car['three_d_images'])): ?>
+                            <a href="<?= htmlspecialchars($car['three_d_images']) ?>" target="_blank" class="btn btn-outline-dark btn-sm" data-bs-toggle="tooltip" title="Xem ảnh 3D">
                                 <i class="bi bi-box me-1"></i> 3D
                             </a>
                         <?php else: ?>

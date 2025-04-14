@@ -23,7 +23,20 @@ class Orders
     public static function all()
     {
         global $conn;
-        $stmt = $conn->query("SELECT * FROM orders");
+        $stmt = $conn->query("SELECT 
+            orders.id, orders.order_date,
+            orders.status, orders.address,
+            orders.total_amount AS total_price, users.full_name AS user_name, 
+            cars.name AS car_name, order_details.quantity, 
+            order_details.price, order_details.subtotal,
+            accessories.name AS accessory_name, order_details.accessory_quantity, 
+            accessories.price AS accessory_price, order_details.accessory_total
+        FROM orders
+        JOIN users ON orders.user_id = users.id
+        LEFT JOIN order_details ON orders.id = order_details.order_id
+        LEFT JOIN cars ON order_details.car_id = cars.id
+        LEFT JOIN accessories ON order_details.accessory_id = accessories.id
+        ORDER BY orders.order_date DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -195,8 +208,7 @@ class Orders
         $accessory_id,
         $quantity,
         $price
-    ) 
-    {
+    ) {
         global $conn;
 
         $stmt = $conn->prepare("INSERT INTO order_details 
