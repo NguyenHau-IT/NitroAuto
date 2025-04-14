@@ -160,7 +160,6 @@ class Orders
             JOIN order_details od ON o.id = od.order_id
             LEFT JOIN cars c ON od.car_id = c.id
             LEFT JOIN accessories a ON od.accessory_id = a.id
-            LEFT JOIN car_accessories ca ON od.car_id = ca.car_id AND od.accessory_id = ca.accessory_id
             WHERE o.id = :order_id
         ");
         $stmt->execute(['order_id' => $order_id]);
