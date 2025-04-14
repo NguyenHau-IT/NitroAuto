@@ -295,6 +295,10 @@ switch (true) {
         break;
 
     // === TEST DRIVE ===
+    case $uri === 'test_drive':
+        (new TestDriveController())->index();
+        break;
+        
     case $uri === 'testdriveform':
         (new TestDriveController())->Test_Drive();
         break;
@@ -372,7 +376,6 @@ switch (true) {
     case preg_match('#^admin/user/delete/(\d+)$#', $uri, $matches):
         (new UserController())->deleteUser($matches[1]);
         break;
-        
 
     // === DEFAULT ===
     default:

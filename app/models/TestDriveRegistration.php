@@ -72,10 +72,34 @@ class TestDriveRegistration
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }    
 
-    public static function findByUser($user_id)
+    public static function findByUser()
     {
         global $conn;
-        $stmt = $conn->prepare("SELECT * FROM TestDriveRegistration WHERE user_id = :user_id");
+        if (!isset($_SESSION["user"]["id"])) {
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem lịch sử!") );
+            exit;
+        }
+    
+        $user_id = $_SESSION["user"]["id"];
+        $stmt = $conn->prepare("SELECT  td.id,
+                                    td.user_id,
+                                    td.car_id,
+                                    td.preferred_date,
+                                    td.preferred_time,
+                                    td.location,
+                                    td.status,
+                                    td.created_at,
+                                    u.full_name,
+                                    u.email,
+                                    u.phone,
+                                    u.address,
+                                    c.name AS car_name,
+                                    c.price AS car_price
+                                FROM TestDriveRegistration td
+                                JOIN Users u ON td.user_id = u.id
+                                JOIN Cars c ON td.car_id = c.id
+                                WHERE td.user_id = :user_id
+                                ORDER BY td.created_at DESC");
         $stmt->execute(['user_id' => $user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

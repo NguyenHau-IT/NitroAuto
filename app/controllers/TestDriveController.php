@@ -7,8 +7,8 @@ class TestDriveController
 {
     public function index()
     {
-        $testDrives = TestDriveRegistration::all();
-        require_once '../app/views/test_drive.php';
+        $testDrives = TestDriveRegistration::findByUser();
+        require_once '../app/views/test_drives//test_drive_user.php';
     }
 
     public function Test_Drive()

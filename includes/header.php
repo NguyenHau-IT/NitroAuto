@@ -64,6 +64,9 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                         <li class="nav-item <?= ($current_page == 'user_orders') ? 'active' : '' ?>">
                             <a class="nav-link" href="/user_orders"><i class="fas fa-history"></i> Lịch sử</a>
                         </li>
+                        <li class="nav-item <?= ($current_page == 'test_drive') ? 'active' : '' ?>">
+                            <a class="nav-link" href="/test_drive"><i class="fas fa-car-side"></i> Lái thử</a>
+                        </li>
                     </ul>
 
                     <!-- Menu bên phải -->
