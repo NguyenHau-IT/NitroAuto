@@ -87,9 +87,13 @@ class AuthController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-
+    
+        // Xóa tất cả session liên quan
         session_unset();
         session_destroy();
+    
+        // Optionally xóa cookie
+        setcookie(session_name(), '', time() - 3600);
 
         header("Location: /home");
         exit();
@@ -106,6 +110,7 @@ class AuthController
         $_SESSION['oauth2_state'] = $state;
 
         $this->client->setState($state);
+        $this->client->setPrompt('select_account');
         $authUrl = $this->client->createAuthUrl();
 
         error_log("Chuyển hướng đến Google: " . $authUrl);
