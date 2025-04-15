@@ -7,7 +7,7 @@
 
     <div class="row g-4">
         <!-- Cột thông tin -->
-        <div class="col-lg-6">
+        <div class="col-lg-6" style="height: 80vh;">
             <div class="rounded-4 shadow-lg p-4 bg-light">
                 <h3 class="text-success fs-4 mb-3">Thông tin xe</h3>
                 <div class="d-flex flex-column gap-3">
@@ -42,7 +42,7 @@
                     <!-- Mô tả -->
                     <div class="d-flex flex-column border-bottom pb-2">
                         <span class="fw-bold">Mô tả:</span>
-                        <div class="fs-5 overflow-auto" style="max-height: 150px;">
+                        <div class="fs-5 overflow-auto" style="height: 125px;">
                             <?= nl2br(htmlspecialchars($used_car['description'] ?? '')) ?>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                      onerror="this.src='/uploads/cars/default.jpg';"
                      alt="Hình ảnh xe"
                      class="img-fluid rounded-4"
-                     style="max-height: 620px; object-fit: cover;" loading="lazy">
+                     style="height: 650px; object-fit: cover;" loading="lazy">
             </div>
         </div>
     </div>
