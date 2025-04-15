@@ -379,7 +379,7 @@ class CarController
             $sortCondition = $sort === 'asc' ? "ORDER BY Cars.price ASC" : ($sort === 'desc' ? "ORDER BY Cars.price DESC" : "");
 
             $sql = "SELECT Cars.id, Cars.name, Cars.brand_id, Cars.year, Cars.stock, Cars.price, Cars.fuel_type, Cars.description, Categories.name AS category_name,
-                        (SELECT image_url FROM Car_images WHERE Car_images.car_id = Cars.id AND image_type = 'normal') AS image,
+                        (SELECT image_url FROM Car_images WHERE Car_images.car_id = Cars.id AND image_type = 'normal') AS normal_image_url,
                         Brands.name AS brand
                         FROM Cars
                         JOIN Brands ON Brands.id = Cars.brand_id
@@ -423,7 +423,7 @@ class CarController
             global $conn;
 
             $sql = "SELECT Cars.id, Cars.name, Cars.brand_id, Cars.year, Cars.stock, Cars.price, Cars.fuel_type, Cars.description, Categories.name AS category_name,
-                        (SELECT image_url FROM Car_images WHERE Car_images.car_id = Cars.id AND image_type = 'normal') AS image,
+                        (SELECT image_url FROM Car_images WHERE Car_images.car_id = Cars.id AND image_type = 'normal') AS normal_image_url,
                         Brands.name AS brand
                         FROM Cars
                         JOIN Brands ON Brands.id = Cars.brand_id
