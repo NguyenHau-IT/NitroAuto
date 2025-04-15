@@ -27,10 +27,8 @@
                 <tr>
                     <td><?= $promo['id'] ?></td>
                     <td><?= htmlspecialchars($promo['name']) ?></td>
-                    <td><?= $promo['discount_percent'] ?>%</td>
-                    <td>
-                        <?= number_format($promo['discount_amount'] ?? 0, 0, ',', '.') ?>đ
-                    </td>
+                    <td><?= number_format($promo['discount_percent'] ?? 0, 0, ',', '.') ?>%</td>
+                    <td><?= number_format($promo['discount_amount'] ?? 0, 0, ',', '.') ?>đ</td>
                     <td><?= date('d/m/Y', strtotime($promo['start_date'])) ?></td>
                     <td><?= date('d/m/Y', strtotime($promo['end_date'])) ?></td>
                     <td><span class="badge bg-info text-dark"><?= htmlspecialchars($promo['code']) ?></span></td>
