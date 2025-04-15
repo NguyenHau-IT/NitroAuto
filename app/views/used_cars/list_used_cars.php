@@ -1,7 +1,7 @@
 <div class="bg-light rounded-4 shadow p-4 border mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0 text-primary">
-            <i class="bi bi-car-front me-2"></i>Bản tin ô tô đã qua sử dụng
+            <i class="bi bi-car-front me-2"></i>Bán ô tô củ
         </h2>
         <a href="/add_used_car" class="btn btn-primary d-flex align-items-center shadow-sm px-3 py-2 rounded-3">
             <i class="fas fa-plus-circle me-2"></i> Thêm bài đăng

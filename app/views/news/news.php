@@ -1,6 +1,6 @@
 <div class="mt-4 bg-white rounded-4 shadow p-4 border border-primary-subtle">
     <h3 class="text-primary mb-4 text-start">
-        <i class="bi bi-newspaper me-2"></i> Tin tức thị trường ô tô
+        <i class="bi bi-newspaper me-2"></i> Tin tức
     </h3>
 
     <?php if (!empty($newsList)): ?>
