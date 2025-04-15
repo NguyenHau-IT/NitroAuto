@@ -1,7 +1,7 @@
 <?php
 
 class News {
-    private static $feedUrl = "https://thitruongoto.com.vn/rss/thi-truong-o-to/";
+    private static $feedUrl = "https://forum.autodaily.vn/forums/tin-tuc/index.rss";
 
     public static function getNews($limit = null) {
         $rss = simplexml_load_file(self::$feedUrl);
