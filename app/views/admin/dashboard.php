@@ -53,7 +53,6 @@ if (!isset($_SESSION['user'])) {
                     'promotions' => ['label' => 'Khuyến mãi', 'icon' => 'bi-stars'],
                     'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
                     'reviews' => ['label' => 'Đánh giá', 'icon' => 'bi-chat-square-text'],
-                    'used_car_requests' => ['label' => 'Yêu cầu bán xe cũ', 'icon' => 'bi-box-arrow-up'],
                 ];
                 //sắp xếp lại thứ tự các tab
                 uasort($tabs, function ($a, $b) {

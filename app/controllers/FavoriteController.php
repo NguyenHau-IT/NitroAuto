@@ -34,7 +34,7 @@ class FavoriteController
 
     public function favoriteById()
     {
-        $user_id = $_SESSION["user_id"] ?? null;
+        $user_id = $_SESSION["user"]['id'] ?? null;
 
         if (!isset($_SESSION["user"]["id"])) {
             header("Location: /home?status=error&message=" . urlencode("Bạn cần đăng nhập trước khi xem danh sách yêu thích!"));

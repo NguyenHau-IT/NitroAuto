@@ -125,6 +125,7 @@ $colWidth = floor(100 / (count($cars) + 1)); // +1 cho cột tiêu đề
         <tr>
             <td class="fw-bold"></td>
             <?php foreach ($cars as $car): ?>
+                <?php if ($car['stock'] > 0): ?>
                 <td>
                     <form action="/showOrderForm" method="POST">
                         <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
@@ -133,6 +134,11 @@ $colWidth = floor(100 / (count($cars) + 1)); // +1 cho cột tiêu đề
                         </button>
                     </form>
                 </td>
+                <?php else: ?>
+                <td>
+                    <span class="text-danger alert">Xe hiện đã hết hàng</span>
+                </td>
+                <?php endif; ?>
             <?php endforeach; ?>
         </tr>
     </tbody>

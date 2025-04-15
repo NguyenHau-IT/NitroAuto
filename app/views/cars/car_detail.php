@@ -61,15 +61,15 @@
             <div class="rounded-4 shadow-lg p-4 bg-light text-center">
                 <?php if (!empty($images) && $images[0]['image_type'] == '3D'): ?>
                     <iframe src="<?= htmlspecialchars($images[0]['image_url']) ?>"
-                            allow="autoplay; fullscreen; xr-spatial-tracking"
-                            allowfullscreen
-                            style="height: 500px; width: 100%; border-radius: 15px;"></iframe>
+                        allow="autoplay; fullscreen; xr-spatial-tracking"
+                        allowfullscreen
+                        style="height: 500px; width: 100%; border-radius: 15px;"></iframe>
                 <?php else: ?>
                     <img src="/uploads/cars/default.jpg"
-                         loading="lazy"
-                         alt="Ảnh mẫu"
-                         class="img-fluid rounded-4"
-                         style="height: 600px; width: 100%; object-fit: cover;">
+                        loading="lazy"
+                        alt="Ảnh mẫu"
+                        class="img-fluid rounded-4"
+                        style="height: 600px; width: 100%; object-fit: cover;">
                 <?php endif; ?>
             </div>
         </div>
@@ -80,6 +80,13 @@
         <a href="/home" class="btn btn-primary btn-lg">
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
+
+        <form action="/compare" method="POST">
+            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus-circle me-2"></i> <span>So sánh</span>
+            </button>
+        </form>
 
         <form action="/OrderForm" method="POST">
             <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
