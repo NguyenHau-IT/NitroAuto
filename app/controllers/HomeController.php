@@ -36,7 +36,7 @@ class HomeController
         $banner_left = Banner::banner_left();
         $banner_right = Banner::banner_right();
 
-        $used_cars = Used_cars::all();
+        $used_cars = Used_cars::getall();
 
         // Gửi dữ liệu đến view
         require_once '../app/views/index.php';
