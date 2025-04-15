@@ -4,7 +4,7 @@
     </h3>
 
     <?php if (!empty($newsList)): ?>
-        <div id="newsCarousel" style="height: 250px;" class="carousel slide" data-bs-ride="carousel" data-bs-interval="8000">
+        <div id="newsCarousel" style="height: 200px;" class="carousel slide" data-bs-ride="carousel" data-bs-interval="8000">
             <div class="carousel-inner">
 
                 <?php
@@ -15,24 +15,21 @@
                         <div class="row g-4">
                             <?php foreach ($chunk as $news): ?>
                                 <div class="col-md-4 h-100">
-                                    <div class="card h-100 border-0 shadow-sm rounded-3 d-flex flex-column justify-content-between">
-                                        <div class="card-body d-flex flex-column justify-content-between" style="height: 200px;">
-                                            <h5 class="card-title mb-3 flex-shrink-0" style="height: 100px">
-                                                <i class="bi bi-circle-fill text-primary me-2"></i>
-                                                <a href="<?= $news['link'] ?>" target="_blank" class="text-decoration-none text-dark fw-bold">
-                                                    <?= $news['title'] ?>
-                                                </a>
-                                            </h5>
-                                            <p class="card-text text-secondary flex-grow-1" style="text-align: justify;height: 100px;">
-                                                <?= strip_tags(mb_strimwidth($news['description'], 0, 200, '...')) ?>
-                                            </p>
+                                    <a href="<?= $news['link'] ?>" target="_blank" class="text-decoration-none text-dark fw-bold">
+                                        <div class="card h-100 border-0 shadow-sm rounded-3 d-flex flex-column justify-content-between">
+                                            <div class="card-body d-flex flex-column justify-content-between" style="height: 150px;">
+                                                <h5 class="card-title mb-3 flex-shrink-0" style="height: 100px">
+                                                    <i class="bi bi-circle-fill text-primary me-2 fs-3"></i>
+                                                    <strong><?= $news['title'] ?></strong>
+                                                </h5>
+                                            </div>
+                                            <div class="card-footer bg-white border-0 text-end flex-shrink-0" style="height: 50px;">
+                                                <small class="text-muted fst-italic">
+                                                    <i class="bi bi-clock me-1"></i><?= date("H:i - d/m/Y", strtotime($news['pubDate'])) ?>
+                                                </small>
+                                            </div>
                                         </div>
-                                        <div class="card-footer bg-white border-0 text-end flex-shrink-0" style="height: 50px;">
-                                            <small class="text-muted fst-italic">
-                                                <i class="bi bi-clock me-1"></i><?= date("H:i - d/m/Y", strtotime($news['pubDate'])) ?>
-                                            </small>
-                                        </div>
-                                    </div>
+                                    </a>
                                 </div>
                             <?php endforeach; ?>
                         </div>

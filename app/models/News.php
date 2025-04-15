@@ -12,7 +12,6 @@ class News {
                 $newsList[] = [
                     'title' => (string)$item->title,
                     'link' => (string)$item->link,
-                    'description' => (string)$item->description,
                     'pubDate' => (string)$item->pubDate,
                     'timestamp' => strtotime($item->pubDate), // dùng để sắp xếp
                 ];
