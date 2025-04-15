@@ -1,4 +1,7 @@
 <?php
+
+use FontLib\Table\Type\head;
+
 require_once '../app/models/TestDriveRegistration.php';
 require_once '../app/models/Cars.php';
 
@@ -61,6 +64,13 @@ class TestDriveController
             $preferred_time = $_POST['preferred_time'] ?? null;
             $location = $_POST['location'] ?? null;
             $status = $_POST['status'] ?? null;
+            
+            // Kiểm tra dữ liệu đầu vào
+            if ($id == null || $user_id == '' || $car_id == '' || $preferred_date == '' || $preferred_time == '' || $location == '') {
+                header("Location: /admin#test_drive?status=error");
+                exit();
+            }
+            
             $data = [
                 'user_id' => $user_id,
                 'car_id' => $car_id,

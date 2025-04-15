@@ -9,7 +9,7 @@ class UsedCarsController
 {
     public function showUsedCars()
     {
-        $used_cars = Used_cars::all();
+        $used_cars = Used_cars::getall();
         require_once '../app/views/list_used_cars/index.php';
     }
 

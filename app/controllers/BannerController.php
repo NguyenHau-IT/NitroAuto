@@ -28,10 +28,10 @@ class BannerController
             if ($result) {
                 echo json_encode(['success' => true]);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Cập nhật thất bại']);
+                echo json_encode(['success' => false]);
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Dữ liệu không hợp lệ']);
+            echo json_encode(['success' => false]);
         }
     }
 
@@ -81,7 +81,6 @@ class BannerController
                 }
 
                 if ($sourceImage) {
-                    // Resize ảnh nếu > 1200px (giữ tỉ lệ)
                     $maxWidth = 1200;
                     $origWidth = imagesx($sourceImage);
                     $origHeight = imagesy($sourceImage);

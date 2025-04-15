@@ -14,7 +14,13 @@ class BrandController
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $name = $_POST['name'];
             $country = $_POST['country'];
-            $logoPath = null;
+            $logoPath = $_POST['logo'] ?? null;
+
+            if (empty($name) || empty($country)) {
+                $errorMessage = empty($name) ? "Tên hãng không được để trống!" : "Quốc gia không được để trống!";
+                header("Location: /admin#brand/add?status=error&message=" . urlencode($errorMessage));
+                exit();
+            }
 
             // Xử lý upload logo
             if (isset($_FILES['logo']) && $_FILES['logo']['error'] == 0) {
@@ -22,7 +28,7 @@ class BrandController
                 $fileExt = strtolower(pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION));
 
                 if (!in_array($fileExt, $allowedExt)) {
-                    header("Location: /admin/brand/add?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
+                    header("Location: /admin#brand/add?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
                     exit();
                 }
 
@@ -90,7 +96,14 @@ class BrandController
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $name = $_POST['name'];
             $country = $_POST['country'];
-            $logoPath = null;
+            $logoPath = $_POST['logo'] ?? null;
+
+            if (empty($name) || empty($country)){
+                $errorMessage = empty($name) ? "Tên hãng không được để trống!" : "Quốc gia không được để trống!";
+                $stmt = Brands::find($id);
+                $name = $stmt['name'];
+                $country = $stmt['country'];
+            }
 
             // Tạo thư mục upload nếu chưa có
             $uploadDir = __DIR__ . '/../../public/uploads/brands/';

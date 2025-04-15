@@ -81,22 +81,59 @@ class CarController
                 }
             }
 
+            $name = $_POST['name'];
+            $brand_id = $_POST['brand_id'];
+            $category_id = $_POST['category_id'];
+            $price = $_POST['price'];
+            $year = $_POST['year'];
+            $mileage = $_POST['mileage'];
+            $fuel_type = $_POST['fuel_type'];
+            $transmission = $_POST['transmission'];
+            $color = $_POST['color'];
+            $stock = $_POST['stock'];
+            $horsepower = $_POST['horsepower'];
+            $description = $_POST['description'];
+            $created_at = $_POST['created_at'];
+            $image_url3D = $_POST['image_3d_url'];
+
+            // Danh sách các trường cần kiểm tra và thông báo lỗi tương ứng
+            $fields = [
+                'name' => 'Tên xe không được để trống!',
+                'brand_id' => 'Hãng xe không được để trống!',
+                'category_id' => 'Loại xe không được để trống!',
+                'description' => 'Mô tả xe không được để trống!',
+                'price' => 'Giá xe không được để trống!',
+                'year' => 'Năm sản xuất không được để trống!',
+                'mileage' => 'Số km đã đi không được để trống!',
+                'fuel_type' => 'Loại nhiên liệu không được để trống!',
+                'transmission' => 'Số sàn không được để trống!',
+                'color' => 'Màu xe không được để trống!',
+                'stock' => 'Số lượng xe không được để trống!',
+                'horsepower' => 'Công suất xe không được để trống!'
+            ];
+
+            foreach ($fields as $field => $message) {
+                if (empty($$field)) {
+                    header("Location: /admin?status=error&message=" . urlencode($message));
+                    exit();
+                }
+            }
             // Gán các dữ liệu còn lại
             $data += [
-                'name' => $_POST['name'],
-                'brand_id' => $_POST['brand_id'],
-                'category_id' => $_POST['category_id'],
-                'price' => $_POST['price'],
-                'year' => $_POST['year'],
-                'mileage' => $_POST['mileage'],
-                'fuel_type' => $_POST['fuel_type'],
-                'transmission' => $_POST['transmission'],
-                'color' => $_POST['color'],
-                'stock' => $_POST['stock'],
-                'horsepower' => $_POST['horsepower'],
-                'description' => $_POST['description'],
+                'name' => $name,
+                'brand_id' => $brand_id,
+                'category_id' => $category_id,
+                'price' => $price,
+                'year' => $year,
+                'mileage' => $mileage,
+                'fuel_type' => $fuel_type,
+                'transmission' => $transmission,
+                'color' => $color,
+                'stock' => $stock,
+                'horsepower' => $horsepower,
+                'description' => $description,
                 'image_url' => isset($data['image_url']) ? $data['image_url'] : null,
-                'image_url3D' => $_POST['image_3d_url']
+                'image_url3D' => $image_url3D
             ];
 
             // Lưu vào DB
@@ -198,6 +235,30 @@ class CarController
             $description = $_POST['description'];
             $created_at = $_POST['created_at'];
             $image_url3D = $_POST['image_url3D'];
+
+            // Danh sách các trường cần kiểm tra và thông báo lỗi tương ứng
+            $fields = [
+                'name' => 'Tên xe không được để trống!',
+                'brand_id' => 'Hãng xe không được để trống!',
+                'category_id' => 'Loại xe không được để trống!',
+                'description' => 'Mô tả xe không được để trống!',
+                'price' => 'Giá xe không được để trống!',
+                'year' => 'Năm sản xuất không được để trống!',
+                'mileage' => 'Số km đã đi không được để trống!',
+                'fuel_type' => 'Loại nhiên liệu không được để trống!',
+                'transmission' => 'Số sàn không được để trống!',
+                'color' => 'Màu xe không được để trống!',
+                'stock' => 'Số lượng xe không được để trống!',
+                'horsepower' => 'Công suất xe không được để trống!'
+            ];
+
+            // Kiểm tra từng trường
+            foreach ($fields as $field => $message) {
+                if (empty($$field)) {
+                    header("Location: /admin?status=error&message=" . urlencode($message));
+                    exit();
+                }
+            }
 
             // Cập nhật DB
             if (Cars::update(

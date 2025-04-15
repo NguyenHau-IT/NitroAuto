@@ -23,17 +23,6 @@ class HistoryViewCarController
         }
     }
 
-    public function deleteAllHistory()
-    {
-        if ($histories = HistoryViewCar::deleteAll()) {
-            header("Location: /home");
-            exit;
-        } else {
-            header("Location: /home");
-            exit;
-        }
-    }
-
     public function addHistory($data)
     {
         $data["user_id"] = $_SESSION["user"]["id"];

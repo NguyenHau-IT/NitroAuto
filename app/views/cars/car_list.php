@@ -6,7 +6,7 @@
                     <div class="card car-card p-0 h-100 shadow-lg rounded-3 overflow-hidden">
                         <!-- Hình ảnh xe -->
                         <a href="/car_detail/<?= htmlspecialchars($car['id']) ?>" class="car-img-container">
-                            <img loading="lazy" src="<?= htmlspecialchars(!empty($car["image"]) ? $car["image"] : '/uploads/cars/default.jpg') ?>"
+                            <img loading="lazy" src="<?= htmlspecialchars(!empty($car["normal_image_url"]) ? $car["normal_image_url"] : '/uploads/cars/default.jpg') ?>"
                                 class="card-img-top car-image"
                                 alt="<?= htmlspecialchars($car['name']) ?>"
                                 style="height: 200px; object-fit: cover; transition: transform 0.3s ease-in-out;">

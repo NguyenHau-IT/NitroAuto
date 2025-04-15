@@ -36,7 +36,7 @@ class CategoriesController
             $description = $_POST['description'] ?? '';
 
             if (empty($name) || empty($description)) {
-                header('Location: /admin#categories?status=error&msg=empty');
+                header('Location: /admin#categories?status=error');
                 exit;
             }
 

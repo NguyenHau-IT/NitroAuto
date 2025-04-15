@@ -20,8 +20,7 @@ class PromotionsController
             return;
         }
 
-        global $conn; // sử dụng kết nối PDO từ db.php
-
+        global $conn;
         $stmt = $conn->prepare("
                 SELECT * FROM promotions 
                 WHERE code = ? AND is_active = 1 
@@ -58,6 +57,12 @@ class PromotionsController
             $discount_percent = $_POST['discount_percent'] ?? '';
             $discount_amount = $_POST['discount_amount'] ?? '';
             $is_active = $_POST['is_active'] ?? '';
+
+            //kiểm tra dứ liệu đầu vào
+            if (empty($name) || empty($code) || empty($start_date) || empty($end_date)) {
+                header('Location: /admin#promotions?status=error');
+                exit;
+            }
             $data = [
                 'name' => $name,
                 'code' => $code,
@@ -92,6 +97,13 @@ class PromotionsController
             $discount_percent = $_POST['discount_percent'] ?? '';
             $discount_amount = $_POST['discount_amount'] ?? '';
             $is_active = $_POST['is_active'] ?? '';
+
+            //kiểm tra dứ liệu đầu vào
+            if(empty($name) || empty($code) || empty($start_date) || empty($end_date))
+            {
+                header('Location: /admin#promotions?status=error');
+                exit;
+            }
             $data = [
                 'name' => $name,
                 'code' => $code,
