@@ -17,6 +17,7 @@ class UsedCarsController
     {
         $used_cars = Used_cars::getByid($id);
         $used_car = Used_cars::find($id);
+        $images = Used_cars::getImages($id);
         if (!$used_car) {
             header("Location: /home?status=error&message=" . urlencode("Bài đăng không tồn tại!"));
             exit();
@@ -27,78 +28,71 @@ class UsedCarsController
     public function addUsedCar()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $data = [];
+            $imagePaths = [];
 
-            // Xử lý ảnh
-            if (isset($_FILES['image_url']) && $_FILES['image_url']['error'] == 0) {
+            if (!empty($_FILES['image_urls']['name'][0])) {
                 $allowedExt = ['jpg', 'jpeg', 'png', 'webp'];
-                $fileExt = strtolower(pathinfo($_FILES['image_url']['name'], PATHINFO_EXTENSION));
-
-                if (!in_array($fileExt, $allowedExt)) {
-                    header("Location: /add_used_car?status=error&message=" . urlencode("Định dạng ảnh không hợp lệ!"));
-                    exit();
-                }
-
-                // Đổi tên ảnh dựa vào tên xe
-                $newName = preg_replace('/[^a-zA-Z0-9-_]/', '', $_POST['name']);
-                $webpName = $newName . '.webp';
-
-                // Tạo thư mục lưu trữ nếu chưa có
                 $uploadDir = __DIR__ . '/../../public/uploads/used_cars/';
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
-
-                $uploadFile = $uploadDir . $webpName;
-
-                // Tạo ảnh từ tệp upload
-                switch ($fileExt) {
-                    case 'jpg':
-                    case 'jpeg':
-                        $image = imagecreatefromjpeg($_FILES['image_url']['tmp_name']);
-                        break;
-                    case 'png':
-                        $image = imagecreatefrompng($_FILES['image_url']['tmp_name']);
-                        imagepalettetotruecolor($image);
-                        imagealphablending($image, true);
-                        imagesavealpha($image, true);
-                        break;
-                    case 'webp':
-                        $image = imagecreatefromwebp($_FILES['image_url']['tmp_name']);
-                        break;
-                    default:
-                        $image = false;
-                }
-
-                if ($image) {
-                    // Resize ảnh
-                    $origWidth = imagesx($image);
-                    $origHeight = imagesy($image);
-                    $newWidth = 300;
-                    $newHeight = intval($origHeight * ($newWidth / $origWidth));
-
-                    $resized = imagecreatetruecolor($newWidth, $newHeight);
-                    imagealphablending($resized, false);
-                    imagesavealpha($resized, true);
-                    imagecopyresampled($resized, $image, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
-                    imagedestroy($image); // Giải phóng bộ nhớ ảnh gốc
-
-                    // Lưu ảnh dưới dạng WebP
-                    if (imagewebp($resized, $uploadFile, 80)) {
-                        imagedestroy($resized);
-                        $data['image_url'] = '/uploads/used_cars/' . $webpName;
-                    } else {
-                        imagedestroy($resized);
-                        header("Location: /add_used_car?status=error&message=" . urlencode("Chuyển ảnh sang WebP thất bại!"));
-                        exit();
+            
+                $rawName = preg_replace('/[^a-zA-Z0-9]/', '', $_POST['name']);
+                $totalFiles = count($_FILES['image_urls']['name']);
+                $id_user = $_SESSION['user']['id'];
+            
+                for ($i = 0; $i < $totalFiles; $i++) {
+                    $image = false;
+                    $name = $_FILES['image_urls']['name'][$i];
+                    $tmpName = $_FILES['image_urls']['tmp_name'][$i];
+                    $error = $_FILES['image_urls']['error'][$i];
+                    $fileExt = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            
+                    if ($error == 0 && in_array($fileExt, $allowedExt)) {
+                        $newName = $rawName . '_' . ($i + 1) .'_'.$id_user.'.webp';
+                        $uploadFile = $uploadDir . $newName;
+            
+                        // Tạo ảnh gốc từ đúng tmp file
+                        if ($fileExt === 'jpg' || $fileExt === 'jpeg') {
+                            $image = imagecreatefromjpeg($tmpName);
+                        } elseif ($fileExt === 'png') {
+                            $image = imagecreatefrompng($tmpName);
+                            imagepalettetotruecolor($image);
+                            imagealphablending($image, true);
+                            imagesavealpha($image, true);
+                        } elseif ($fileExt === 'webp') {
+                            $image = imagecreatefromwebp($tmpName);
+                        }
+            
+                        if ($image) {
+                            $origWidth = imagesx($image);
+                            $origHeight = imagesy($image);
+                            $newWidth = 300;
+                            $newHeight = intval($origHeight * ($newWidth / $origWidth));
+            
+                            $resized = imagecreatetruecolor($newWidth, $newHeight);
+                            imagealphablending($resized, false);
+                            imagesavealpha($resized, true);
+                            imagecopyresampled(
+                                $resized,
+                                $image,
+                                0, 0, 0, 0,
+                                $newWidth,
+                                $newHeight,
+                                $origWidth,
+                                $origHeight
+                            );
+                            imagedestroy($image);
+            
+                            if (imagewebp($resized, $uploadFile, 80)) {
+                                imagedestroy($resized);
+                                $imagePaths[] = '/uploads/used_cars/' . $newName;
+                            }
+                        }
                     }
-                } else {
-                    header("Location: /add_used_car?status=error&message=" . urlencode("Không thể xử lý ảnh!"));
-                    exit();
                 }
             }
-
-            // Dữ liệu xe
+            
             $data = [
                 'user_id' => $_SESSION['user']['id'],
                 'name' => $_POST['name'],
@@ -111,7 +105,7 @@ class UsedCarsController
                 'transmission' => $_POST['transmission'],
                 'color' => $_POST['color'],
                 'description' => $_POST['description'],
-                'image_url' => isset($data['image_url']) ? $data['image_url'] : null
+                'image_urls' => $imagePaths
             ];
 
             if (Used_cars::addCar($data)) {
@@ -128,7 +122,6 @@ class UsedCarsController
             }
         }
 
-        // Nếu không phải POST, hiển thị form
         if (!isset($_SESSION['user']['id'])) {
             header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để thêm bài đăng!"));
             exit();
@@ -136,11 +129,7 @@ class UsedCarsController
 
         $brands = Brands::all();
         $categories = Categories::all();
-        if ($_SESSION['user']['role'] != 'admin') {
-            require_once '../app/views/used_cars/add_used_cars.php';
-        } else {
-            require_once '../app/views/used_cars/admin_add.php';
-        }
+        require_once '../app/views/used_cars/add_used_cars.php';
     }
 
     public function edit($id)
@@ -256,9 +245,9 @@ class UsedCarsController
     public function delete($id)
     {
         if (Used_cars::delete($id)) {
-        header("Location: /admin#used_cars");
-        exit();
-        }else{
+            header("Location: /admin#used_cars");
+            exit();
+        } else {
             header("Location: /admin#used_cars");
             exit();
         }

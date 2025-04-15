@@ -62,6 +62,14 @@ class Used_cars
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getImages($car_id)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT image_url FROM used_car_images WHERE used_car_id = :id");
+        $stmt->execute(['id' => $car_id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getByid($id)
     {
         global $conn;
@@ -126,8 +134,9 @@ class Used_cars
     public static function addCar($data)
     {
         global $conn;
+
         $sql = "INSERT INTO used_cars (user_id, name, brand_id, category_id, price, year, mileage, fuel_type, transmission, color, description, created_at)
-                VALUES (:user_id, :name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :description, GETDATE())";
+            VALUES (:user_id, :name, :brand_id, :category_id, :price, :year, :mileage, :fuel_type, :transmission, :color, :description, GETDATE())";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
@@ -143,15 +152,19 @@ class Used_cars
             'color' => $data['color'],
             'description' => $data['description']
         ]);
+
         $car_id = $conn->lastInsertId();
 
-        if (isset($data['image_url'])) {
+        if (!empty($data['image_urls']) && is_array($data['image_urls'])) {
             $stmt = $conn->prepare("INSERT INTO used_car_images (used_car_id, image_url, image_type) VALUES (:car_id, :image_url, 'normal')");
-            $stmt->execute([
-                'car_id' => $car_id,
-                'image_url' => $data['image_url']
-            ]);
+            foreach ($data['image_urls'] as $image_url) {
+                $stmt->execute([
+                    'car_id' => $car_id,
+                    'image_url' => $image_url
+                ]);
+            }
         }
+
         return true;
     }
 

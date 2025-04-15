@@ -84,12 +84,33 @@
 
         <!-- Cột ảnh -->
         <div class="col-lg-6">
-            <div class="rounded-4 shadow-lg p-4 bg-light text-center">
-                <img src="<?= htmlspecialchars($used_car['normal_image_url']) ?>"
-                     onerror="this.src='/uploads/cars/default.jpg';"
-                     alt="Hình ảnh xe"
-                     class="img-fluid rounded-4"
-                     style="height: 650px; object-fit: cover;" loading="lazy">
+            <div class="rounded-4 shadow-lg bg-light p-4 text-center">
+                <?php if (!empty($images)): ?>
+                    <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner rounded-4" style="height: 650px;">
+                            <?php foreach ($images as $index => $img): ?>
+                                <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                    <img src="<?= htmlspecialchars($img['image_url']) ?>"
+                                        class="d-block w-100 h-100 rounded-4"
+                                        alt="Ảnh xe <?= $index + 1 ?>"
+                                        style="object-fit: cover;" loading="lazy"
+                                        onerror="this.src='/uploads/cars/default.jpg';">
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <!-- Controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                <?php else: ?>
+                    <img src="/uploads/cars/default.jpg"
+                        class="img-fluid rounded-4"
+                        style="height: 650px; object-fit: cover;" alt="Không có ảnh" loading="lazy">
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -83,7 +83,7 @@
             <!-- Hình ảnh -->
             <div class="col-md-12">
                 <label for="image_url" class="form-label fw-semibold">Ảnh đại diện</label>
-                <input type="file" class="form-control" id="image_url" name="image_url">
+                <input type="file" name="image_urls[]" multiple accept="image/*" class="form-control" required>
             </div>
 
             <!-- Nút hành động -->
