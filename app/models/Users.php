@@ -34,7 +34,7 @@ class Users
         $stmt = $conn->prepare("SELECT id, full_name, email, phone, password, address, created_at, role FROM users WHERE id = :id");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-    }    
+    }
 
     public static function where($role)
     {
@@ -55,20 +55,15 @@ class Users
 
         $stmt = $conn->prepare("UPDATE users SET full_name = :full_name, email = :email, phone = :phone, address = :address WHERE id = :id");
 
-        try {
-            $stmt->execute([
-                'id' => $id,
-                'full_name' => $full_name,
-                'email' => $email,
-                'phone' => $phone,
-                'address' => $address
-            ]);
+        $stmt->execute([
+            'id' => $id,
+            'full_name' => $full_name,
+            'email' => $email,
+            'phone' => $phone,
+            'address' => $address
+        ]);
 
-            return true;
-        } catch (PDOException $e) {
-            error_log("Error updating user: " . $e->getMessage());
-            return false;
-        }
+        return true;
     }
 
     public static function delete($id)
