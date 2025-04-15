@@ -123,7 +123,7 @@ class Cars
     {
         global $conn;
         $query = "SELECT cars.*, brands.name as brand_name, categories.name as category_name, 
-                           normal_images.image_url as image, 
+                           normal_images.image_url as normal_image_url, 
                            three_d_images.image_url as three_d_image_url 
                     FROM cars 
                     JOIN brands ON cars.brand_id = brands.id 
