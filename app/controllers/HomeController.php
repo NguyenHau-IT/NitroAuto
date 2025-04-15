@@ -5,6 +5,7 @@ require_once '../app/models/Cars.php';
 require_once '../app/models/HistoryViewCar.php';
 require_once '../app/models/Banner.php';
 require_once '../app/models/Used_cars.php';
+require_once '../app/models/News.php'; 
 
 class HomeController
 {
@@ -20,7 +21,8 @@ class HomeController
         $banner_left = Banner::banner_left();
         $banner_right = Banner::banner_right();
         $used_cars = Used_cars::getall();
-
+        $newsList = News::getNews();
+        
         require_once '../app/views/index.php';
     }
 }

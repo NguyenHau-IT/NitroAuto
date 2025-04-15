@@ -21,6 +21,8 @@
             </div>
 
             <?php require_once __DIR__ . '/../views/used_cars/list_used_cars.php'; ?>
+
+            <?php require_once __DIR__ . '/../views/news/news.php'?>
         </div>
     </div>
 </div>

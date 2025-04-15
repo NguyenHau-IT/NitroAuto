@@ -99,15 +99,6 @@
         <a href="/home" class="btn btn-primary btn-lg">
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
-
-        <?php if ($used_car['status'] !== 'Sold'): ?>
-            <form action="/showOrderForm" method="POST">
-                <input type="hidden" name="car_id" value="<?= htmlspecialchars($used_car['id']) ?>">
-                <button type="submit" class="btn btn-success btn-lg">
-                    <i class="bi bi-cart"></i> Đặt mua
-                </button>
-            </form>
-        <?php endif; ?>
     </div>
 
     <!-- Gợi ý các xe khác -->
