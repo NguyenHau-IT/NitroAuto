@@ -72,7 +72,7 @@ switch (true) {
         break;
 
     case $uri === 'forgot-password':
-        (new AuthController())->sendVerificationCode()();
+        (new AuthController())->sendVerificationCode();
         break;
 
     case $uri === 'show_verify-code':

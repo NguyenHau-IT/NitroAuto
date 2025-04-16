@@ -1,5 +1,7 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
+<div id="bg" class="position-fixed top-0 start-0 w-100 h-100 z-n1"></div>
+
 <div class="container d-flex align-items-center justify-content-center vh-100">
     <div class="card shadow-lg w-100" style="max-width: 500px;">
         <div class="card-body">
@@ -60,6 +62,18 @@
 
 <!-- Kiểm tra xác nhận mật khẩu -->
 <script>
+     VANTA.NET({
+      el: "#bg",
+      mouseControls: true,
+      touchControls: true,
+      minHeight: 200,
+      minWidth: 200,
+      scale: 1.0,
+      scaleMobile: 1.0,
+      color: 0x00aaff,
+      backgroundColor: 0x0d0d0d
+    });
+    
     document.querySelector("form").addEventListener("submit", function (e) {
         const newPass = document.getElementById("new_password").value;
         const confirm = document.getElementById("confirm_password").value;

@@ -24,6 +24,7 @@ class MailService
 
             // Content
             $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
             $mail->Subject = "Yêu cầu đặt lại mật khẩu - NitroAuto";
             $mail->Body = "
                 <div style='font-family: Arial, sans-serif; line-height: 1.6; font-size: 15px; color: #333;'>
