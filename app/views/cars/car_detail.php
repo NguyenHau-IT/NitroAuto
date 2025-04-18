@@ -122,6 +122,10 @@
     <div class="bg-info rounded-4 mt-4 p-4">
         <?php require_once __DIR__ . '/../accessories/accessories_car.php'; ?>
     </div>
+
+    <div class="bg-info rounded-4 mt-4 p-4">
+        <?php require_once __DIR__ . '/../reviews/reviews_car.php'; ?>
+    </div>
 </div>
 
 <?php require_once __DIR__ . '/../../../includes/footer.php'; ?>

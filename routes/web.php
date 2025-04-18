@@ -22,6 +22,7 @@ require_once '../app/controllers/ServiceOrderController.php';
 require_once '../app/controllers/TestDriveController.php';
 require_once '../app/controllers/UsedCarsController.php';
 require_once '../app/controllers/UserController.php';
+require_once '../app/controllers/ReviewsController.php';
 
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
@@ -377,6 +378,11 @@ switch (true) {
         (new UserController())->deleteUser($matches[1]);
         break;
 
+    // === REVIEW ===
+    case $uri === 'reviews/save':
+        (new ReviewsController())->saveReview();
+        break;
+    
     // === DEFAULT ===
     default:
         http_response_code(404);
