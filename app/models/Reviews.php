@@ -47,7 +47,7 @@ class Reviews
     public static function update($user_id, $car_id, $rating = null, $comment = null)
     {
         global $conn;
-        $stmt = $conn->prepare("UPDATE reviews SET rating = :rating, comment = :comment, updated_at = GETDATE() 
+        $stmt = $conn->prepare("UPDATE reviews SET rating = :rating, comment = :comment, created_at = GETDATE() 
                                 WHERE user_id = :user_id AND car_id = :car_id");
         return $stmt->execute([
             'rating' => $rating,
@@ -60,7 +60,7 @@ class Reviews
     public static function updateById($id, $data)
     {
         global $conn;
-        $stmt = $conn->prepare("UPDATE reviews SET rating = :rating, comment = :comment, updated_at = GETDATE() 
+        $stmt = $conn->prepare("UPDATE reviews SET rating = :rating, comment = :comment, created_at = GETDATE() 
                                 WHERE id = :id");
         return $stmt->execute([
             'id' => $id,
