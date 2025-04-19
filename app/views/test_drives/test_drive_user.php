@@ -39,7 +39,7 @@
         </div>
 
         <!-- Danh sách đăng ký -->
-        <div id="testdrive-list" class="border rounded px-2 py-3" style="max-height: 600px; overflow-y: auto;">
+        <div id="testdrive-list" class="border rounded px-2 py-3" style="min-height: 600px; max-height: 1200px; overflow-y: auto;">
             <div id="no-result-message" class="alert alert-warning text-center d-none">
                 <i class="bi bi-emoji-frown"></i> Không có đăng ký nào phù hợp với bộ lọc.
             </div>
