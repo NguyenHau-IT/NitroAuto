@@ -8,7 +8,7 @@
         <div class="btn-group mb-3 sticky-top bg-light py-2 shadow-sm rounded-3 px-3" role="group" style="z-index: 1020;">
             <button class="btn btn-outline-secondary" onclick="filterTestDrives('all')"><i class="bi bi-list-ul me-1"></i> Tất cả</button>
             <button class="btn btn-outline-warning" onclick="filterTestDrives('pending')"><i class="bi bi-hourglass me-1"></i> Đang chờ</button>
-            <button class="btn btn-outline-info" onclick="filterTestDrives('approved')"><i class="bi bi-check2-circle me-1"></i> Đã xác nhận</button>
+            <button class="btn btn-outline-info" onclick="filterTestDrives('confirmed')"><i class="bi bi-check2-circle me-1"></i> Đã xác nhận</button>
             <button class="btn btn-outline-success" onclick="filterTestDrives('completed')"><i class="bi bi-check-circle me-1"></i> Hoàn thành</button>
             <button class="btn btn-outline-danger" onclick="filterTestDrives('cancelled')"><i class="bi bi-x-circle me-1"></i> Đã hủy</button>
         </div>
