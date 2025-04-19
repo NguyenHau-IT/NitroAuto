@@ -52,7 +52,7 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
                                 <li><a class="dropdown-item" href="/services">Dịch vụ</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item <?= ($current_page == 'showOrderForm') ? 'active' : '' ?>">
+                        <li class="nav-item <?= ($current_page == 'OrderForm') ? 'active' : '' ?>">
                             <a class="nav-link" href="/OrderForm"><i class="fas fa-car"></i> Mua hàng</a>
                         </li>
                         <li class="nav-item <?= ($current_page == 'favorites') ? 'active' : '' ?>">
