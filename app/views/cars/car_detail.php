@@ -106,17 +106,17 @@
 
         <?php if ($favorites): ?>
             <form action="/remove_favorite" method="POST">
-            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-            <button type="submit" class="btn btn-secondary btn-lg">
-                <i class="bi bi-heartbreak-fill"></i> Bỏ yêu thích
-            </button>
+                <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                <button type="submit" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-heartbreak-fill"></i> Bỏ yêu thích
+                </button>
             </form>
         <?php else: ?>
             <form action="/add_favorite" method="POST">
-            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-            <button type="submit" class="btn btn-danger btn-lg">
-                <i class="bi bi-heart-fill"></i> Yêu thích
-            </button>
+                <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                <button type="submit" class="btn btn-danger btn-lg">
+                    <i class="bi bi-heart-fill"></i> Yêu thích
+                </button>
             </form>
         <?php endif; ?>
 
@@ -134,6 +134,11 @@
                     <i class="bi bi-car-front-fill"></i> Đăng ký lái thử
                 </button>
             </form>
+        <?php else: ?>
+            <div class="alert alert-warning text-center w-100 mt-3" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                Xe hiện <strong>tạm hết hàng</strong>. Vui lòng quay lại sau hoặc chọn mẫu xe khác.
+            </div>
         <?php endif; ?>
     </div>
 
