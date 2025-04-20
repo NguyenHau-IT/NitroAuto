@@ -111,56 +111,59 @@ if (!isset($_SESSION['user'])) {
                 </form>
 
                 <!-- Tổng quan -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-3">
-                        <div class="card shadow-sm text-bg-primary">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-people-fill me-2"></i>Người dùng</h5>
-                                <p class="card-text fs-4"><?= $totalUsers ?></p>
+                <div class="container mt-4">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-bg-primary shadow-sm h-100" style="min-height: 140px;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title"><i class="bi bi-people-fill me-2"></i>Người dùng</h5>
+                                    <p class="fs-3 fw-bold mb-0"><?= $totalUsers ?></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card shadow-sm text-bg-info">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-car-front-fill me-2"></i>Tổng xe</h5>
-                                <p class="card-text fs-4"><?= $totalCars ?></p>
+                        <div class="col-md-3">
+                            <div class="card text-bg-info shadow-sm h-100" style="min-height: 140px;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title"><i class="bi bi-car-front-fill me-2"></i>Tổng xe</h5>
+                                    <p class="fs-3 fw-bold mb-0"><?= $totalCars ?></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card shadow-sm text-bg-success">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-bag-check-fill me-2"></i>Đơn hàng</h5>
-                                <p class="card-text fs-4"><?= $totalOrders ?></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card shadow-sm text-bg-warning">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-cash-coin me-2"></i>Doanh thu</h5>
-                                <p class="card-text fs-4"><?= number_format($totalRevenue, 0) ?>đ</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Tỷ lệ, đánh giá -->
-                <div class="row g-3 mb-4">
-                    <div class="col-md-4">
-                        <div class="card shadow-sm border-start border-4 border-danger">
-                            <div class="card-body">
-                                <h6 class="card-title"><i class="bi bi-x-octagon-fill me-2"></i>Tỷ lệ huỷ đơn</h6>
-                                <p class="fs-4 text-danger fw-bold"><?= $cancelRate ?>%</p>
+                        <div class="col-md-3">
+                            <div class="card text-bg-success shadow-sm h-100" style="min-height: 140px;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title"><i class="bi bi-bag-check-fill me-2"></i>Đơn hàng</h5>
+                                    <p class="fs-3 fw-bold mb-0"><?= $totalOrders ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-bg-warning shadow-sm h-100" style="min-height: 140px;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h5 class="card-title text-dark"><i class="bi bi-cash-coin me-2"></i>Doanh thu</h5>
+                                    <p class="fs-5 fw-bold text-dark mb-0"><?= number_format($totalRevenue, 0) ?> đ</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card shadow-sm border-start border-4 border-primary">
-                            <div class="card-body">
-                                <h6 class="card-title"><i class="bi bi-star-fill me-2"></i>Đánh giá trung bình</h6>
-                                <p class="fs-4 text-primary fw-bold"><?= round($avgRating, 1) ?> ★</p>
+
+                    <!-- Dòng thứ 2 -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-start border-4 border-danger h-100" style="min-height: 140px;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h6 class="card-title"><i class="bi bi-x-octagon-fill me-2 text-danger"></i>Tỷ lệ huỷ đơn</h6>
+                                    <p class="fs-3 fw-bold text-danger mb-0"><?= $cancelRate ?>%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card shadow-sm border-start border-4 border-primary h-100" style="min-height: 140px;">
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <h6 class="card-title"><i class="bi bi-star-fill me-2 text-primary"></i>Đánh giá trung bình</h6>
+                                    <p class="fs-3 fw-bold text-primary mb-0"><?= round($avgRating, 1) ?> ★</p>
+                                </div>
                             </div>
                         </div>
                     </div>
