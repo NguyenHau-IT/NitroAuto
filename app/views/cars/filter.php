@@ -114,8 +114,9 @@
     <div class="d-flex flex-wrap gap-2 mt-3">
         <?php foreach ($brands as $brand): ?>
             <?php if (isset($brand['id'], $brand['name'])): ?>
-                <a href="/cars_brand/<?= urlencode($brand['id']) ?>?brand=<?= urlencode($brand['name']) ?>" class="btn btn-outline-primary <?= (isset($_GET['brand']) && $_GET['brand'] == $brand['name']) ? 'active' : '' ?>">
-                    <?= htmlspecialchars($brand['name']) ?>
+                <a href="/cars_brand/<?= urlencode($brand['id']) ?>?brand=<?= urlencode($brand['name']) ?>"
+                    class="btn btn-outline-primary <?= (isset($_GET['brand']) && $_GET['brand'] == $brand['name']) ? 'active' : '' ?>">
+                    <i class="bi bi-ev-front me-1"></i> <?= htmlspecialchars($brand['name']) ?>
                 </a>
             <?php endif; ?>
         <?php endforeach; ?>
