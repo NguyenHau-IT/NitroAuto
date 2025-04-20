@@ -1,4 +1,4 @@
-\    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary mb-0">🛠️ Quản lý Dịch vụ</h2>
         <a href="/admin/service/add" class="btn btn-success">
             <i class="bi bi-plus-circle me-1"></i> Thêm dịch vụ
