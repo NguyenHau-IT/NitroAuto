@@ -462,4 +462,11 @@ class CarController
             require_once '../app/views/cars/compare_result.php';
         }
     }
+
+    public function cars_brand($brand_id)
+    {
+        $cars = Cars::findByBrand($brand_id);
+
+        require_once '../app/views/cars/car_brand.php';
+    }
 }

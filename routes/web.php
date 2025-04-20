@@ -155,6 +155,10 @@ switch (true) {
         (new CarController())->delete($matches[1]);
         break;
 
+    case preg_match('/^cars_brand\/(\d+)$/', $uri, $matches):
+        (new CarController())->cars_brand($matches[1]);
+        break;
+        
     // === CATEGORY === //
     case $uri === 'admin/category/add':
         (new CategoriesController())->addCate();

@@ -4,10 +4,13 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
+                <!-- spell-check-ignore -->
                 <a href="/home" class="text-decoration-none">Trang chủ</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                Xe <?= htmlspecialchars($car['brand_name']) ?>
+                <a href="/cars_brand/<?= htmlspecialchars($car['brand_id']) ?>" class="text-decoration-none">
+                    Xe <?= htmlspecialchars($car['brand_name']) ?>
+                </a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
                 <?= htmlspecialchars($car['name']) ?>
