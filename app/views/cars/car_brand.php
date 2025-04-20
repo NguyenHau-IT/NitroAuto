@@ -4,7 +4,7 @@
     <div class="container">
         <div class="text-center">
             <!-- Lịch sử xem xe -->
-            <?php require_once __DIR__ . '../history_view_car.php'; ?>
+            <?php require_once __DIR__ . '/history_view_car.php'; ?>
 
             <!-- Slice Bar -->
             <?php require_once __DIR__ . '/../../views/slice-bar/slider.php'; ?>
