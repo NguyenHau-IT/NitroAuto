@@ -14,6 +14,7 @@ $count_cart = Cart::getCartCount($_SESSION['user']['id'] ?? null);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NitroAuto - Cửa hàng phụ kiện và dịch vụ xe hơi hàng đầu. Khám phá các sản phẩm chất lượng và dịch vụ chuyên nghiệp.">
     <title>NITRO AUTO</title>
 
     <!-- CSS -->
