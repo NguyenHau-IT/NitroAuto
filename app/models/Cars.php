@@ -309,4 +309,42 @@ class Cars
         ]);
         return $stmt->fetchColumn() !== false;
     }
+
+    public static function count()
+    {
+        global $conn;
+        $stmt = $conn->query("SELECT COUNT(*) as count FROM cars");
+        return $stmt->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+    
+    public static function topSelling()
+    {
+        global $conn;
+        $stmt = $conn->query("
+            SELECT 
+                c.name,
+                SUM(od.quantity) AS sold
+            FROM order_details od
+            JOIN cars c ON c.id = od.car_id
+            WHERE od.car_id IS NOT NULL
+            GROUP BY c.name
+            ORDER BY sold DESC
+            OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
+    public static function topRated()
+    {
+        global $conn;
+        $stmt = $conn->query("
+            SELECT TOP 5 cars.name, AVG(reviews.rating) as avg_rating
+            FROM reviews
+            JOIN cars ON cars.id = reviews.car_id
+            GROUP BY cars.name
+            ORDER BY avg_rating DESC
+        ");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

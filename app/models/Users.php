@@ -145,4 +145,12 @@ class Users
         ]);
         return $stmt->rowCount();
     }
+
+    public static function count()
+    {
+        global $conn;
+        $stmt = $conn->query("SELECT COUNT(*) as count FROM users");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['count'];
+    }
 }

@@ -111,4 +111,12 @@ class Reviews
         $stmt = $conn->prepare("DELETE FROM reviews WHERE id = :id");
         return $stmt->execute(['id' => $id]);
     }
+
+    public static function averageRating()
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT AVG(rating) as avg FROM reviews");
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['avg'] ?? 0;
+    }
 }

@@ -47,7 +47,7 @@ class AdminController
                     'order_date' => $row['order_date'],
                     'status' => $row['status'],
                     'address' => $row['address'],
-                    'total_price' => $row['total_price'],
+                    'total_price' => $row['total_amount'],
                     'cars' => [],
                     'accessories' => [],
                 ];
@@ -80,6 +80,29 @@ class AdminController
         $promotions = Promotions::all();
         $servicesOrders = ServiceOrder::all();
         $reviews = Reviews::manager();
+        $totalUsers = Users::count();
+        $totalCars = Cars::count();
+        $totalOrders = Orders::count();
+        $totalRevenue = Orders::totalRevenue();
+        $cancelRate = Orders::cancelRate();
+        $avgRating = Reviews::averageRating();
+
+        $topSellingCars = Cars::topSelling();
+        $topRatedCars = Cars::topRated();
+        $topSellingAccessories = Accessories::topSelling();
+        $orderStatusStats = [
+            'confirmed' => Orders::countByStatus('Confirmed'),
+            'pending' => Orders::countByStatus('Pending'),
+            'cancelled' => Orders::countByStatus('Cancelled')
+        ];
+        
+        $revenueByMonthRaw = Orders::revenueByMonth();
+
+        // Gắn thêm tên tháng tiếng Việt
+        $revenueByMonth = array_map(function ($row) {
+            $row['month_name'] = 'Tháng ' . $row['month'];
+            return $row;
+        }, $revenueByMonthRaw);
 
         require_once '../app/views/admin/dashboard.php';
     }

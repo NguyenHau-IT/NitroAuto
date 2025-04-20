@@ -53,6 +53,7 @@ if (!isset($_SESSION['user'])) {
                     'promotions' => ['label' => 'Khuyến mãi', 'icon' => 'bi-stars'],
                     'banners' => ['label' => 'Banner', 'icon' => 'bi-image'],
                     'reviews' => ['label' => 'Đánh giá', 'icon' => 'bi-chat-square-text'],
+                    'revenue' => ['label' => 'Thống kê', 'icon' => 'bi-bar-chart']
                 ];
                 //sắp xếp lại thứ tự các tab
                 uasort($tabs, function ($a, $b) {
@@ -88,7 +89,132 @@ if (!isset($_SESSION['user'])) {
             <section id="car_services" class="d-none"><?php require_once __DIR__ . '/cars_services_manager.php'; ?></section>
             <section id="promotions" class="d-none"><?php require_once __DIR__ . '/promotions_manager.php'; ?></section>
             <section id="service_orders" class="d-none"><?php require_once __DIR__ . '/serviceOrder_manager.php'; ?></section>
-            <section id="reviews" class="d-none"><?php require_once __DIR__ . '/reviews_manager.php'?></section>
+            <section id="reviews" class="d-none"><?php require_once __DIR__ . '/reviews_manager.php' ?></section>
+            <section id="revenue" class="d-none">
+                <h2 class="mb-4"><i class="bi bi-bar-chart-fill"></i> Thống kê tổng quan</h2>
+
+                <!-- Bộ lọc thời gian -->
+                <form method="get" class="mb-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label for="yearFilter" class="form-label">Năm</label>
+                            <select class="form-select" id="yearFilter" name="year">
+                                <?php for ($y = date('Y'); $y >= 2025; $y--): ?>
+                                    <option value="<?= $y ?>" <?= isset($_GET['year']) && $_GET['year'] == $y ? 'selected' : '' ?>><?= $y ?></option>
+                                <?php endfor; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-filter-circle me-1"></i>Lọc dữ liệu</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Tổng quan -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-people-fill me-2"></i>Người dùng</h5>
+                                <p class="card-text fs-4"><?= $totalUsers ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-bg-info">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-car-front-fill me-2"></i>Tổng xe</h5>
+                                <p class="card-text fs-4"><?= $totalCars ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-bg-success">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-bag-check-fill me-2"></i>Đơn hàng</h5>
+                                <p class="card-text fs-4"><?= $totalOrders ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card shadow-sm text-bg-warning">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-cash-coin me-2"></i>Doanh thu</h5>
+                                <p class="card-text fs-4"><?= number_format($totalRevenue, 0) ?>đ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tỷ lệ, đánh giá -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-start border-4 border-danger">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="bi bi-x-octagon-fill me-2"></i>Tỷ lệ huỷ đơn</h6>
+                                <p class="fs-4 text-danger fw-bold"><?= $cancelRate ?>%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-start border-4 border-primary">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="bi bi-star-fill me-2"></i>Đánh giá trung bình</h6>
+                                <p class="fs-4 text-primary fw-bold"><?= round($avgRating, 1) ?> ★</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biểu đồ -->
+                <div class="row g-4 mt-3">
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-graph-up me-2"></i>Doanh thu theo tháng</h5>
+                                <canvas id="revenueChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-speedometer2 me-2"></i>Top xe bán chạy</h5>
+                                <canvas id="topSellingChart" height="250"></canvas>
+                                <ul class="mt-3">
+                                    <?php foreach ($topSellingCars as $car): ?>
+                                        <li><i class="bi bi-dot"></i> <?= $car['name'] ?> (<?= $car['sold'] ?> đơn)</li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-tools me-2"></i>Top phụ kiện bán chạy</h5>
+                                <canvas id="topAccessoriesChart" height="250"></canvas>
+                                <ul class="mt-3">
+                                    <?php foreach ($topSellingAccessories as $item): ?>
+                                        <li><i class="bi bi-dot"></i> <?= $item['name'] ?> (<?= $item['sold'] ?> đơn)</li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-pie-chart-fill me-2"></i>Tỷ lệ trạng thái đơn hàng</h5>
+                                <canvas id="orderStatusChart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
@@ -96,8 +222,170 @@ if (!isset($_SESSION['user'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <?= json_encode(array_column($revenueByMonth, 'month_name')) ?>,
+                datasets: [{
+                    label: 'Doanh thu theo tháng',
+                    data: <?= json_encode(array_column($revenueByMonth, 'revenue')) ?>,
+                    tension: 0.3,
+                    fill: true,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Doanh thu theo từng tháng',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed.y;
+                                return 'Doanh thu: ' + value.toLocaleString('vi-VN') + '₫';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return (value / 1_000_000) + ' triệu';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const topSellingCtx = document.getElementById('topSellingChart').getContext('2d');
+        const topSellingChart = new Chart(topSellingCtx, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode(array_column($topSellingCars, 'name')) ?>,
+                datasets: [{
+                    label: 'Số đơn đặt',
+                    data: <?= json_encode(array_column($topSellingCars, 'sold')) ?>,
+                    backgroundColor: 'rgba(255, 159, 64, 0.7)',
+                    borderColor: 'rgba(255, 159, 64, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Top 5 xe bán chạy nhất',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+        const accessoriesCtx = document.getElementById('topAccessoriesChart').getContext('2d');
+        new Chart(accessoriesCtx, {
+            type: 'bar',
+            data: {
+                labels: <?= json_encode(array_column($topSellingAccessories, 'name')) ?>,
+                datasets: [{
+                    label: 'Số đơn',
+                    data: <?= json_encode(array_column($topSellingAccessories, 'sold')) ?>,
+                    backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top 5 phụ kiện bán chạy',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+        const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
+        new Chart(statusCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Đã xác nhận', 'Chờ xử lý', 'Đã hủy'],
+                datasets: [{
+                    data: [
+                        <?= $orderStatusStats['confirmed'] ?>,
+                        <?= $orderStatusStats['pending'] ?>,
+                        <?= $orderStatusStats['cancelled'] ?>
+                    ],
+                    backgroundColor: [
+                        'rgba(40, 167, 69, 0.7)',
+                        'rgba(255, 193, 7, 0.7)',
+                        'rgba(220, 53, 69, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(40, 167, 69, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(220, 53, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Phân bổ trạng thái đơn hàng',
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+
         const params = new URLSearchParams(window.location.search);
         const status = params.get("status");
         const message = params.get("message");

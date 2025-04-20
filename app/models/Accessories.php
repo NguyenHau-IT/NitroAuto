@@ -40,4 +40,20 @@ class Accessories
         $stmt = $conn->prepare("DELETE FROM accessories WHERE id = :id");
         $stmt->execute(['id' => $id]);
     }
+
+    public static function topSelling()
+{
+    global $conn;
+    $stmt = $conn->query("
+        SELECT a.name, SUM(od.accessory_quantity) AS sold
+        FROM order_details od
+        JOIN accessories a ON a.id = od.accessory_id
+        WHERE od.accessory_id IS NOT NULL
+        GROUP BY a.name
+        ORDER BY sold DESC
+        OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY
+    ");
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
