@@ -19,6 +19,18 @@ class Reviews
         }
     }
 
+    public static function manager()
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT r.*, u.full_name AS user_name, c.name AS car_name
+                                FROM reviews r
+                                JOIN users u ON r.user_id = u.id
+                                JOIN cars c ON r.car_id = c.id
+                                ORDER BY r.created_at DESC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function all($car_id)
     {
         global $conn;
@@ -29,7 +41,7 @@ class Reviews
                                 ORDER BY r.created_at DESC");
         $stmt->execute(['car_id' => $car_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }    
+    }
 
     public static function add($user_id, $car_id, $rating = null, $comment = null)
     {

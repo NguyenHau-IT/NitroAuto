@@ -390,6 +390,10 @@ switch (true) {
     case $uri === 'reviews/save':
         (new ReviewsController())->saveReview();
         break;
+
+    case preg_match('#^admin/reviews/delete/(\d+)$#', $uri, $matches):
+        (new ReviewsController())->delete($matches[1]);
+        break;
     
     // === DEFAULT ===
     default:

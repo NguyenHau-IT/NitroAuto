@@ -88,6 +88,7 @@ if (!isset($_SESSION['user'])) {
             <section id="car_services" class="d-none"><?php require_once __DIR__ . '/cars_services_manager.php'; ?></section>
             <section id="promotions" class="d-none"><?php require_once __DIR__ . '/promotions_manager.php'; ?></section>
             <section id="service_orders" class="d-none"><?php require_once __DIR__ . '/serviceOrder_manager.php'; ?></section>
+            <section id="reviews" class="d-none"><?php require_once __DIR__ . '/reviews_manager.php'?></section>
         </main>
     </div>
 

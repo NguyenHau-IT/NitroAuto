@@ -38,5 +38,18 @@ class ReviewsController
             exit();
         }
     }
+
+    public function delete($id)
+    {
+        if(Reviews::delete($id))
+        {
+            header("Location: /admin#reviews");
+            exit();
+        }
+        else
+        {
+            header("Location: /admin#reviews?status=success&message=" . urlencode("Xoá ko thành công!"));
+        }
+    }
     
 }

@@ -79,6 +79,7 @@ class AdminController
         $services = CarServices::all();
         $promotions = Promotions::all();
         $servicesOrders = ServiceOrder::all();
+        $reviews = Reviews::manager();
 
         require_once '../app/views/admin/dashboard.php';
     }
