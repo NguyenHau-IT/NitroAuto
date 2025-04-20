@@ -104,13 +104,6 @@
             </button>
         </form>
 
-        <form action="/OrderForm" method="POST">
-            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-            <button type="submit" class="btn btn-success btn-lg">
-                <i class="bi bi-cart"></i> Đặt mua
-            </button>
-        </form>
-
         <form action="/add_favorite" method="POST">
             <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
             <button type="submit" class="btn btn-danger btn-lg">
@@ -118,12 +111,21 @@
             </button>
         </form>
 
-        <form action="/testdriveform" method="POST">
-            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
-            <button type="submit" class="btn btn-warning btn-lg text-dark">
-                <i class="bi bi-car-front-fill"></i> Đăng ký lái thử
-            </button>
-        </form>
+        <?php if ($car['stock'] > 0): ?>
+            <form action="/OrderForm" method="POST">
+                <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="bi bi-cart"></i> Đặt mua
+                </button>
+            </form>
+
+            <form action="/testdriveform" method="POST">
+                <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+                <button type="submit" class="btn btn-warning btn-lg text-dark">
+                    <i class="bi bi-car-front-fill"></i> Đăng ký lái thử
+                </button>
+            </form>
+        <?php endif; ?>
     </div>
 
     <!-- Danh sách xe khác -->

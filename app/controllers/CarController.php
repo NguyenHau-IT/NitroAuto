@@ -255,7 +255,7 @@ class CarController
 
             // Kiểm tra từng trường
             foreach ($fields as $field => $message) {
-                if (empty($$field)) {
+                if ($$field === '' || $$field === null) {
                     header("Location: /admin?status=error&message=" . urlencode($message));
                     exit();
                 }
