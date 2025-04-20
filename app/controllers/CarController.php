@@ -465,8 +465,18 @@ class CarController
 
     public function cars_brand($brand_id)
     {
-        $cars = Cars::findByBrand($brand_id);
+        $user_id = $_SESSION['user_id'] ?? null;
 
+        $cars = Cars::findByBrand($brand_id);
+        $brands = Brands::getByStock();
+        $categories = Categories::getByCar();
+        $banners = Banner::getAllBanners();
+        $histories = HistoryViewCar::getHistoryByUser($user_id);
+        $banner_left = Banner::banner_left();
+        $banner_right = Banner::banner_right();
+        $used_cars = Used_cars::getall();
+        $newsList = News::getNews();
+        
         require_once '../app/views/cars/car_brand.php';
     }
 }

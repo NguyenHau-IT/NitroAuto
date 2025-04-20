@@ -12,12 +12,12 @@
                     Xe <?= htmlspecialchars($car['brand_name']) ?>
                 </a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">
+            <li class="breadcrumb-item active text-secondary" aria-current="page">
                 <?= htmlspecialchars($car['name']) ?>
             </li>
         </ol>
     </nav>
-    <h1 class="text-center text-primary-emphasis fs-1 fw-bold">
+    <h1 class="text-center text-info-emphasis fs-1 fw-bold">
         <?= htmlspecialchars($car['name']) ?>
     </h1>
 
