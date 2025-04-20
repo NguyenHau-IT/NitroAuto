@@ -256,12 +256,16 @@ switch (true) {
         (new FavoriteController())->addFavorite();
         break;
 
+    case $uri === 'remove_favorite':
+        (new FavoriteController())->deleteFavorite();
+        break;
+
     case $uri === 'favorites':
         (new FavoriteController())->favoriteById();
         break;
 
     case preg_match('/^favarite_delete\/(\d+)$/', $uri, $matches):
-        (new FavoriteController())->deleteFavorite($matches[1]);
+        (new FavoriteController())->deleteFavoriteById($matches[1]);
         break;
 
     // === HISTORY ===

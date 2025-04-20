@@ -70,10 +70,22 @@ class Favorites
         return true;
     }
 
-    public static function delete($id)
+    public static function delete($user_id, $car_id)
+    {
+        global $conn;
+        $stmt = $conn->prepare("DELETE FROM favorites WHERE user_id = :user_id AND car_id = :car_id");
+        return $stmt->execute([
+            'user_id' => $user_id,
+            'car_id' => $car_id
+        ]);
+    }
+
+    public static function deleteById($id)
     {
         global $conn;
         $stmt = $conn->prepare("DELETE FROM favorites WHERE id = :id");
-        return $stmt->execute(['id' => $id]);
+        return $stmt->execute([
+            'id' => $id
+        ]);
     }
 }
