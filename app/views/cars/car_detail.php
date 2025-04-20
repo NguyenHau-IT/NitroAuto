@@ -104,12 +104,21 @@
             </button>
         </form>
 
-        <form action="/add_favorite" method="POST">
+        <?php if ($favorites): ?>
+            <form action="/remove_favorite" method="POST">
+            <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
+            <button type="submit" class="btn btn-secondary btn-lg">
+                <i class="bi bi-heartbreak-fill"></i> Bỏ yêu thích
+            </button>
+            </form>
+        <?php else: ?>
+            <form action="/add_favorite" method="POST">
             <input type="hidden" name="car_id" value="<?= htmlspecialchars($car['id']) ?>">
             <button type="submit" class="btn btn-danger btn-lg">
                 <i class="bi bi-heart-fill"></i> Yêu thích
             </button>
-        </form>
+            </form>
+        <?php endif; ?>
 
         <?php if ($car['stock'] > 0): ?>
             <form action="/OrderForm" method="POST">

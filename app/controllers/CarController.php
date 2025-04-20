@@ -324,12 +324,13 @@ class CarController
         $cars = Cars::findByCategory($car['category_id'], $id);
         $accessories = Accessories::all();
         $reviews = Reviews::all($id);
+        $favorites = Cars::isFavorite($id, $_SESSION["user"]["id"]);
 
-        if (!isset($_SESSION["user_id"])) {
+        if (!isset($_SESSION["user"]["id"])) {
             require_once '../app/views/cars/car_detail.php';
         } else {
             $data = [
-                "user_id" => $_SESSION["user_id"],
+                "user_id" => $_SESSION["user"]["id"],
                 "car_id" => $id,
                 "ip_address" => $_SERVER['REMOTE_ADDR'],
                 "user_agent" => $_SERVER['HTTP_USER_AGENT']

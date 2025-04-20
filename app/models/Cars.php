@@ -298,4 +298,15 @@ class Cars
         }
         return true;
     }
+
+    public static function isFavorite($car_id, $user_id)
+    {
+        global $conn;
+        $stmt = $conn->prepare("SELECT 1 FROM favorites WHERE car_id = :car_id AND user_id = :user_id");
+        $stmt->execute([
+            'car_id' => $car_id,
+            'user_id' => $user_id
+        ]);
+        return $stmt->fetchColumn() !== false;
+    }
 }
