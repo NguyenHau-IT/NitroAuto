@@ -1,6 +1,19 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
 <div class="container my-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/home" class="text-decoration-none">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                Xe <?= htmlspecialchars($car['brand_name']) ?>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <?= htmlspecialchars($car['name']) ?>
+            </li>
+        </ol>
+    </nav>
     <h1 class="text-center text-primary-emphasis fs-1 fw-bold">
         <?= htmlspecialchars($car['name']) ?>
     </h1>
