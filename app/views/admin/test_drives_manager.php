@@ -34,7 +34,7 @@
                         $statusMap = [
                             'pending' => ['Đang chờ xử lý', 'bg-warning text-dark'],
                             'confirmed' => ['Đã xác nhận', 'bg-primary'],
-                            'canceled' => ['Đã hủy', 'bg-danger'],
+                            'cancelled' => ['Đã hủy', 'bg-danger'],
                             'completed' => ['Đã hoàn thành', 'bg-success'],
                         ];
                         $statusText = $statusMap[$status][0] ?? 'Không xác định';
