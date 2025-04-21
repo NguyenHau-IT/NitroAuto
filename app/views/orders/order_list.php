@@ -15,7 +15,7 @@
             <button class="btn btn-outline-info" onclick="filterOrders('confirmed')">
                 <i class="bi bi-check2-circle me-1"></i> Đã xác nhận
             </button>
-            <button class="btn btn-outline-primary" onclick="filterOrders('shipping')">
+            <button class="btn btn-outline-primary" onclick="filterOrders('shipped')">
                 <i class="bi bi-truck me-1"></i> Đang giao
             </button>
             <button class="btn btn-outline-success" onclick="filterOrders('completed')">
@@ -69,7 +69,7 @@
                                     $map = [
                                         'pending' => ['warning', 'bi-hourglass-split', 'Đang chờ xử lý'],
                                         'confirmed' => ['info', 'bi-check2-circle', 'Đã xác nhận'],
-                                        'shipping' => ['primary', 'bi-truck', 'Đang giao'],
+                                        'shipped' => ['primary', 'bi-truck', 'Đang giao'],
                                         'completed' => ['success', 'bi-check-circle-fill', 'Đã hoàn thành'],
                                         'cancelled' => ['danger', 'bi-x-circle-fill', 'Đã hủy'],
                                     ];
