@@ -8,7 +8,7 @@
                 <a href="/home" class="text-decoration-none">Trang chủ</a>
             </li>
             <li class="breadcrumb-item active" aria-current="page">
-                <a href="/cars_brand/<?= htmlspecialchars($car['brand_id']) ?>" class="text-decoration-none">
+                <a href="/cars_brand/<?= urlencode($car['brand_id']) ?>?brand=<?= urlencode($car['brand_name']) ?>" class="text-decoration-none">
                     Xe <?= htmlspecialchars($car['brand_name']) ?>
                 </a>
             </li>
