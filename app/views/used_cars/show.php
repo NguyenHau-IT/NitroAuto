@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
-<div class="container my-5">
-    <h1 class="text-center text-primary-emphasis fs-1 fw-bold">
+<div class="container mt-2">
+    <h1 class="text-center text-primary fs-1 fw-bold">
         <?= htmlspecialchars($used_car['name']) ?>
     </h1>
 
@@ -13,7 +13,7 @@
                 <div class="d-flex flex-column gap-3">
 
                     <!-- Hãng & Giá -->
-                    <div class="d-flex justify-content-between border-bottom pb-2">
+                    <div class="d-flex justify-content-between border-bottom pb-2  text-black">
                         <div class="w-50">
                             <span class="fw-bold">Hãng xe:</span>
                             <span class="fs-5"><?= htmlspecialchars($used_car['brand_name']) ?></span>
@@ -32,7 +32,7 @@
                         ['Quãng đường', number_format($used_car['mileage'], 0, ',', '.') . ' km', 'Loại xe', $used_car['category_name']]
                     ];
                     foreach ($carInfoPairs as $pair) {
-                        echo "<div class='d-flex justify-content-between border-bottom pb-2'>
+                        echo "<div class='d-flex justify-content-between border-bottom pb-2 text-black'>
                                 <div class='w-50'><span class='fw-bold'>{$pair[0]}:</span> <span class='fs-5'>" . htmlspecialchars($pair[1]) . "</span></div>
                                 <div class='w-50 text-end'><span class='fw-bold'>{$pair[2]}:</span> <span class='fs-5'>" . htmlspecialchars($pair[3]) . "</span></div>
                               </div>";
@@ -40,7 +40,7 @@
                     ?>
 
                     <!-- Mô tả -->
-                    <div class="d-flex flex-column border-bottom pb-2">
+                    <div class="d-flex flex-column border-bottom pb-2 text-black">
                         <span class="fw-bold">Mô tả:</span>
                         <div class="fs-5 overflow-auto" style="height: 125px;">
                             <?= nl2br(htmlspecialchars($used_car['description'] ?? '')) ?>
@@ -48,7 +48,7 @@
                     </div>
 
                     <!-- Ngày đăng & trạng thái -->
-                    <div class="d-flex justify-content-between border-bottom pb-2">
+                    <div class="d-flex justify-content-between border-bottom pb-2 text-black">
                         <div class="w-50">
                             <span class="fw-bold">Thời gian đăng tin:</span>
                             <span class="fs-5"><?= htmlspecialchars(date('d/m/Y H:i', strtotime($used_car['created_at']))) ?></span>
@@ -62,7 +62,7 @@
                     </div>
 
                     <!-- Người đăng -->
-                    <div class="d-flex justify-content-between border-bottom pb-2">
+                    <div class="d-flex justify-content-between border-bottom pb-2 text-black">
                         <div class="w-50">
                             <span class="fw-bold">Người đăng:</span>
                             <span class="fs-5"><?= htmlspecialchars($used_car['user_name']) ?></span>
@@ -72,7 +72,7 @@
                             <span class="fs-5"><?= htmlspecialchars($used_car['user_phone']) ?></span>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-start border-bottom pb-2">
+                    <div class="d-flex justify-content-start border-bottom pb-2 text-black">
                         <div class="w-100">
                             <span class="fw-bold">Email:</span>
                             <span class="fs-5"><?= htmlspecialchars($used_car['user_email']) ?></span>
@@ -116,7 +116,7 @@
     </div>
 
     <!-- Nút hành động -->
-    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+    <div class="d-flex flex-wrap justify-content-center gap-3">
         <a href="/home" class="btn btn-primary btn-lg">
             <i class="bi bi-arrow-left"></i> Quay lại
         </a>
