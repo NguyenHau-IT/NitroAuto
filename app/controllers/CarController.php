@@ -313,32 +313,35 @@ class CarController
     public function showCarDetail($id)
     {
         global $conn;
-
+    
         $car = Cars::find($id);
-
+    
         $stmt2 = $conn->prepare("SELECT image_url, image_type FROM car_images WHERE car_id = :id AND image_type = '3D'");
         $stmt2->execute([':id' => $id]);
         $images = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
+    
         $carByBrand = Cars::findByBrand($car['brand_id']);
         $cars = Cars::findByCategory($car['category_id'], $id);
         $accessories = Accessories::all();
         $reviews = Reviews::all($id);
-        $favorites = Cars::isFavorite($id, $_SESSION["user"]["id"]);
-
-        if (!isset($_SESSION["user"]["id"])) {
-            require_once '../app/views/cars/car_detail.php';
-        } else {
+    
+        // ✅ Tránh lỗi khi chưa đăng nhập
+        $user_id = $_SESSION["user_id"] ?? null;
+        $favorites = $user_id ? Cars::isFavorite($id, $user_id) : false;
+    
+        // ✅ Ghi lại lịch sử xem nếu đã đăng nhập
+        if ($user_id) {
             $data = [
-                "user_id" => $_SESSION["user"]["id"],
+                "user_id" => $user_id,
                 "car_id" => $id,
                 "ip_address" => $_SERVER['REMOTE_ADDR'],
                 "user_agent" => $_SERVER['HTTP_USER_AGENT']
             ];
             HistoryViewCar::create($data);
         }
+    
         require_once '../app/views/cars/car_detail.php';
-    }
+    }    
 
     public static function filterCar()
     {

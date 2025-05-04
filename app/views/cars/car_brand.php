@@ -1,5 +1,8 @@
 <?php require_once __DIR__ . '/../../../includes/header.php'; ?>
 
+<!-- Banner cố định 2 bên -->
+<?php require_once __DIR__ . '/../../views/slice-bar/left_right.php'; ?>
+
 <div class="overlay">
     <div class="container">
         <div class="text-center">
