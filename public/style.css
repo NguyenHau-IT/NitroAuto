@@ -164,3 +164,11 @@ nav {
     border-radius: 50%;
     display: none; /* Ẩn nếu count = 0 */
 }
+
+.breadcrumb {
+    background-color: transparent;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #ccc; /* màu phân cách sáng */
+}
