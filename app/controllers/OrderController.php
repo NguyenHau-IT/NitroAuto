@@ -22,41 +22,45 @@ class OrderController
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $user_id = $_SESSION["user"]["id"] ?? null;
-            $car_id = (int)($_POST['car_id'] ?? null);
-            $quantity = (int)($_POST['quantity'] ?? null);
-            $accessory_id = (int)($_POST['accessory_id'] ?? null);
-            $accessory_quantity = (int)($_POST['accessory_quantity'] ?? null);
-            $total_price = floatval(str_replace(',', '', $_POST['total_price'] ?? 0));
+    
+            $car_id = isset($_POST['car_id']) && $_POST['car_id'] !== '' ? (int)$_POST['car_id'] : null;
+            $quantity = isset($_POST['quantity']) && $_POST['quantity'] !== '' ? (int)$_POST['quantity'] : null;
+    
+            $accessory_id = isset($_POST['accessory_id']) && $_POST['accessory_id'] !== '' ? (int)$_POST['accessory_id'] : null;
+            $accessory_quantity = isset($_POST['accessory_quantity']) && $_POST['accessory_quantity'] !== '' ? (int)$_POST['accessory_quantity'] : null;
+    
             $address = $_POST['address'] ?? '';
             $phone = $_POST['phone'] ?? '';
-
-            if ($total_price <= 0) {
-                header("Location: /showOrderForm?status=error&message=" . urlencode("Vui lòng chọn sản phẩm") . "&href=/showOrderForm");
+    
+            $hasCar = $car_id !== null && $quantity > 0;
+            $hasAccessory = $accessory_id !== null && $accessory_quantity > 0;
+    
+            if (!$hasCar && !$hasAccessory) {
+                header("Location: /OrderForm?status=error&message=" . urlencode("Vui lòng chọn xe hoặc phụ kiện!"));
                 exit();
             }
-
+    
             if (empty($address) || empty($phone)) {
                 $user = Users::find($user_id);
                 if ($user) {
                     $address = $user['address'];
                     $phone = $user['phone'];
                 } else {
-                    header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!") );
+                    header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!"));
                     exit();
                 }
             }
-            // Gọi hàm Orders::create đã hỗ trợ cả phụ kiện
-            $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $total_price, $address, $phone);
-
+    
+            $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $address, $phone);
+    
             if ($result) {
-                header("Location: /home?status=success&message=" . urlencode("Bạn đã đặt mua xe thành công!") );
-                exit();
+                header("Location: /home?status=success&message=" . urlencode("Bạn đã đặt mua thành công!"));
             } else {
-                header("Location: /showOrderForm?status=error&message=" . urlencode("Lỗi khi đặt mua xe!") );
-                exit();
+                header("Location: /OrderForm?status=error&message=" . urlencode("Lỗi khi đặt mua!"));
             }
+            exit();
         }
-    }
+    }    
     
     public function getUserOrders()
     {

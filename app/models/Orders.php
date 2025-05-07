@@ -44,85 +44,136 @@ class Orders
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $total_price, $address, $phone)
+    public static function create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $address, $phone)
     {
         global $conn;
+        $error_message = '';
 
         try {
             $conn->beginTransaction();
 
             $car_price = 0;
             $car_subtotal = 0;
-            if ($car_id && $quantity > 0) {
+            if (!empty($car_id) && $quantity > 0) {
                 $stmt = $conn->prepare("SELECT price, stock FROM cars WHERE id = :car_id");
-                $stmt->execute(['car_id' => $car_id]);
-                $car = $stmt->fetch(PDO::FETCH_ASSOC);
-                if (!$car || $car['stock'] < $quantity) throw new Exception('Car stock insufficient');
-
-                $car_price = (float)$car['price'];
-                $car_subtotal = $car_price * $quantity;
+                if (!$stmt->execute(['car_id' => $car_id])) {
+                    $error_message = 'Lỗi khi lấy thông tin xe.';
+                } else {
+                    $car = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if (!$car || $car['stock'] < $quantity) {
+                        $error_message = 'Xe không đủ tồn kho.';
+                    } else {
+                        $car_price = (float)$car['price'];
+                        $car_subtotal = $car_price * $quantity;
+                    }
+                }
             }
 
             $accessory_price = 0;
             $accessory_total = 0;
-            if ($accessory_id && $accessory_quantity > 0) {
+            if (!$error_message && !empty($accessory_id) && $accessory_quantity > 0) {
                 $stmt = $conn->prepare("SELECT price, stock FROM accessories WHERE id = :id");
-                $stmt->execute(['id' => $accessory_id]);
-                $accessory = $stmt->fetch(PDO::FETCH_ASSOC);
-                if (!$accessory || $accessory['stock'] < $accessory_quantity) throw new Exception('Accessory stock insufficient');
+                if (!$stmt->execute(['id' => $accessory_id])) {
+                    $error_message = 'Lỗi khi lấy thông tin phụ kiện.';
+                } else {
+                    $accessory = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if (!$accessory || $accessory['stock'] < $accessory_quantity) {
+                        $error_message = 'Phụ kiện không đủ tồn kho.';
+                    } else {
+                        $accessory_price = (float)$accessory['price'];
+                        $accessory_total = $accessory_price * $accessory_quantity;
+                    }
+                }
+            }
 
-                $accessory_price = (float)$accessory['price'];
-                $accessory_total = $accessory_price * $accessory_quantity;
+            if ($error_message) {
+                $conn->rollBack();
+                error_log("Order creation failed: $error_message");
+                echo "Lỗi: " . htmlspecialchars($error_message);
+                return false;
             }
 
             $total_price = $car_subtotal + $accessory_total;
 
+            // INSERT INTO orders with OUTPUT INSERTED.id
             $stmt = $conn->prepare("
                 INSERT INTO orders (user_id, order_date, status, total_amount, address, phone)
                 OUTPUT INSERTED.id
                 VALUES (:user_id, GETDATE(), 'pending', :total_amount, :address, :phone)
             ");
-            $stmt->execute([
+            if (!$stmt->execute([
                 'user_id' => $user_id,
                 'total_amount' => $total_price,
                 'address' => $address,
                 'phone' => $phone
-            ]);
-            $order_id = $stmt->fetchColumn();
-            if (!$order_id) throw new Exception('Insert order failed');
-
-            $stmt = $conn->prepare("
-                INSERT INTO order_details 
-                (order_id, car_id, quantity, price, accessory_id, accessory_quantity, accessory_price, subtotal, accessory_total)
-                VALUES 
-                (:order_id, :car_id, :quantity, :price, :accessory_id, :accessory_quantity, :accessory_price, :subtotal, :accessory_total)
-            ");
-            $stmt->execute([
-                'order_id' => $order_id,
-                'car_id' => $car_id ?: null,
-                'quantity' => $quantity ?: null,
-                'price' => $car_price ?: null,
-                'accessory_id' => $accessory_id ?: null,
-                'accessory_quantity' => $accessory_quantity ?: null,
-                'accessory_price' => $accessory_price ?: null,
-                'subtotal' => $car_subtotal,
-                'accessory_total' => $accessory_total
-            ]);
-
-            if ($car_id) {
-                $stmt = $conn->prepare("UPDATE cars SET stock = stock - :quantity WHERE id = :car_id");
-                $stmt->execute(['quantity' => $quantity, 'car_id' => $car_id]);
+            ])) {
+                $errorInfo = $stmt->errorInfo();
+                $conn->rollBack();
+                echo "Lỗi khi thêm đơn hàng: " . $errorInfo[2];
+                error_log("Insert orders failed: " . $errorInfo[2]);
+                return false;
             }
 
-            if ($accessory_id) {
+            $order_id = $stmt->fetchColumn();
+            if (!$order_id) {
+                $conn->rollBack();
+                echo "Không lấy được mã đơn hàng.";
+                error_log("OUTPUT INSERTED.id trả về null");
+                return false;
+            }
+
+            // Insert into order_details
+            $stmt = $conn->prepare("
+            INSERT INTO order_details 
+            (order_id, car_id, quantity, price, accessory_id, accessory_quantity, accessory_price)
+            VALUES 
+            (:order_id, :car_id, :quantity, :price, :accessory_id, :accessory_quantity, :accessory_price)
+        ");
+            if (!$stmt->execute([
+                'order_id' => $order_id,
+                'car_id' => !empty($car_id) ? $car_id : null,
+                'quantity' => !empty($quantity) ? $quantity : null,
+                'price' => !empty($car_price) ? $car_price : null,
+                'accessory_id' => !empty($accessory_id) ? $accessory_id : null,
+                'accessory_quantity' => !empty($accessory_quantity) ? $accessory_quantity : null,
+                'accessory_price' => !empty($accessory_price) ? $accessory_price : null,
+            ])) {
+                $errorInfo = $stmt->errorInfo();
+                $conn->rollBack();
+                echo "Lỗi khi thêm chi tiết đơn hàng: " . $errorInfo[2];
+                error_log("Insert order_details failed: " . $errorInfo[2]);
+                return false;
+            }
+
+            // Update car stock
+            if (!empty($car_id)) {
+                $stmt = $conn->prepare("UPDATE cars SET stock = stock - :quantity WHERE id = :car_id");
+                if (!$stmt->execute(['quantity' => $quantity, 'car_id' => $car_id])) {
+                    $conn->rollBack();
+                    echo "Lỗi cập nhật tồn kho xe.";
+                    error_log("Update car stock failed");
+                    return false;
+                }
+            }
+
+            // Update accessory stock
+            if (!empty($accessory_id)) {
                 $stmt = $conn->prepare("UPDATE accessories SET stock = stock - :accessory_quantity WHERE id = :accessory_id");
-                $stmt->execute(['accessory_quantity' => $accessory_quantity, 'accessory_id' => $accessory_id]);
+                if (!$stmt->execute(['accessory_quantity' => $accessory_quantity, 'accessory_id' => $accessory_id])) {
+                    $conn->rollBack();
+                    echo "Lỗi cập nhật tồn kho phụ kiện.";
+                    error_log("Update accessory stock failed");
+                    return false;
+                }
             }
 
             $conn->commit();
             return true;
         } catch (Exception $e) {
             $conn->rollBack();
+            $msg = "Lỗi không xác định: " . $e->getMessage();
+            error_log($msg);
+            echo htmlspecialchars($msg);
             return false;
         }
     }
