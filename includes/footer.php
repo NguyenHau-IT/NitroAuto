@@ -1,9 +1,9 @@
-<footer class="text-dark bg-primary-subtle border-top text-center py-3 mt-5">
+<footer class="bg-primary text-white border-top text-center py-3 mt-5">
     <div class="container">
         <p class="mb-1">&copy; <?= date("Y"); ?> <strong>Nitro Auto</strong>. All rights reserved.</p>
         <p class="mb-0">
             Follow us on:
-            <a href="#" class="text-decoration-none ms-1">
+            <a href="#" class="text-decoration-none text-light ms-1">
                 <i class="fab fa-facebook-f"></i> Facebook
             </a>
         </p>
