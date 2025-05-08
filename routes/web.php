@@ -158,7 +158,7 @@ switch (true) {
     case preg_match('/^cars_brand\/(\d+)$/', $uri, $matches):
         (new CarController())->cars_brand($matches[1]);
         break;
-        
+
     // === CATEGORY === //
     case $uri === 'admin/category/add':
         (new CategoriesController())->addCate();
@@ -181,9 +181,9 @@ switch (true) {
         (new UsedCarsController())->edit($matches[1]);
         break;
 
-    case preg_match('#^admin/used_car/delete/(\d+)$#',$uri,$matches):
+    case preg_match('#^admin/used_car/delete/(\d+)$#', $uri, $matches):
         (new UsedCarsController())->delete($matches[1]);
-        break;    
+        break;
 
     case preg_match('/^show_used_car\/(\d+)$/', $uri, $matches):
         (new UsedCarsController())->showUsedCar($matches[1]);
@@ -307,7 +307,7 @@ switch (true) {
     case $uri === 'test_drive':
         (new TestDriveController())->index();
         break;
-        
+
     case $uri === 'testdriveform':
         (new TestDriveController())->Test_Drive();
         break;
@@ -341,6 +341,10 @@ switch (true) {
         (new ServiceOrderController())->getByUserId();
         break;
 
+    case $uri === 'updateServicesStatus':
+        (new CarServicesController())->updateStatus();
+        break;
+
     case $uri === 'admin/service/add':
         (new CarServicesController())->addServiceForm();
         break;
@@ -360,7 +364,7 @@ switch (true) {
     case preg_match('#^admin/service-order/delete/(\d+)$#', $uri, $matches):
         (new ServiceOrderController())->delete($matches[1]);
         break;
-        
+
     // === USER ===
     case $uri === 'profile':
         (new UserController())->userById();
@@ -377,7 +381,7 @@ switch (true) {
     case $uri === 'admin/user/add':
         (new UserController())->addUser();
         break;
-    
+
     case preg_match('#^admin/user/edit/(\d+)$#', $uri, $matches):
         (new UserController())->editUser($matches[1]);
         break;
@@ -394,7 +398,7 @@ switch (true) {
     case preg_match('#^admin/reviews/delete/(\d+)$#', $uri, $matches):
         (new ReviewsController())->delete($matches[1]);
         break;
-    
+
     // === DEFAULT ===
     default:
         http_response_code(404);

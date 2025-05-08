@@ -29,6 +29,20 @@ class CarServices
                             Price, 
                             EstimatedTime, 
                             Status  
+                            FROM CarServices WHERE Status = 1 ORDER BY ServiceID ASC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function alladmin()
+    {
+        global $conn;
+        $stmt = $conn->query("SELECT 
+                            ServiceID, 
+                            ServiceName, 
+                            Description, 
+                            Price, 
+                            EstimatedTime, 
+                            Status  
                             FROM CarServices ORDER BY ServiceID ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -76,5 +90,13 @@ class CarServices
         return true;
     }
 
-
+    public static function updateStatus($service_id, $is_active)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE CarServices SET Status = :is_active WHERE ServiceID = :service_id");
+        return $stmt->execute([
+            'service_id' => $service_id,
+            'is_active' => $is_active
+        ]);
+    }
 }

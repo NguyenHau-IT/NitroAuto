@@ -71,4 +71,28 @@ class CarServicesController
             exit();
         }
     }
+
+    public function updateStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $service_id = $_POST['Services_id'];
+            $is_active = $_POST['is_active'];
+
+            if ($service_id !== null && $is_active !== null) {
+                // Ép kiểu an toàn
+                $service_id = (int)$service_id;
+                $is_active = (int)$is_active;
+                
+                if (CarServices::updateStatus($service_id, $is_active)) {
+                    echo json_encode(['success' => true]);
+                } else {
+                    echo json_encode(['success' => false]);
+                }
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false]);
+        }
+    }
 }

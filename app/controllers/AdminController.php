@@ -76,7 +76,7 @@ class AdminController
         $accessoires = Accessories::all();
         $banners = Banner::all();
         $usedCars = Used_cars::getall();
-        $services = CarServices::all();
+        $services = CarServices::alladmin();
         $promotions = Promotions::all();
         $servicesOrders = ServiceOrder::all();
         $reviews = Reviews::manager();
@@ -95,7 +95,7 @@ class AdminController
             'pending' => Orders::countByStatus('Pending'),
             'cancelled' => Orders::countByStatus('Cancelled')
         ];
-        
+
         $revenueByMonthRaw = Orders::revenueByMonth();
 
         // Gắn thêm tên tháng tiếng Việt
