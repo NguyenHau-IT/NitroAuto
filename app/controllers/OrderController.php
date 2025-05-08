@@ -40,20 +40,48 @@ class OrderController
                 exit();
             }
 
-            if (empty($address) || empty($phone)) {
-                $user = Users::find($user_id);
-                if ($user) {
-                    $address = $user['address'];
-                    $phone = $user['phone'];
-                } else {
-                    header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!"));
-                    exit();
-                }
+            $user = Users::find($user_id);
+            if (!$user) {
+                header("Location: /error?status=error&message=" . urlencode("Vui lòng đăng nhập để mua hàng!"));
+                exit();
             }
+
+            if (empty($address)) $address = $user['address'] ?? '';
+            if (empty($phone)) $phone = $user['phone'] ?? '';
+            $email = $user['email'] ?? '';
+
+            // Lấy thông tin sản phẩm
+            $car = $hasCar ? Cars::find($car_id) : null;
+            $accessory = $hasAccessory ? Accessories::find($accessory_id) : null;
+
+            // Tính tổng tiền
+            $total = 0;
+            if ($car) $total += $car['price'] * $quantity;
+            if ($accessory) $total += $accessory['price'] * $accessory_quantity;
 
             $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $address, $phone);
 
             if ($result) {
+                $orderDetails = [
+                    'date' => date('d/m/Y'),
+                    'customer' => $user['name'] ?? 'Khách hàng',
+                    'total' => number_format($total, 0, ',', '.') . 'đ',
+                    'car' => $car ? [
+                        'name' => $car['name'],
+                        'quantity' => $quantity,
+                        'price' => number_format($car['price'], 0, ',', '.') . 'đ'
+                    ] : null,
+                    'accessory' => $accessory ? [
+                        'name' => $accessory['name'],
+                        'quantity' => $accessory_quantity,
+                        'price' => number_format($accessory['price'], 0, ',', '.') . 'đ'
+                    ] : null
+                ];
+
+                if (!empty($email)) {
+                    MailService::sendOrderConfirmation($email, $orderDetails);
+                }
+
                 header("Location: /home?status=success&message=" . urlencode("Bạn đã đặt mua thành công!"));
             } else {
                 header("Location: /OrderForm?status=error&message=" . urlencode("Lỗi khi đặt mua!"));
@@ -196,7 +224,7 @@ class OrderController
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $orderId = $_POST['order_id'] ?? null;
             $status = $_POST['status'] ?? null;
-    
+
             if ($orderId && $status && Orders::updateStatus($orderId, $status)) {
                 echo json_encode(['success' => true]);
             } else {
@@ -205,5 +233,5 @@ class OrderController
         } else {
             echo json_encode(['success' => false]);
         }
-    }    
+    }
 }
