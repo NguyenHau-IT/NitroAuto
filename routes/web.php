@@ -243,6 +243,10 @@ switch (true) {
         (new OrderController())->getUserOrders();
         break;
 
+    case ($uri === 'update_order_status'):
+        (new OrderController())->updateOrderStatus();
+        break;
+
     case (preg_match('/^order_detail\/(\d+)$/', $uri, $matches)):
         (new OrderController())->orderDetail($matches[1]);
         break;

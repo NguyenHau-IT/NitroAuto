@@ -48,19 +48,24 @@
                         <?php if ($i === 0): ?>
                             <td rowspan="<?= $rowspan ?>" class="text-end text-success fw-bold"><?= number_format($order['total_price']) ?> đ</td>
                             <td rowspan="<?= $rowspan ?>" class="text-start"><?= htmlspecialchars($order['address']) ?></td>
-                            <td rowspan="<?= $rowspan ?>">
+                            <td rowspan="<?= $rowspan ?>" style="min-width: 160px;">
                                 <?php
-                                $statusMap = [
-                                    'pending' => ['Đang chờ xử lý', 'warning', 'text-dark'],
-                                    'confirmed' => ['Đã xác nhận', 'primary', 'text-white'],
-                                    'shipped' => ['Đang giao', 'info', 'text-dark'],
-                                    'completed' => ['Đã hoàn thành', 'success', 'text-white'],
-                                    'canceled' => ['Đã hủy', 'danger', 'text-white'],
+                                $status = $order['status'];
+                                $options = [
+                                    'Canceled' => 'Đã huỷ',
+                                    'Completed' => 'Đã hoàn thành',
+                                    'Shipped' => 'Đang giao xe',
+                                    'Confirmed' => 'Đã xác nhận',
+                                    'Pending' => 'Chờ xác nhận',
                                 ];
-                                $statusKey = strtolower($order['status']);
-                                [$statusText, $bg, $text] = $statusMap[$statusKey] ?? ['Không xác định', 'secondary', 'text-white'];
                                 ?>
-                                <span class="badge bg-<?= $bg ?> <?= $text ?>"><?= $statusText ?></span>
+                                <select name="status" class="form-select form-select-lg status" data-id="<?= $order['id'] ?>">
+                                    <?php foreach ($options as $value => $label): ?>
+                                        <option value="<?= $value ?>" <?= $status === $value ? 'selected' : '' ?>>
+                                            <?= $label ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </td>
                             <td rowspan="<?= $rowspan ?>"><?= date('d/m/Y - H:i:s', strtotime($order['order_date'])) ?></td>
                             <td rowspan="<?= $rowspan ?>">
@@ -69,8 +74,8 @@
                                         <i class="bi bi-pencil-square"></i> Sửa
                                     </a>
                                     <a href="/admin/order/delete/<?= $order['id'] ?>"
-                                       onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"
-                                       class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
+                                        onclick="return confirm('Bạn có chắc muốn xóa đơn hàng này?');"
+                                        class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1">
                                         <i class="bi bi-trash3"></i> Xóa
                                     </a>
                                 </div>
@@ -82,3 +87,33 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.querySelectorAll('.status').forEach(function(select) {
+        select.addEventListener('change', function() {
+            const orderId = this.getAttribute('data-id');
+            const valueStatus = this.value;
+
+            fetch('/update_order_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `order_id=${orderId}&status=${valueStatus}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('✅ Trạng thái đã được cập nhật thành công');
+                    } else {
+                        console.log('❌ Cập nhật trạng thái thất bại');
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    console.log('❌ Đã xảy ra lỗi. Vui lòng thử lại.');
+                    location.reload();
+                });
+        });
+    });
+</script>

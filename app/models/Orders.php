@@ -218,7 +218,10 @@ class Orders
     {
         global $conn;
         $stmt = $conn->prepare("UPDATE orders SET status = :status WHERE id = :order_id");
-        return $stmt->execute(['order_id' => $order_id, 'status' => $status]);
+        return $stmt->execute([
+            ':order_id' => $order_id,
+            ':status' => $status
+        ]);
     }
 
     public static function delete($id)

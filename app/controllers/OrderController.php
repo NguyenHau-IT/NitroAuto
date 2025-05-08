@@ -9,7 +9,7 @@ class OrderController
     public function OrderForm()
     {
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!") );
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập trước khi mua xe!"));
             exit();
         }
 
@@ -22,24 +22,24 @@ class OrderController
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $user_id = $_SESSION["user"]["id"] ?? null;
-    
+
             $car_id = isset($_POST['car_id']) && $_POST['car_id'] !== '' ? (int)$_POST['car_id'] : null;
             $quantity = isset($_POST['quantity']) && $_POST['quantity'] !== '' ? (int)$_POST['quantity'] : null;
-    
+
             $accessory_id = isset($_POST['accessory_id']) && $_POST['accessory_id'] !== '' ? (int)$_POST['accessory_id'] : null;
             $accessory_quantity = isset($_POST['accessory_quantity']) && $_POST['accessory_quantity'] !== '' ? (int)$_POST['accessory_quantity'] : null;
-    
+
             $address = $_POST['address'] ?? '';
             $phone = $_POST['phone'] ?? '';
-    
+
             $hasCar = $car_id !== null && $quantity > 0;
             $hasAccessory = $accessory_id !== null && $accessory_quantity > 0;
-    
+
             if (!$hasCar && !$hasAccessory) {
                 header("Location: /OrderForm?status=error&message=" . urlencode("Vui lòng chọn xe hoặc phụ kiện!"));
                 exit();
             }
-    
+
             if (empty($address) || empty($phone)) {
                 $user = Users::find($user_id);
                 if ($user) {
@@ -50,9 +50,9 @@ class OrderController
                     exit();
                 }
             }
-    
+
             $result = Orders::create($user_id, $car_id, $quantity, $accessory_id, $accessory_quantity, $address, $phone);
-    
+
             if ($result) {
                 header("Location: /home?status=success&message=" . urlencode("Bạn đã đặt mua thành công!"));
             } else {
@@ -60,21 +60,21 @@ class OrderController
             }
             exit();
         }
-    }    
-    
+    }
+
     public function getUserOrders()
     {
         global $conn;
-    
+
         if (!isset($_SESSION["user"]["id"])) {
-            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem lịch sử!") );
+            header("Location: /home?status=error&message=" . urlencode("Vui lòng đăng nhập để xem lịch sử!"));
             exit;
         }
-    
+
         $user_id = $_SESSION["user"]["id"];
         $startDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
         $endDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
-    
+
         $query = "
             SELECT 
                 o.id AS order_id,
@@ -99,31 +99,31 @@ class OrderController
             LEFT JOIN accessories a ON od.accessory_id = a.id
             WHERE o.user_id = :user_id
         ";
-    
+
         if ($startDate) {
             $query .= " AND o.order_date >= :startDate";
         }
-    
+
         if ($endDate) {
             $query .= " AND o.order_date <= :endDate";
         }
-    
+
         $query .= " ORDER BY o.order_date DESC";
-    
+
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':user_id', $user_id);
-    
+
         if ($startDate) {
             $stmt->bindParam(':startDate', $startDate);
         }
-    
+
         if ($endDate) {
             $stmt->bindParam(':endDate', $endDate);
         }
-    
+
         $stmt->execute();
         $orders = $stmt->fetchAll();
-    
+
         $groupedOrders = [];
         foreach ($orders as $order) {
             $orderId = $order['order_id'];
@@ -136,7 +136,7 @@ class OrderController
                     'items' => [],
                 ];
             }
-    
+
             $groupedOrders[$orderId]['items'][] = [
                 'car_name' => $order['car_name'],
                 'quantity' => $order['quantity'],
@@ -144,9 +144,9 @@ class OrderController
                 'accessory_quantity' => $order['accessory_quantity'],
             ];
         }
-    
+
         require_once '../app/views/orders/order_list.php';
-    }   
+    }
 
     public function orderDetail($Id)
     {
@@ -190,4 +190,20 @@ class OrderController
             exit();
         }
     }
+
+    public function updateOrderStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $orderId = $_POST['order_id'] ?? null;
+            $status = $_POST['status'] ?? null;
+    
+            if ($orderId && $status && Orders::updateStatus($orderId, $status)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false]);
+        }
+    }    
 }
