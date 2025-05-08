@@ -33,11 +33,11 @@
                     <td><?= date('d/m/Y', strtotime($promo['end_date'])) ?></td>
                     <td><span class="badge bg-info text-dark"><?= htmlspecialchars($promo['code']) ?></span></td>
                     <td>
-                        <?php if ($promo['is_active']): ?>
-                            <span class="badge bg-success">Đang hoạt động</span>
-                        <?php else: ?>
-                            <span class="badge bg-secondary">Tạm tắt</span>
-                        <?php endif; ?>
+                        <div class="form-check form-switch d-flex justify-content-center">
+                            <input class="form-check-input toggle-active" type="checkbox"
+                                data-id="<?= $promo['id'] ?>"
+                                <?= $promo['is_active'] ? 'checked' : '' ?>>
+                        </div>
                     </td>
                     <td>
                         <a href="/admin/promotions/edit/<?= $promo['id'] ?>" class="btn btn-sm btn-outline-primary me-1">
@@ -52,3 +52,32 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.querySelectorAll('.toggle-active').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            const promoId = this.getAttribute('data-id');
+            const isActive = this.checked ? 1 : 0;
+
+            fetch('/updatePromotionStatus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `promo_id=${promoId}&is_active=${isActive}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Cập nhật trạng thái thành công');
+                    } else {
+                        alert('Cập nhật thất bại');
+                        this.checked = !this.checked;
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    this.checked = !this.checked;
+                });
+        });
+    });
+</script>

@@ -137,4 +137,28 @@ class PromotionsController
             exit;
         }
     }
+
+    public function updateStatus()
+    {
+        $promo_id = $_POST['promo_id'] ?? null;
+        $isActive = $_POST['is_active'] ?? null;
+
+        // Kiểm tra giá trị đầu vào
+        if ($promo_id !== null && $isActive !== null) {
+            // Ép kiểu an toàn
+            $promo_id = (int)$promo_id;
+            $isActive = (int)$isActive;
+
+            // Gọi model để update
+            $result = Promotions::updateStatus($promo_id, $isActive);
+
+            if ($result) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false]);
+        }
+    }
 }

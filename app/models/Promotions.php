@@ -76,4 +76,15 @@ class Promotions
         $stmt->execute(['id' => $id]);
         return true;
     }
+
+    public static function updateStatus($id, $status)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE promotions SET is_active = :is_active WHERE id = :id");
+        $stmt->execute([
+            'id' => $id,
+            'is_active' => $status
+        ]);
+        return true;
+    }
 }

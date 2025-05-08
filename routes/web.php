@@ -291,6 +291,10 @@ switch (true) {
         (new PromotionsController())->apply_promotions();
         break;
 
+    case $uri === 'updatePromotionStatus':
+        (new PromotionsController())->updateStatus();
+        break;
+
     case $uri === 'admin/promotions/create':
         (new PromotionsController())->create_promotion();
         break;

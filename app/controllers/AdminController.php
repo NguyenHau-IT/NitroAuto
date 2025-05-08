@@ -95,7 +95,7 @@ class AdminController
             'pending' => Orders::countByStatus('Pending'),
             'cancelled' => Orders::countByStatus('Cancelled')
         ];
-
+        
         $revenueByMonthRaw = Orders::revenueByMonth();
 
         // Gắn thêm tên tháng tiếng Việt
