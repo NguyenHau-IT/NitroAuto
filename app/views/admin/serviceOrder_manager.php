@@ -24,25 +24,23 @@
                     <td><?= htmlspecialchars($order['UserFullName']) ?></td>
                     <td><?= htmlspecialchars($order['ServiceName']) ?></td>
                     <td><?= date('d/m/Y - H:i:s', strtotime($order['OrderDate'])) ?></td>
-                    <td>
+                    <td style="min-width: 160px;">
                         <?php
-                        switch ($order['Status']) {
-                            case 'Cancelled':
-                                echo 'Đã hủy';
-                                break;
-                            case 'Completed':
-                                echo 'Hoàn thành';
-                                break;
-                            case 'Approved':
-                                echo 'Đã duyệt';
-                                break;
-                            case 'Pending':
-                                echo 'Đang chờ';
-                                break;
-                            default:
-                                echo 'Không xác định';
-                        }
+                        $status = $order['Status']; // Updated to use $order instead of $test_drive
+                        $options = [
+                            'Completed' => 'Đã hoàn thành',
+                            'Pending' => 'Đang xử lý',
+                            'Cancelled' => 'Đã huỷ',
+                            'Approved' => 'Đã xác nhận',
+                        ];
                         ?>
+                        <select name="status" class="form-select form-select-lg car-status-select" data-id="<?= $order['ServiceOrderID'] ?>">
+                            <?php foreach ($options as $value => $label): ?>
+                                <option value="<?= $value ?>" <?= $status === $value ? 'selected' : '' ?>>
+                                    <?= $label ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </td>
                     <td><?= htmlspecialchars($order['Note']) ?: '-' ?></td>
                     <td>
@@ -62,3 +60,34 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.querySelectorAll('.car-status-select').forEach(function(select) {
+        select.addEventListener('change', function() {
+            const serviceOrderId = this.getAttribute('data-id');
+            const newStatus = this.value;
+
+            fetch('/update_service_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `service_order_id=${serviceOrderId}&status=${newStatus}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Trạng thái đã được cập nhật thành công');
+                    } else {
+                        alert('Cập nhật trạng thái thất bại');
+                        // Nếu thất bại, reload lại trang để đảm bảo trạng thái chính xác
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                    location.reload();
+                });
+        });
+    });
+</script>

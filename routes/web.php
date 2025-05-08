@@ -361,6 +361,10 @@ switch (true) {
         (new CarServicesController())->addServiceForm();
         break;
 
+    case $uri === 'update_service_status':
+        (new ServiceOrderController())->updateServiceStatus();
+        break;
+
     case preg_match('#^admin/service/edit/(\d+)$#', $uri, $matches):
         (new CarServicesController())->edit($matches[1]);
         break;

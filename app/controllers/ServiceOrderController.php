@@ -83,4 +83,19 @@ class ServiceOrderController
             exit();
         }
     }
+
+    public function updateServiceStatus()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $orderID = $_POST['service_order_id'];
+            $status = $_POST['status'];
+            if (ServiceOrder::updateServiceStatus($orderID, $status)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false]);
+        }
+    }
 }

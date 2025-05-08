@@ -123,4 +123,12 @@ class ServiceOrder
         $stmt->execute([$orderID]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public static function updateServiceStatus($orderID, $status)
+    {
+        global $conn;
+        $query = "UPDATE ServiceOrders SET Status = ? WHERE ServiceOrderID = ?";
+        $stmt = $conn->prepare($query);
+        return $stmt->execute([$status, $orderID]);
+    }
 }
