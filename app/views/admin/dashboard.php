@@ -36,7 +36,7 @@ if (!isset($_SESSION['user'])) {
 
 
     <div class="d-flex">
-        <nav class="bg-dark text-white p-3 vh-100 sticky-top" style="width: 200px;">
+        <nav class="bg-dark text-white p-3 vh-100 sticky-top flex-shrink-0" style="width: 220px;">
             <ul class="nav flex-column">
                 <?php
                 $tabs = [
