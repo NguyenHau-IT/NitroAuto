@@ -324,6 +324,10 @@ switch (true) {
         (new TestDriveController())->create();
         break;
 
+    case $uri === 'update_testdrive_status':
+        (new TestDriveController())->updateStatus();
+        break;
+
     case preg_match('#^admin/test_drive/edit/(\d+)$#', $uri, $matches):
         (new TestDriveController())->edit($matches[1]);
         break;

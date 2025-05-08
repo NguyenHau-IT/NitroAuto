@@ -102,4 +102,24 @@ class TestDriveController
             exit();
         }
     }
+
+    public function updateStatus()
+    {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $test_drive_id = $_POST['test_drive_id'] ?? null;
+            $status = $_POST['status'] ?? null;
+
+            if ($test_drive_id == null || $status == null) {
+                echo json_encode(['success' => false]);
+                exit();
+            }
+
+            if (TestDriveRegistration::updateStatus($test_drive_id, $status)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+            exit();
+        }
+    }
 }

@@ -28,19 +28,23 @@
                     <td><?= htmlspecialchars($test_drive['preferred_date']) ?></td>
                     <td><?= date('H:i:s', strtotime($test_drive['preferred_time'])) ?></td>
                     <td class="text-start"><?= htmlspecialchars($test_drive['location']) ?></td>
-                    <td>
+                    <td style="min-width: 160px;">
                         <?php
-                        $status = strtolower($test_drive['status']);
-                        $statusMap = [
-                            'pending' => ['Đang chờ xử lý', 'bg-warning text-dark'],
-                            'confirmed' => ['Đã xác nhận', 'bg-primary'],
-                            'cancelled' => ['Đã hủy', 'bg-danger'],
-                            'completed' => ['Đã hoàn thành', 'bg-success'],
+                        $status = $test_drive['status'];
+                        $options = [
+                            'Completed' => 'Đã hoàn thành',
+                            'Pending' => 'Đang xử lý',
+                            'Cancelled' => 'Đã huỷ',
+                            'Confirmed' => 'Đã xác nhận',
                         ];
-                        $statusText = $statusMap[$status][0] ?? 'Không xác định';
-                        $statusClass = $statusMap[$status][1] ?? 'bg-secondary';
                         ?>
-                        <span class="badge <?= $statusClass ?>"><?= $statusText ?></span>
+                        <select name="status" class="form-select form-select-lg car-status-select" data-id="<?= $test_drive['id'] ?>">
+                            <?php foreach ($options as $value => $label): ?>
+                                <option value="<?= $value ?>" <?= $status === $value ? 'selected' : '' ?>>
+                                    <?= $label ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </td>
                     <td><?= date('d/m/Y - H:i:s', strtotime($test_drive['created_at'])) ?></td>
                     <td>
@@ -60,3 +64,34 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.querySelectorAll('.car-status-select').forEach(function(select) {
+        select.addEventListener('change', function() {
+            const test_driveId = this.getAttribute('data-id');
+            const newStatus = this.value;
+
+            fetch('/update_testdrive_status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `test_drive_id=${test_driveId}&status=${newStatus}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Trạng thái đã được cập nhật thành công');
+                    } else {
+                        alert('Cập nhật trạng thái thất bại');
+                        // Nếu thất bại, reload lại trang để đảm bảo trạng thái chính xác
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    alert('Đã xảy ra lỗi. Vui lòng thử lại.');
+                    location.reload();
+                });
+        });
+    });
+</script>
