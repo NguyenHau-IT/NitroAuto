@@ -1,7 +1,7 @@
 <?php require_once __DIR__ . '/../../includes/header.php'; ?>
 
 <!-- Banner cố định 2 bên -->
-    <?php require_once __DIR__ . '/../views/slice-bar/left_right.php'; ?>
+<?php require_once __DIR__ . '/../views/slice-bar/left_right.php'; ?>
 
 <div class="overlay">
     <div class="container">
@@ -22,7 +22,7 @@
 
             <?php require_once __DIR__ . '/../views/used_cars/list_used_cars.php'; ?>
 
-            <?php require_once __DIR__ . '/../views/news/news.php'?>
+            <?php require_once __DIR__ . '/../views/news/news.php' ?>
         </div>
     </div>
 </div>
