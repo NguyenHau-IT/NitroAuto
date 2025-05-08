@@ -33,7 +33,7 @@
                         <td class="text-center"><?= $service['EstimatedTime'] ?> phút</td>
                         <td class="text-center">
                             <div class="form-check form-switch d-flex justify-content-center">
-                                <input class="form-check-input toggle-active" type="checkbox"
+                                <input class="form-check-input services" type="checkbox"
                                     data-id="<?= $service['ServiceID'] ?>"
                                     <?= $service['Status'] ? 'checked' : '' ?>>
                             </div>
@@ -55,7 +55,7 @@
     </div>
 </div>
 <script>
-    document.querySelectorAll('.toggle-active').forEach(function(checkbox) {
+    document.querySelectorAll('.services').forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
             const ServicesId = this.getAttribute('data-id');
             const isActive = this.checked ? 1 : 0;

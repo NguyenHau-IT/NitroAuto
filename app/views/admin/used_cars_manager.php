@@ -58,7 +58,7 @@
                             'Sold' => 'Đã bán'
                         ];
                         ?>
-                        <select name="status" class="form-select form-select-lg car-status-select" data-id="<?= $car['id'] ?>">
+                        <select name="status" class="form-select form-select-lg used_car" data-id="<?= $car['id'] ?>">
                             <?php foreach ($options as $value => $label): ?>
                                 <option value="<?= $value ?>" <?= $status === $value ? 'selected' : '' ?>>
                                     <?= $label ?>
@@ -91,7 +91,7 @@
     <?php endif; ?>
 </div>
 <script>
-    document.querySelectorAll('.car-status-select').forEach(function(select) {
+    document.querySelectorAll('.used_car').forEach(function(select) {
         select.addEventListener('change', function() {
             const carId = this.getAttribute('data-id');
             const newStatus = this.value;

@@ -34,7 +34,7 @@
                             'Approved' => 'Đã xác nhận',
                         ];
                         ?>
-                        <select name="status" class="form-select form-select-lg car-status-select" data-id="<?= $order['ServiceOrderID'] ?>">
+                        <select name="status" class="form-select form-select-lg serviceorder" data-id="<?= $order['ServiceOrderID'] ?>">
                             <?php foreach ($options as $value => $label): ?>
                                 <option value="<?= $value ?>" <?= $status === $value ? 'selected' : '' ?>>
                                     <?= $label ?>
@@ -61,7 +61,7 @@
     </table>
 </div>
 <script>
-    document.querySelectorAll('.car-status-select').forEach(function(select) {
+    document.querySelectorAll('.serviceorder').forEach(function(select) {
         select.addEventListener('change', function() {
             const serviceOrderId = this.getAttribute('data-id');
             const newStatus = this.value;

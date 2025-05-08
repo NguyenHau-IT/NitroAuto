@@ -34,7 +34,7 @@
                     <td><span class="badge bg-info text-dark"><?= htmlspecialchars($promo['code']) ?></span></td>
                     <td>
                         <div class="form-check form-switch d-flex justify-content-center">
-                            <input class="form-check-input toggle-active" type="checkbox"
+                            <input class="form-check-input promo" type="checkbox"
                                 data-id="<?= $promo['id'] ?>"
                                 <?= $promo['is_active'] ? 'checked' : '' ?>>
                         </div>
@@ -53,7 +53,7 @@
     </table>
 </div>
 <script>
-    document.querySelectorAll('.toggle-active').forEach(function(checkbox) {
+    document.querySelectorAll('.promo').forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
             const promoId = this.getAttribute('data-id');
             const isActive = this.checked ? 1 : 0;
