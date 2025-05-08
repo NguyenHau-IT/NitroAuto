@@ -21,7 +21,7 @@
             <button class="btn btn-outline-success" onclick="filterOrders('completed')">
                 <i class="bi bi-check-circle-fill me-1"></i> Hoàn thành
             </button>
-            <button class="btn btn-outline-danger" onclick="filterOrders('cancelled')">
+            <button class="btn btn-outline-danger" onclick="filterOrders('canceled')">
                 <i class="bi bi-x-octagon-fill me-1"></i> Đã hủy
             </button>
         </div>
@@ -71,7 +71,7 @@
                                         'confirmed' => ['info', 'bi-check2-circle', 'Đã xác nhận'],
                                         'shipped' => ['primary', 'bi-truck', 'Đang giao'],
                                         'completed' => ['success', 'bi-check-circle-fill', 'Đã hoàn thành'],
-                                        'cancelled' => ['danger', 'bi-x-circle-fill', 'Đã hủy'],
+                                        'canceled' => ['danger', 'bi-x-circle-fill', 'Đã hủy'],
                                     ];
                                     $badge = $map[$status] ?? ['secondary', 'bi-question-circle', 'Không xác định'];
                                 ?>
