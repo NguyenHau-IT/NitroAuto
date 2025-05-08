@@ -71,7 +71,7 @@ if (!isset($_SESSION['user'])) {
         </nav>
 
         <!-- Main content -->
-        <main class="container mt-4 flex-grow-1">
+        <main class="p-3 mt-4 flex-grow-1">
             <section id="dashboard">
                 <h2>Chào mừng bạn đến với Admin Dashboard</h2>
                 <p>Bạn có thể quản lý xe, người dùng, banner và nhiều hơn nữa.</p>

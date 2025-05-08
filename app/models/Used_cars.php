@@ -225,4 +225,11 @@ class Used_cars
         $conn->commit();
         return true;
     }
+
+    public static function updateStatus($id, $status)
+    {
+        global $conn;
+        $stmt = $conn->prepare("UPDATE used_cars SET status = :status WHERE id = :id");
+        return $stmt->execute(['status' => $status, 'id' => $id]);
+    }
 }

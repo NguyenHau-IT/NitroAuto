@@ -36,22 +36,22 @@ class UsedCarsController
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
-            
+
                 $rawName = preg_replace('/[^a-zA-Z0-9]/', '', $_POST['name']);
                 $totalFiles = count($_FILES['image_urls']['name']);
                 $id_user = $_SESSION['user']['id'];
-            
+
                 for ($i = 0; $i < $totalFiles; $i++) {
                     $image = false;
                     $name = $_FILES['image_urls']['name'][$i];
                     $tmpName = $_FILES['image_urls']['tmp_name'][$i];
                     $error = $_FILES['image_urls']['error'][$i];
                     $fileExt = strtolower(pathinfo($name, PATHINFO_EXTENSION));
-            
+
                     if ($error == 0 && in_array($fileExt, $allowedExt)) {
-                        $newName = $rawName . '_' . ($i + 1) .'_'.$id_user.'.webp';
+                        $newName = $rawName . '_' . ($i + 1) . '_' . $id_user . '.webp';
                         $uploadFile = $uploadDir . $newName;
-            
+
                         // Tạo ảnh gốc từ đúng tmp file
                         if ($fileExt === 'jpg' || $fileExt === 'jpeg') {
                             $image = imagecreatefromjpeg($tmpName);
@@ -63,27 +63,30 @@ class UsedCarsController
                         } elseif ($fileExt === 'webp') {
                             $image = imagecreatefromwebp($tmpName);
                         }
-            
+
                         if ($image) {
                             $origWidth = imagesx($image);
                             $origHeight = imagesy($image);
                             $newWidth = 300;
                             $newHeight = intval($origHeight * ($newWidth / $origWidth));
-            
+
                             $resized = imagecreatetruecolor($newWidth, $newHeight);
                             imagealphablending($resized, false);
                             imagesavealpha($resized, true);
                             imagecopyresampled(
                                 $resized,
                                 $image,
-                                0, 0, 0, 0,
+                                0,
+                                0,
+                                0,
+                                0,
                                 $newWidth,
                                 $newHeight,
                                 $origWidth,
                                 $origHeight
                             );
                             imagedestroy($image);
-            
+
                             if (imagewebp($resized, $uploadFile, 80)) {
                                 imagedestroy($resized);
                                 $imagePaths[] = '/uploads/used_cars/' . $newName;
@@ -92,7 +95,7 @@ class UsedCarsController
                     }
                 }
             }
-            
+
             $data = [
                 'user_id' => $_SESSION['user']['id'],
                 'name' => $_POST['name'],
@@ -250,6 +253,24 @@ class UsedCarsController
         } else {
             header("Location: /admin#used_cars");
             exit();
+        }
+    }
+
+    public function updateUsedCarStatus()
+    {
+        $used_carId = $_POST['used_car_id'] ?? null;
+        $isActive = $_POST['status'] ?? null;
+
+        // Kiểm tra giá trị đầu vào
+        if ($used_carId !== null && $isActive !== null) {
+
+            if (Used_cars::updateStatus($used_carId, $isActive)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false]);
+            }
+        } else {
+            echo json_encode(['success' => false]);
         }
     }
 }

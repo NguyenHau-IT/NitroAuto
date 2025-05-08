@@ -177,6 +177,10 @@ switch (true) {
         (new UsedCarsController())->addUsedCar();
         break;
 
+    case $uri === 'update_usedcar_status':
+        (new UsedCarsController())->updateUsedCarStatus();
+        break;
+
     case preg_match('#^admin/used_car/edit/(\d+)$#', $uri, $matches):
         (new UsedCarsController())->edit($matches[1]);
         break;
