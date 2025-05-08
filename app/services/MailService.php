@@ -36,7 +36,7 @@ class MailService
                     <p>Để đảm bảo an toàn, không chia sẻ mã này với bất kỳ ai.</p>
                     <p>Trân trọng,<br/>Đội ngũ NitroAuto</p>
                 </div>";
-            $mail->AltBody = "Mã đặt lại mật khẩu của bạn là: $code. Mã có hiệu lực trong 5 phút. Nếu bạn không yêu cầu, vui lòng bỏ qua email này.";            
+            $mail->AltBody = "Mã đặt lại mật khẩu của bạn là: $code. Mã có hiệu lực trong 5 phút. Nếu bạn không yêu cầu, vui lòng bỏ qua email này.";
             $mail->send();
             return true;
         } catch (Exception $e) {
