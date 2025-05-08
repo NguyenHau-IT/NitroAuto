@@ -99,7 +99,7 @@ class Orders
             $stmt = $conn->prepare("
                 INSERT INTO orders (user_id, order_date, status, total_amount, address, phone)
                 OUTPUT INSERTED.id
-                VALUES (:user_id, GETDATE(), 'pending', :total_amount, :address, :phone)
+                VALUES (:user_id, GETDATE(), 'Pending', :total_amount, :address, :phone)
             ");
             if (!$stmt->execute([
                 'user_id' => $user_id,
