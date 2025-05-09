@@ -20,7 +20,7 @@ class HomeController
         $histories = HistoryViewCar::getHistoryByUser($user_id);
         $banner_left = Banner::banner_left();
         $banner_right = Banner::banner_right();
-        $used_cars = Used_cars::getall();
+        $used_cars = Used_cars::all();
         $newsList = News::getNews();
         
         require_once '../app/views/index.php';
