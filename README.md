@@ -13,7 +13,7 @@ NitroAuto là nền tảng giúp khách hàng mua bán xe ô tô một cách d�
 - ✅ Dịch vụ tư vấn.
 
 ## 🚀 Công nghệ sử dụng
-- **Frontend**: HTML, CSS, JavaScript (React.js)
+- **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Php
 - **Database**: SQL Server
 
